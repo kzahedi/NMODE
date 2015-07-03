@@ -30,6 +30,7 @@
 #define __RNN_H__
 
 #include "P3D.h"
+#include "ENPException.h"
 
 #include <vector>
 
@@ -45,7 +46,7 @@ class Neuron
 {
   public:
     Neuron();
-    // ~Neuron();
+    ~Neuron();
 
     //Neuron(const Neuron);
     //Neuron operator=(const Neuron);
@@ -53,6 +54,12 @@ class Neuron
     void updateActivity();
     void updateOutput();
 
+    void addSynapse(Synapse *s);
+
+    void setBias(double bias);
+    void setTransferfunction(int transferfunction) throw(ENPException);
+
+    double bias();
     double output();
 
   private:
@@ -74,7 +81,10 @@ class Synapse
     //Synapse(const Synapse);
     //Synapse operator=(const Synapse);
 
-    double getCurrentValue();
+    void setSource(Neuron *n);
+    void setWeight(double w);
+
+    double value();
 
   private:
     Neuron *_src;
@@ -82,6 +92,8 @@ class Synapse
     double _weight;
 };
 
+typedef vector<Neuron*>  Neurons;
+typedef vector<Synapse*> Synapses;
 
 class RNN
 {
@@ -92,10 +104,11 @@ class RNN
     //rnn(const rnn);
     //rnn operator=(const rnn);
 
+    void addNeuron(Neuron *n);
+    void update();
   private:
-};
 
-typedef vector<Neuron*>  Neurons;
-typedef vector<Synapse*> Synapses;
+    Neurons _neurons;
+};
 
 #endif // __RNN_H__

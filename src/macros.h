@@ -26,5 +26,6 @@
 
 
 
-#define FORC(type, i) for(type::iterator i = _in.begin(); i != _in.end(); i++)
+// type, iterator name, container name
+#define FORC(t, i, c) for(t::iterator i = c.begin(); i != c.end(); i++)
 
