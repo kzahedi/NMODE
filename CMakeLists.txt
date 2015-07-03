@@ -1,0 +1,56 @@
+project(mis.gso)
+
+cmake_minimum_required(VERSION 2.6)
+
+ENABLE_TESTING()
+
+set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_VERBOSE_MAKEFILE OFF)
+set(CMAKE_BASE_NAME "g++")
+set(CMAKE_CXX_COMPILER "g++")
+set(CMAKE_CXX_FLAGS_DEBUG "-g")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+set(CMAKE_CXX_FLAGS_DISTRIBUTION "-O3")
+set(CMAKE_CXX_COMPILER_FULLPATH "g++")
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
+set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/lib)
+set(CMAKE_CXX_FLAGS_DEBUG   "-g3 -W -Wall -O3 -arch x86_64") # -fprofile-arcs -ftest-coverage")
+set(CMAKE_CXX_FLAGS_RELEASE "    -W -Wall -O3 -arch x86_64") # -fprofile-arcs -ftest-coverage")
+
+if(USE_MAKE_MATRIX_VIDEO)
+  add_definitions(-DUSE_MATRIX_VIDEO)
+endif(USE_MAKE_MATRIX_VIDEO)
+
+IF(USE_DEBUG_MODE)
+  set(CMAKE_BUILD_TYPE Debug)
+ELSE(USE_DEBUG_MODE)
+  set(CMAKE_BUILD_TYPE Release)
+ENDIF(USE_DEBUG_MODE)
+
+INSTALL(DIRECTORY ${PROJECT_BINARY_DIR}/lib
+  DESTINATION ${CMAKE_INSTALL_PREFIX}
+  PATTERN "*.dylib" 
+  )
+
+# matrix
+
+INSTALL(DIRECTORY ${PROJECT_SOURCE_DIR}/src/
+  DESTINATION ${CMAKE_INSTALL_PREFIX}/include/enp/
+  PATTERN "*.svn*" EXCLUDE
+  PATTERN "*.txt*" EXCLUDE
+  PATTERN "*.sw*" EXCLUDE
+  PATTERN "*.cpp" EXCLUDE
+  PATTERN "*.h")
+
+INSTALL(DIRECTORY ${PROJECT_BINARY_DIR}/src/
+  DESTINATION ${CMAKE_INSTALL_PREFIX}/include/epn/
+  PATTERN "*.svn*" EXCLUDE
+  PATTERN "*.txt*" EXCLUDE
+  PATTERN "*.sw*" EXCLUDE
+  PATTERN "*.cpp" EXCLUDE
+  PATTERN "*.h")
+
+include_directories(${CMAKE_SRC})
+
+add_subdirectory(src)
+add_subdirectory(tests)
