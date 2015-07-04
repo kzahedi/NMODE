@@ -25,96 +25,55 @@
  *************************************************************************/
 
 
+#ifndef __DATA_NODE_H__
+#define __DATA_NODE_H__
 
-#ifndef __DATA_PARSE_ATTRIBUTE_H__
-#define __DATA_PARSE_ATTRIBUTE_H__
+#include "DataParseElement.h"
+#include "xsd/specification/specification.h"
 
 #include <string>
+#include <ostream>
+#include <iostream>
+
+# define DIV "_"
+# define DEF "definition"
+
 
 using namespace std;
 
 /**
- * @brief Container for the attributes of an xml element
- * @sa DataParseElement
+ * @brief Basic class for all objects that store XML data.
  */
-class DataParseAttribute
+class DataNode
 {
   public:
-    /**
-     * @brief Constructor
-     */
-    DataParseAttribute();
 
     /**
-     * @brief Destructor (Does nothing)
-     */
-    ~DataParseAttribute();
-
-    /**
-     * @brief Set the name of the attribute.
+     * @brief Default constructor. Takes parent node as parameter
      *
-     * @param name
+     * @param parent
      */
-    void setName(string name);
+    DataNode(DataNode *parent);
 
     /**
-     * @brief Set the value of the attribute. The value is naturally given as
-     * string, because it is retrieved from an XML file.
-     *
-     * @param value
+     * @brief Destructor, does nothing
      */
-    void setValue(string value);
+    ~DataNode();
 
     /**
-     * @brief Returns the name of the attribute.
+     * @brief This function must be implemented by every data storing class. It
+     * takes a DataParseElement and should decide if the contained data is
+     * either stored, passed on to a child, or if the current node is set to the
+     * parent.
      *
-     * @return name
+     * @param DataParseElement
+     * @sa DataParseElement
      */
-    string name();
+    virtual void add(DataParseElement* ) = 0;
 
-    /**
-     * @brief Returns the string-value of the value.
-     *
-     * @return value (string)
-     */
-    string value();
-
-    /**
-     * @brief Returns the value converted by atoi. DataParseAttribute cannot know
-     * of which type the value is. Therefore, there is no error handling.
-     *
-     * @return value (int)
-     */
-    int intValue();
-
-    /**
-     * @brief Returns the value converted from atoi to unsigned long.
-     * DataParseAttribute cannot know of which type the value is. Therefore,
-     * there is no error handling.
-     *
-     * @return value (int)
-     */
-    unsigned long unsignedlongValue();
-
-    /**
-     * @brief Returns if value is equal to "true". DataParseAttribute cannot know
-     * of which type the value is. Therefore, there is no error handling.
-     *
-     * @return value (bool)
-     */
-    bool boolValue();
-
-    /**
-     * @brief Returns the value converted by atof. DataParseAttribute cannot know
-     * of which type the value is. Therefore, there is no error handling.
-     *
-     * @return value (double)
-     */
-    double realValue();
-
-  private:
-    string _name;
-    string _value;
+  protected:
+    DataNode        *parent;
+    static DataNode *current;
 };
 
-#endif // __DATA_PARSE_ATTRIBUTE_H__
+#endif // __DATA_NODE_H__

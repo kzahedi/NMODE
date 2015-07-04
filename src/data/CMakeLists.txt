@@ -30,5 +30,11 @@ include_directories("${PROJECT_SOURCE_DIR}/src")
 link_directories(${PROJECT_BINARY_DIR}/lib)
 
 add_library(ENPData SHARED DataParseAttribute.cpp
-                           DataParseElement.cpp)
+                           DataParseElement.cpp
+                           Data.cpp
+                           DataNode.cpp
+                           DataENP.cpp
+                           )
+
+target_link_libraries(ENPData ENPXSD)
 
