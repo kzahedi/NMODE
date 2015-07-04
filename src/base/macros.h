@@ -26,25 +26,11 @@
 
 
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
+#ifndef MACROS
+#define MACROS
 
-#include <mis/utils/Randomiser.h>
+#define FORC(t, i, c)       for(t::iterator i = c.begin(); i != c.end(); i++)
+#define FORP(t, i, c)       for(t::iterator i = c->begin(); i != c->end(); i++)
+#define FORF(t, i, c, b, e) for(t::iterator i = (c)b; i != (c)e; i++)
 
-
-// int main(int argc, char* argv[])
-int main(int, char**)
-{
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
-
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
-
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
-
-  return wasSucessful ? 0 : 1;
-}
+#endif // MACROS

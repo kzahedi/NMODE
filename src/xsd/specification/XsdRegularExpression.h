@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,31 @@
  *************************************************************************/
 
 
+#ifndef __YARS_XSD_REGULAR_EXPRESSION_H__
+#define __YARS_XSD_REGULAR_EXPRESSION_H__
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
+#include "XsdNode.h"
 
-#include <mis/utils/Randomiser.h>
+#include <string>
+#include <vector>
 
+using namespace std;
 
-// int main(int argc, char* argv[])
-int main(int, char**)
+class XsdRegularExpression : public XsdNode
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  public:
+    XsdRegularExpression(string name, string type, string regExp);
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+    string regExp();
+    string name();
+    string type();
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
 
-  return wasSucessful ? 0 : 1;
-}
+  private:
+    string _name;
+    string _type;
+    string _regExp;
+};
+
+#endif // __YARS_XSD_REGULAR_EXPRESSION_H__
+

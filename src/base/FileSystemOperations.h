@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,45 @@
  *************************************************************************/
 
 
+#ifndef __YARS_FILESYSTEM_OPERATIONS_H__
+#define __YARS_FILESYSTEM_OPERATIONS_H__
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
+#include <vector>
 #include <iostream>
 
-#include <mis/utils/Randomiser.h>
+#include "base/ENPException.h"
 
+namespace fs = boost::filesystem;
+using namespace std;
 
-// int main(int argc, char* argv[])
-int main(int, char**)
+class FileSystemOperations
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  public:
+  static bool doesDirExist(fs::path dirPath);
+  static bool doesFileExist(fs::path filePath);
+  static bool doesDirExist(string *dirName);
+  static bool doesFileExist(string *fileName);
+  static bool doesExecutableExist(string exe) throw (ENPException);
+  static void createDir(string dirName)       throw (ENPException);
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+  static string* getFirstExistingDirContainingDir(std::vector<string> dirs,
+      string *containedDirName);
+  static string* getFirstExistingDirContainingFile(std::vector<string> dirs,
+      string *containedFileName);
+  static string* getFirstExistingDir(std::vector<string> dirs);
+  static string* getFirstExistingFile(std::vector<string> files);
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
+  static void checkValidPath(string *name, bool isDir, bool fatal);
+      // description);
+  static void checkValidPathFromAlternatives(string *name, string *pathName,
+      std::vector<string> *pathCandidates, bool fatal);
+  // string description);
 
-  return wasSucessful ? 0 : 1;
-}
+  protected:
+    FileSystemOperations();
+    ~FileSystemOperations();
+};
+
+#endif

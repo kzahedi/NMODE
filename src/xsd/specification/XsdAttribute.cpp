@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -26,25 +26,50 @@
 
 
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
+#include "XsdAttribute.h"
 
-#include <mis/utils/Randomiser.h>
-
-
-// int main(int argc, char* argv[])
-int main(int, char**)
+XsdAttribute::XsdAttribute()
+  : XsdNode(XSD_NODE_TYPE_ATTRIBUTE)
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  _name = "";
+  _type = "";
+  _required = true;
+}
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+XsdAttribute::XsdAttribute(string name, string type, bool required)
+  : XsdNode(XSD_NODE_TYPE_ATTRIBUTE)
+{
+  _name     = name;
+  _type     = type;
+  _required = required;
+}
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
+void XsdAttribute::setName(string name)
+{
+  _name = name;
+}
 
-  return wasSucessful ? 0 : 1;
+string XsdAttribute::name()
+{
+  return _name;
+}
+
+void XsdAttribute::setType(string type)
+{
+  _type = type;
+}
+
+string XsdAttribute::type()
+{
+  return _type;
+}
+
+void XsdAttribute::setRequired(bool required)
+{
+  _required = required;
+}
+
+bool XsdAttribute::required()
+{
+  return _required;
 }

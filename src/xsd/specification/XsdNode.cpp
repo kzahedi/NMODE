@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,28 @@
  *************************************************************************/
 
 
+#include "XsdNode.h"
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
-
-#include <mis/utils/Randomiser.h>
-
-
-// int main(int argc, char* argv[])
-int main(int, char**)
+XsdNode::XsdNode(int nodeType)
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  _nodeType = nodeType;
+}
+XsdNode::~XsdNode()
+{
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+}
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
+int XsdNode::nodeType()
+{
+  return _nodeType;
+}
 
-  return wasSucessful ? 0 : 1;
+void XsdNode::setComment(string comment)
+{
+  _comment = comment;
+}
+
+string XsdNode::comment()
+{
+  return _comment;
 }

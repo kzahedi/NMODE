@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,37 @@
  *************************************************************************/
 
 
+#ifndef __YARS_XSD_ENUMERATION_H__
+#define __YARS_XSD_ENUMERATION_H__
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
+#include "XsdNode.h"
 
-#include <mis/utils/Randomiser.h>
+#include <string>
+#include <vector>
 
+using namespace std;
 
-// int main(int argc, char* argv[])
-int main(int, char**)
+class XsdEnumeration : public XsdNode
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  public:
+    XsdEnumeration(string name, string type);
+    void add(string name);
+    void base(string base);
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+    std::vector<string>::iterator v_begin();
+    std::vector<string>::iterator v_end();
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
+    string name();
+    string type();
 
-  return wasSucessful ? 0 : 1;
-}
+  private:
+    string _name;
+    string _type;
+
+    std::vector<string> _value;
+
+};
+
+#endif // __YARS_XSD_ENUMERATION_H__
+
+

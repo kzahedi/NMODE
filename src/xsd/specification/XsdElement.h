@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,57 @@
  *************************************************************************/
 
 
+#ifndef __YARS_XSD_ELEMENT_H__
+#define __YARS_XSD_ELEMENT_H__
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
+#include "XsdNode.h"
+#include "XsdAttribute.h"
 
-#include <mis/utils/Randomiser.h>
+#include <string>
+#include <vector>
 
+# define YARS_STRING_XSD_UNBOUNDED (char*)"unbounded"
 
-// int main(int argc, char* argv[])
-int main(int, char**)
+using namespace std;
+
+class XsdElement : public XsdNode
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  public:
+    XsdElement();
+    XsdElement(string name, string type, int minOccurs);
+    XsdElement(string name, string type, int minOccurs, int maxOccurs);
+    XsdElement(string name, string type, string minOccurs = "", string maxOccurs = "");
+    XsdElement(string name, string type, int minOccurs, string maxOccurs);
+    void setName(string name);
+    void setType(string type);
+    void setMinOccurs(string minOccurs);
+    void setMinOccurs(int minOccurs);
+    void setMaxOccurs(string maxOccurs);
+    void setMaxOccurs(int maxOccurs);
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+    string name();
+    string type();
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
+    string minOccurs();
+    bool   minOccursGiven();
+    string maxOccurs();
+    bool   maxOccursGiven();
 
-  return wasSucessful ? 0 : 1;
-}
+    void   add(XsdAttribute *attribute);
+    std::vector<XsdAttribute*>::iterator a_begin();
+    std::vector<XsdAttribute*>::iterator a_end();
+    int a_size();
+
+  private:
+    string _name;
+    string _type;
+    string _minOccurs;
+    string _maxOccurs;
+    bool   _minOccursGiven;
+    bool   _maxOccursGiven;
+    std::vector<XsdAttribute*> _attributes;
+};
+
+#endif // __YARS_XSD_ELEMENT_H__
+
+

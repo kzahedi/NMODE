@@ -26,25 +26,43 @@
 
 
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
+#include "Configuration.h"
+
+#include <string>
 #include <iostream>
 
-#include <mis/utils/Randomiser.h>
+#include <boost/program_options/parsers.hpp>
+#include <boost/program_options/variables_map.hpp>
 
+using namespace std;
 
-// int main(int argc, char* argv[])
-int main(int, char**)
+namespace po = boost::program_options;
+
+Configuration::Configuration(int argc, char* argv[])
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  string cfg;
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+  po::options_description desc("Options");
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
+  desc.add_options()
+    ("help",    "print help message")
+    ("version", "print version information")
+    ("cfg",    po::value<string>(&cfg), "configuration file");
 
-  return wasSucessful ? 0 : 1;
+
+  po::positional_options_description positional;
+  positional.add("cfg", -1);
+
+  po::variables_map vm;
+  po::store(po::command_line_parser(argc, argv).
+            options(desc).positional(positional).run(), vm);
+  po::notify(vm);
+
+  if (vm.count("help")) {
+    cout << desc << "\n";
+  }
+
+  if(vm.count("cfg")) cout << "received configuration file: " << cfg << endl;
+  else cout << "not found" << endl;
+
 }

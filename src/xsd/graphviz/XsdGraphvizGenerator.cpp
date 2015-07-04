@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,56 @@
  *************************************************************************/
 
 
+#include "XsdGraphvizGenerator.h"
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
+#include "xsd/graphviz/graph/XsdGraphNodeInstance.h"
+
+#include "base/macros.h"
+
+#include <vector>
 #include <iostream>
 
-#include <mis/utils/Randomiser.h>
-
-
-// int main(int argc, char* argv[])
-int main(int, char**)
+XsdGraphvizGenerator::XsdGraphvizGenerator()
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  _graph = new XsdGraph();
+}
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+void XsdGraphvizGenerator::generate(string parent, string name, bool leftToRight, int depth)
+{
+  _dot.str("");
+  _dot << "digraph structs {"         << endl;
+  if(leftToRight)
+  {
+    _dot << "  rankdir=LR;"             << endl;
+    // _dot << "  layout=circo;"             << endl;
+    // _dot << " ranksep=5;"<< endl << "  ratio=auto;"             << endl;
+    // _dot << " outputMode=\"edgesfirst\";" << endl;
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
+  }
+  else
+  {
+    _dot << "  rankdir=TB;"             << endl;
+  }
+  //_dot << "  ranksep=\"equally\";"    << endl;
+  _dot << "  node [shape=plaintext];" << endl;
 
-  return wasSucessful ? 0 : 1;
+  XsdGraphNodeInstance *node = _graph->get(parent, name);
+  __generate(node, depth);
+
+  _dot << "}" << endl;
+}
+
+void XsdGraphvizGenerator::__generate(XsdGraphNodeInstance *node, int depth)
+{
+  if(depth == 0) return;
+  int d = depth - 1;
+  _dot << " " << node->uniqueName() << " " << node->label() << endl;
+  if(d != 0)
+  {
+    FORP(vector<XsdGraphNodeInstance*>, i, node)
+    {
+      __generate(*i, d);
+      _dot << node->uniqueName() << ":" << (*i)->port() << " -> " << (*i)->uniqueName() << ";" << endl;
+    }
+  }
 }

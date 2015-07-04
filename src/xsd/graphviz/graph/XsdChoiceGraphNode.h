@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,30 @@
  *************************************************************************/
 
 
+#ifndef __XSD_CHOICE_GRAPH_NODE_H__
+#define __XSD_CHOICE_GRAPH_NODE_H__
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
+#include "XsdGraphNode.h"
+#include "xsd/specification/XsdChoice.h"
 
-#include <mis/utils/Randomiser.h>
+#include <string>
+#include <sstream>
 
+using namespace std;
 
-// int main(int argc, char* argv[])
-int main(int, char**)
+class XsdChoiceGraphNode : public XsdGraphNode
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  public:
+    XsdChoiceGraphNode(XsdChoice *spec);
+    string customLabel(string label);
+    string name();
+    XsdChoice* spec();
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+  private:
+    stringstream _oss;
+    XsdChoice *_spec;
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
+};
 
-  return wasSucessful ? 0 : 1;
-}
+#endif // __XSD_CHOICE_GRAPH_NODE_H__
+

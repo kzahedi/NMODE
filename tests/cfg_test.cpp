@@ -26,25 +26,28 @@
 
 
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
+#include "cfg_test.h"
+
+#include "Configuration.h"
+
 #include <iostream>
+#include <string>
 
-#include <mis/utils/Randomiser.h>
+using namespace std;
+
+// Registers the fixture into the 'registry'
+CPPUNIT_TEST_SUITE_REGISTRATION( cfgTest );
 
 
-// int main(int argc, char* argv[])
-int main(int, char**)
+void cfgTest::testConfiguration()
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  string name = "cfg-tests";
+  // string help = "--help";
+  string file = "bin/test.ini";
+  char** parameters;
+  parameters = new char*[2];
+  parameters[0] = &name[0];
+  parameters[1] = &file[0];
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
-
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
-
-  return wasSucessful ? 0 : 1;
+  Configuration *c = new Configuration(2, parameters);
 }

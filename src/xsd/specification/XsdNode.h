@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,37 @@
  *************************************************************************/
 
 
+#ifndef __XSD_NODE_H__
+#define __XSD_NODE_H__
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
+# define XSD_NODE_TYPE_SEQUENCE    0
+# define XSD_NODE_TYPE_ELEMENT     1
+# define XSD_NODE_TYPE_CHOICE      2
+# define XSD_NODE_TYPE_REG_EXP     3
+# define XSD_NODE_TYPE_INTERVAL    4
+# define XSD_NODE_TYPE_ATTRIBUTE   5
+# define XSD_NODE_TYPE_ENUMERATION 6
 
-#include <mis/utils/Randomiser.h>
+#include <string>
 
+using namespace std;
 
-// int main(int argc, char* argv[])
-int main(int, char**)
+class XsdNode
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  public:
+    XsdNode(int nodeType);
+    ~XsdNode();
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+    int    nodeType();
+    void   setComment(string comment);
+    string comment();
+    virtual string name() = 0;
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
+  private:
+    int    _nodeType;
+    string _comment;
+};
 
-  return wasSucessful ? 0 : 1;
-}
+#endif // __XSD_NODE_H__
+
+

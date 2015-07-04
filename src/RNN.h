@@ -29,8 +29,8 @@
 #ifndef __RNN_H__
 #define __RNN_H__
 
-#include "P3D.h"
-#include "ENPException.h"
+#include "base/P3D.h"
+#include "base/ENPException.h"
 
 #include <vector>
 

@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,60 @@
  *************************************************************************/
 
 
+#include "DataParseAttribute.h"
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
-
-#include <mis/utils/Randomiser.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 
-// int main(int argc, char* argv[])
-int main(int, char**)
+DataParseAttribute::DataParseAttribute()
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
-
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
-
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
-
-  return wasSucessful ? 0 : 1;
+  _name  = "";
+  _value = "";
 }
+
+DataParseAttribute::~DataParseAttribute()
+{
+  // nothing to be done
+}
+
+void DataParseAttribute::setName(string name)
+{
+  _name = name;
+}
+
+void DataParseAttribute::setValue(string value)
+{
+  _value = value;
+}
+
+string DataParseAttribute::name()
+{
+  return _name;
+}
+
+string DataParseAttribute::value()
+{
+  return _value;
+}
+
+int DataParseAttribute::intValue()
+{
+  return atoi(_value.c_str());
+}
+
+unsigned long DataParseAttribute::unsignedlongValue()
+{
+  return (unsigned long)atoi(_value.c_str());
+}
+
+bool DataParseAttribute::boolValue()
+{
+  return _value == "true";
+}
+
+double DataParseAttribute::realValue()
+{
+  return (double)atof(_value.c_str());
+}
+

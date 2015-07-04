@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,30 @@
  *************************************************************************/
 
 
+#ifndef __XSD_GRAPHVIZ_EXPORTER_H__
+#define __XSD_GRAPHVIZ_EXPORTER_H__
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
+#include "XsdGraphvizGenerator.h"
+
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
+
 #include <iostream>
+#include <fstream>
 
-#include <mis/utils/Randomiser.h>
+#include <string>
+#include <sstream>
+#include <vector>
 
+using namespace std;
 
-// int main(int argc, char* argv[])
-int main(int, char**)
+namespace fs = boost::filesystem;
+
+class XsdGraphvizExporter
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  public:
+    static void writeDotFile(string filetype = "pdf");
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+};
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
-
-  return wasSucessful ? 0 : 1;
-}
+#endif // __XSD_GRAPHVIZ_EXPORTER_H__

@@ -26,18 +26,15 @@
 
 
 
-include_directories("${PROJECT_SOURCE_DIR}/src")
-link_directories(${PROJECT_BINARY_DIR}/lib)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-add_subdirectory(base)
-add_subdirectory(data)
-add_subdirectory(xsd)
+set(Boost_USE_STATIC_LIBS ON)
+find_package(Boost REQUIRED program_options filesystem system)
+IF(Boost_FOUND)
+  include_directories(${Boost_INCLUDE_DIRS})
+ENDIF(Boost_FOUND)
 
-
-add_library(ENPRNN SHARED RNN.cpp)
-target_link_libraries(ENPRNN ENPBase)
-
-
-add_library(ENPCFG SHARED Configuration.cpp)
-target_link_libraries(ENPCFG ${Boost_LIBRARIES})
-
+find_package(XercesC)
+IF(XercesC_FOUND)
+  include_directories(${XERCESC_INCLUDE_DIR})
+ENDIF(XercesC_FOUND)

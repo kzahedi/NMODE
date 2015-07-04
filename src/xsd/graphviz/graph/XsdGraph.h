@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,53 @@
  *************************************************************************/
 
 
+#ifndef __YARS_XSD_GRAPH_H__
+#define __YARS_XSD_GRAPH_H__
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
+#include "XsdGraphNode.h"
+#include "XsdGraphNodeInstance.h"
+#include "XsdGraphLink.h"
 
-#include <mis/utils/Randomiser.h>
+#include <ostream>
+#include <sstream>
 
+using namespace std;
 
-// int main(int argc, char* argv[])
-int main(int, char**)
+class XsdGraph
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  public:
+    XsdGraph();
+    ~XsdGraph();
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+    XsdGraphNodeInstance* get(string parent, string name);
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
+    std::vector<XsdGraphNodeInstance*>::iterator i_begin();
+    std::vector<XsdGraphNodeInstance*>::iterator i_end();
 
-  return wasSucessful ? 0 : 1;
-}
+  private:
+    void __createGraph();
+    void __add(XsdSequence          *seq);
+    void __add(XsdChoice            *choice);
+    void __add(XsdEnumeration       *enumeration);
+    void __add(XsdInterval          *interval);
+    void __add(XsdRegularExpression *regexp);
+
+    void __add(XsdGraphNodeInstance *parent, XsdNode              *node);
+    void __add(XsdGraphNodeInstance *parent, XsdElement           *element);
+    void __add(XsdGraphNodeInstance *parent, XsdAttribute         *attribute);
+    void __add(XsdGraphNodeInstance *parent, XsdSequence          *node);
+    void __add(XsdGraphNodeInstance *parent, XsdChoice            *node);
+    void __add(XsdGraphNodeInstance *parent, XsdRegularExpression *node);
+    void __add(XsdGraphNodeInstance *parent, XsdInterval          *node);
+    void __add(XsdGraphNodeInstance *parent, XsdEnumeration       *node);
+
+    XsdGraphNode* __findNode(string          name);
+
+    XsdGraphNodeInstance *_root;
+    XsdSpecification     *_spec;
+
+    std::vector<XsdGraphNode*>         _nodes;
+    std::vector<XsdGraphNodeInstance*> _instances;
+};
+
+#endif // __YARS_XSD_GRAPH_H__

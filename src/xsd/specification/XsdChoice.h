@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,69 @@
  *************************************************************************/
 
 
+#ifndef __YARS_XSD_CHOCIE_H__
+#define __YARS_XSD_CHOCIE_H__
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
+#include "XsdNode.h"
+#include "XsdElement.h"
+#include "XsdAttribute.h"
 
-#include <mis/utils/Randomiser.h>
+#include <string>
+#include <vector>
 
+class XsdSequence;
 
-// int main(int argc, char* argv[])
-int main(int, char**)
+using namespace std;
+
+class XsdChoice : public XsdNode
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+  public:
+    XsdChoice(string name);
+    XsdChoice(string name, int minOccurs, int maxOccurs);
+    XsdChoice(string name, string minOccurs, string maxOccurs);
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
+    string name();
+    void setName(string name);
+    void add(XsdElement *element);
+    void add(XsdAttribute *attribute);
+    void add(XsdSequence *sequence);
+    void add(std::vector<XsdElement*> elements);
 
-  return wasSucessful ? 0 : 1;
-}
+    std::vector<XsdElement*>::iterator e_begin();
+    std::vector<XsdElement*>::iterator e_end();
+    int e_size();
+
+    std::vector<XsdAttribute*>::iterator a_begin();
+    std::vector<XsdAttribute*>::iterator a_end();
+    int a_size();
+
+    std::vector<XsdSequence*>::iterator s_begin();
+    std::vector<XsdSequence*>::iterator s_end();
+    int s_size();
+
+
+    bool   maxOccursGiven();
+    bool   minOccursGiven();
+    string maxOccurs();
+    string minOccurs();
+
+    void setMaxOccurs(string maxOccurs);
+    void setMinOccurs(string minOccurs);
+
+  private:
+    string _minOccurs;
+    string _maxOccurs;
+    string _name;
+    bool   _minOccursGiven;
+    bool   _maxOccursGiven;
+    std::vector<XsdElement*>     _elements;
+    std::vector<XsdAttribute*>   _attributes;
+    std::vector<XsdSequence*>    _sequences;
+
+};
+
+#endif // __YARS_XSD_CHOCIE_H__
+
+
+

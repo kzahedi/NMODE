@@ -29,15 +29,6 @@
 include_directories("${PROJECT_SOURCE_DIR}/src")
 link_directories(${PROJECT_BINARY_DIR}/lib)
 
-add_subdirectory(base)
-add_subdirectory(data)
-add_subdirectory(xsd)
-
-
-add_library(ENPRNN SHARED RNN.cpp)
-target_link_libraries(ENPRNN ENPBase)
-
-
-add_library(ENPCFG SHARED Configuration.cpp)
-target_link_libraries(ENPCFG ${Boost_LIBRARIES})
+add_library(ENPData SHARED DataParseAttribute.cpp
+                           DataParseElement.cpp)
 

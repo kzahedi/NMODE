@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,42 @@
  *************************************************************************/
 
 
+#include "XsdEnumerationGraphNode.h"
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
+#include "base/macros.h"
 
-#include <mis/utils/Randomiser.h>
+// #include "configuration/data/Data.h"
 
-
-// int main(int argc, char* argv[])
-int main(int, char**)
+XsdEnumerationGraphNode::XsdEnumerationGraphNode(XsdEnumeration *spec)
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  _spec = spec;
+  FORF(vector<string>, v, spec, ->v_begin(), ->v_end())
+  {
+    _oss << "<tr> <td bgcolor=\"" << SPECIFICATION_BGCOLOR << "\"> " << *v << " </td> </tr>";
+  }
+  _type = "enum";
+  _specification = _oss.str();
+}
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+string XsdEnumerationGraphNode::customLabel(string label)
+{
+  _oss.str("");
+  _oss << " [label=<";
+  _oss << "<table bgcolor=\"" << ENUM_BGCOLOR << "\" border=\"0\" cellborder=\"1\" cellspacing=\"0\" cellpadding=\"0\">";
+  _oss << "<tr><td> " << label  << "</td></tr>";// << "&nbsp;:&nbsp;" << _type << "</td></tr>";
+  _oss << _specification;
+  _oss << "</table>";
+  _oss << ">];";
+  return _oss.str();
+}
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
 
-  return wasSucessful ? 0 : 1;
+string XsdEnumerationGraphNode::name()
+{
+  return _spec->name();
+}
+
+XsdEnumeration* XsdEnumerationGraphNode::spec()
+{
+  return _spec;
 }

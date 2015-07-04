@@ -26,25 +26,21 @@
 
 
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
+#ifndef __CONFIGURATION_TEST_H__
+#define __CONFIGURATION_TEST_H__
 
-#include <mis/utils/Randomiser.h>
+#include <cppunit/extensions/HelperMacros.h>
 
-
-// int main(int argc, char* argv[])
-int main(int, char**)
+class cfgTest : public CppUnit::TestFixture
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  CPPUNIT_TEST_SUITE(cfgTest);
+  CPPUNIT_TEST(testConfiguration);
+  CPPUNIT_TEST_SUITE_END();
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+  public:
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
+  void testConfiguration();
 
-  return wasSucessful ? 0 : 1;
-}
+};
+
+#endif // __RNN_H__

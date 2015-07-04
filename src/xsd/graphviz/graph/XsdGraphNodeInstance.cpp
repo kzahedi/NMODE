@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,45 @@
  *************************************************************************/
 
 
+#include "XsdGraphNodeInstance.h"
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
+#include <sstream>
 
-#include <mis/utils/Randomiser.h>
+int XsdGraphNodeInstance::_index = 0;
 
-
-// int main(int argc, char* argv[])
-int main(int, char**)
+XsdGraphNodeInstance::XsdGraphNodeInstance(string name, string label, XsdGraphNode *node)
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  stringstream oss;
+  oss << name << "_" << _index++;
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+  _name       = name;
+  _label      = label;
+  _node       = node;
+  _port       = 0;
+  _uniqueName = oss.str();
+};
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
+string XsdGraphNodeInstance::uniqueName()
+{
+  return _uniqueName;
+};
 
-  return wasSucessful ? 0 : 1;
+string XsdGraphNodeInstance::name()
+{
+  return _name;
+};
+
+string XsdGraphNodeInstance::label()
+{
+  return _node->customLabel(_name);
+};
+
+int XsdGraphNodeInstance::port()
+{
+  return _port;
+}
+
+void XsdGraphNodeInstance::setPort(int port)
+{
+  _port = port;
 }

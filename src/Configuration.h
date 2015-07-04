@@ -26,25 +26,20 @@
 
 
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
+#ifndef __CONFIGURATION_H__
+#define __CONFIGURATION_H__
 
-#include <mis/utils/Randomiser.h>
-
-
-// int main(int argc, char* argv[])
-int main(int, char**)
+class Configuration
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  public:
+    Configuration(int argc, char* argv[]);
+    // ~Configuration();
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+    //Configuration(const Configuration);
+    //Configuration operator=(const Configuration);
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
+  private:
+    
+};
 
-  return wasSucessful ? 0 : 1;
-}
+#endif // __CONFIGURATION_H__

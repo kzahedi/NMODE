@@ -28,8 +28,8 @@
 
 #include "RNN.h"
 
-#include "macros.h"
-#include "ENPException.h"
+#include "base/macros.h"
+#include "base/ENPException.h"
 
 /***************************************************************************
  *                            Neuron functions                             *

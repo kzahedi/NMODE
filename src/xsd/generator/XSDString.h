@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,42 @@
  *************************************************************************/
 
 
+#ifndef __XSD_STRING_H__
+#define __XSD_STRING_H__
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
+#include <xercesc/util/XMLString.hpp>
 
-#include <mis/utils/Randomiser.h>
+XERCES_CPP_NAMESPACE_USE
 
+// code taken from xerces/c/samples/CreateDOMDocument.cpp
 
-// int main(int argc, char* argv[])
-int main(int, char**)
+class XSDString
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+public :
+    // -----------------------------------------------------------------------
+    //  Constructors and Destructor
+    // -----------------------------------------------------------------------
+    XSDString(const char* const toTranscode);
+    ~XSDString();
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
+    // -----------------------------------------------------------------------
+    //  Getter methods
+    // -----------------------------------------------------------------------
+    const XMLCh* unicodeForm() const;
 
-  return wasSucessful ? 0 : 1;
-}
+private :
+    // -----------------------------------------------------------------------
+    //  Private data members
+    //
+    //  fUnicodeForm
+    //      This is the Unicode XMLCh format of the string.
+    // -----------------------------------------------------------------------
+    XMLCh*   fUnicodeForm;
+};
+
+#define X(str) XSDString(str).unicodeForm()
+
+
+
+#endif // __XSD_STRING_H__

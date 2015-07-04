@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,34 @@
  *************************************************************************/
 
 
+#ifndef __XSD_GRAPH_NODE_INSTANCE_H__
+#define __XSD_GRAPH_NODE_INSTANCE_H__
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
+#include "XsdGraphNode.h"
 
-#include <mis/utils/Randomiser.h>
+#include <string>
+#include <vector>
+using namespace std;
 
-
-// int main(int argc, char* argv[])
-int main(int, char**)
+class XsdGraphNodeInstance : public std::vector<XsdGraphNodeInstance*>
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  public:
+    XsdGraphNodeInstance(string name, string label, XsdGraphNode *node);
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+    string uniqueName();
+    string name();
+    string label();
+    int    port();
+    void   setPort(int port);
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
+  private:
+    string        _uniqueName;
+    string        _name;
+    string        _label;
+    int           _port;
+    XsdGraphNode *_node;
 
-  return wasSucessful ? 0 : 1;
-}
+    static int    _index;
+};
+
+#endif // __XSD_GRAPH_NODE_INSTANCE_H__

@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,29 @@
  *************************************************************************/
 
 
+#include "XsdRegularExpression.h"
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
+#include <sstream>
 
-#include <mis/utils/Randomiser.h>
-
-
-// int main(int argc, char* argv[])
-int main(int, char**)
+XsdRegularExpression::XsdRegularExpression(string name, string type, string regExp)
+  : XsdNode(XSD_NODE_TYPE_REG_EXP)
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  _name   = name;
+  _type   = type;
+  _regExp = regExp;
+}
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+string XsdRegularExpression::regExp()
+{
+  return _regExp;
+}
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
+string XsdRegularExpression::name()
+{
+  return _name;
+}
 
-  return wasSucessful ? 0 : 1;
+string XsdRegularExpression::type()
+{
+  return _type;
 }

@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,23 @@
  *************************************************************************/
 
 
+#include "XsdGraphNode.h"
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
+#include <sstream>
 
-#include <mis/utils/Randomiser.h>
+XsdGraphNode::XsdGraphNode() { }
 
-
-// int main(int argc, char* argv[])
-int main(int, char**)
+void XsdGraphNode::setUniqueNodeName(string n)
 {
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
+  _uniqueName = n;
+}
 
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
+string XsdGraphNode::uniqueNodeName()
+{
+  return _uniqueName;
+}
 
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
-
-  return wasSucessful ? 0 : 1;
+bool XsdGraphNode::hasDefinition(string type)
+{
+  return type.find("definition") != string::npos;
 }

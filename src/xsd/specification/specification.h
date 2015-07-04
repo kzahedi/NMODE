@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,26 +25,17 @@
  *************************************************************************/
 
 
+#ifndef __SPECIFICATION_H__
+#define __SPECIFICATION_H__
 
-#include <cppunit/CompilerOutputter.h>
-#include <cppunit/extensions/TestFactoryRegistry.h>
-#include <cppunit/ui/text/TestRunner.h>
-#include <iostream>
+# include "XsdSpecification.h"
+# include "XsdSequence.h"
+# include "XsdElement.h"
+# include "XsdAttribute.h"
+# include "XsdChoice.h"
+# include "XsdEnumeration.h"
+# include "XsdInterval.h"
+# include "XsdRegularExpression.h"
+# include "XsdNode.h"
 
-#include <mis/utils/Randomiser.h>
-
-
-// int main(int argc, char* argv[])
-int main(int, char**)
-{
-  CppUnit::Test *suite = CppUnit::TestFactoryRegistry::getRegistry().makeTest();
-
-  CppUnit::TextUi::TestRunner runner;
-  runner.addTest( suite );
-
-  runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-                                                       std::cerr ) );
-  bool wasSucessful = runner.run();
-
-  return wasSucessful ? 0 : 1;
-}
+#endif // __SPECIFICATION_H__
