@@ -158,5 +158,15 @@ void DataENP::__getChild(DataParseElement *element)
     current = _configuration;
     current->add(element);
   }
-
 }
+
+DataEvolution* DataENP::evolution()
+{
+  return _evolution;
+}
+
+DataConfiguration* DataENP::configuration()
+{
+  return _configuration;
+}
+

@@ -62,6 +62,9 @@ class DataENP : public DataNode
 
     static void createXsd(XsdSpecification *spec);
 
+    DataEvolution     *evolution();
+    DataConfiguration *configuration();
+
   private:
     void __getChild(DataParseElement *element);
 

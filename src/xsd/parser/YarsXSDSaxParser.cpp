@@ -66,7 +66,7 @@ bool YarsXSDSaxParser::read(string filename)
   stringstream oss;
   oss << *generator << endl;
   string xsd = oss.str();
-  cout << xsd << endl;
+  // cout << xsd << endl;
 
   delete generator;
 

@@ -50,4 +50,5 @@ void cfgTest::testConfiguration()
   parameters[1] = &file[0];
 
   Configuration *c = new Configuration(2, parameters);
+  delete c;
 }

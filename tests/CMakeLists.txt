@@ -21,6 +21,5 @@ file(COPY        ${CMAKE_SOURCE_DIR}/tests/test.ini
 file(COPY        ${CMAKE_SOURCE_DIR}/tests/test.xml
      DESTINATION ${PROJECT_BINARY_DIR}/bin)
 
-
 add_executable(xml_parse xml_parse.cpp)
 target_link_libraries(xml_parse ENPXSD ENPBase ENPData)
