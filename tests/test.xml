@@ -37,14 +37,14 @@
       </neuron>
       <neuron type="actuator" label="actuator 2">
         <position x="1.5" y="1.0" z="0.0"/>
-        <transferfunction name="tanh"/>
+        <transferfunction name="sigm"/>
       </neuron>
     </module>
 
     <module name="module 2">
       <neuron type="sensor" label="sensor 1">
         <position x="0.0" y="0.0" z="0.0"/>
-        <transferfunction name="id"/>
+        <transferfunction name="sigm"/>
       </neuron>
       <neuron type="sensor" label="sensor 2">
         <position x="1.0" y="0.0" z="0.0"/>

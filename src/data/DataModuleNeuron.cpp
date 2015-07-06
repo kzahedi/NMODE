@@ -38,12 +38,16 @@
 #define TAG_ACTUATOR                    (char*)"actuator"
 #define TAG_SENSOR                      (char*)"sensor"
 #define TAG_NAME                        (char*)"name"
+#define TAG_TANH                        (char*)"tanh"
+#define TAG_SIGM                        (char*)"sigm"
+#define TAG_ID                          (char*)"id"
 #define TAG_TYPE_DEFINITION             (char*)"type_definition"
 #define TAG_LABEL                       (char*)"label"
 #define TAG_POSITION                    (char*)"position"
 #define TAG_XYZ_DEFINITION              (char*)"xyz_definition"
 #define TAG_TRANSFERFUNCTION            (char*)"transferfunction"
 #define TAG_TRANSFERFUNCTION_DEFINITION (char*)"transferfunction_definition"
+#define TAG_TFUNCTION_ENUMERATION       (char*)"tfunction_enum_definition"
 
 using namespace std;
 
@@ -84,16 +88,22 @@ void DataModuleNeuron::add(DataParseElement *element)
 
 void DataModuleNeuron::createXsd(XsdSpecification *spec)
 {
-  XsdSequence  *root = new XsdSequence(TAG_MODULE_NEURON_DEFINITION);
+  XsdSequence *root = new XsdSequence(TAG_MODULE_NEURON_DEFINITION);
   root->add(NA(TAG_TYPE,             TAG_TYPE_DEFINITION,             true));
   root->add(NA(TAG_LABEL,            TAG_XSD_STRING,                  true));
   root->add(NE(TAG_POSITION,         TAG_XYZ_DEFINITION,              1, 1));
   root->add(NE(TAG_TRANSFERFUNCTION, TAG_TRANSFERFUNCTION_DEFINITION, 1, 1));
   spec->add(root);
 
-  XsdSequence  *tfunc = new XsdSequence(TAG_TRANSFERFUNCTION_DEFINITION);
-  tfunc->add(NA(TAG_TRANSFERFUNCTION, TAG_XSD_STRING, true));
-  spec->add(root);
+  XsdSequence *tfunc = new XsdSequence(TAG_TRANSFERFUNCTION_DEFINITION);
+  tfunc->add(NA(TAG_NAME, TAG_TFUNCTION_ENUMERATION, true));
+  spec->add(tfunc);
+
+  XsdEnumeration *tfuncenum = new XsdEnumeration(TAG_TFUNCTION_ENUMERATION, TAG_XSD_STRING);
+  tfuncenum->add(TAG_TANH);
+  tfuncenum->add(TAG_SIGM);
+  tfuncenum->add(TAG_ID);
+  spec->add(tfuncenum);
 
   XsdEnumeration *type = new XsdEnumeration(TAG_TYPE_DEFINITION, TAG_XSD_STRING);
   type->add(TAG_SENSOR);
