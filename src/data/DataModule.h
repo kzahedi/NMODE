@@ -58,6 +58,8 @@ class DataModule : public DataNode
 
     DataModuleNeurons neurons();
 
+    string name();
+
   private:
     string _name;
 

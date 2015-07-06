@@ -47,10 +47,23 @@ DataModule::~DataModule()
 void DataModule::add(DataParseElement *element)
 {
 
+  if(element->closing(TAG_MODULE))
+  {
+    current = parent;
+    return;
+  }
+
   if(element->opening(TAG_MODULE))
   {
-    parent = current;
-    return;
+    element->set(TAG_NAME, _name);
+  }
+
+  if(element->opening(TAG_MODULE_NEURON))
+  {
+    DataModuleNeuron *neuron = new DataModuleNeuron(NULL);
+    _neurones.push_back(neuron);
+    current = neuron;
+    neuron->add(element);
   }
 
 }
@@ -68,4 +81,9 @@ void DataModule::createXsd(XsdSpecification *spec)
 DataModuleNeurons DataModule::neurons()
 {
   return _neurones;
+}
+
+string DataModule::name()
+{
+  return _name;
 }

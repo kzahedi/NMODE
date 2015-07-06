@@ -29,6 +29,7 @@
 #include "xml_test.h"
 
 #include "data/Data.h"
+#include "base/macros.h"
 
 #include <iostream>
 #include <string>
@@ -60,4 +61,22 @@ void xmlTest::testXml()
   CPPUNIT_ASSERT_DOUBLES_EQUAL(0.21, evos->modifyProbability(), 0.000001);
   CPPUNIT_ASSERT_DOUBLES_EQUAL(0.22, evos->modifyMaxValue(),    0.000001);
   CPPUNIT_ASSERT_DOUBLES_EQUAL(0.23, evos->modifyDelta(),       0.000001);
+
+  DataConfiguration *conf = enp->configuration();
+  DataModules        mods = conf->modules();
+
+  CPPUNIT_ASSERT(2 == mods.size());
+  CPPUNIT_ASSERT("module 1" == mods[0]->name());
+  CPPUNIT_ASSERT("module 2" == mods[1]->name());
+
+
+  // DataModuleNeurons mod_1_neurons = mods[0]->neurons();
+  // cout << "mod_1_neurons.size: " << mod_1_neurons.size() << endl;
+  // CPPUNIT_ASSERT(5 == mod_1_neurons.size());
+
+  // DataModuleNeurons mod_2_neurons = mods[1]->neurons();
+  // cout << "mod_2_neurons.size: " << mod_2_neurons.size() << endl;
+  // CPPUNIT_ASSERT(3 == mod_2_neurons.size());
+  
+
 }

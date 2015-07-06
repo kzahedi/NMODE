@@ -58,13 +58,13 @@ void DataConfiguration::add(DataParseElement *element)
     return;
   }
 
-  // if(element->opening(TAG_MODULE))
-  // {
-    // DataModule* module = new DataModule(this);
-    // _modules.push_back(module);
-    // current = module;
-    // current->add(element);
-  // }
+  if(element->opening(TAG_MODULE))
+  {
+    DataModule* module = new DataModule(this);
+    _modules.push_back(module);
+    current = module;
+    current->add(element);
+  }
 }
 
 void DataConfiguration::createXsd(XsdSpecification *spec)
