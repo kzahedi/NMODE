@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<enp version="0.0.0">
+<enp version="0.0.1">
 
   <evolution>
     <neuron cost="0.1">

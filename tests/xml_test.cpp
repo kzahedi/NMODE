@@ -65,18 +65,56 @@ void xmlTest::testXml()
   DataConfiguration *conf = enp->configuration();
   DataModules        mods = conf->modules();
 
+
   CPPUNIT_ASSERT(2 == mods.size());
   CPPUNIT_ASSERT("module 1" == mods[0]->name());
+
+  DataModuleNeurons mod_1_neurons = mods[0]->neurons();
+  CPPUNIT_ASSERT(5 == mod_1_neurons.size());
+
+  CPPUNIT_ASSERT("sensor"           == mod_1_neurons[0]->type());
+  CPPUNIT_ASSERT("sensor 1"         == mod_1_neurons[0]->label());
+  CPPUNIT_ASSERT(P3D(0.0, 0.0, 0.0) == mod_1_neurons[0]->position());
+  CPPUNIT_ASSERT("id"               == mod_1_neurons[0]->transferfunction());
+
+  CPPUNIT_ASSERT("sensor"           == mod_1_neurons[1]->type());
+  CPPUNIT_ASSERT("sensor 2"         == mod_1_neurons[1]->label());
+  CPPUNIT_ASSERT(P3D(1.0, 0.0, 0.0) == mod_1_neurons[1]->position());
+  CPPUNIT_ASSERT("id"               == mod_1_neurons[1]->transferfunction());
+
+  CPPUNIT_ASSERT("sensor"           == mod_1_neurons[2]->type());
+  CPPUNIT_ASSERT("sensor 3"         == mod_1_neurons[2]->label());
+  CPPUNIT_ASSERT(P3D(2.0, 0.0, 0.0) == mod_1_neurons[2]->position());
+  CPPUNIT_ASSERT("id"               == mod_1_neurons[2]->transferfunction());
+
+  CPPUNIT_ASSERT("actuator"         == mod_1_neurons[3]->type());
+  CPPUNIT_ASSERT("actuator 1"       == mod_1_neurons[3]->label());
+  CPPUNIT_ASSERT(P3D(0.5, 1.0, 0.0) == mod_1_neurons[3]->position());
+  CPPUNIT_ASSERT("tanh"             == mod_1_neurons[3]->transferfunction());
+
+  CPPUNIT_ASSERT("actuator"         == mod_1_neurons[4]->type());
+  CPPUNIT_ASSERT("actuator 2"       == mod_1_neurons[4]->label());
+  CPPUNIT_ASSERT(P3D(1.5, 1.0, 0.0) == mod_1_neurons[4]->position());
+  CPPUNIT_ASSERT("sigm"             == mod_1_neurons[4]->transferfunction());
+
   CPPUNIT_ASSERT("module 2" == mods[1]->name());
+  DataModuleNeurons mod_2_neurons = mods[1]->neurons();
+  CPPUNIT_ASSERT(3 == mod_2_neurons.size());
 
+  CPPUNIT_ASSERT("sensor"           == mod_2_neurons[0]->type());
+  CPPUNIT_ASSERT("sensor 1"         == mod_2_neurons[0]->label());
+  CPPUNIT_ASSERT(P3D(0.0, 0.0, 0.0) == mod_2_neurons[0]->position());
+  CPPUNIT_ASSERT("sigm"             == mod_2_neurons[0]->transferfunction());
 
-  // DataModuleNeurons mod_1_neurons = mods[0]->neurons();
-  // cout << "mod_1_neurons.size: " << mod_1_neurons.size() << endl;
-  // CPPUNIT_ASSERT(5 == mod_1_neurons.size());
+  CPPUNIT_ASSERT("sensor"           == mod_2_neurons[1]->type());
+  CPPUNIT_ASSERT("sensor 2"         == mod_2_neurons[1]->label());
+  CPPUNIT_ASSERT(P3D(1.0, 0.0, 0.0) == mod_2_neurons[1]->position());
+  CPPUNIT_ASSERT("id"               == mod_2_neurons[1]->transferfunction());
 
-  // DataModuleNeurons mod_2_neurons = mods[1]->neurons();
-  // cout << "mod_2_neurons.size: " << mod_2_neurons.size() << endl;
-  // CPPUNIT_ASSERT(3 == mod_2_neurons.size());
-  
+  CPPUNIT_ASSERT("actuator"         == mod_2_neurons[2]->type());
+  CPPUNIT_ASSERT("actuator 1"       == mod_2_neurons[2]->label());
+  CPPUNIT_ASSERT(P3D(0.5, 1.0, 0.0) == mod_2_neurons[2]->position());
+  CPPUNIT_ASSERT("tanh"             == mod_2_neurons[2]->transferfunction());
+
 
 }

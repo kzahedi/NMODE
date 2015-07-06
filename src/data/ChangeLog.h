@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Module of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -26,64 +26,10 @@
 
 
 
-#include "DataModule.h"
+#ifndef __VERSIONS_H__
+#define __VERSIONS_H__
 
-#include "base/macros.h"
+XmlChangeLog::add(0, 0, 0,  "Initial XML definition", true);
+XmlChangeLog::add(0, 0, 1,  "<evolution> <neuron> ... </neuron> <synapse> ... </synapse> </evolution> <configuration> <module ...> <neuron ..> <position ...> <transferfunction ...> </neuron></configuration>", true);
 
-#include <iostream>
-
-#define TAG_NAME (char*)"name"
-
-using namespace std;
-
-DataModule::DataModule(DataNode *parent)
-  : DataNode(parent)
-{ }
-
-DataModule::~DataModule()
-{
-}
-
-void DataModule::add(DataParseElement *element)
-{
-
-  if(element->closing(TAG_MODULE))
-  {
-    current = parent;
-    return;
-  }
-
-  if(element->opening(TAG_MODULE))
-  {
-    element->set(TAG_NAME, _name);
-  }
-
-  if(element->opening(TAG_MODULE_NEURON))
-  {
-    DataModuleNeuron *neuron = new DataModuleNeuron(this);
-    _neurones.push_back(neuron);
-    current = neuron;
-    neuron->add(element);
-  }
-
-}
-
-void DataModule::createXsd(XsdSpecification *spec)
-{
-  XsdSequence *root = new XsdSequence(TAG_MODULE_DEFINITION);
-  root->add(NA(TAG_NAME,          TAG_XSD_STRING,               true));
-  root->add(NE(TAG_MODULE_NEURON, TAG_MODULE_NEURON_DEFINITION, 1, TAG_XSD_UNBOUNDED));
-  spec->add(root);
-
-  DataModuleNeuron::createXsd(spec);
-}
-
-DataModuleNeurons DataModule::neurons()
-{
-  return _neurones;
-}
-
-string DataModule::name()
-{
-  return _name;
-}
+#endif // __VERSIONS_H__

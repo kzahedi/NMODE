@@ -42,6 +42,9 @@ using namespace std;
 DataENP::DataENP(DataNode *parent)
   : DataNode(parent)
 {
+
+#include "ChangeLog.h" // do not move from here
+  
   _evolution     = NULL;
   _configuration = NULL;
 }
@@ -65,7 +68,6 @@ void DataENP::add(DataParseElement *element)
   }
 
 }
-
 
 Version DataENP::version()
 {
