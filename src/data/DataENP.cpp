@@ -119,7 +119,7 @@ void DataENP::createXsd(XsdSpecification *spec)
   spec->setRoot(_root);
 
   XsdRegularExpression *versionDefinition =
-    new XsdRegularExpression(TAG_ENP_DEFINITION,
+    new XsdRegularExpression(TAG_VERSION_DEFINITION,
         TAG_XSD_STRING, TAG_VERSION_REGULAR_EXPRESSION);
   spec->add(versionDefinition);
 }

@@ -67,9 +67,7 @@ void Data::close()
 
 void Data::read(string xmlFile)
 {
-  cout << "reading xmlFile: " << xmlFile << endl;
   YarsXSDSaxParser *parser = new YarsXSDSaxParser();
-  // TODO parser should add new xml files to current data-structure (might already be the case?)
   parser->read(xmlFile);
   if(parser->errors() > 0)
   {
