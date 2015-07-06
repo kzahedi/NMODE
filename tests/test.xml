@@ -2,16 +2,16 @@
 
 <enp version="0.0.0">
   <evolution>
-    <neuron cost="0.01">
-      <modify probability="0.1" maximum="1.0" delta="0.2"/>
-      <add    probability="0.1" maximum="2.0"/>
-      <delete probability="0.1"/>
+    <neuron cost="0.1">
+      <modify probability="0.11" maximum="0.12" delta="0.13"/>
+      <add    probability="0.14" maximum="0.15"/>
+      <delete probability="0.16"/>
     </neuron>
-    <!-- <synapse cost="0.02"> -->
-      <!-- <modify probability="0.1" maximum="1.0" delta="0.2"/> -->
-      <!-- <add    probability="0.1" maximum="2.0"/> -->
-      <!-- <del    probability="0.1"/> -->
-    <!-- </synapse> -->
+    <synapse cost="0.2">
+      <modify probability="0.21" maximum="0.22" delta="0.23"/>
+      <add    probability="0.24" maximum="0.25"/>
+      <delete probability="0.26"/>
+    </synapse>
   </evolution>
   <!-- <configuration> -->
     <!-- <neurons> -->

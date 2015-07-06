@@ -104,18 +104,18 @@ void DataEvolutionNeuron::createXsd(XsdSpecification *spec)
   spec->add(root);
 
   XsdSequence *modify = new XsdSequence(TAG_MODIFY_DEFINITION);
-  modify->add(NA(TAG_PROBABILITY, TAG_POSITIVE_DECIMAL, true));
+  modify->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL, true));
   modify->add(NA(TAG_MAX,         TAG_POSITIVE_DECIMAL, true));
   modify->add(NA(TAG_DELTA,       TAG_POSITIVE_DECIMAL, true));
   spec->add(modify);
   
   XsdSequence *add = new XsdSequence(TAG_ADD_DEFINITION);
-  add->add(NA(TAG_PROBABILITY, TAG_POSITIVE_DECIMAL, true));
+  add->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL, true));
   add->add(NA(TAG_MAX,         TAG_POSITIVE_DECIMAL, true));
   spec->add(add);
 
   XsdSequence *del = new XsdSequence(TAG_DEL_DEFINITION);
-  del->add(NA(TAG_PROBABILITY, TAG_POSITIVE_DECIMAL, true));
+  del->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL, true));
   spec->add(del);
 }
 

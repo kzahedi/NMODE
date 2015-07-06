@@ -44,7 +44,6 @@ DataEvolution::~DataEvolution()
 
 void DataEvolution::add(DataParseElement *element)
 {
-  cout << "evolution: " << element->name() << endl;
   if(element->closing(TAG_EVOLUTION))
   {
     current = parent;
@@ -65,9 +64,8 @@ void DataEvolution::add(DataParseElement *element)
 
   if(element->opening(TAG_EVOLUTION_SYNAPSE))
   {
-    cout << "hier hier" << endl;
     _synapse = new DataEvolutionSynapse(this);
-    current = _synapse;
+    current  = _synapse;
     current->add(element);
   }
 
@@ -77,7 +75,7 @@ void DataEvolution::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_EVOLUTION_DEFINITION);
   root->add(NE(TAG_EVOLUTION_NEURON,  TAG_EVOLUTION_NEURON_DEFINITION,  1, 1));
-  // root->add(NE(TAG_EVOLUTION_SYNAPSE, TAG_EVOLUTION_SYNAPSE_DEFINITION, 1, 1));
+  root->add(NE(TAG_EVOLUTION_SYNAPSE, TAG_EVOLUTION_SYNAPSE_DEFINITION, 1, 1));
   spec->add(root);
 
   DataEvolutionNeuron::createXsd(spec);

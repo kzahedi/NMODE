@@ -64,7 +64,6 @@ DataEvolutionSynapse::~DataEvolutionSynapse()
 
 void DataEvolutionSynapse::add(DataParseElement *element)
 {
-  cout << "synapse" << endl;
   if(element->closing(TAG_EVOLUTION_SYNAPSE))
   {
     current = parent;
@@ -77,7 +76,6 @@ void DataEvolutionSynapse::add(DataParseElement *element)
 
   if(element->opening(TAG_MODIFY))
   {
-    cout << "hier 0" << endl;
     element->set(TAG_PROBABILITY, _modifyProbability);
     element->set(TAG_MAX,         _modifyMaxValue);
     element->set(TAG_DELTA,       _modifyDelta);
@@ -85,14 +83,12 @@ void DataEvolutionSynapse::add(DataParseElement *element)
 
   if(element->opening(TAG_ADD))
   {
-    cout << "hier 1" << endl;
     element->set(TAG_PROBABILITY, _addProbability);
     element->set(TAG_MAX,         _addMaxValue);
   }
 
   if(element->opening(TAG_DEL))
   {
-    cout << "hier 2" << endl;
     element->set(TAG_PROBABILITY, _delProbability);
   }
 
@@ -101,26 +97,27 @@ void DataEvolutionSynapse::add(DataParseElement *element)
 void DataEvolutionSynapse::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_EVOLUTION_SYNAPSE_DEFINITION);
-  root->add(NA(TAG_COST,   TAG_POSITIVE_DECIMAL, false));
-  root->add(NE(TAG_MODIFY, TAG_MODIFY_DEFINITION,    1, 1));
-  root->add(NE(TAG_ADD,    TAG_ADD_DEFINITION,       1, 1));
-  root->add(NE(TAG_DEL,    TAG_DEL_DEFINITION,       1, 1));
+  root->add(NA(TAG_COST,   TAG_POSITIVE_DECIMAL,  false));
+  root->add(NE(TAG_MODIFY, TAG_MODIFY_DEFINITION, 1, 1));
+  root->add(NE(TAG_ADD,    TAG_ADD_DEFINITION,    1, 1));
+  root->add(NE(TAG_DEL,    TAG_DEL_DEFINITION,    1, 1));
   spec->add(root);
 
   XsdSequence *modify = new XsdSequence(TAG_MODIFY_DEFINITION);
-  modify->add(NA(TAG_PROBABILITY, TAG_POSITIVE_DECIMAL, true));
+  modify->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL,    true));
   modify->add(NA(TAG_MAX,         TAG_POSITIVE_DECIMAL, true));
   modify->add(NA(TAG_DELTA,       TAG_POSITIVE_DECIMAL, true));
   spec->add(modify);
   
   XsdSequence *add = new XsdSequence(TAG_ADD_DEFINITION);
-  add->add(NA(TAG_PROBABILITY, TAG_POSITIVE_DECIMAL, true));
+  add->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL,    true));
   add->add(NA(TAG_MAX,         TAG_POSITIVE_DECIMAL, true));
   spec->add(add);
 
   XsdSequence *del = new XsdSequence(TAG_DEL_DEFINITION);
-  del->add(NA(TAG_PROBABILITY, TAG_POSITIVE_DECIMAL, true));
+  del->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL, true));
   spec->add(del);
+
 }
 
 double DataEvolutionSynapse::modifyProbability()
