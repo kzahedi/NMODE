@@ -35,28 +35,26 @@
 #include "XsdRegularExpression.h"
 
 
-# define NE new XsdElement
-# define NA new XsdAttribute
-
-# define DEFINITION "definition"
+#define NE new XsdElement
+#define NA new XsdAttribute
 
 #include <vector>
 using namespace std;
 
-# define TAG_XSD_DECIMAL               (char*)"xs:decimal"
-# define TAG_XSD_INTEGER               (char*)"xs:integer"
-# define TAG_XSD_STRING                (char*)"xs:string"
+#define TAG_XSD_DECIMAL               (char*)"xs:decimal"
+#define TAG_XSD_INTEGER               (char*)"xs:integer"
+#define TAG_XSD_STRING                (char*)"xs:string"
 
-# define TAG_PID_DEFINITION            (char*)"pid"             DIVIDER DEFINITION
+#define TAG_PID_DEFINITION            (char*)"pid_definition"
 
-# define TAG_POSITIVE_NON_ZERO_INTEGER (char*)"positive_non_zero_integer" DIVIDER DEFINITION
-# define TAG_POSITIVE_INTEGER          (char*)"positive_integer"          DIVIDER DEFINITION
-# define TAG_UNIT_INTERVAL             (char*)"unit_interval"             DIVIDER DEFINITION
-# define TAG_POSITIVE_NON_ZERO_DECIMAL (char*)"positive_non_zero_decimal" DIVIDER DEFINITION
-# define TAG_POSITIVE_DECIMAL          (char*)"positive_decimal"          DIVIDER DEFINITION
-# define TAG_NAME_DEFINITION           (char*)"name"                      DIVIDER DEFINITION
+#define TAG_POSITIVE_NON_ZERO_INTEGER (char*)"positive_non_zero_integer_definition"
+#define TAG_POSITIVE_INTEGER          (char*)"positive_integer_definition"
+#define TAG_UNIT_INTERVAL             (char*)"unit_interval_definition"
+#define TAG_POSITIVE_NON_ZERO_DECIMAL (char*)"positive_non_zero_decimal_definition"
+#define TAG_POSITIVE_DECIMAL          (char*)"positive_decimal_definition"
+#define TAG_NAME_DEFINITION           (char*)"name_definition"
 
-# define TAG_TRUE_FALSE_DEFINITION     (char*)"true"   DIVIDER "false" DIVIDER DEFINITION
+#define TAG_TRUE_FALSE_DEFINITION     (char*)"true_definition"
 
 /** \brief Singleton.
  *

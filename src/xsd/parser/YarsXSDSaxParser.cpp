@@ -66,6 +66,7 @@ bool YarsXSDSaxParser::read(string filename)
   stringstream oss;
   oss << *generator << endl;
   string xsd = oss.str();
+  cout << xsd << endl;
 
   delete generator;
 
@@ -78,8 +79,11 @@ bool YarsXSDSaxParser::read(string filename)
   parser->setFeature(XMLUni::fgSAX2CoreNameSpaces,          true);
   parser->setFeature(XMLUni::fgXercesSchema,                true);
   parser->setFeature(XMLUni::fgXercesHandleMultipleImports, true);
-  parser->setFeature(XMLUni::fgXercesSchemaFullChecking,    false);
+  parser->setFeature(XMLUni::fgXercesSchemaFullChecking,    true);
   parser->setFeature(XMLUni::fgSAX2CoreNameSpacePrefixes,   false);
+  parser->setFeature(XMLString::transcode("http://xml.org/sax/features/validation"), true);
+  parser->setFeature(XMLString::transcode("http://apache.org/xml/features/validation/schema"), true);
+  parser->setFeature(XMLString::transcode("http://apache.org/xml/features/validation/schema-full-checking"), true);
 
   const XMLByte*bytes=reinterpret_cast<const XMLByte*>(xsd.c_str());
   MemBufInputSource mis (bytes, xsd.size (), "/schema.xsd");

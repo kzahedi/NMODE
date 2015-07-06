@@ -30,9 +30,7 @@
 
 #include <sstream>
 
-# define DIVIDER "_"
-
-# define TAG_POSE_DEFINITION               (char*)"pose"            DIVIDER DEFINITION
+# define TAG_POSE_DEFINITION               (char*)"pose_definition"
 # define TAG_P                             (char*)"p"
 # define TAG_I                             (char*)"i"
 # define TAG_D                             (char*)"d"
@@ -45,33 +43,33 @@
 # define TAG_BETA                          (char*)"beta"
 # define TAG_GAMMA                         (char*)"gamma"
 # define TAG_TYPE                          (char*)"type"
-# define TAG_RAD_DEG_DEFINITION            (char*)"radOrDeg"         DIVIDER DEFINITION
+# define TAG_RAD_DEG_DEFINITION            (char*)"radOrDeg_definition"
 # define TAG_RAD                           (char*)"rad"
 # define TAG_DEG                           (char*)"deg"
-# define TAG_XYZ_DEFINITION                (char*)"xyz"              DIVIDER DEFINITION
-# define TAG_XYZG_DEFINITION               (char*)"xyzg"             DIVIDER DEFINITION
-# define TAG_XY_DEFINITION                 (char*)"xy"               DIVIDER DEFINITION
+# define TAG_XYZ_DEFINITION                (char*)"xyz_definition"
+# define TAG_XYZG_DEFINITION               (char*)"xyzg_definition"
+# define TAG_XY_DEFINITION                 (char*)"xy_definition"
 # define TAG_FALSE                         (char*)"false"
 # define TAG_TRUE                          (char*)"true"
 # define TAG_NAME                          (char*)"name"
 # define TAG_MIN                           (char*)"min"
 # define TAG_MAX                           (char*)"max"
-# define TAG_MIN_MAX_DEFINITION            (char*)"min"              DIVIDER "max"       DIVIDER DEFINITION
-# define TAG_POSITIVE_MIN_MAX_DEFINITION   (char*)"positive" DIVIDER "min"              DIVIDER "max"       DIVIDER DEFINITION
-# define TAG_NAME_DEFINITION               (char*)"name"             DIVIDER DEFINITION
-# define WIDTH                                     "width"
-# define RADIUS                                    "radius"
-# define HEIGHT                                    "height"
-# define DEPTH                                     "depth"
-# define WIDTH_HEIGHT                              WIDTH                     DIVIDER HEIGHT
-# define WIDTH_HEIGHT_DEPTH                        WIDTH                     DIVIDER HEIGHT      DIVIDER DEPTH
-# define TAG_DEPTH                         (char*)DEPTH
-# define TAG_HEIGHT                        (char*)HEIGHT
-# define TAG_RADIUS                        (char*)RADIUS
-# define TAG_RADIUS_HEIGHT_DEFINITION      (char*)RADIUS             DIVIDER HEIGHT      DIVIDER DEFINITION
-# define TAG_WIDTH                         (char*)WIDTH
-# define TAG_WIDTH_HEIGHT_DEFINITION       (char*)WIDTH_HEIGHT       DIVIDER DEFINITION
-# define TAG_WIDTH_HEIGHT_DEPTH_DEFINITION (char*)WIDTH_HEIGHT_DEPTH DIVIDER DEFINITION
+# define TAG_MIN_MAX_DEFINITION            (char*)"min_max_definition"
+# define TAG_POSITIVE_MIN_MAX_DEFINITION   (char*)"positive_min_max_definition"
+# define TAG_NAME_DEFINITION               (char*)"name_definition"
+# define WIDTH                             (char*)"width"
+# define RADIUS                            (char*)"radius"
+# define HEIGHT                            (char*)"height"
+# define DEPTH                             (char*)"depth"
+# define WIDTH_HEIGHT                      (char*)"width_height"
+# define WIDTH_HEIGHT_DEPTH                (char*)"width_height_depth"
+# define TAG_DEPTH                         (char*)"depth"
+# define TAG_HEIGHT                        (char*)"height"
+# define TAG_RADIUS                        (char*)"radius"
+# define TAG_RADIUS_HEIGHT_DEFINITION      (char*)"radius_height_definition"
+# define TAG_WIDTH                         (char*)"width"
+# define TAG_WIDTH_HEIGHT_DEFINITION       (char*)"width_height_definition"
+# define TAG_WIDTH_HEIGHT_DEPTH_DEFINITION (char*)"width_height_depth_definition"
 # define TAG_XSD_POSITIVE_NON_ZERO_INTEGER (char*)"[1-9][0-9]*"
 # define TAG_XSD_POSITIVE_INTEGER          (char*)"[0-9]*"
 # define TAG_XSD_POSITIVE_NON_ZERO_DECIMAL (char*)"([0-9]*.?[0-9]*[1-9]+[0-9]*|[1-9][0-9]*.?[0-9]*)"

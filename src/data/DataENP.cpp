@@ -52,6 +52,47 @@ DataENP::~DataENP()
 
 void DataENP::add(DataParseElement *element)
 {
+  if(current == NULL) current = this;
+  if(current == this)
+  {
+    __getChild(element);
+  }
+  else
+  {
+    current->add(element);
+  }
+
+}
+
+
+Version DataENP::version()
+{
+  return _version;
+}
+
+void DataENP::setVersion(Version version)
+{
+  _version = version;
+}
+
+void DataENP::createXsd(XsdSpecification *spec)
+{
+  XsdSequence *_root = new XsdSequence(TAG_ENP);
+  _root->add(NA(TAG_VERSION, TAG_VERSION_DEFINITION, true));
+  _root->add(NE(TAG_EVOLUTION, TAG_EVOLUTION_DEFINITION, 1, 1));
+  spec->setRoot(_root);
+
+  XsdRegularExpression *versionDefinition =
+    new XsdRegularExpression(TAG_VERSION_DEFINITION,
+        TAG_XSD_STRING, TAG_VERSION_REGULAR_EXPRESSION);
+  spec->add(versionDefinition);
+
+  DataEvolution::createXsd(spec);
+}
+
+
+void DataENP::__getChild(DataParseElement *element)
+{
   if(element->opening(TAG_ENP))
   {
     string v;
@@ -99,27 +140,11 @@ void DataENP::add(DataParseElement *element)
     }
     return;
   }
-}
 
-
-Version DataENP::version()
-{
-  return _version;
-}
-
-void DataENP::setVersion(Version version)
-{
-  _version = version;
-}
-
-void DataENP::createXsd(XsdSpecification *spec)
-{
-  XsdSequence *_root = new XsdSequence(TAG_ENP);
-  _root->add(NA(TAG_VERSION, TAG_VERSION_DEFINITION, true));
-  spec->setRoot(_root);
-
-  XsdRegularExpression *versionDefinition =
-    new XsdRegularExpression(TAG_VERSION_DEFINITION,
-        TAG_XSD_STRING, TAG_VERSION_REGULAR_EXPRESSION);
-  spec->add(versionDefinition);
+  if(element->opening(TAG_EVOLUTION))
+  {
+    _evolution = new DataEvolution(this);
+    current = _evolution;
+    current->add(element);
+  }
 }

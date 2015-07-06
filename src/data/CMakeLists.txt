@@ -38,6 +38,10 @@ add_library(ENPData SHARED XmlChangeLog.cpp
                            DataNode.cpp
                            DataENP.cpp
 
+                           DataEvolution.cpp
+                           DataEvolutionNeuron.cpp
+                           DataEvolutionSynapse.cpp
+
                            )
 
 target_link_libraries(ENPData ENPXSD ENPBase)

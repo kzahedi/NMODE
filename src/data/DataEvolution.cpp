@@ -26,49 +26,60 @@
 
 
 
-#ifndef __DATA_ENP_H__
-#define __DATA_ENP_H__
-
-#include "DataNode.h"
-#include "Version.h"
-
 #include "DataEvolution.h"
 
-# define TAG_ENP                        (char*)"enp"
-# define TAG_ENP_DEFINITION             (char*)"enp_definition"
-# define TAG_VERSION_REGULAR_EXPRESSION (char*)"[0-9]+.[0-9]+.[0-9]+"
+#include <iostream>
 
-class DataENP : public DataNode
+using namespace std;
+
+DataEvolution::DataEvolution(DataNode *parent)
+  : DataNode(parent)
+{ }
+
+DataEvolution::~DataEvolution()
 {
-  public:
-
-    /**
-     * @brief Constructor.
-     *
-     * @param parent
-     */
-    DataENP(DataNode *parent);
-
-    /**
-     * @brief Destructor.
-     */
-    virtual ~DataENP();
-
-    Version version();
-    void setVersion(Version version);
-
-    void add(DataParseElement *element);
-
-    static void createXsd(XsdSpecification *spec);
-
-  private:
-    void __getChild(DataParseElement *element);
-
-    Version _version;
-    DataEvolution *_evolution;
-
-};
-
-#endif // ___DATA_ENP_H__
+  // nothing to be done
+}
 
 
+void DataEvolution::add(DataParseElement *element)
+{
+  cout << "evolution: " << element->name() << endl;
+  if(element->closing(TAG_EVOLUTION))
+  {
+    current = parent;
+    return;
+  }
+
+  if(element->opening(TAG_EVOLUTION))
+  {
+    return;
+  }
+
+  if(element->opening(TAG_EVOLUTION_NEURON))
+  {
+    _neuron = new DataEvolutionNeuron(this);
+    current = _neuron;
+    current->add(element);
+  }
+
+  if(element->opening(TAG_EVOLUTION_SYNAPSE))
+  {
+    cout << "hier hier" << endl;
+    _synapse = new DataEvolutionSynapse(this);
+    current = _synapse;
+    current->add(element);
+  }
+
+}
+
+void DataEvolution::createXsd(XsdSpecification *spec)
+{
+  XsdSequence *root = new XsdSequence(TAG_EVOLUTION_DEFINITION);
+  root->add(NE(TAG_EVOLUTION_NEURON,  TAG_EVOLUTION_NEURON_DEFINITION,  1, 1));
+  // root->add(NE(TAG_EVOLUTION_SYNAPSE, TAG_EVOLUTION_SYNAPSE_DEFINITION, 1, 1));
+  spec->add(root);
+
+  DataEvolutionNeuron::createXsd(spec);
+  DataEvolutionSynapse::createXsd(spec);
+}

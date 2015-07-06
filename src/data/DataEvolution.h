@@ -26,19 +26,18 @@
 
 
 
-#ifndef __DATA_ENP_H__
-#define __DATA_ENP_H__
+#ifndef __DATA_EVOLUTION_H__
+#define __DATA_EVOLUTION_H__
 
 #include "DataNode.h"
-#include "Version.h"
 
-#include "DataEvolution.h"
+#include "DataEvolutionNeuron.h"
+#include "DataEvolutionSynapse.h"
 
-# define TAG_ENP                        (char*)"enp"
-# define TAG_ENP_DEFINITION             (char*)"enp_definition"
-# define TAG_VERSION_REGULAR_EXPRESSION (char*)"[0-9]+.[0-9]+.[0-9]+"
+# define TAG_EVOLUTION                        (char*)"evolution"
+# define TAG_EVOLUTION_DEFINITION             (char*)"evolution_definition"
 
-class DataENP : public DataNode
+class DataEvolution : public DataNode
 {
   public:
 
@@ -47,28 +46,23 @@ class DataENP : public DataNode
      *
      * @param parent
      */
-    DataENP(DataNode *parent);
+    DataEvolution(DataNode *parent);
 
     /**
      * @brief Destructor.
      */
-    virtual ~DataENP();
-
-    Version version();
-    void setVersion(Version version);
+    virtual ~DataEvolution();
 
     void add(DataParseElement *element);
 
     static void createXsd(XsdSpecification *spec);
 
   private:
-    void __getChild(DataParseElement *element);
-
-    Version _version;
-    DataEvolution *_evolution;
+    DataEvolutionNeuron  *_neuron;
+    DataEvolutionSynapse *_synapse;
 
 };
 
-#endif // ___DATA_ENP_H__
+#endif // ___DATA_EVOLUTION_H__
 
 
