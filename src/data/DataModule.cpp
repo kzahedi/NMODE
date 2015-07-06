@@ -1,6 +1,6 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Module of Neural Pathways (ENP).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
@@ -26,24 +26,46 @@
 
 
 
-#include "xml_test.h"
+#include "DataModule.h"
 
-#include "data/Data.h"
+#include "base/macros.h"
 
 #include <iostream>
-#include <string>
+
+#define TAG_NAME (char*)"name"
 
 using namespace std;
 
-// Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION( xmlTest );
+DataModule::DataModule(DataNode *parent)
+  : DataNode(parent)
+{ }
 
-
-void xmlTest::testXml()
+DataModule::~DataModule()
 {
-  string file = "bin/test.xml";
-  Data *d = Data::instance();
-  d->read(file);
+}
 
-  
+void DataModule::add(DataParseElement *element)
+{
+
+  if(element->opening(TAG_MODULE))
+  {
+    parent = current;
+    return;
+  }
+
+}
+
+void DataModule::createXsd(XsdSpecification *spec)
+{
+  XsdSequence *root = new XsdSequence(TAG_MODULE_DEFINITION);
+  root->add(NA(TAG_NAME,          TAG_XSD_STRING,               true));
+  root->add(NE(TAG_MODULE_NEURON, TAG_MODULE_NEURON_DEFINITION, 1, TAG_XSD_UNBOUNDED));
+  spec->add(root);
+
+  DataModuleNeuron::createXsd(spec);
+}
+
+DataModuleNeurons DataModule::neurons()
+{
+  return _neurones;
 }

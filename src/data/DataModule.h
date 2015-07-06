@@ -1,6 +1,6 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Module of Neural Pathways (ENP).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
@@ -26,24 +26,46 @@
 
 
 
-#include "xml_test.h"
+#ifndef __DATA_MODULE_H__
+#define __DATA_MODULE_H__
 
-#include "data/Data.h"
+#include "DataNode.h"
 
-#include <iostream>
-#include <string>
+#include "DataModuleNeuron.h"
 
-using namespace std;
+# define TAG_MODULE            (char*)"module"
+# define TAG_MODULE_DEFINITION (char*)"module_definition"
 
-// Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION( xmlTest );
-
-
-void xmlTest::testXml()
+class DataModule : public DataNode
 {
-  string file = "bin/test.xml";
-  Data *d = Data::instance();
-  d->read(file);
+  public:
 
-  
-}
+    /**
+     * @brief Constructor.
+     *
+     * @param parent
+     */
+    DataModule(DataNode *parent);
+
+    /**
+     * @brief Destructor.
+     */
+    virtual ~DataModule();
+
+    void add(DataParseElement *element);
+
+    static void createXsd(XsdSpecification *spec);
+
+    DataModuleNeurons neurons();
+
+  private:
+    string _name;
+
+    DataModuleNeurons _neurones;
+};
+
+typedef vector<DataModule*> DataModules;
+
+#endif // ___DATA_MODULE_H__
+
+

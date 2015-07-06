@@ -34,7 +34,7 @@ ENABLE_TESTING()
 
 cmake_policy(SET CMP0042 OLD)
 
-set(CMAKE_BUILD_TYPE             Release)
+set(CMAKE_BUILD_TYPE             "Debug")
 set(CMAKE_VERBOSE_MAKEFILE       OFF)
 set(CMAKE_BASE_NAME              "g++")
 set(CMAKE_CXX_COMPILER           "g++")

@@ -32,8 +32,10 @@ link_directories(${PROJECT_BINARY_DIR}/lib)
 add_library(ENPData SHARED XmlChangeLog.cpp
                            XmlChangeLogEntry.cpp
                            Version.cpp
+
                            DataParseAttribute.cpp
                            DataParseElement.cpp
+
                            Data.cpp
                            DataNode.cpp
                            DataENP.cpp
@@ -41,6 +43,10 @@ add_library(ENPData SHARED XmlChangeLog.cpp
                            DataEvolution.cpp
                            DataEvolutionNeuron.cpp
                            DataEvolutionSynapse.cpp
+
+                           DataConfiguration.cpp
+                           DataModule.cpp
+                           DataModuleNeuron.cpp
 
                            )
 

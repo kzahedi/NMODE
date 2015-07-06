@@ -57,6 +57,9 @@ class DataEvolution : public DataNode
 
     static void createXsd(XsdSpecification *spec);
 
+    DataEvolutionNeuron*  neuron();
+    DataEvolutionSynapse* synapse();
+
   private:
     DataEvolutionNeuron  *_neuron;
     DataEvolutionSynapse *_synapse;

@@ -38,7 +38,8 @@ DataEvolution::DataEvolution(DataNode *parent)
 
 DataEvolution::~DataEvolution()
 {
-  // nothing to be done
+  delete _neuron;
+  delete _synapse;
 }
 
 
@@ -81,3 +82,14 @@ void DataEvolution::createXsd(XsdSpecification *spec)
   DataEvolutionNeuron::createXsd(spec);
   DataEvolutionSynapse::createXsd(spec);
 }
+
+DataEvolutionNeuron* DataEvolution::neuron()
+{
+  return _neuron;
+}
+
+DataEvolutionSynapse* DataEvolution::synapse()
+{
+  return _synapse;
+}
+

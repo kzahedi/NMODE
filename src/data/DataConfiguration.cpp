@@ -1,6 +1,6 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Configuration of Neural Pathways (ENP).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
@@ -26,24 +26,57 @@
 
 
 
-#include "xml_test.h"
+#include "DataConfiguration.h"
 
-#include "data/Data.h"
+#include "base/macros.h"
 
 #include <iostream>
-#include <string>
 
 using namespace std;
 
-// Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION( xmlTest );
+DataConfiguration::DataConfiguration(DataNode *parent)
+  : DataNode(parent)
+{ }
 
-
-void xmlTest::testXml()
+DataConfiguration::~DataConfiguration()
 {
-  string file = "bin/test.xml";
-  Data *d = Data::instance();
-  d->read(file);
+  FORC(DataModules, m, _modules) delete (*m);
+  _modules.clear();
+}
 
-  
+
+void DataConfiguration::add(DataParseElement *element)
+{
+  if(element->closing(TAG_CONFIGURATION))
+  {
+    current = parent;
+    return;
+  }
+
+  if(element->opening(TAG_CONFIGURATION))
+  {
+    return;
+  }
+
+  // if(element->opening(TAG_MODULE))
+  // {
+    // DataModule* module = new DataModule(this);
+    // _modules.push_back(module);
+    // current = module;
+    // current->add(element);
+  // }
+}
+
+void DataConfiguration::createXsd(XsdSpecification *spec)
+{
+  XsdSequence *root = new XsdSequence(TAG_CONFIGURATION_DEFINITION);
+  root->add(NE(TAG_MODULE,  TAG_MODULE_DEFINITION,  1, TAG_XSD_UNBOUNDED));
+  spec->add(root);
+
+  DataModule::createXsd(spec);
+}
+
+DataModules DataConfiguration::modules()
+{
+  return _modules;
 }

@@ -33,6 +33,7 @@
 #include "Version.h"
 
 #include "DataEvolution.h"
+#include "DataConfiguration.h"
 
 # define TAG_ENP                        (char*)"enp"
 # define TAG_ENP_DEFINITION             (char*)"enp_definition"
@@ -64,8 +65,9 @@ class DataENP : public DataNode
   private:
     void __getChild(DataParseElement *element);
 
-    Version _version;
-    DataEvolution *_evolution;
+    Version            _version;
+    DataEvolution     *_evolution;
+    DataConfiguration *_configuration;
 
 };
 

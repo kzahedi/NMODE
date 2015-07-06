@@ -1,6 +1,6 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Module of Neural Pathways (ENP).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
@@ -26,24 +26,50 @@
 
 
 
-#include "xml_test.h"
+#ifndef __DATA_MODULE_NEURON_H__
+#define __DATA_MODULE_NEURON_H__
 
-#include "data/Data.h"
+#include "DataNode.h"
 
-#include <iostream>
-#include <string>
+#include "base/P3D.h"
 
-using namespace std;
+# define TAG_MODULE_NEURON            (char*)"neuron"
+# define TAG_MODULE_NEURON_DEFINITION (char*)"module_neuron_definition"
 
-// Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION( xmlTest );
-
-
-void xmlTest::testXml()
+class DataModuleNeuron : public DataNode
 {
-  string file = "bin/test.xml";
-  Data *d = Data::instance();
-  d->read(file);
+  public:
 
-  
-}
+    /**
+     * @brief Constructor.
+     *
+     * @param parent
+     */
+    DataModuleNeuron(DataNode *parent);
+
+    /**
+     * @brief Destructor.
+     */
+    virtual ~DataModuleNeuron();
+
+    void add(DataParseElement *element);
+
+    static void createXsd(XsdSpecification *spec);
+
+    string type();
+    string label();
+    P3D    position();
+    string transferfunction();
+
+  private:
+    string _type;
+    string _label;
+    P3D    _position;
+    string _transferfunction;
+};
+
+typedef vector<DataModuleNeuron*> DataModuleNeurons;
+
+#endif // ___DATA_MODULE_NEURON_H__
+
+

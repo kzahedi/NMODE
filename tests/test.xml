@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 
 <enp version="0.0.0">
+
   <evolution>
     <neuron cost="0.1">
       <modify probability="0.11" maximum="0.12" delta="0.13"/>
@@ -13,16 +14,128 @@
       <delete probability="0.26"/>
     </synapse>
   </evolution>
-  <!-- <configuration> -->
-    <!-- <neurons> -->
-      <!-- <neuron type="sensor" label="front femur" pathway="1"> -->
+
+  <configuration>
+
+    <module name="module 1">
+      <neuron type="sensor" label="sensor 1">
+        <position x="0.0" y="0.0" z="0.0"/>
+        <transferfunction name="id"/>
+      </neuron>
+      <neuron type="sensor" label="sensor 2">
+        <position x="1.0" y="0.0" z="0.0"/>
+        <transferfunction name="id"/>
+      </neuron>
+      <neuron type="sensor" label="sensor 3">
+        <position x="2.0" y="0.0" z="0.0"/>
+        <transferfunction name="id"/>
+      </neuron>
+
+      <neuron type="actuator" label="actuator 1">
+        <position x="0.5" y="1.0" z="0.0"/>
+        <transferfunction name="tanh"/>
+      </neuron>
+      <neuron type="actuator" label="actuator 2">
+        <position x="1.5" y="1.0" z="0.0"/>
+        <transferfunction name="tanh"/>
+      </neuron>
+
+    </module>
+
+    <!-- <module name="front right leg"> -->
+      <!-- <neuron type="sensor" label="front-main-femur"> -->
         <!-- <position x="0.0" y="0.0" z="0.0"/> -->
         <!-- <transferfunction name="id"/> -->
       <!-- </neuron> -->
-      <!-- <neuron type="actuator" label="front femur" pathway="1"> -->
+      <!-- <neuron type="sensor" label="front-femur-tibia"> -->
         <!-- <position x="0.0" y="0.0" z="0.0"/> -->
-        <!-- <transferfunction name="tanh"/> -->
+        <!-- <transferfunction name="id"/> -->
       <!-- </neuron> -->
-    <!-- </neurons> -->
-  <!-- </configuration> -->
+      <!-- <neuron type="actuator" label="front-main-femur"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+      <!-- <neuron type="actuator" label="front-femur-tibia"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+    <!-- </module> -->
+
+    <!-- <module name="centre left leg"> -->
+      <!-- <neuron type="sensor" label="centre-main-femur"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+      <!-- <neuron type="sensor" label="centre-femur-tibia"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+      <!-- <neuron type="actuator" label="centre-main-femur"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+      <!-- <neuron type="actuator" label="centre-femur-tibia"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+    <!-- </module> -->
+
+    <!-- <module name="centre right leg"> -->
+      <!-- <neuron type="sensor" label="centre-main-femur"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+      <!-- <neuron type="sensor" label="centre-femur-tibia"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+      <!-- <neuron type="actuator" label="centre-main-femur"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+      <!-- <neuron type="actuator" label="centre-femur-tibia"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+    <!-- </module> -->
+
+    <!-- <module name="rear left leg"> -->
+      <!-- <neuron type="sensor" label="rear-main-femur"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+      <!-- <neuron type="sensor" label="rear-femur-tibia"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+      <!-- <neuron type="actuator" label="rear-main-femur"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+      <!-- <neuron type="actuator" label="rear-femur-tibia"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+    <!-- </module> -->
+
+    <!-- <module name="rear right leg"> -->
+      <!-- <neuron type="sensor" label="rear-main-femur"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+      <!-- <neuron type="sensor" label="rear-femur-tibia"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+      <!-- <neuron type="actuator" label="rear-main-femur"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+      <!-- <neuron type="actuator" label="rear-femur-tibia"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+    <!-- </module> -->
+
+  </configuration>
 </enp>

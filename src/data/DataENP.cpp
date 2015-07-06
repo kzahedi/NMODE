@@ -42,6 +42,8 @@ using namespace std;
 DataENP::DataENP(DataNode *parent)
   : DataNode(parent)
 {
+  _evolution     = NULL;
+  _configuration = NULL;
 }
 
 DataENP::~DataENP()
@@ -78,8 +80,9 @@ void DataENP::setVersion(Version version)
 void DataENP::createXsd(XsdSpecification *spec)
 {
   XsdSequence *_root = new XsdSequence(TAG_ENP);
-  _root->add(NA(TAG_VERSION, TAG_VERSION_DEFINITION, true));
-  _root->add(NE(TAG_EVOLUTION, TAG_EVOLUTION_DEFINITION, 1, 1));
+  _root->add(NA(TAG_VERSION,       TAG_VERSION_DEFINITION,       true));
+  _root->add(NE(TAG_EVOLUTION,     TAG_EVOLUTION_DEFINITION,     1, 1));
+  _root->add(NE(TAG_CONFIGURATION, TAG_CONFIGURATION_DEFINITION, 1, 1));
   spec->setRoot(_root);
 
   XsdRegularExpression *versionDefinition =
@@ -88,6 +91,7 @@ void DataENP::createXsd(XsdSpecification *spec)
   spec->add(versionDefinition);
 
   DataEvolution::createXsd(spec);
+  DataConfiguration::createXsd(spec);
 }
 
 
@@ -147,4 +151,12 @@ void DataENP::__getChild(DataParseElement *element)
     current = _evolution;
     current->add(element);
   }
+
+  if(element->opening(TAG_CONFIGURATION))
+  {
+    _configuration = new DataConfiguration(this);
+    current = _configuration;
+    current->add(element);
+  }
+
 }

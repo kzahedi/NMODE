@@ -1,6 +1,6 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Configuration of Neural Pathways (ENP).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
@@ -26,24 +26,42 @@
 
 
 
-#include "xml_test.h"
+#ifndef __DATA_CONFIGURATION_H__
+#define __DATA_CONFIGURATION_H__
 
-#include "data/Data.h"
+#include "DataNode.h"
 
-#include <iostream>
-#include <string>
+#include "DataModule.h"
 
-using namespace std;
+# define TAG_CONFIGURATION            (char*)"configuration"
+# define TAG_CONFIGURATION_DEFINITION (char*)"configuration_definition"
 
-// Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION( xmlTest );
-
-
-void xmlTest::testXml()
+class DataConfiguration : public DataNode
 {
-  string file = "bin/test.xml";
-  Data *d = Data::instance();
-  d->read(file);
+  public:
 
-  
-}
+    /**
+     * @brief Constructor.
+     *
+     * @param parent
+     */
+    DataConfiguration(DataNode *parent);
+
+    /**
+     * @brief Destructor.
+     */
+    virtual ~DataConfiguration();
+
+    void add(DataParseElement *element);
+
+    DataModules modules();
+
+    static void createXsd(XsdSpecification *spec);
+
+  private:
+    DataModules _modules;
+};
+
+#endif // ___DATA_CONFIGURATION_H__
+
+
