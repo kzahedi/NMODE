@@ -26,33 +26,33 @@
 
 
 
-#ifndef __DATA_H__
-#define __DATA_H__
+#ifndef __VERSION_H__
+#define __VERSION_H__
 
-#include <vector>
-#include <string>
+#include <iostream>
 
-#include "xsd/specification/XsdSpecification.h"
-
-#include "DataENP.h"
-
-using namespace std;
-
-class Data
+class Version
 {
   public:
-    static Data* instance();
-    static void close();
-    ~Data();
-    DataENP* specification();
-    XsdSpecification* xsd();
-    void clear();
-    void read(string xmlFile);
+    Version();
+    Version(const Version &v); // copy constructor
+    Version(int major, int minor, int patch);
 
-  private:
-    Data();
-    static Data *_me;
-    DataENP     *_spec;
+    int major;
+    int minor;
+    int patch;
+
+    bool operator<(const Version &v);
+    bool operator>(const Version &v);
+    bool operator==(const Version &v);
+    Version & operator=(const Version &b);
+
+    friend std::ostream& operator<<(std::ostream& str, const Version& v)
+    {
+      str << v.major << "." << v.minor << "." << v.patch;
+      return str;
+    };
+
 };
 
-#endif // __DATA_H__
+#endif // __VERSION_H__

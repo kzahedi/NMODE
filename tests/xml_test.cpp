@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Yet Another Robot Simulator (YARS).              *
+ * This file is part of Evolution of Neural Pathways (ENP).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/YARS                                  *
+ * Web: https://github.com/kzahedi/ENP                                   *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -26,33 +26,22 @@
 
 
 
-#ifndef __DATA_H__
-#define __DATA_H__
+#include "xml_test.h"
 
-#include <vector>
+#include "data/Data.h"
+
+#include <iostream>
 #include <string>
-
-#include "xsd/specification/XsdSpecification.h"
-
-#include "DataENP.h"
 
 using namespace std;
 
-class Data
+// Registers the fixture into the 'registry'
+CPPUNIT_TEST_SUITE_REGISTRATION( xmlTest );
+
+
+void xmlTest::testXml()
 {
-  public:
-    static Data* instance();
-    static void close();
-    ~Data();
-    DataENP* specification();
-    XsdSpecification* xsd();
-    void clear();
-    void read(string xmlFile);
-
-  private:
-    Data();
-    static Data *_me;
-    DataENP     *_spec;
-};
-
-#endif // __DATA_H__
+  string file = "bin/test.xml";
+  Data *d = Data::instance();
+  d->read(file);
+}

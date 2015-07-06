@@ -66,7 +66,7 @@ XsdElement::XsdElement(string name, string type, int minOccurs)
   _minOccurs = oss.str();
   _minOccursGiven = true;
 
-  _maxOccurs = YARS_STRING_XSD_UNBOUNDED;
+  _maxOccurs = TAG_XSD_UNBOUNDED;
   _maxOccursGiven = true;
 }
 

@@ -42,7 +42,7 @@
 using namespace std;
 
 #include "XSDString.h"
-// #include "configuration/data/Data.h"
+#include "data/Data.h"
 
 XERCES_CPP_NAMESPACE_USE
 
@@ -75,33 +75,32 @@ YarsXSDGenerator::YarsXSDGenerator()
       _root = _doc->getDocumentElement();
       _root->setAttribute(YARS_XSD_ELEMENT_FORM_DEFAULT, YARS_XSD_QUALIFIED);
 
-      // Data             *data = Data::instance();
-      // XsdSpecification *spec = data->xsd();
+      XsdSpecification *spec = Data::instance()->xsd();
 
-      // for(std::vector<XsdSequence*>::iterator s = spec->s_begin(); s != spec->s_end(); s++)
-      // {
-        // __addSequence(*s);
-      // }
-      // for(std::vector<XsdEnumeration*>::iterator e = spec->e_begin(); e != spec->e_end(); e++)
-      // {
-        // __addEnumeration(*e);
-      // }
-      // for(std::vector<XsdChoice*>::iterator c = spec->c_begin(); c != spec->c_end(); c++)
-      // {
-        // __addChoice(*c);
-      // }
-      // for(std::vector<XsdInterval*>::iterator i = spec->i_begin(); i != spec->i_end(); i++)
-      // {
-        // __addInterval(*i);
-      // }
-      // for(std::vector<XsdRegularExpression*>::iterator r = spec->r_begin(); r != spec->r_end(); r++)
-      // {
-        // __addRegularExpression(*r);
-      // }
+      for(std::vector<XsdSequence*>::iterator s = spec->s_begin(); s != spec->s_end(); s++)
+      {
+        __addSequence(*s);
+      }
+      for(std::vector<XsdEnumeration*>::iterator e = spec->e_begin(); e != spec->e_end(); e++)
+      {
+        __addEnumeration(*e);
+      }
+      for(std::vector<XsdChoice*>::iterator c = spec->c_begin(); c != spec->c_end(); c++)
+      {
+        __addChoice(*c);
+      }
+      for(std::vector<XsdInterval*>::iterator i = spec->i_begin(); i != spec->i_end(); i++)
+      {
+        __addInterval(*i);
+      }
+      for(std::vector<XsdRegularExpression*>::iterator r = spec->r_begin(); r != spec->r_end(); r++)
+      {
+        __addRegularExpression(*r);
+      }
 
-      // __addRoot(spec->root());
+      __addRoot(spec->root());
 
-      // delete spec;
+      delete spec;
     }
     catch (const OutOfMemoryException&)
     {

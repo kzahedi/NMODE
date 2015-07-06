@@ -43,20 +43,20 @@
 #include <vector>
 using namespace std;
 
-# define YARS_STRING_XSD_DECIMAL               (char*)"xs:decimal"
-# define YARS_STRING_XSD_INTEGER               (char*)"xs:integer"
-# define YARS_STRING_XSD_STRING                (char*)"xs:string"
+# define TAG_XSD_DECIMAL               (char*)"xs:decimal"
+# define TAG_XSD_INTEGER               (char*)"xs:integer"
+# define TAG_XSD_STRING                (char*)"xs:string"
 
-# define YARS_STRING_PID_DEFINITION            (char*)"pid"             DIVIDER DEFINITION
+# define TAG_PID_DEFINITION            (char*)"pid"             DIVIDER DEFINITION
 
-# define YARS_STRING_POSITIVE_NON_ZERO_INTEGER (char*)"positive_non_zero_integer" DIVIDER DEFINITION
-# define YARS_STRING_POSITIVE_INTEGER          (char*)"positive_integer"          DIVIDER DEFINITION
-# define YARS_STRING_UNIT_INTERVAL             (char*)"unit_interval"             DIVIDER DEFINITION
-# define YARS_STRING_POSITIVE_NON_ZERO_DECIMAL (char*)"positive_non_zero_decimal" DIVIDER DEFINITION
-# define YARS_STRING_POSITIVE_DECIMAL          (char*)"positive_decimal"          DIVIDER DEFINITION
-# define YARS_STRING_NAME_DEFINITION           (char*)"name"                      DIVIDER DEFINITION
+# define TAG_POSITIVE_NON_ZERO_INTEGER (char*)"positive_non_zero_integer" DIVIDER DEFINITION
+# define TAG_POSITIVE_INTEGER          (char*)"positive_integer"          DIVIDER DEFINITION
+# define TAG_UNIT_INTERVAL             (char*)"unit_interval"             DIVIDER DEFINITION
+# define TAG_POSITIVE_NON_ZERO_DECIMAL (char*)"positive_non_zero_decimal" DIVIDER DEFINITION
+# define TAG_POSITIVE_DECIMAL          (char*)"positive_decimal"          DIVIDER DEFINITION
+# define TAG_NAME_DEFINITION           (char*)"name"                      DIVIDER DEFINITION
 
-# define YARS_STRING_TRUE_FALSE_DEFINITION     (char*)"true"   DIVIDER "false" DIVIDER DEFINITION
+# define TAG_TRUE_FALSE_DEFINITION     (char*)"true"   DIVIDER "false" DIVIDER DEFINITION
 
 /** \brief Singleton.
  *

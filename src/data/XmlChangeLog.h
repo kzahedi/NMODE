@@ -26,33 +26,41 @@
 
 
 
-#ifndef __DATA_H__
-#define __DATA_H__
+#ifndef __XML_CHANGE_LOG_H__
+#define __XML_CHANGE_LOG_H__
+
+#include "XmlChangeLogEntry.h"
+
+#include "Version.h"
 
 #include <vector>
 #include <string>
-
-#include "xsd/specification/XsdSpecification.h"
-
-#include "DataENP.h"
+#include <algorithm>
 
 using namespace std;
 
-class Data
+class XmlChangeLog : public std::vector<XmlChangeLogEntry*>
 {
   public:
-    static Data* instance();
+    ~XmlChangeLog();
+
+    static void add(Version version, string description, bool crucial = false);
+    static void add(int major, int minor, int patch, string description, bool crucial = false);
+    static Version version();
+    static Version last_crucial_change();
+
     static void close();
-    ~Data();
-    DataENP* specification();
-    XsdSpecification* xsd();
-    void clear();
-    void read(string xmlFile);
+    static string changes(Version version);
+
+    static bool compare(XmlChangeLogEntry *a, XmlChangeLogEntry *b);
 
   private:
-    Data();
-    static Data *_me;
-    DataENP     *_spec;
+    XmlChangeLog();
+    Version _version; // last version
+    Version _last_crucial_change;
+
+    static XmlChangeLog *_me;
+
 };
 
-#endif // __DATA_H__
+#endif // __XML_CHANGE_LOG_H__

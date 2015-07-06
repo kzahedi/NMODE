@@ -28,6 +28,8 @@
 
 #include "Data.h"
 
+#include "xsd/parser/YarsXSDSaxParser.h"
+
 Data* Data::_me = NULL;
 
 Data* Data::instance()
@@ -40,20 +42,18 @@ Data* Data::instance()
 }
 
 Data::Data()
-    : DataNode(NULL)
 {
-  _current = NULL;
+  _spec = new DataENP(NULL);
 }
 
 Data::~Data()
 {
+  delete _spec;
 }
 
-XsdSpecification* Data::xsd()
+DataENP* Data::specification()
 {
-  XsdSpecification *spec = new XsdSpecification();
-  createXsd(spec);
-  return spec;
+  return _spec;
 }
 
 void Data::clear()
@@ -65,17 +65,26 @@ void Data::close()
   // if(_me != NULL) delete _me;
 }
 
-void Data::add(DataParseElement* element)
+void Data::read(string xmlFile)
 {
-  if(element->opening(TAG_ENP))
+  cout << "reading xmlFile: " << xmlFile << endl;
+  YarsXSDSaxParser *parser = new YarsXSDSaxParser();
+  // TODO parser should add new xml files to current data-structure (might already be the case?)
+  parser->read(xmlFile);
+  if(parser->errors() > 0)
   {
-    _enp     = new DataENP(this);
-    _current = _enp;
+    for(std::vector<string>::iterator i = parser->w_begin(); i != parser->w_end(); i++) cout << "WARNING: " << *i << endl;
+    for(std::vector<string>::iterator i = parser->e_begin(); i != parser->e_end(); i++) cout << "ERROR: " << *i << endl;
+    for(std::vector<string>::iterator i = parser->f_begin(); i != parser->f_end(); i++) cout << "FATAL: " << *i << endl;
+    delete parser;
+    exit(-1);
   }
+  delete parser;
 }
 
-void Data::createXsd(XsdSpecification *spec)
+XsdSpecification* Data::xsd()
 {
-  if(spec == NULL) return;
+  XsdSpecification *spec = new XsdSpecification();
+  DataENP::createXsd(spec);
+  return spec;
 }
-

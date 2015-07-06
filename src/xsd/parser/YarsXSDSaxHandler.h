@@ -34,6 +34,8 @@
 #include <string>
 #include <vector>
 
+#include "data/DataENP.h"
+
 
 XERCES_CPP_NAMESPACE_USE
 
@@ -91,7 +93,7 @@ class YarsXSDSaxHandler : public DefaultHandler
     std::vector<std::string> fatals();
 
   private:
-    // DataRobotSimulationDescription *_spec;
+    DataENP *_spec;
 
     std::vector<std::string> _errors;
     std::vector<std::string> _warnings;

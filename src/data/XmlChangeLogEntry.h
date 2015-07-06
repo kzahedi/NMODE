@@ -26,33 +26,30 @@
 
 
 
-#ifndef __DATA_H__
-#define __DATA_H__
+#ifndef __XML_CHANGE_LOG_ENTRY_H__
+#define __XML_CHANGE_LOG_ENTRY_H__
 
-#include <vector>
+#include "Version.h"
+
 #include <string>
-
-#include "xsd/specification/XsdSpecification.h"
-
-#include "DataENP.h"
 
 using namespace std;
 
-class Data
+class XmlChangeLogEntry
 {
   public:
-    static Data* instance();
-    static void close();
-    ~Data();
-    DataENP* specification();
-    XsdSpecification* xsd();
-    void clear();
-    void read(string xmlFile);
+    XmlChangeLogEntry(Version version, string description, bool crucial);
+    Version version();
+    bool crucial();
+    string description();
 
   private:
-    Data();
-    static Data *_me;
-    DataENP     *_spec;
+
+    Version _version;
+    string _description;
+    bool   _crucial;
+
 };
 
-#endif // __DATA_H__
+
+#endif // __XML_CHANGE_LOG_ENTRY_H__

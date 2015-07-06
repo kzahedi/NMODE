@@ -34,7 +34,7 @@
 #include <string>
 #include <vector>
 
-# define YARS_STRING_XSD_UNBOUNDED (char*)"unbounded"
+# define TAG_XSD_UNBOUNDED (char*)"unbounded"
 
 using namespace std;
 

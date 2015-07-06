@@ -27,6 +27,7 @@
 
 #include "YarsXSDSaxHandler.h"
 
+#include "data/Data.h"
 #include "data/DataParseElement.h"
 #include "data/DataParseAttribute.h"
 
@@ -39,6 +40,7 @@ using namespace std;
 YarsXSDSaxHandler::YarsXSDSaxHandler()
 {
 }
+
 
 void YarsXSDSaxHandler::startElement(
     const   XMLCh* const    uri,
@@ -72,7 +74,7 @@ void YarsXSDSaxHandler::startElement(
   XMLString::release(&m_uri);
   XMLString::release(&m_localname);
   XMLString::release(&m_qname);
-  // _spec->add(element);
+  _spec->add(element);
 }
 
 void YarsXSDSaxHandler::endElement(
@@ -83,14 +85,14 @@ void YarsXSDSaxHandler::endElement(
   char* message = XMLString::transcode(localname);
   DataParseElement *element = new DataParseElement(YARS_DATA_PARSE_ELEMENT_TYPE_CLOSING);
   element->setName(message);
-  // _spec->add(element);
+  _spec->add(element);
   delete element;
   XMLString::release(&message);
 }
 
 void YarsXSDSaxHandler::startDocument()
 {
-  // _spec = Data::instance()->newSpecification();
+  _spec = Data::instance()->specification();
 }
 
 void YarsXSDSaxHandler::endDocument()

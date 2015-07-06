@@ -29,12 +29,16 @@
 include_directories("${PROJECT_SOURCE_DIR}/src")
 link_directories(${PROJECT_BINARY_DIR}/lib)
 
-add_library(ENPData SHARED DataParseAttribute.cpp
+add_library(ENPData SHARED XmlChangeLog.cpp
+                           XmlChangeLogEntry.cpp
+                           Version.cpp
+                           DataParseAttribute.cpp
                            DataParseElement.cpp
                            Data.cpp
                            DataNode.cpp
                            DataENP.cpp
+
                            )
 
-target_link_libraries(ENPData ENPXSD)
+target_link_libraries(ENPData ENPXSD ENPBase)
 

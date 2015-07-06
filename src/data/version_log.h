@@ -26,33 +26,9 @@
 
 
 
-#ifndef __DATA_H__
-#define __DATA_H__
+#ifndef __VERSIONS_H__
+#define __VERSIONS_H__
 
-#include <vector>
-#include <string>
+XmlChangeLog::add(0, 0, 0,  "Initial XML definition", true);
 
-#include "xsd/specification/XsdSpecification.h"
-
-#include "DataENP.h"
-
-using namespace std;
-
-class Data
-{
-  public:
-    static Data* instance();
-    static void close();
-    ~Data();
-    DataENP* specification();
-    XsdSpecification* xsd();
-    void clear();
-    void read(string xmlFile);
-
-  private:
-    Data();
-    static Data *_me;
-    DataENP     *_spec;
-};
-
-#endif // __DATA_H__
+#endif // __VERSIONS_H__

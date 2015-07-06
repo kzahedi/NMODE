@@ -1,9 +1,43 @@
+/*************************************************************************
+ *                                                                       *
+ * This file is part of Evolution of Neural Pathways (ENP).              *
+ * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
+ * All rights reserved.                                                  *
+ * Email: keyan.zahedi@googlemail.com                                    *
+ * Web: https://github.com/kzahedi/ENP                                   *
+ *                                                                       *
+ * For a list of contributors see the file AUTHORS.                      *
+ *                                                                       *
+ * YARS is free software; you can redistribute it and/or modify it under *
+ * the terms of the GNU General Public License as published by the Free  *
+ * Software Foundation; either version 2 of the License, or (at your     *
+ * option) any later version.                                            *
+ *                                                                       *
+ * YARS is distributed in the hope that it will be useful, but WITHOUT   *
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or *
+ * FITNESS FOR A PARTICULAR PURPOSE.                                     *
+ *                                                                       *
+ * You should have received a copy of the GNU General Public License     *
+ * along with YARS in the file COPYING; if not, write to the Free        *
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor,               *
+ * Boston, MA 02110-1301, USA                                            *
+ *                                                                       *
+ *************************************************************************/
+
+
+
 #include "DataENP.h"
+#include "XmlChangeLog.h"
+
+#include "base/StringTokeniser.h"
+#include "base/ENPErrorHandler.h"
 
 #include <iostream>
 
 using namespace std;
 
+# define TAG_VERSION            (char*)"version"
+# define TAG_VERSION_DEFINITION (char*)"version_definition"
 
 DataENP::DataENP(DataNode *parent)
   : DataNode(parent)
@@ -18,12 +52,74 @@ DataENP::~DataENP()
 
 void DataENP::add(DataParseElement *element)
 {
-  cout << "hier " << endl;
-  // if(element->opening(YARS_STRING_SIMULATOR))
-  // {
-    // element->set(YARS_STRING_FREQUENCY, _simulatorFrequency);
-  // }
+  if(element->opening(TAG_ENP))
+  {
+    string v;
+    element->set(TAG_VERSION, v);
+    std::vector<string> vs = StringTokeniser::tokenise(v, ".");
+    _version.major = atoi(vs[0].c_str());
+    _version.minor = atoi(vs[1].c_str());
+    _version.patch = atoi(vs[2].c_str());
+    if(_version > XmlChangeLog::version())
+    {
+      ENPErrorHandler *e = ENPErrorHandler::instance();
+      (*e).precision(1);
+      (*e).setf(ios::fixed,ios::floatfield);
+      (*e) << "XML version mismatch. The given XML is of version ";
+      (*e) << _version << " but this enp binary only supports XML version ";
+      (*e) << XmlChangeLog::version() << endl;
+      (*e).unsetf(ios::floatfield);
+      ENPErrorHandler::push();
+      exit(-1);
+    }
+    if(_version < XmlChangeLog::version() && _version < XmlChangeLog::last_crucial_change())
+    {
+      ENPErrorHandler *e = ENPErrorHandler::instance();
+      (*e).precision(1);
+      (*e).setf(ios::fixed,ios::floatfield);
+      (*e) << "XML version mismatch" << endl;
+      (*e) << "Showing differences from your XML’s version ";
+      (*e) << _version << " to the current version ";
+      (*e) << XmlChangeLog::version() << ":" << endl;
+      (*e) << XmlChangeLog::changes(_version);
+      (*e).unsetf(ios::floatfield);
+      ENPErrorHandler::push();
+      exit(-1);
+    }
+    else if(_version < XmlChangeLog::version())
+    {
+      cout.precision(1);
+      cout.setf(ios::fixed,ios::floatfield);
+      cout << "Non-critical XML version mismatch" << endl;
+      cout << "Showing differences from your XML’s version ";
+      cout << _version << " to the current version ";
+      cout << XmlChangeLog::version() << ":" << endl;
+      cout << XmlChangeLog::changes(_version);
+      cout.unsetf(ios::floatfield);
+    }
+    return;
+  }
 }
 
 
+Version DataENP::version()
+{
+  return _version;
+}
 
+void DataENP::setVersion(Version version)
+{
+  _version = version;
+}
+
+void DataENP::createXsd(XsdSpecification *spec)
+{
+  XsdSequence *_root = new XsdSequence(TAG_ENP);
+  _root->add(NA(TAG_VERSION, TAG_VERSION_DEFINITION, true));
+  spec->setRoot(_root);
+
+  XsdRegularExpression *versionDefinition =
+    new XsdRegularExpression(TAG_ENP_DEFINITION,
+        TAG_XSD_STRING, TAG_VERSION_REGULAR_EXPRESSION);
+  spec->add(versionDefinition);
+}

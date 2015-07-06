@@ -26,33 +26,14 @@
 
 
 
-#ifndef __DATA_H__
-#define __DATA_H__
-
 #include <vector>
 #include <string>
 
-#include "xsd/specification/XsdSpecification.h"
-
-#include "DataENP.h"
-
 using namespace std;
 
-class Data
+class StringTokeniser
 {
   public:
-    static Data* instance();
-    static void close();
-    ~Data();
-    DataENP* specification();
-    XsdSpecification* xsd();
-    void clear();
-    void read(string xmlFile);
+    static vector<string> tokenise(const string& str, const string& delimiters);
 
-  private:
-    Data();
-    static Data *_me;
-    DataENP     *_spec;
 };
-
-#endif // __DATA_H__

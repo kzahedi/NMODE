@@ -32,141 +32,141 @@
 
 # define DIVIDER "_"
 
-# define YARS_STRING_POSE_DEFINITION               (char*)"pose"            DIVIDER DEFINITION
-# define YARS_STRING_P                             (char*)"p"
-# define YARS_STRING_I                             (char*)"i"
-# define YARS_STRING_D                             (char*)"d"
-# define YARS_STRING_SIZE                          (char*)"size"
-# define YARS_STRING_X                             (char*)"x"
-# define YARS_STRING_Y                             (char*)"y"
-# define YARS_STRING_Z                             (char*)"z"
-# define YARS_STRING_GLOBAL                        (char*)"global"
-# define YARS_STRING_ALPHA                         (char*)"alpha"
-# define YARS_STRING_BETA                          (char*)"beta"
-# define YARS_STRING_GAMMA                         (char*)"gamma"
-# define YARS_STRING_TYPE                          (char*)"type"
-# define YARS_STRING_RAD_DEG_DEFINITION            (char*)"radOrDeg"         DIVIDER DEFINITION
-# define YARS_STRING_RAD                           (char*)"rad"
-# define YARS_STRING_DEG                           (char*)"deg"
-# define YARS_STRING_XYZ_DEFINITION                (char*)"xyz"              DIVIDER DEFINITION
-# define YARS_STRING_XYZG_DEFINITION               (char*)"xyzg"             DIVIDER DEFINITION
-# define YARS_STRING_XY_DEFINITION                 (char*)"xy"               DIVIDER DEFINITION
-# define YARS_STRING_FALSE                         (char*)"false"
-# define YARS_STRING_TRUE                          (char*)"true"
-# define YARS_STRING_NAME                          (char*)"name"
-# define YARS_STRING_MIN                           (char*)"min"
-# define YARS_STRING_MAX                           (char*)"max"
-# define YARS_STRING_MIN_MAX_DEFINITION            (char*)"min"              DIVIDER "max"       DIVIDER DEFINITION
-# define YARS_STRING_POSITIVE_MIN_MAX_DEFINITION   (char*)"positive" DIVIDER "min"              DIVIDER "max"       DIVIDER DEFINITION
-# define YARS_STRING_NAME_DEFINITION               (char*)"name"             DIVIDER DEFINITION
+# define TAG_POSE_DEFINITION               (char*)"pose"            DIVIDER DEFINITION
+# define TAG_P                             (char*)"p"
+# define TAG_I                             (char*)"i"
+# define TAG_D                             (char*)"d"
+# define TAG_SIZE                          (char*)"size"
+# define TAG_X                             (char*)"x"
+# define TAG_Y                             (char*)"y"
+# define TAG_Z                             (char*)"z"
+# define TAG_GLOBAL                        (char*)"global"
+# define TAG_ALPHA                         (char*)"alpha"
+# define TAG_BETA                          (char*)"beta"
+# define TAG_GAMMA                         (char*)"gamma"
+# define TAG_TYPE                          (char*)"type"
+# define TAG_RAD_DEG_DEFINITION            (char*)"radOrDeg"         DIVIDER DEFINITION
+# define TAG_RAD                           (char*)"rad"
+# define TAG_DEG                           (char*)"deg"
+# define TAG_XYZ_DEFINITION                (char*)"xyz"              DIVIDER DEFINITION
+# define TAG_XYZG_DEFINITION               (char*)"xyzg"             DIVIDER DEFINITION
+# define TAG_XY_DEFINITION                 (char*)"xy"               DIVIDER DEFINITION
+# define TAG_FALSE                         (char*)"false"
+# define TAG_TRUE                          (char*)"true"
+# define TAG_NAME                          (char*)"name"
+# define TAG_MIN                           (char*)"min"
+# define TAG_MAX                           (char*)"max"
+# define TAG_MIN_MAX_DEFINITION            (char*)"min"              DIVIDER "max"       DIVIDER DEFINITION
+# define TAG_POSITIVE_MIN_MAX_DEFINITION   (char*)"positive" DIVIDER "min"              DIVIDER "max"       DIVIDER DEFINITION
+# define TAG_NAME_DEFINITION               (char*)"name"             DIVIDER DEFINITION
 # define WIDTH                                     "width"
 # define RADIUS                                    "radius"
 # define HEIGHT                                    "height"
 # define DEPTH                                     "depth"
 # define WIDTH_HEIGHT                              WIDTH                     DIVIDER HEIGHT
 # define WIDTH_HEIGHT_DEPTH                        WIDTH                     DIVIDER HEIGHT      DIVIDER DEPTH
-# define YARS_STRING_DEPTH                         (char*)DEPTH
-# define YARS_STRING_HEIGHT                        (char*)HEIGHT
-# define YARS_STRING_RADIUS                        (char*)RADIUS
-# define YARS_STRING_RADIUS_HEIGHT_DEFINITION      (char*)RADIUS             DIVIDER HEIGHT      DIVIDER DEFINITION
-# define YARS_STRING_WIDTH                         (char*)WIDTH
-# define YARS_STRING_WIDTH_HEIGHT_DEFINITION       (char*)WIDTH_HEIGHT       DIVIDER DEFINITION
-# define YARS_STRING_WIDTH_HEIGHT_DEPTH_DEFINITION (char*)WIDTH_HEIGHT_DEPTH DIVIDER DEFINITION
-# define YARS_STRING_XSD_POSITIVE_NON_ZERO_INTEGER (char*)"[1-9][0-9]*"
-# define YARS_STRING_XSD_POSITIVE_INTEGER          (char*)"[0-9]*"
-# define YARS_STRING_XSD_POSITIVE_NON_ZERO_DECIMAL (char*)"([0-9]*.?[0-9]*[1-9]+[0-9]*|[1-9][0-9]*.?[0-9]*)"
-# define YARS_STRING_XSD_POSITIVE_DECIMAL          (char*)"[0-9]*.?[0-9]*"
+# define TAG_DEPTH                         (char*)DEPTH
+# define TAG_HEIGHT                        (char*)HEIGHT
+# define TAG_RADIUS                        (char*)RADIUS
+# define TAG_RADIUS_HEIGHT_DEFINITION      (char*)RADIUS             DIVIDER HEIGHT      DIVIDER DEFINITION
+# define TAG_WIDTH                         (char*)WIDTH
+# define TAG_WIDTH_HEIGHT_DEFINITION       (char*)WIDTH_HEIGHT       DIVIDER DEFINITION
+# define TAG_WIDTH_HEIGHT_DEPTH_DEFINITION (char*)WIDTH_HEIGHT_DEPTH DIVIDER DEFINITION
+# define TAG_XSD_POSITIVE_NON_ZERO_INTEGER (char*)"[1-9][0-9]*"
+# define TAG_XSD_POSITIVE_INTEGER          (char*)"[0-9]*"
+# define TAG_XSD_POSITIVE_NON_ZERO_DECIMAL (char*)"([0-9]*.?[0-9]*[1-9]+[0-9]*|[1-9][0-9]*.?[0-9]*)"
+# define TAG_XSD_POSITIVE_DECIMAL          (char*)"[0-9]*.?[0-9]*"
 
 XsdSpecification::XsdSpecification()
 {
   // here, only data types
-  XsdSequence *poseDefinition = new XsdSequence(YARS_STRING_POSE_DEFINITION);
-  poseDefinition->add(NA(YARS_STRING_X,     YARS_STRING_XSD_DECIMAL,        false));
-  poseDefinition->add(NA(YARS_STRING_Y,     YARS_STRING_XSD_DECIMAL,        false));
-  poseDefinition->add(NA(YARS_STRING_Z,     YARS_STRING_XSD_DECIMAL,        false));
-  poseDefinition->add(NA(YARS_STRING_ALPHA, YARS_STRING_XSD_DECIMAL,        false));
-  poseDefinition->add(NA(YARS_STRING_BETA,  YARS_STRING_XSD_DECIMAL,        false));
-  poseDefinition->add(NA(YARS_STRING_GAMMA, YARS_STRING_XSD_DECIMAL,        false));
-  poseDefinition->add(NA(YARS_STRING_TYPE,  YARS_STRING_RAD_DEG_DEFINITION, false));
+  XsdSequence *poseDefinition = new XsdSequence(TAG_POSE_DEFINITION);
+  poseDefinition->add(NA(TAG_X,     TAG_XSD_DECIMAL,        false));
+  poseDefinition->add(NA(TAG_Y,     TAG_XSD_DECIMAL,        false));
+  poseDefinition->add(NA(TAG_Z,     TAG_XSD_DECIMAL,        false));
+  poseDefinition->add(NA(TAG_ALPHA, TAG_XSD_DECIMAL,        false));
+  poseDefinition->add(NA(TAG_BETA,  TAG_XSD_DECIMAL,        false));
+  poseDefinition->add(NA(TAG_GAMMA, TAG_XSD_DECIMAL,        false));
+  poseDefinition->add(NA(TAG_TYPE,  TAG_RAD_DEG_DEFINITION, false));
   add(poseDefinition);
 
-  XsdSequence *pidDefinition = new XsdSequence(YARS_STRING_PID_DEFINITION);
-  pidDefinition->add(NA(YARS_STRING_P,      YARS_STRING_XSD_DECIMAL,        false));
-  pidDefinition->add(NA(YARS_STRING_I,      YARS_STRING_XSD_DECIMAL,        false));
-  pidDefinition->add(NA(YARS_STRING_D,      YARS_STRING_XSD_DECIMAL,        false));
-  pidDefinition->add(NA(YARS_STRING_SIZE,   YARS_STRING_XSD_DECIMAL,        false));
+  XsdSequence *pidDefinition = new XsdSequence(TAG_PID_DEFINITION);
+  pidDefinition->add(NA(TAG_P,      TAG_XSD_DECIMAL,        false));
+  pidDefinition->add(NA(TAG_I,      TAG_XSD_DECIMAL,        false));
+  pidDefinition->add(NA(TAG_D,      TAG_XSD_DECIMAL,        false));
+  pidDefinition->add(NA(TAG_SIZE,   TAG_XSD_DECIMAL,        false));
   add(pidDefinition);
 
-  XsdEnumeration *radOrDegDefinition = new XsdEnumeration(YARS_STRING_RAD_DEG_DEFINITION, YARS_STRING_XSD_STRING);
-  radOrDegDefinition->add(YARS_STRING_RAD);
-  radOrDegDefinition->add(YARS_STRING_DEG);
+  XsdEnumeration *radOrDegDefinition = new XsdEnumeration(TAG_RAD_DEG_DEFINITION, TAG_XSD_STRING);
+  radOrDegDefinition->add(TAG_RAD);
+  radOrDegDefinition->add(TAG_DEG);
   add(radOrDegDefinition);
 
-  XsdSequence *xyDefinition = new XsdSequence(YARS_STRING_XY_DEFINITION);
-  xyDefinition->add(NA(YARS_STRING_X, YARS_STRING_XSD_DECIMAL, true));
-  xyDefinition->add(NA(YARS_STRING_Y, YARS_STRING_XSD_DECIMAL, true));
+  XsdSequence *xyDefinition = new XsdSequence(TAG_XY_DEFINITION);
+  xyDefinition->add(NA(TAG_X, TAG_XSD_DECIMAL, true));
+  xyDefinition->add(NA(TAG_Y, TAG_XSD_DECIMAL, true));
   add(xyDefinition);
 
-  XsdSequence *minMaxDefinition = new XsdSequence(YARS_STRING_MIN_MAX_DEFINITION);
-  minMaxDefinition->add(NA(YARS_STRING_MIN, YARS_STRING_XSD_DECIMAL, true));
-  minMaxDefinition->add(NA(YARS_STRING_MAX, YARS_STRING_XSD_DECIMAL, true));
+  XsdSequence *minMaxDefinition = new XsdSequence(TAG_MIN_MAX_DEFINITION);
+  minMaxDefinition->add(NA(TAG_MIN, TAG_XSD_DECIMAL, true));
+  minMaxDefinition->add(NA(TAG_MAX, TAG_XSD_DECIMAL, true));
   add(minMaxDefinition);
 
-  XsdSequence *xyzDefinition = new XsdSequence(YARS_STRING_XYZ_DEFINITION);
-  xyzDefinition->add(NA(YARS_STRING_X, YARS_STRING_XSD_DECIMAL, true));
-  xyzDefinition->add(NA(YARS_STRING_Y, YARS_STRING_XSD_DECIMAL, true));
-  xyzDefinition->add(NA(YARS_STRING_Z, YARS_STRING_XSD_DECIMAL, true));
+  XsdSequence *xyzDefinition = new XsdSequence(TAG_XYZ_DEFINITION);
+  xyzDefinition->add(NA(TAG_X, TAG_XSD_DECIMAL, true));
+  xyzDefinition->add(NA(TAG_Y, TAG_XSD_DECIMAL, true));
+  xyzDefinition->add(NA(TAG_Z, TAG_XSD_DECIMAL, true));
   add(xyzDefinition);
 
-  XsdSequence *xyzgDefinition = new XsdSequence(YARS_STRING_XYZG_DEFINITION);
-  xyzgDefinition->add(NA(YARS_STRING_X,      YARS_STRING_XSD_DECIMAL, true));
-  xyzgDefinition->add(NA(YARS_STRING_Y,      YARS_STRING_XSD_DECIMAL, true));
-  xyzgDefinition->add(NA(YARS_STRING_Z,      YARS_STRING_XSD_DECIMAL, true));
-  xyzgDefinition->add(NA(YARS_STRING_GLOBAL, YARS_STRING_TRUE_FALSE_DEFINITION, false));
+  XsdSequence *xyzgDefinition = new XsdSequence(TAG_XYZG_DEFINITION);
+  xyzgDefinition->add(NA(TAG_X,      TAG_XSD_DECIMAL, true));
+  xyzgDefinition->add(NA(TAG_Y,      TAG_XSD_DECIMAL, true));
+  xyzgDefinition->add(NA(TAG_Z,      TAG_XSD_DECIMAL, true));
+  xyzgDefinition->add(NA(TAG_GLOBAL, TAG_TRUE_FALSE_DEFINITION, false));
   add(xyzgDefinition);
 
-  XsdSequence *nameDefintion = new XsdSequence(YARS_STRING_NAME_DEFINITION);
-  nameDefintion->add(NA(YARS_STRING_NAME, YARS_STRING_XSD_STRING, true));
+  XsdSequence *nameDefintion = new XsdSequence(TAG_NAME_DEFINITION);
+  nameDefintion->add(NA(TAG_NAME, TAG_XSD_STRING, true));
   add(nameDefintion);
 
-  XsdEnumeration *trueFalseDefinition = new XsdEnumeration(YARS_STRING_TRUE_FALSE_DEFINITION, YARS_STRING_XSD_STRING);
-  trueFalseDefinition->add(YARS_STRING_TRUE);
-  trueFalseDefinition->add(YARS_STRING_FALSE);
+  XsdEnumeration *trueFalseDefinition = new XsdEnumeration(TAG_TRUE_FALSE_DEFINITION, TAG_XSD_STRING);
+  trueFalseDefinition->add(TAG_TRUE);
+  trueFalseDefinition->add(TAG_FALSE);
   add(trueFalseDefinition);
 
-  XsdSequence *whdDefinition = new XsdSequence(YARS_STRING_WIDTH_HEIGHT_DEPTH_DEFINITION);
-  whdDefinition->add(NA(YARS_STRING_WIDTH,  YARS_STRING_XSD_DECIMAL, true));
-  whdDefinition->add(NA(YARS_STRING_HEIGHT, YARS_STRING_XSD_DECIMAL, true));
-  whdDefinition->add(NA(YARS_STRING_DEPTH,  YARS_STRING_XSD_DECIMAL, true));
+  XsdSequence *whdDefinition = new XsdSequence(TAG_WIDTH_HEIGHT_DEPTH_DEFINITION);
+  whdDefinition->add(NA(TAG_WIDTH,  TAG_XSD_DECIMAL, true));
+  whdDefinition->add(NA(TAG_HEIGHT, TAG_XSD_DECIMAL, true));
+  whdDefinition->add(NA(TAG_DEPTH,  TAG_XSD_DECIMAL, true));
   add(whdDefinition);
 
-  XsdRegularExpression *nonZeroPositiveInteger = new XsdRegularExpression(YARS_STRING_POSITIVE_NON_ZERO_INTEGER,
-                                                            YARS_STRING_XSD_INTEGER,
-                                                            YARS_STRING_XSD_POSITIVE_NON_ZERO_INTEGER);
+  XsdRegularExpression *nonZeroPositiveInteger = new XsdRegularExpression(TAG_POSITIVE_NON_ZERO_INTEGER,
+                                                            TAG_XSD_INTEGER,
+                                                            TAG_XSD_POSITIVE_NON_ZERO_INTEGER);
   add(nonZeroPositiveInteger);
 
-  XsdRegularExpression *positiveInteger = new XsdRegularExpression(YARS_STRING_POSITIVE_INTEGER,
-                                                            YARS_STRING_XSD_INTEGER,
-                                                            YARS_STRING_XSD_POSITIVE_INTEGER);
+  XsdRegularExpression *positiveInteger = new XsdRegularExpression(TAG_POSITIVE_INTEGER,
+                                                            TAG_XSD_INTEGER,
+                                                            TAG_XSD_POSITIVE_INTEGER);
   add(positiveInteger);
 
-  XsdInterval *unitInverval = new XsdInterval(YARS_STRING_UNIT_INTERVAL, YARS_STRING_XSD_DECIMAL, 0.0, 1.0);
+  XsdInterval *unitInverval = new XsdInterval(TAG_UNIT_INTERVAL, TAG_XSD_DECIMAL, 0.0, 1.0);
   add(unitInverval);
 
   XsdRegularExpression *nonZeroPositiveDecimal =
-    new XsdRegularExpression(YARS_STRING_POSITIVE_NON_ZERO_DECIMAL,
-        YARS_STRING_XSD_DECIMAL,
-        YARS_STRING_XSD_POSITIVE_NON_ZERO_DECIMAL);
+    new XsdRegularExpression(TAG_POSITIVE_NON_ZERO_DECIMAL,
+        TAG_XSD_DECIMAL,
+        TAG_XSD_POSITIVE_NON_ZERO_DECIMAL);
   add(nonZeroPositiveDecimal);
 
   XsdRegularExpression *positiveDecimal =
-    new XsdRegularExpression(YARS_STRING_POSITIVE_DECIMAL,
-        YARS_STRING_XSD_DECIMAL,
-        YARS_STRING_XSD_POSITIVE_DECIMAL);
+    new XsdRegularExpression(TAG_POSITIVE_DECIMAL,
+        TAG_XSD_DECIMAL,
+        TAG_XSD_POSITIVE_DECIMAL);
   add(positiveDecimal);
 
-  XsdSequence *nameDefinition = new XsdSequence(YARS_STRING_NAME_DEFINITION);
-  nameDefinition->add(NA(YARS_STRING_NAME, YARS_STRING_XSD_STRING, true));
+  XsdSequence *nameDefinition = new XsdSequence(TAG_NAME_DEFINITION);
+  nameDefinition->add(NA(TAG_NAME, TAG_XSD_STRING, true));
   add(nameDefinition);
 }
 

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<enp version="0.0.0"/>
+  <!-- <evolution> -->
+    <!-- <neuron cost="0.01"> -->
+      <!-- <modify probability="0.1" max="1.0" delta="0.2"/> -->
+      <!-- <add    probability="0.1" max="2.0"/> -->
+      <!-- <del    probability="0.1"/> -->
+    <!-- </neuron> -->
+    <!-- <synapse cost="0.02"> -->
+      <!-- <modify probability="0.1" max="1.0" delta="0.2"/> -->
+      <!-- <add    probability="0.1" max="2.0"/> -->
+      <!-- <del    probability="0.1"/> -->
+    <!-- </synapse> -->
+  <!-- </evolution> -->
+  <!-- <configuration> -->
+    <!-- <neurons> -->
+      <!-- <neuron type="sensor" label="front femur" pathway="1"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </neuron> -->
+      <!-- <neuron type="actuator" label="front femur" pathway="1"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="tanh"/> -->
+      <!-- </neuron> -->
+    <!-- </neurons> -->
+  <!-- </configuration> -->
+<!-- </enp> -->
