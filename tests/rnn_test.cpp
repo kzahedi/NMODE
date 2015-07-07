@@ -28,7 +28,7 @@
 
 #include "rnn_test.h"
 
-#include "RNN.h"
+#include "base/RNN.h"
 #include "base/ENPException.h"
 
 #include <iostream>

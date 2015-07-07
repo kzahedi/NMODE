@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -26,29 +26,82 @@
 
 
 
-#include "cfg_test.h"
-
-#include "main/Configuration.h"
+#include "Module.h"
 
 #include <iostream>
-#include <string>
 
-using namespace std;
-
-// Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION( cfgTest );
+#include "base/macros.h"
 
 
-void cfgTest::testConfiguration()
+Module::Module()
 {
-  string name = "cfg-tests";
-  // string help = "--help";
-  string file = "bin/test.ini";
-  char** parameters;
-  parameters = new char*[2];
-  parameters[0] = &name[0];
-  parameters[1] = &file[0];
+  _name = "name is missing";
+  _linked = false;
+}
 
-  Configuration *c = new Configuration(2, parameters);
-  delete c;
+Module::~Module()
+{
+  FORC(ModuleNeurons, n, _neurons) delete (*n);
+  _neurons.clear();
+}
+
+void Module::addNeuron(ModuleNeuron *neuron)
+{
+  _neurons.push_back(neuron);
+}
+
+string Module::name()
+{
+  return _name;
+}
+
+void Module::linkTo(Module *target)
+{
+  _linked = true;
+  _target = target;
+}
+
+
+bool Module::operator==(const Module m)
+{
+  ModuleNeurons mn = m._neurons;
+  FORC(ModuleNeurons, a, _neurons)
+  {
+    bool foundNeuron = false;
+    FORC(ModuleNeurons, b, mn)
+    {
+      if(**a == **b)
+      {
+        foundNeuron = true;
+        break;
+      }
+    }
+    if(foundNeuron == false) return false;
+  }
+  return true;
+}
+
+bool Module::operator!=(const Module m)
+{
+  ModuleNeurons mn = m._neurons;
+  FORC(ModuleNeurons, a, _neurons)
+  {
+    bool foundNeuron = true;
+    FORC(ModuleNeurons, b, mn)
+    {
+      if(**a != **b)
+      {
+        foundNeuron = false;
+        break;
+      }
+    }
+    if(foundNeuron == false) return true;
+  }
+  return false;
+}
+
+
+ModuleNeurons Module::neurons()
+{
+  return _neurons;
 }

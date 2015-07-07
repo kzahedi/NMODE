@@ -26,29 +26,47 @@
 
 
 
-#include "cfg_test.h"
+#include "Configuration.h"
 
-#include "main/Configuration.h"
-
-#include <iostream>
 #include <string>
+#include <iostream>
+
+#include <boost/program_options/parsers.hpp>
+#include <boost/program_options/variables_map.hpp>
+
+#include "data/Data.h"
 
 using namespace std;
 
-// Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION( cfgTest );
+namespace po = boost::program_options;
 
-
-void cfgTest::testConfiguration()
+Configuration::Configuration(int argc, char* argv[])
 {
-  string name = "cfg-tests";
-  // string help = "--help";
-  string file = "bin/test.ini";
-  char** parameters;
-  parameters = new char*[2];
-  parameters[0] = &name[0];
-  parameters[1] = &file[0];
+  string xml;
 
-  Configuration *c = new Configuration(2, parameters);
-  delete c;
+  po::options_description desc("Options");
+
+  desc.add_options()
+    ("help",    "print help message")
+    ("version", "print version information")
+    ("xml",    po::value<string>(&xml), "xml file");
+
+
+  po::positional_options_description positional;
+  positional.add("xml", -1);
+
+  po::variables_map vm;
+  po::store(po::command_line_parser(argc, argv).
+            options(desc).positional(positional).run(), vm);
+  po::notify(vm);
+
+  if (vm.count("help")) {
+    cout << desc << "\n";
+  }
+
+  if(vm.count("xml"))
+  {
+    Data::instance()->read(xml);
+  };
+
 }

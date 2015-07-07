@@ -29,7 +29,7 @@
 include_directories("${PROJECT_SOURCE_DIR}/src")
 link_directories(${PROJECT_BINARY_DIR}/lib)
 
-add_library(ENPData SHARED XmlChangeLog.cpp
+add_library(ENPData STATIC XmlChangeLog.cpp
                            XmlChangeLogEntry.cpp
                            Version.cpp
 

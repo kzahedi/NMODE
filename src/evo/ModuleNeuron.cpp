@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -26,43 +26,68 @@
 
 
 
-#include "Configuration.h"
+#include "Module.h"
 
-#include <string>
-#include <iostream>
-
-#include <boost/program_options/parsers.hpp>
-#include <boost/program_options/variables_map.hpp>
-
-using namespace std;
-
-namespace po = boost::program_options;
-
-Configuration::Configuration(int argc, char* argv[])
+ModuleNeuron::ModuleNeuron()
 {
-  string cfg;
+}
 
-  po::options_description desc("Options");
+ModuleNeuron::~ModuleNeuron()
+{
+}
 
-  desc.add_options()
-    ("help",    "print help message")
-    ("version", "print version information")
-    ("cfg",    po::value<string>(&cfg), "configuration file");
+void ModuleNeuron::setPosition(P3D position)
+{
+  _position = position;
+}
 
+void ModuleNeuron::setType(string type)
+{
+  _type = type;
+}
 
-  po::positional_options_description positional;
-  positional.add("cfg", -1);
+void ModuleNeuron::setLabel(string label)
+{
+  _label = label;
+}
 
-  po::variables_map vm;
-  po::store(po::command_line_parser(argc, argv).
-            options(desc).positional(positional).run(), vm);
-  po::notify(vm);
+void ModuleNeuron::setTransferfunction(string tf)
+{
+  _transferfunction = tf;
+}
 
-  if (vm.count("help")) {
-    cout << desc << "\n";
-  }
+P3D ModuleNeuron::position()
+{
+  return _position;
+}
 
-  if(vm.count("cfg")) cout << "received configuration file: " << cfg << endl;
-  else cout << "not found" << endl;
+string ModuleNeuron::type()
+{
+  return _type;
+}
 
+string ModuleNeuron::label()
+{
+  return _label;
+}
+
+string ModuleNeuron::transferfunction()
+{
+  return _transferfunction;
+}
+
+bool ModuleNeuron::operator==(const ModuleNeuron o)
+{
+  return (_position         == o._position &&
+          _label            == o._label    &&
+          _type             == o._type     &&
+          _transferfunction == o._transferfunction);
+}
+
+bool ModuleNeuron::operator!=(const ModuleNeuron o)
+{
+  return (_position         != o._position ||
+          _label            != o._label    ||
+          _type             != o._type     ||
+          _transferfunction != o._transferfunction);
 }

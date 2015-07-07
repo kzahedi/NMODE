@@ -26,29 +26,26 @@
 
 
 
-#include "cfg_test.h"
+#ifndef __MODULES_TEST_H__
+#define __MODULES_TEST_H__
 
-#include "main/Configuration.h"
+#include <cppunit/extensions/HelperMacros.h>
 
-#include <iostream>
-#include <string>
-
-using namespace std;
-
-// Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION( cfgTest );
-
-
-void cfgTest::testConfiguration()
+class modulesTest : public CppUnit::TestFixture
 {
-  string name = "cfg-tests";
-  // string help = "--help";
-  string file = "bin/test.ini";
-  char** parameters;
-  parameters = new char*[2];
-  parameters[0] = &name[0];
-  parameters[1] = &file[0];
+  CPPUNIT_TEST_SUITE(modulesTest);
+  CPPUNIT_TEST(testModules);
+  CPPUNIT_TEST(testModuleNeuronEquality);
+  CPPUNIT_TEST(testModuleEquality);
+  CPPUNIT_TEST(testModuleInequality);
+  CPPUNIT_TEST_SUITE_END();
 
-  Configuration *c = new Configuration(2, parameters);
-  delete c;
-}
+  public:
+
+  void testModules();
+  void testModuleNeuronEquality();
+  void testModuleEquality();
+  void testModuleInequality();
+};
+
+#endif // __RNN_H__

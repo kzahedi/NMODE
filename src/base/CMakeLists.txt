@@ -29,9 +29,10 @@
 include_directories("${PROJECT_SOURCE_DIR}/src")
 link_directories(${PROJECT_BINARY_DIR}/lib)
 
-add_library(ENPBase SHARED P3D.cpp
+add_library(ENPBase STATIC RNN.cpp
+                           P3D.cpp
                            StringTokeniser.cpp
                            ENPErrorHandler.cpp
                            FileSystemOperations.cpp)
 
-target_link_libraries(ENPBase ${Boost_LIBRARIES})
+target_link_libraries(ENPBase ${Boost_LIBRARIES} ENPCFG)

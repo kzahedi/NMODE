@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -26,29 +26,54 @@
 
 
 
-#include "cfg_test.h"
+#ifndef __MODULE_NEURON_H__
+#define __MODULE_NEURON_H__
 
-#include "main/Configuration.h"
-
-#include <iostream>
+#include <vector>
 #include <string>
+#include <ostream>
+
+#include "base/P3D.h"
 
 using namespace std;
 
-// Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION( cfgTest );
-
-
-void cfgTest::testConfiguration()
+class ModuleNeuron
 {
-  string name = "cfg-tests";
-  // string help = "--help";
-  string file = "bin/test.ini";
-  char** parameters;
-  parameters = new char*[2];
-  parameters[0] = &name[0];
-  parameters[1] = &file[0];
+  public:
+    ModuleNeuron();
+    ~ModuleNeuron();
 
-  Configuration *c = new Configuration(2, parameters);
-  delete c;
-}
+    //ModuleNeuron(const ModuleNeuron);
+    //ModuleNeuron operator=(const ModuleNeuron);
+    bool operator==(const ModuleNeuron o);
+    bool operator!=(const ModuleNeuron o);
+
+    void setPosition(P3D position);
+    void setType(string type);
+    void setLabel(string label);
+    void setTransferfunction(string tf);
+
+    P3D    position();
+    string type();
+    string label();
+    string transferfunction();
+
+    friend std::ostream& operator<<(std::ostream& str, const ModuleNeuron& n)
+    {
+      str << n._label << ", " << n._type << ", " << n._position << ", " << n._transferfunction;
+      return str;
+    };
+
+
+  private:
+
+    P3D    _position;
+    string _type;
+    string _label;
+    string _transferfunction;
+};
+
+typedef vector<ModuleNeuron*> ModuleNeurons;
+
+#endif // __MODULE_NEURON_H__
+

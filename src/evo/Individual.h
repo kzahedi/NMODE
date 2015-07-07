@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -26,29 +26,19 @@
 
 
 
-#include "cfg_test.h"
+#ifndef __INDIVIDUAL_H__
+#define __INDIVIDUAL_H__
 
-#include "main/Configuration.h"
-
-#include <iostream>
-#include <string>
-
-using namespace std;
-
-// Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION( cfgTest );
-
-
-void cfgTest::testConfiguration()
+class Individual
 {
-  string name = "cfg-tests";
-  // string help = "--help";
-  string file = "bin/test.ini";
-  char** parameters;
-  parameters = new char*[2];
-  parameters[0] = &name[0];
-  parameters[1] = &file[0];
+  public:
+    Individual();
+    // ~Individual();
 
-  Configuration *c = new Configuration(2, parameters);
-  delete c;
-}
+    //Individual(const Individual);
+    //Individual operator=(const Individual);
+
+  private:
+};
+
+#endif // __INDIVIDUAL_H__

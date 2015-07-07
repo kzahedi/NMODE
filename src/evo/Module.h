@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -26,29 +26,38 @@
 
 
 
-#include "cfg_test.h"
+#ifndef __MODULE_H__
+#define __MODULE_H__
 
-#include "main/Configuration.h"
+#include "ModuleNeuron.h"
 
-#include <iostream>
-#include <string>
-
-using namespace std;
-
-// Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION( cfgTest );
-
-
-void cfgTest::testConfiguration()
+class Module
 {
-  string name = "cfg-tests";
-  // string help = "--help";
-  string file = "bin/test.ini";
-  char** parameters;
-  parameters = new char*[2];
-  parameters[0] = &name[0];
-  parameters[1] = &file[0];
+  public:
+    Module();
+    ~Module();
 
-  Configuration *c = new Configuration(2, parameters);
-  delete c;
-}
+    //Module(const Module);
+    //Module operator=(const Module);
+
+    bool operator==(const Module m);
+    bool operator!=(const Module m);
+
+    void addNeuron(ModuleNeuron *neuron);
+    string name();
+
+    bool linked();
+    void linkTo(Module *target);
+
+
+    ModuleNeurons neurons();
+
+  private:
+    ModuleNeurons _neurons;
+    string        _name;
+    bool          _linked;
+    Module       *_target;
+};
+
+#endif // __MODULE_H__
+
