@@ -29,7 +29,7 @@
 #ifndef __MODULE_H__
 #define __MODULE_H__
 
-#include "ModuleNeuron.h"
+#include "Node.h"
 
 class Module
 {
@@ -43,20 +43,20 @@ class Module
     bool operator==(const Module m);
     bool operator!=(const Module m);
 
-    void addNeuron(ModuleNeuron *neuron);
+    void addNode(Node *neuron);
     string name();
 
     bool linked();
     void linkTo(Module *target);
 
 
-    ModuleNeurons neurons();
+    Nodes neurons();
 
   private:
-    ModuleNeurons _neurons;
-    string        _name;
-    bool          _linked;
-    Module       *_target;
+    Nodes _neurons;
+    string      _name;
+    bool        _linked;
+    Module     *_target;
 };
 
 #endif // __MODULE_H__

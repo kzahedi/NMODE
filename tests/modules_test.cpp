@@ -30,7 +30,7 @@
 
 // #include "main/Configuration.h"
 // #include "data/Data.h"
-#include "evo/ModuleNeuron.h"
+#include "evo/Node.h"
 #include "evo/Module.h"
 
 #include <iostream>
@@ -51,20 +51,20 @@ void modulesTest::testModules()
 
 }
 
-void modulesTest::testModuleNeuronEquality()
+void modulesTest::testNodeEquality()
 {
-  ModuleNeuron *a = new ModuleNeuron();
+  Node *a = new Node();
   a->setTransferfunction("tanh");
   a->setPosition(P3D(1.0, 1.0, 1.0));
   a->setLabel("label");
   a->setType("sensor");
 
-  CPPUNIT_ASSERT("tanh"                    == a->transferfunction());
-  CPPUNIT_ASSERT(P3D(1.0, 1.0, 1.0)        == a->position());
-  CPPUNIT_ASSERT("label"                   == a->label());
-  CPPUNIT_ASSERT(MODULE_NEURON_TYPE_SENSOR == a->type());
+  CPPUNIT_ASSERT("tanh"                  == a->transferfunction());
+  CPPUNIT_ASSERT(P3D(1.0, 1.0, 1.0)      == a->position());
+  CPPUNIT_ASSERT("label"                 == a->label());
+  CPPUNIT_ASSERT(MODULE_NODE_TYPE_SENSOR == a->type());
 
-  ModuleNeuron *b = new ModuleNeuron();
+  Node *b = new Node();
   b->setTransferfunction("tanh");
   b->setPosition(P3D(1.0, 1.0, 1.0));
   b->setLabel("label");
@@ -89,80 +89,80 @@ void modulesTest::testModuleEquality()
 {
   Module *a = new Module("module 1");
 
-  ModuleNeuron *aa = new ModuleNeuron();
+  Node *aa = new Node();
   aa->setType("sensor");
   aa->setLabel("sensor 1");
   aa->setPosition(P3D(0.0,0.0,0.0));
   aa->setTransferfunction("id");
 
-  ModuleNeuron *ab = new ModuleNeuron();
+  Node *ab = new Node();
   ab->setType("sensor");
   ab->setLabel("sensor 2");
   ab->setPosition(P3D(1.0,0.0,0.0));
   ab->setTransferfunction("id");
 
-  ModuleNeuron *ac = new ModuleNeuron();
+  Node *ac = new Node();
   ac->setType("sensor");
   ac->setLabel("sensor 3");
   ac->setPosition(P3D(2.0,0.0,0.0));
   ac->setTransferfunction("id");
 
-  ModuleNeuron *ad = new ModuleNeuron();
+  Node *ad = new Node();
   ad->setType("actuator");
   ad->setLabel("actuator 1");
   ad->setPosition(P3D(0.5,1.0,0.0));
   ad->setTransferfunction("tanh");
 
-  ModuleNeuron *ae = new ModuleNeuron();
+  Node *ae = new Node();
   ae->setType("actuator");
   ae->setLabel("actuator 2");
   ae->setPosition(P3D(1.5,1.0,0.0));
   ae->setTransferfunction("sigm");
 
-  a->addNeuron(aa);
-  a->addNeuron(ab);
-  a->addNeuron(ac);
-  a->addNeuron(ad);
-  a->addNeuron(ae);
+  a->addNode(aa);
+  a->addNode(ab);
+  a->addNode(ac);
+  a->addNode(ad);
+  a->addNode(ae);
 
 
   Module *b = new Module("module 2");
 
-  ModuleNeuron *ba = new ModuleNeuron();
+  Node *ba = new Node();
   ba->setType("sensor");
   ba->setLabel("sensor 1");
   ba->setPosition(P3D(0.0,0.0,0.0));
   ba->setTransferfunction("id");
 
-  ModuleNeuron *bb = new ModuleNeuron();
+  Node *bb = new Node();
   bb->setType("sensor");
   bb->setLabel("sensor 2");
   bb->setPosition(P3D(1.0,0.0,0.0));
   bb->setTransferfunction("id");
 
-  ModuleNeuron *bc = new ModuleNeuron();
+  Node *bc = new Node();
   bc->setType("sensor");
   bc->setLabel("sensor 3");
   bc->setPosition(P3D(2.0,0.0,0.0));
   bc->setTransferfunction("id");
 
-  ModuleNeuron *bd = new ModuleNeuron();
+  Node *bd = new Node();
   bd->setType("actuator");
   bd->setLabel("actuator 1");
   bd->setPosition(P3D(0.5,1.0,0.0));
   bd->setTransferfunction("tanh");
 
-  ModuleNeuron *be = new ModuleNeuron();
+  Node *be = new Node();
   be->setType("actuator");
   be->setLabel("actuator 2");
   be->setPosition(P3D(1.5,1.0,0.0));
   be->setTransferfunction("sigm");
 
-  b->addNeuron(ba);
-  b->addNeuron(bb);
-  b->addNeuron(bc);
-  b->addNeuron(bd);
-  b->addNeuron(be);
+  b->addNode(ba);
+  b->addNode(bb);
+  b->addNode(bc);
+  b->addNode(bd);
+  b->addNode(be);
 
   CPPUNIT_ASSERT(*aa == *ba);
 
@@ -174,80 +174,80 @@ void modulesTest::testModuleInequality()
 {
   Module *a = new Module("module 1");
 
-  ModuleNeuron *aa = new ModuleNeuron();
+  Node *aa = new Node();
   aa->setType("sensor");
   aa->setLabel("sensor 1");
   aa->setPosition(P3D(0.0,0.0,0.0));
   aa->setTransferfunction("id");
 
-  ModuleNeuron *ab = new ModuleNeuron();
+  Node *ab = new Node();
   ab->setType("sensor");
   ab->setLabel("sensor 2");
   ab->setPosition(P3D(1.0,0.0,0.0));
   ab->setTransferfunction("id");
 
-  ModuleNeuron *ac = new ModuleNeuron();
+  Node *ac = new Node();
   ac->setType("sensor");
   ac->setLabel("sensor 3");
   ac->setPosition(P3D(2.0,0.0,0.0));
   ac->setTransferfunction("id");
 
-  ModuleNeuron *ad = new ModuleNeuron();
+  Node *ad = new Node();
   ad->setType("actuator");
   ad->setLabel("actuator 1");
   ad->setPosition(P3D(0.5,1.0,0.0));
   ad->setTransferfunction("tanh");
 
-  ModuleNeuron *ae = new ModuleNeuron();
+  Node *ae = new Node();
   ae->setType("actuator");
   ae->setLabel("actuator 2");
   ae->setPosition(P3D(1.5,1.0,0.0));
   ae->setTransferfunction("sigm");
 
-  a->addNeuron(aa);
-  a->addNeuron(ab);
-  a->addNeuron(ac);
-  a->addNeuron(ad);
-  a->addNeuron(ae);
+  a->addNode(aa);
+  a->addNode(ab);
+  a->addNode(ac);
+  a->addNode(ad);
+  a->addNode(ae);
 
 
   Module *b = new Module("module 2");
 
-  ModuleNeuron *ba = new ModuleNeuron();
+  Node *ba = new Node();
   ba->setType("sensor");
   ba->setLabel("sensor 1");
   ba->setPosition(P3D(0.0,0.0,0.0));
   ba->setTransferfunction("id");
 
-  ModuleNeuron *bb = new ModuleNeuron();
+  Node *bb = new Node();
   bb->setType("sensor");
   bb->setLabel("sensor 2");
   bb->setPosition(P3D(1.0,0.0,0.0));
   bb->setTransferfunction("id");
 
-  ModuleNeuron *bc = new ModuleNeuron();
+  Node *bc = new Node();
   bc->setType("sensor");
   bc->setLabel("sensor 3");
   bc->setPosition(P3D(2.0,0.0,0.0));
   bc->setTransferfunction("id");
 
-  ModuleNeuron *bd = new ModuleNeuron();
+  Node *bd = new Node();
   bd->setType("actuator");
   bd->setLabel("actuator 1");
   bd->setPosition(P3D(0.5,1.0,0.0));
   bd->setTransferfunction("tanh");
 
-  ModuleNeuron *be = new ModuleNeuron();
+  Node *be = new Node();
   be->setType("actuator");
   be->setLabel("actuator 2");
   be->setPosition(P3D(2.5,1.0,0.0));
   be->setTransferfunction("sigm");
 
-  b->addNeuron(ba);
-  b->addNeuron(bb);
-  b->addNeuron(bc);
-  b->addNeuron(bd);
-  b->addNeuron(be);
+  b->addNode(ba);
+  b->addNode(bb);
+  b->addNode(bc);
+  b->addNode(bd);
+  b->addNode(be);
 
   CPPUNIT_ASSERT(*a != *b);
 }

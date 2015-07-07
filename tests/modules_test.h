@@ -35,7 +35,7 @@ class modulesTest : public CppUnit::TestFixture
 {
   CPPUNIT_TEST_SUITE(modulesTest);
   CPPUNIT_TEST(testModules);
-  CPPUNIT_TEST(testModuleNeuronEquality);
+  CPPUNIT_TEST(testNodeEquality);
   CPPUNIT_TEST(testModuleEquality);
   CPPUNIT_TEST(testModuleInequality);
   CPPUNIT_TEST_SUITE_END();
@@ -43,7 +43,7 @@ class modulesTest : public CppUnit::TestFixture
   public:
 
   void testModules();
-  void testModuleNeuronEquality();
+  void testNodeEquality();
   void testModuleEquality();
   void testModuleInequality();
 };

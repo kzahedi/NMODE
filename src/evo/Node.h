@@ -26,70 +26,58 @@
 
 
 
-#include "Module.h"
+#ifndef __MODULE_NODE_H__
+#define __MODULE_NODE_H__
 
-ModuleNeuron::ModuleNeuron()
-{
-}
+#include <vector>
+#include <string>
+#include <ostream>
 
-ModuleNeuron::~ModuleNeuron()
-{
-}
+#include "base/P3D.h"
 
-void ModuleNeuron::setPosition(P3D position)
-{
-  _position = position;
-}
+#define MODULE_NODE_TYPE_SENSOR   1001
+#define MODULE_NODE_TYPE_ACTUATOR 1002
+#define MODULE_NODE_TYPE_HIDDEN   1003
 
-void ModuleNeuron::setType(string type)
-{
-  if(type == "sensor")   _type = MODULE_NEURON_TYPE_SENSOR;
-  if(type == "actuator") _type = MODULE_NEURON_TYPE_ACTUATOR;
-  if(type == "hidden")   _type = MODULE_NEURON_TYPE_HIDDEN;
-}
+using namespace std;
 
-void ModuleNeuron::setLabel(string label)
+class Node
 {
-  _label = label;
-}
+  public:
+    Node();
+    ~Node();
 
-void ModuleNeuron::setTransferfunction(string tf)
-{
-  _transferfunction = tf;
-}
+    //Node(const Node);
+    //Node operator=(const Node);
+    bool operator==(const Node o);
+    bool operator!=(const Node o);
 
-P3D ModuleNeuron::position()
-{
-  return _position;
-}
+    void setPosition(P3D position);
+    void setType(string type);
+    void setLabel(string label);
+    void setTransferfunction(string tf);
 
-int ModuleNeuron::type()
-{
-  return _type;
-}
+    P3D    position();
+    int    type();
+    string label();
+    string transferfunction();
 
-string ModuleNeuron::label()
-{
-  return _label;
-}
+    friend std::ostream& operator<<(std::ostream& str, const Node& n)
+    {
+      str << n._label << ", " << n._type << ", " << n._position << ", " << n._transferfunction;
+      return str;
+    };
 
-string ModuleNeuron::transferfunction()
-{
-  return _transferfunction;
-}
 
-bool ModuleNeuron::operator==(const ModuleNeuron o)
-{
-  return (_position         == o._position &&
-          _label            == o._label    &&
-          _type             == o._type     &&
-          _transferfunction == o._transferfunction);
-}
+  private:
 
-bool ModuleNeuron::operator!=(const ModuleNeuron o)
-{
-  return (_position         != o._position ||
-          _label            != o._label    ||
-          _type             != o._type     ||
-          _transferfunction != o._transferfunction);
-}
+    P3D    _position;
+    int    _type;
+    string _label;
+    string _transferfunction;
+};
+
+typedef vector<Node*> Nodes;
+
+#endif // __MODULE_NODE_H__
+

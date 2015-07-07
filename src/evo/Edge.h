@@ -26,82 +26,50 @@
 
 
 
-#include "Module.h"
+#ifndef __EDGE_H__
+#define __EDGE_H__
 
-#include <iostream>
+#include <vector>
+#include <string>
+#include <ostream>
 
-#include "base/macros.h"
+#include "base/P3D.h"
 
+#define EDGE_TYPE_SENSOR   1001
+#define EDGE_TYPE_ACTUATOR 1002
+#define EDGE_TYPE_HIDDEN   1003
 
-Module::Module(string name)
+using namespace std;
+
+class Node;
+
+class Edge
 {
-  _name   = name;
-  _linked = false;
-}
+  public:
+    Edge();
+    ~Edge();
 
-Module::~Module()
-{
-  FORC(Nodes, n, _neurons) delete (*n);
-  _neurons.clear();
-}
+    //Edge(const Edge);
+    //Edge operator=(const Edge);
+    // bool operator==(const Edge o);
+    // bool operator!=(const Edge o);
 
-void Module::addNode(Node *neuron)
-{
-  _neurons.push_back(neuron);
-}
+    void setSource(Node *src);
+    void setDestination(Node *dest);
+    void setWeight(double weight);
 
-string Module::name()
-{
-  return _name;
-}
+    Node* source();
+    Node* destination();
+    double      weight();
 
-void Module::linkTo(Module *target)
-{
-  _linked = true;
-  _target = target;
-}
+  private:
 
+    Node  *_src;
+    Node  *_dest;
+    double _weight;
+};
 
-bool Module::operator==(const Module m)
-{
-  Nodes mn = m._neurons;
-  FORC(Nodes, a, _neurons)
-  {
-    bool foundNode = false;
-    FORC(Nodes, b, mn)
-    {
-      if(**a == **b)
-      {
-        foundNode = true;
-        break;
-      }
-    }
-    if(foundNode == false) return false;
-  }
-  return true;
-}
+typedef vector<Edge*> Edges;
 
-bool Module::operator!=(const Module m)
-{
-  Nodes mn = m._neurons;
-  FORC(Nodes, a, _neurons)
-  {
-    bool foundNode = true;
-    FORC(Nodes, b, mn)
-    {
-      if(**a != **b)
-      {
-        foundNode = false;
-        break;
-      }
-    }
-    if(foundNode == false) return true;
-  }
-  return false;
-}
+#endif // __EDGE_H__
 
-
-Nodes Module::neurons()
-{
-  return _neurons;
-}

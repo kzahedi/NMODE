@@ -30,7 +30,8 @@ include_directories("${PROJECT_SOURCE_DIR}/src")
 link_directories(${PROJECT_BINARY_DIR}/lib)
 
 add_library(ENPEvo STATIC Module.cpp
-                          ModuleNeuron.cpp
+                          Node.cpp
+                          Edge.cpp
                           ModuleMutationOperator.cpp
                           )
 

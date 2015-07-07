@@ -46,7 +46,7 @@ class ModuleMutationOperator
                        DataEvolutionSynapse *_des);
 
   private:
-    // ModuleMutationOperator();
+    static void __mutateRemoveSyanpse(Module *m, double probability);
 };
 
 

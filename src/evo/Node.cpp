@@ -28,80 +28,68 @@
 
 #include "Module.h"
 
-#include <iostream>
-
-#include "base/macros.h"
-
-
-Module::Module(string name)
+Node::Node()
 {
-  _name   = name;
-  _linked = false;
 }
 
-Module::~Module()
+Node::~Node()
 {
-  FORC(Nodes, n, _neurons) delete (*n);
-  _neurons.clear();
 }
 
-void Module::addNode(Node *neuron)
+void Node::setPosition(P3D position)
 {
-  _neurons.push_back(neuron);
+  _position = position;
 }
 
-string Module::name()
+void Node::setType(string type)
 {
-  return _name;
+  if(type == "sensor")   _type = MODULE_NODE_TYPE_SENSOR;
+  if(type == "actuator") _type = MODULE_NODE_TYPE_ACTUATOR;
+  if(type == "hidden")   _type = MODULE_NODE_TYPE_HIDDEN;
 }
 
-void Module::linkTo(Module *target)
+void Node::setLabel(string label)
 {
-  _linked = true;
-  _target = target;
+  _label = label;
 }
 
-
-bool Module::operator==(const Module m)
+void Node::setTransferfunction(string tf)
 {
-  Nodes mn = m._neurons;
-  FORC(Nodes, a, _neurons)
-  {
-    bool foundNode = false;
-    FORC(Nodes, b, mn)
-    {
-      if(**a == **b)
-      {
-        foundNode = true;
-        break;
-      }
-    }
-    if(foundNode == false) return false;
-  }
-  return true;
+  _transferfunction = tf;
 }
 
-bool Module::operator!=(const Module m)
+P3D Node::position()
 {
-  Nodes mn = m._neurons;
-  FORC(Nodes, a, _neurons)
-  {
-    bool foundNode = true;
-    FORC(Nodes, b, mn)
-    {
-      if(**a != **b)
-      {
-        foundNode = false;
-        break;
-      }
-    }
-    if(foundNode == false) return true;
-  }
-  return false;
+  return _position;
 }
 
-
-Nodes Module::neurons()
+int Node::type()
 {
-  return _neurons;
+  return _type;
+}
+
+string Node::label()
+{
+  return _label;
+}
+
+string Node::transferfunction()
+{
+  return _transferfunction;
+}
+
+bool Node::operator==(const Node o)
+{
+  return (_position         == o._position &&
+          _label            == o._label    &&
+          _type             == o._type     &&
+          _transferfunction == o._transferfunction);
+}
+
+bool Node::operator!=(const Node o)
+{
+  return (_position         != o._position ||
+          _label            != o._label    ||
+          _type             != o._type     ||
+          _transferfunction != o._transferfunction);
 }

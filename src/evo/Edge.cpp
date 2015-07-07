@@ -26,58 +26,42 @@
 
 
 
-#ifndef __MODULE_NEURON_H__
-#define __MODULE_NEURON_H__
+#include "Edge.h"
 
-#include <vector>
-#include <string>
-#include <ostream>
-
-#include "base/P3D.h"
-
-#define MODULE_NEURON_TYPE_SENSOR   1001
-#define MODULE_NEURON_TYPE_ACTUATOR 1002
-#define MODULE_NEURON_TYPE_HIDDEN   1003
-
-using namespace std;
-
-class ModuleNeuron
+Edge::Edge()
 {
-  public:
-    ModuleNeuron();
-    ~ModuleNeuron();
+}
 
-    //ModuleNeuron(const ModuleNeuron);
-    //ModuleNeuron operator=(const ModuleNeuron);
-    bool operator==(const ModuleNeuron o);
-    bool operator!=(const ModuleNeuron o);
+Edge::~Edge()
+{ }
 
-    void setPosition(P3D position);
-    void setType(string type);
-    void setLabel(string label);
-    void setTransferfunction(string tf);
+void Edge::setSource(Node *src)
+{
+  _src = src;
+}
 
-    P3D    position();
-    int    type();
-    string label();
-    string transferfunction();
+void Edge::setDestination(Node *dest)
+{
+  _dest = dest;
+}
 
-    friend std::ostream& operator<<(std::ostream& str, const ModuleNeuron& n)
-    {
-      str << n._label << ", " << n._type << ", " << n._position << ", " << n._transferfunction;
-      return str;
-    };
+void Edge::setWeight(double weight)
+{
+  _weight = weight;
+}
 
+Node* Edge::source()
+{
+  return _src;
+}
 
-  private:
+Node* Edge::destination()
+{
+  return _dest;
+}
 
-    P3D    _position;
-    int    _type;
-    string _label;
-    string _transferfunction;
-};
-
-typedef vector<ModuleNeuron*> ModuleNeurons;
-
-#endif // __MODULE_NEURON_H__
+double Edge::weight()
+{
+  return _weight;
+}
 

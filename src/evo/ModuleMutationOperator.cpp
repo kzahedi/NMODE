@@ -35,4 +35,11 @@
 
 void ModuleMutationOperator::mutate(Module *m, DataEvolutionNeuron *den, DataEvolutionSynapse *des)
 {
+  __mutateRemoveSyanpse(m, des->delProbability());
+}
+
+
+void ModuleMutationOperator::__mutateRemoveSyanpse(Module *m, double probability)
+{
+  
 }
