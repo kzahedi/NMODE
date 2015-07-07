@@ -35,6 +35,10 @@
 
 #include "base/P3D.h"
 
+#define MODULE_NEURON_TYPE_SENSOR   1001
+#define MODULE_NEURON_TYPE_ACTUATOR 1002
+#define MODULE_NEURON_TYPE_HIDDEN   1003
+
 using namespace std;
 
 class ModuleNeuron
@@ -54,7 +58,7 @@ class ModuleNeuron
     void setTransferfunction(string tf);
 
     P3D    position();
-    string type();
+    int    type();
     string label();
     string transferfunction();
 
@@ -68,7 +72,7 @@ class ModuleNeuron
   private:
 
     P3D    _position;
-    string _type;
+    int    _type;
     string _label;
     string _transferfunction;
 };

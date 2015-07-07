@@ -31,6 +31,7 @@ link_directories(${PROJECT_BINARY_DIR}/lib)
 
 add_library(ENPEvo STATIC Module.cpp
                           ModuleNeuron.cpp
+                          ModuleMutationOperator.cpp
                           )
 
 target_link_libraries(ENPEvo ${Boost_LIBRARIES} ENPBase)

@@ -26,82 +26,28 @@
 
 
 
+#ifndef __MODULE_MUTATION_OPERATOR_H__
+#define __MODULE_MUTATION_OPERATOR_H__
+
+#include "data/DataEvolutionNeuron.h"
+#include "data/DataEvolutionSynapse.h"
 #include "Module.h"
 
-#include <iostream>
-
-#include "base/macros.h"
-
-
-Module::Module(string name)
+class ModuleMutationOperator
 {
-  _name   = name;
-  _linked = false;
-}
+  public:
+    // ~ModuleMutationOperator();
 
-Module::~Module()
-{
-  FORC(ModuleNeurons, n, _neurons) delete (*n);
-  _neurons.clear();
-}
+    //ModuleMutationOperator(const ModuleMutationOperator);
+    //ModuleMutationOperator operator=(const ModuleMutationOperator);
 
-void Module::addNeuron(ModuleNeuron *neuron)
-{
-  _neurons.push_back(neuron);
-}
+    static void mutate(Module *module,
+                       DataEvolutionNeuron *_den,
+                       DataEvolutionSynapse *_des);
 
-string Module::name()
-{
-  return _name;
-}
-
-void Module::linkTo(Module *target)
-{
-  _linked = true;
-  _target = target;
-}
+  private:
+    // ModuleMutationOperator();
+};
 
 
-bool Module::operator==(const Module m)
-{
-  ModuleNeurons mn = m._neurons;
-  FORC(ModuleNeurons, a, _neurons)
-  {
-    bool foundNeuron = false;
-    FORC(ModuleNeurons, b, mn)
-    {
-      if(**a == **b)
-      {
-        foundNeuron = true;
-        break;
-      }
-    }
-    if(foundNeuron == false) return false;
-  }
-  return true;
-}
-
-bool Module::operator!=(const Module m)
-{
-  ModuleNeurons mn = m._neurons;
-  FORC(ModuleNeurons, a, _neurons)
-  {
-    bool foundNeuron = true;
-    FORC(ModuleNeurons, b, mn)
-    {
-      if(**a != **b)
-      {
-        foundNeuron = false;
-        break;
-      }
-    }
-    if(foundNeuron == false) return true;
-  }
-  return false;
-}
-
-
-ModuleNeurons Module::neurons()
-{
-  return _neurons;
-}
+#endif // __MODULE_MUTATION_OPERATOR_H__

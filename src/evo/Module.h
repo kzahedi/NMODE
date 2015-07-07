@@ -34,7 +34,7 @@
 class Module
 {
   public:
-    Module();
+    Module(string name);
     ~Module();
 
     //Module(const Module);

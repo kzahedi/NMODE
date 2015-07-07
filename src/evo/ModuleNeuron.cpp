@@ -43,7 +43,9 @@ void ModuleNeuron::setPosition(P3D position)
 
 void ModuleNeuron::setType(string type)
 {
-  _type = type;
+  if(type == "sensor")   _type = MODULE_NEURON_TYPE_SENSOR;
+  if(type == "actuator") _type = MODULE_NEURON_TYPE_ACTUATOR;
+  if(type == "hidden")   _type = MODULE_NEURON_TYPE_HIDDEN;
 }
 
 void ModuleNeuron::setLabel(string label)
@@ -61,7 +63,7 @@ P3D ModuleNeuron::position()
   return _position;
 }
 
-string ModuleNeuron::type()
+int ModuleNeuron::type()
 {
   return _type;
 }

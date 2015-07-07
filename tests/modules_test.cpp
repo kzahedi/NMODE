@@ -57,22 +57,27 @@ void modulesTest::testModuleNeuronEquality()
   a->setTransferfunction("tanh");
   a->setPosition(P3D(1.0, 1.0, 1.0));
   a->setLabel("label");
-  a->setType("type");
+  a->setType("sensor");
+
+  CPPUNIT_ASSERT("tanh"                    == a->transferfunction());
+  CPPUNIT_ASSERT(P3D(1.0, 1.0, 1.0)        == a->position());
+  CPPUNIT_ASSERT("label"                   == a->label());
+  CPPUNIT_ASSERT(MODULE_NEURON_TYPE_SENSOR == a->type());
 
   ModuleNeuron *b = new ModuleNeuron();
   b->setTransferfunction("tanh");
   b->setPosition(P3D(1.0, 1.0, 1.0));
   b->setLabel("label");
-  b->setType("type");
+  b->setType("sensor");
 
   CPPUNIT_ASSERT(*a == *b);
 
-  b->setType("type new");
+  b->setType("actuator");
 
   CPPUNIT_ASSERT((*a == *b) == false);
   CPPUNIT_ASSERT(*a != *b);
 
-  b->setType("type");
+  b->setType("sensor");
   b->setPosition(P3D(1.0, 1.0, 0.0));
 
   CPPUNIT_ASSERT((*a == *b) == false);
@@ -82,7 +87,7 @@ void modulesTest::testModuleNeuronEquality()
 
 void modulesTest::testModuleEquality()
 {
-  Module *a = new Module();
+  Module *a = new Module("module 1");
 
   ModuleNeuron *aa = new ModuleNeuron();
   aa->setType("sensor");
@@ -121,7 +126,7 @@ void modulesTest::testModuleEquality()
   a->addNeuron(ae);
 
 
-  Module *b = new Module();
+  Module *b = new Module("module 2");
 
   ModuleNeuron *ba = new ModuleNeuron();
   ba->setType("sensor");
@@ -167,7 +172,7 @@ void modulesTest::testModuleEquality()
 
 void modulesTest::testModuleInequality()
 {
-  Module *a = new Module();
+  Module *a = new Module("module 1");
 
   ModuleNeuron *aa = new ModuleNeuron();
   aa->setType("sensor");
@@ -206,7 +211,7 @@ void modulesTest::testModuleInequality()
   a->addNeuron(ae);
 
 
-  Module *b = new Module();
+  Module *b = new Module("module 2");
 
   ModuleNeuron *ba = new ModuleNeuron();
   ba->setType("sensor");
@@ -245,5 +250,4 @@ void modulesTest::testModuleInequality()
   b->addNeuron(be);
 
   CPPUNIT_ASSERT(*a != *b);
-
 }
