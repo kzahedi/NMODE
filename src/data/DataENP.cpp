@@ -83,6 +83,7 @@ void DataENP::createXsd(XsdSpecification *spec)
 {
   XsdSequence *_root = new XsdSequence(TAG_ENP);
   _root->add(NA(TAG_VERSION,       TAG_VERSION_DEFINITION,       true));
+  _root->add(NE(TAG_SIMULATOR,     TAG_SIMULATOR_DEFINITION,     1, 1));
   _root->add(NE(TAG_EVOLUTION,     TAG_EVOLUTION_DEFINITION,     1, 1));
   _root->add(NE(TAG_CONFIGURATION, TAG_CONFIGURATION_DEFINITION, 1, 1));
   spec->setRoot(_root);
@@ -160,6 +161,14 @@ void DataENP::__getChild(DataParseElement *element)
     current = _configuration;
     current->add(element);
   }
+
+  if(element->opening(TAG_SIMULATOR))
+  {
+    _simulator = new DataSimulator(this);
+    current = _simulator;
+    current->add(element);
+  }
+
 }
 
 DataEvolution* DataENP::evolution()
@@ -170,5 +179,10 @@ DataEvolution* DataENP::evolution()
 DataConfiguration* DataENP::configuration()
 {
   return _configuration;
+}
+
+DataSimulator* DataENP::simulator()
+{
+  return _simulator;
 }
 

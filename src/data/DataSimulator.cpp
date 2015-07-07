@@ -1,6 +1,6 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Simulator of Neural Pathways (ENP).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
@@ -26,57 +26,64 @@
 
 
 
-#ifndef __DATA_ENP_H__
-#define __DATA_ENP_H__
-
-#include "DataNode.h"
-#include "Version.h"
-
-#include "DataEvolution.h"
-#include "DataConfiguration.h"
 #include "DataSimulator.h"
 
-# define TAG_ENP                        (char*)"enp"
-# define TAG_ENP_DEFINITION             (char*)"enp_definition"
-# define TAG_VERSION_REGULAR_EXPRESSION (char*)"[0-9]+.[0-9]+.[0-9]+"
+#include <iostream>
 
-class DataENP : public DataNode
+#define TAG_WD  (char*)"wd"
+#define TAG_XML (char*)"xml"
+#define TAG_NR  (char*)"nr"
+
+
+using namespace std;
+
+DataSimulator::DataSimulator(DataNode *parent)
+  : DataNode(parent)
+{ }
+
+DataSimulator::~DataSimulator()
 {
-  public:
+}
 
-    /**
-     * @brief Constructor.
-     *
-     * @param parent
-     */
-    DataENP(DataNode *parent);
 
-    /**
-     * @brief Destructor.
-     */
-    virtual ~DataENP();
+void DataSimulator::add(DataParseElement *element)
+{
+  if(element->closing(TAG_SIMULATOR))
+  {
+    current = parent;
+    return;
+  }
 
-    Version version();
-    void setVersion(Version version);
+  if(element->opening(TAG_SIMULATOR))
+  {
+    element->set(TAG_WD,  _workingDirectory);
+    element->set(TAG_XML, _xml);
+    element->set(TAG_NR,  _nr);
+    return;
+  }
+}
 
-    void add(DataParseElement *element);
+void DataSimulator::createXsd(XsdSpecification *spec)
+{
+  XsdSequence *root = new XsdSequence(TAG_SIMULATOR_DEFINITION);
+  root->add(NA(TAG_WD,  TAG_XSD_STRING,                true));
+  root->add(NA(TAG_XML, TAG_XSD_STRING,                true));
+  root->add(NA(TAG_NR,  TAG_POSITIVE_NON_ZERO_DECIMAL, true));
+  spec->add(root);
+}
 
-    static void createXsd(XsdSpecification *spec);
+string DataSimulator::workingDirectory()
+{
+  return _workingDirectory;
+}
 
-    DataSimulator     *simulator();
-    DataEvolution     *evolution();
-    DataConfiguration *configuration();
+string DataSimulator::xml()
+{
+  return _xml;
+}
 
-  private:
-    void __getChild(DataParseElement *element);
-
-    Version            _version;
-    DataSimulator     *_simulator;
-    DataEvolution     *_evolution;
-    DataConfiguration *_configuration;
-
-};
-
-#endif // ___DATA_ENP_H__
-
+int DataSimulator::nr()
+{
+  return _nr;
+}
 

@@ -40,6 +40,8 @@ add_library(ENPData SHARED XmlChangeLog.cpp
                            DataNode.cpp
                            DataENP.cpp
 
+                           DataSimulator.cpp
+
                            DataEvolution.cpp
                            DataEvolutionNeuron.cpp
                            DataEvolutionSynapse.cpp

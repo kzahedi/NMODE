@@ -1,6 +1,6 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Simulator of Neural Pathways (ENP).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
@@ -26,21 +26,15 @@
 
 
 
-#ifndef __DATA_ENP_H__
-#define __DATA_ENP_H__
+#ifndef __DATA_SIMULATOR_H__
+#define __DATA_SIMULATOR_H__
 
 #include "DataNode.h"
-#include "Version.h"
 
-#include "DataEvolution.h"
-#include "DataConfiguration.h"
-#include "DataSimulator.h"
+# define TAG_SIMULATOR            (char*)"simulator"
+# define TAG_SIMULATOR_DEFINITION (char*)"simulator_definition"
 
-# define TAG_ENP                        (char*)"enp"
-# define TAG_ENP_DEFINITION             (char*)"enp_definition"
-# define TAG_VERSION_REGULAR_EXPRESSION (char*)"[0-9]+.[0-9]+.[0-9]+"
-
-class DataENP : public DataNode
+class DataSimulator : public DataNode
 {
   public:
 
@@ -49,34 +43,29 @@ class DataENP : public DataNode
      *
      * @param parent
      */
-    DataENP(DataNode *parent);
+    DataSimulator(DataNode *parent);
 
     /**
      * @brief Destructor.
      */
-    virtual ~DataENP();
-
-    Version version();
-    void setVersion(Version version);
+    virtual ~DataSimulator();
 
     void add(DataParseElement *element);
 
     static void createXsd(XsdSpecification *spec);
 
-    DataSimulator     *simulator();
-    DataEvolution     *evolution();
-    DataConfiguration *configuration();
+    string workingDirectory();
+    string xml();
+    int    nr();
 
   private:
-    void __getChild(DataParseElement *element);
 
-    Version            _version;
-    DataSimulator     *_simulator;
-    DataEvolution     *_evolution;
-    DataConfiguration *_configuration;
+    string _workingDirectory;
+    string _xml;
+    int    _nr;
 
 };
 
-#endif // ___DATA_ENP_H__
+#endif // ___DATA_SIMULATOR_H__
 
 

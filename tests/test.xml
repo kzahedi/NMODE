@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 
 <enp version="0.0.1">
+  <simulator wd="working directory"
+             xml="xml file"
+             nr="42"/>
 
   <evolution>
     <neuron cost="0.1">

@@ -47,6 +47,15 @@ void xmlTest::testXml()
   d->read(file);
   
   DataENP              *enp  = d->specification();
+
+  DataSimulator        *sim = enp->simulator();
+
+
+  CPPUNIT_ASSERT("working directory" == sim->workingDirectory());
+  CPPUNIT_ASSERT("xml file"          == sim->xml());
+  CPPUNIT_ASSERT(42                  == sim->nr());
+
+
   DataEvolution        *evo  = enp->evolution();
 
   DataEvolutionNeuron  *evon = evo->neuron();
