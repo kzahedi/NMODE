@@ -28,8 +28,11 @@
 
 #include "Module.h"
 
+#include "base/macros.h"
+
 Node::Node()
 {
+  _type = -1;
 }
 
 Node::~Node()
@@ -41,11 +44,13 @@ void Node::setPosition(P3D position)
   _position = position;
 }
 
-void Node::setType(string type)
+void Node::setType(string type) throw (ENPException)
 {
+  _type = -1;
   if(type == "sensor")   _type = MODULE_NODE_TYPE_SENSOR;
   if(type == "actuator") _type = MODULE_NODE_TYPE_ACTUATOR;
   if(type == "hidden")   _type = MODULE_NODE_TYPE_HIDDEN;
+  if(_type == -1) throw ENPException("Node::setType uknown type");
 }
 
 void Node::setLabel(string label)
@@ -92,4 +97,32 @@ bool Node::operator!=(const Node o)
           _label            != o._label    ||
           _type             != o._type     ||
           _transferfunction != o._transferfunction);
+}
+
+Edges::iterator Node::e_begin()
+{
+  return _in.begin();
+}
+
+Edges::iterator Node::e_end()
+{
+  return _in.end();
+}
+
+void Node::addEdge(Edge *e)
+{
+  _in.push_back(e);
+}
+
+bool Node::removeEdge(Edge *e)
+{
+  FORC(Edges, i, _in)
+  {
+    if((**i) == *e)
+    {
+      _in.erase(i);
+      return true;
+    }
+  }
+  return false;
 }

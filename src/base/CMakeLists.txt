@@ -31,6 +31,7 @@ link_directories(${PROJECT_BINARY_DIR}/lib)
 
 add_library(ENPBase STATIC RNN.cpp
                            P3D.cpp
+                           Random.cpp
                            StringTokeniser.cpp
                            ENPErrorHandler.cpp
                            FileSystemOperations.cpp)

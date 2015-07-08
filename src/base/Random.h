@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,62 +25,15 @@
  *************************************************************************/
 
 
+#ifndef __RANDOM_H__
+#define __RANDOM_H__
 
-#ifndef __DATA_EVOLUTION_SYNAPSE_H__
-#define __DATA_EVOLUTION_SYNAPSE_H__
-
-#include "DataNode.h"
-#include "Version.h"
-
-# define TAG_EVOLUTION_SYNAPSE            (char*)"synapse"
-# define TAG_EVOLUTION_SYNAPSE_DEFINITION (char*)"synapse_evolution_definition"
-
-class DataEvolutionSynapse : public DataNode
+class Random
 {
   public:
-
-    /**
-     * @brief Constructor.
-     *
-     * @param parent
-     */
-    DataEvolutionSynapse(DataNode *parent);
-
-    /**
-     * @brief Destructor.
-     */
-    virtual ~DataEvolutionSynapse();
-
-    void add(DataParseElement *element);
-
-    static void createXsd(XsdSpecification *spec);
-
-    double modifyProbability();
-    double modifyMaxValue();
-    double modifyDelta();
-    double addProbability();
-    double addMaxValue();
-    int    addIteartions();
-    double delProbability();
-    double cost();
-
-  private:
-
-    double _modifyProbability;
-    double _modifyMaxValue;
-    double _modifyDelta;
-
-    double _addProbability;
-    double _addMaxValue;
-    double _addIteration;
-
-    double _delProbability;
-
-    double _cost;
-
-
+    static void initialise();
+    static void initialise(int seed);
+    static double unit();
 };
 
-#endif // ___DATA_EVOLUTION_SYNAPSE_H__
-
-
+#endif // __RANDOM_H__

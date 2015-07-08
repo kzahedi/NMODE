@@ -101,7 +101,35 @@ bool Module::operator!=(const Module m)
 }
 
 
-Nodes Module::neurons()
+Nodes::iterator Module::n_begin()
 {
-  return _neurons;
+  return _neurons.begin();
+}
+
+Nodes::iterator Module::n_end()
+{
+  return _neurons.end();
+}
+
+Edges::iterator Module::e_begin()
+{
+  return _edges.begin();
+}
+
+Edges::iterator Module::e_end()
+{
+  return _edges.end();
+}
+
+bool Module::removeEdge(Edge *e)
+{
+  FORC(Edges, i, _edges)
+  {
+    if((**i) == *e)
+    {
+      _edges.erase(i);
+      return true;
+    }
+  }
+  return false;
 }

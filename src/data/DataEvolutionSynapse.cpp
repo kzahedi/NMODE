@@ -31,16 +31,20 @@
 #include <iostream>
 
 
-#define TAG_MODIFY               (char*)"modify"
-#define TAG_MODIFY_DEFINITION    (char*)"modify_definition"
-#define TAG_ADD                  (char*)"add"
-#define TAG_ADD_DEFINITION       (char*)"add_definition"
-#define TAG_DEL                  (char*)"delete"
-#define TAG_DEL_DEFINITION       (char*)"delete_definition"
-#define TAG_PROBABILITY          (char*)"probability"
-#define TAG_MAX                  (char*)"maximum"
-#define TAG_DELTA                (char*)"delta"
-#define TAG_COST                 (char*)"cost"
+#define TAG_MODIFY            (char*)"modify"
+#define TAG_MODIFY_DEFINITION (char*)"modify_definition"
+
+#define TAG_ADD               (char*)"add"
+#define TAG_ADD_DEFINITION    (char*)"add_definition"
+
+#define TAG_DEL               (char*)"delete"
+#define TAG_DEL_DEFINITION    (char*)"delete_definition"
+
+#define TAG_PROBABILITY       (char*)"probability"
+#define TAG_MAX               (char*)"maximum"
+#define TAG_DELTA             (char*)"delta"
+#define TAG_COST              (char*)"cost"
+#define TAG_ITERATIONS        (char*)"iterations"
 
 
 using namespace std;
@@ -112,6 +116,7 @@ void DataEvolutionSynapse::createXsd(XsdSpecification *spec)
   XsdSequence *add = new XsdSequence(TAG_ADD_DEFINITION);
   add->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL,    true));
   add->add(NA(TAG_MAX,         TAG_POSITIVE_DECIMAL, true));
+  add->add(NA(TAG_ITERATIONS,  TAG_POSITIVE_INTEGER, true));
   spec->add(add);
 
   XsdSequence *del = new XsdSequence(TAG_DEL_DEFINITION);

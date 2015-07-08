@@ -65,3 +65,17 @@ double Edge::weight()
   return _weight;
 }
 
+bool Edge::operator==(const Edge o)
+{
+  return (_weight == o._weight &&
+          _src    == o._src    &&
+          _dest   == o._dest);
+}
+
+bool Edge::operator!=(const Edge o)
+{
+  return (_weight != o._weight ||
+          _src    != o._src    ||
+          _dest   != o._dest);
+}
+

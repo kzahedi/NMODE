@@ -30,6 +30,7 @@
 
 // #include "main/Configuration.h"
 // #include "data/Data.h"
+#include "base/Random.h"
 #include "evo/Node.h"
 #include "evo/Module.h"
 
@@ -250,4 +251,10 @@ void modulesTest::testModuleInequality()
   b->addNode(be);
 
   CPPUNIT_ASSERT(*a != *b);
+}
+
+
+void modulesTest::testModuleMutationOperator()
+{
+  Random::initialise();
 }

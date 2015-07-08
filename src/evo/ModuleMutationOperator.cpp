@@ -28,18 +28,76 @@
 
 #include "ModuleMutationOperator.h"
 
+#include "base/macros.h"
+#include "base/Random.h"
+
 
 // ModuleMutationOperator::ModuleMutationOperator()
 // {
 // }
 
-void ModuleMutationOperator::mutate(Module *m, DataEvolutionNeuron *den, DataEvolutionSynapse *des)
+#define FORALLEDGES for(Edges::iterator e = m->e_begin(); e != m->e_end(); e++)
+
+void ModuleMutationOperator::mutate(Module *m,
+                                    DataEvolutionNeuron *den,
+                                    DataEvolutionSynapse *des)
 {
-  __mutateRemoveSyanpse(m, des->delProbability());
+  __mutateRemoveEdge(m, des->delProbability());
+  __mutateModifyEdge(m, des->modifyProbability(), 
+                        des->modifyDelta(), 
+                        des->modifyMaxValue());
+  __mutateAddEdge(m,    des->addProbability(),
+                        des->addMaxValue(),
+                        des->addIteartions());
 }
 
 
-void ModuleMutationOperator::__mutateRemoveSyanpse(Module *m, double probability)
+void ModuleMutationOperator::__mutateRemoveEdge(Module *m, double probability)
 {
-  
+  Edges toBeRemoved;
+  FORALLEDGES
+  {
+    if(Random::unit() < probability)
+    {
+      toBeRemoved.push_back(*e);
+    }
+  }
+
+  // for(Edges::reverse_iterator e = toBeRemoved.end();
+      // e != toBeRemoved.begin(); e--)
+  // {
+    // Node *dest = (*e)->destination();
+    // dest->removeEdge(*e);
+    // m->removeEdge(*e);
+  // }
 }
+
+static void ModuleMutationOperator__mutateModifyEdge(Module *m, double probability,
+                                                                double delta,
+                                                                double max)
+{
+  FORALLEDGES
+  {
+    if(Random::unit() < probability)
+    {
+      double weight = (*e)->weight()+ (2.0 * Random::unit() - 1.0) * delta;
+      if(weight >  max) weight =  max;
+      if(weight < -max) weight = -max;
+      (*e)->setWeight(weight);
+    }
+  }
+}
+
+void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
+                                                        double max,
+                                                        int    iterations)
+{
+  if(Random::unit() < probability)
+  {
+    for(int i = 0; i < iterations; i++)
+    {
+      // HIER
+    }
+  }
+}
+

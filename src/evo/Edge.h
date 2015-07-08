@@ -51,8 +51,8 @@ class Edge
 
     //Edge(const Edge);
     //Edge operator=(const Edge);
-    // bool operator==(const Edge o);
-    // bool operator!=(const Edge o);
+    bool operator==(const Edge o);
+    bool operator!=(const Edge o);
 
     void setSource(Node *src);
     void setDestination(Node *dest);

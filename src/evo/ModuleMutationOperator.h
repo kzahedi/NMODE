@@ -46,7 +46,14 @@ class ModuleMutationOperator
                        DataEvolutionSynapse *_des);
 
   private:
-    static void __mutateRemoveSyanpse(Module *m, double probability);
+    static void __mutateRemoveEdge(Module *m, double probability);
+    static void __mutateModifyEdge(Module *m, double probability,
+                                              double delta,
+                                              double max);
+    static void __mutateAddEdge(Module *m,    double probability,
+                                              double max,
+                                              int    iterations);
+
 };
 
 

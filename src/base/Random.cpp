@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,62 +25,37 @@
  *************************************************************************/
 
 
+#include "Random.h"
 
-#ifndef __DATA_EVOLUTION_SYNAPSE_H__
-#define __DATA_EVOLUTION_SYNAPSE_H__
+#include <stdlib.h>
 
-#include "DataNode.h"
-#include "Version.h"
+#ifdef _MSC_VER
+#  include <time.h>
+#else
+#  include <sys/time.h>
+#  include <time.h>
+#endif
 
-# define TAG_EVOLUTION_SYNAPSE            (char*)"synapse"
-# define TAG_EVOLUTION_SYNAPSE_DEFINITION (char*)"synapse_evolution_definition"
+#include <iostream>
 
-class DataEvolutionSynapse : public DataNode
+void Random::initialise()
 {
-  public:
+#ifdef __APPLE__
+  sranddev();
+#else
+  timespec time;
+  clock_gettime(CLOCK_REALTIME, &time);
+  srand(time.tv_nsec);
+#endif // __APPLE__
+}
 
-    /**
-     * @brief Constructor.
-     *
-     * @param parent
-     */
-    DataEvolutionSynapse(DataNode *parent);
+double Random::unit()
+{
+  return ((double)random()) /
+         ((double)RAND_MAX);
+}
 
-    /**
-     * @brief Destructor.
-     */
-    virtual ~DataEvolutionSynapse();
-
-    void add(DataParseElement *element);
-
-    static void createXsd(XsdSpecification *spec);
-
-    double modifyProbability();
-    double modifyMaxValue();
-    double modifyDelta();
-    double addProbability();
-    double addMaxValue();
-    int    addIteartions();
-    double delProbability();
-    double cost();
-
-  private:
-
-    double _modifyProbability;
-    double _modifyMaxValue;
-    double _modifyDelta;
-
-    double _addProbability;
-    double _addMaxValue;
-    double _addIteration;
-
-    double _delProbability;
-
-    double _cost;
-
-
-};
-
-#endif // ___DATA_EVOLUTION_SYNAPSE_H__
-
-
+void Random::initialise(int seed)
+{
+  srand(seed);
+}

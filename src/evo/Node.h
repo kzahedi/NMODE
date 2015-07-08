@@ -34,6 +34,9 @@
 #include <ostream>
 
 #include "base/P3D.h"
+#include "base/ENPException.h"
+
+#include "Edge.h"
 
 #define MODULE_NODE_TYPE_SENSOR   1001
 #define MODULE_NODE_TYPE_ACTUATOR 1002
@@ -53,7 +56,7 @@ class Node
     bool operator!=(const Node o);
 
     void setPosition(P3D position);
-    void setType(string type);
+    void setType(string type) throw (ENPException);
     void setLabel(string label);
     void setTransferfunction(string tf);
 
@@ -61,6 +64,12 @@ class Node
     int    type();
     string label();
     string transferfunction();
+
+    Edges::iterator e_begin();
+    Edges::iterator e_end();
+
+    void addEdge(Edge *e);
+    bool removeEdge(Edge *e);
 
     friend std::ostream& operator<<(std::ostream& str, const Node& n)
     {
@@ -75,6 +84,7 @@ class Node
     int    _type;
     string _label;
     string _transferfunction;
+    Edges  _in;
 };
 
 typedef vector<Node*> Nodes;

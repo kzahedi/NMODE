@@ -49,14 +49,19 @@ class Module
     bool linked();
     void linkTo(Module *target);
 
+    bool removeEdge(Edge *e);
 
-    Nodes neurons();
+    Nodes::iterator n_begin();
+    Nodes::iterator n_end();
+    Edges::iterator e_begin();
+    Edges::iterator e_end();
 
   private:
-    Nodes _neurons;
-    string      _name;
-    bool        _linked;
-    Module     *_target;
+    Nodes   _neurons;
+    Edges   _edges;
+    string  _name;
+    bool    _linked;
+    Module *_target;
 };
 
 #endif // __MODULE_H__
