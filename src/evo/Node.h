@@ -82,7 +82,7 @@ class Node
 
     friend std::ostream& operator<<(std::ostream& str, const Node& n)
     {
-      str << n._label << ", " << n._type << ", " << n._position << ", " << n._transferfunction;
+      str << "[" << n._label << ", " << n._type << ", " << n._position << ", " << n._transferfunction << ", " << n._value << "]";
       return str;
     };
 

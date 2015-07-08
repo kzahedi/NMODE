@@ -65,6 +65,28 @@ class Module
     int             e_size();
     Edge*           edge(int index);
 
+    friend std::ostream& operator<<(std::ostream& str, const Module& m)
+    {
+      str << "Module: " << m._name << endl;
+      str << "  Nodes: " << endl;
+      for(Nodes::const_iterator n = m._nodes.begin(); n != m._nodes.end(); n++)
+      {
+        str << "    [" << (*n)->label()            << ", "
+                       << (*n)->type()             << ", "
+                       << (*n)->position()         << ", "
+                       << (*n)->transferfunction() << ", "
+                       << (*n)->value()            << "]";
+      }
+      str << "  Edges: " << endl;
+      for(Edges::const_iterator e = m._edges.begin(); e != m._edges.end(); e++)
+      {
+        str << "    [" << (*e)->source()->label()      << " -> "
+                       << (*e)->destination()->label() << ": "
+                       << (*e)->weight()               << "]";
+      }
+      return str;
+    };
+
   private:
     Nodes   _nodes;
     Nodes   _sensors;

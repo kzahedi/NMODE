@@ -58,9 +58,17 @@ class Edge
     void setDestination(Node *dest);
     void setWeight(double weight);
 
-    Node* source();
-    Node* destination();
-    double      weight();
+    Node*  source();
+    Node*  destination();
+    double weight();
+
+    // friend std::ostream& operator<<(std::ostream& str, const Edge& e)
+    // {
+      // Node *s = e._src;
+      // Node *d = e._dest;
+      // str << "[" << s->label() << " -> " << d->label() << " -> " << e._weight << "]";
+      // return str;
+    // };
 
   private:
 

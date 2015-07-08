@@ -33,6 +33,7 @@
 #include "base/macros.h"
 #include "base/Random.h"
 
+#include <sstream>
 
 // ModuleMutationOperator::ModuleMutationOperator()
 // {
@@ -169,9 +170,12 @@ void ModuleMutationOperator::__mutateAddNode(Module *m, double probability, doub
   P3D dp    = dst->position();
   P3D np    = (sp + dp) * 0.5;
 
+  stringstream oss;
+  oss << "hidden " << m->n_size();
   n->setType("hidden");
   n->setPosition(np);
   n->setValue(Random::rand(-max, max));
+  n->setLabel(oss.str());
 
   e->setSource(n);
   m->addEdge(src, n, 1.0);
