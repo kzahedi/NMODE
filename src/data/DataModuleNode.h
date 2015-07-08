@@ -26,64 +26,50 @@
 
 
 
-#include "DataModule.h"
+#ifndef __DATA_MODULE_NODE_H__
+#define __DATA_MODULE_NODE_H__
 
-#include "base/macros.h"
+#include "DataNode.h"
 
-#include <iostream>
+#include "base/P3D.h"
 
-#define TAG_NAME (char*)"name"
+# define TAG_MODULE_NODE            (char*)"node"
+# define TAG_MODULE_NODE_DEFINITION (char*)"module_node_definition"
 
-using namespace std;
-
-DataModule::DataModule(DataNode *parent)
-  : DataNode(parent)
-{ }
-
-DataModule::~DataModule()
+class DataModuleNode : public DataNode
 {
-}
+  public:
 
-void DataModule::add(DataParseElement *element)
-{
+    /**
+     * @brief Constructor.
+     *
+     * @param parent
+     */
+    DataModuleNode(DataNode *parent);
 
-  if(element->closing(TAG_MODULE))
-  {
-    current = parent;
-    return;
-  }
+    /**
+     * @brief Destructor.
+     */
+    virtual ~DataModuleNode();
 
-  if(element->opening(TAG_MODULE))
-  {
-    element->set(TAG_NAME, _name);
-  }
+    void add(DataParseElement *element);
 
-  if(element->opening(TAG_MODULE_NODE))
-  {
-    DataModuleNode *node = new DataModuleNode(this);
-    _nodes.push_back(node);
-    current = node;
-    node->add(element);
-  }
+    static void createXsd(XsdSpecification *spec);
 
-}
+    string type();
+    string label();
+    P3D    position();
+    string transferfunction();
 
-void DataModule::createXsd(XsdSpecification *spec)
-{
-  XsdSequence *root = new XsdSequence(TAG_MODULE_DEFINITION);
-  root->add(NA(TAG_NAME,          TAG_XSD_STRING,               true));
-  root->add(NE(TAG_MODULE_NODE, TAG_MODULE_NODE_DEFINITION, 1, TAG_XSD_UNBOUNDED));
-  spec->add(root);
+  private:
+    string _type;
+    string _label;
+    P3D    _position;
+    string _transferfunction;
+};
 
-  DataModuleNode::createXsd(spec);
-}
+typedef vector<DataModuleNode*> DataModuleNodes;
 
-DataModuleNodes DataModule::nodes()
-{
-  return _nodes;
-}
+#endif // ___DATA_MODULE_NODE_H__
 
-string DataModule::name()
-{
-  return _name;
-}
+

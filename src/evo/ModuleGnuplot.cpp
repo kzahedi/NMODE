@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Module of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -26,64 +26,38 @@
 
 
 
-#include "DataModule.h"
+#include "ModuleGnuplot.h"
 
-#include "base/macros.h"
 
-#include <iostream>
-
-#define TAG_NAME (char*)"name"
-
-using namespace std;
-
-DataModule::DataModule(DataNode *parent)
-  : DataNode(parent)
-{ }
-
-DataModule::~DataModule()
+ModuleGnuplot::ModuleGnuplot()
+  : gp()
 {
+  gp << "set terminal wxt\n";
+  gp << "unset border\n";
+  gp << "unset xtics\n";
+  gp << "unset ytics\n";
+  gp << "unset ztics\n";
+  gp << "set hidden3d\n";
 }
 
-void DataModule::add(DataParseElement *element)
+void ModuleGnuplot::plot(Module *m)
 {
+  gp << "clear\n";
+  gp << "splot '-' u 1:2:3:4 with linespoints lc palette lw 3 pointsize 4 pointtype 7 notitle\n";
 
-  if(element->closing(TAG_MODULE))
+  for(int i = 0; i < m->n_size(); i++)
   {
-    current = parent;
-    return;
+    P3D p = m->node(i)->position();
+    gp << p.x << " " << p.y << " " << p.z << " " << i << "\n\n\n";
   }
-
-  if(element->opening(TAG_MODULE))
+  
+  for(Edges::iterator e = m->e_begin(); e != m->e_end(); e++)
   {
-    element->set(TAG_NAME, _name);
+    P3D s = (*e)->source()->position();
+    P3D d = (*e)->destination()->position();
+    double color = ((*e)->weight() < 0.0)?6:7;
+    gp << s.x << " " << s.y << " " << s.z << " " << color << "\n";
+    gp << d.x << " " << d.y << " " << d.z << " " << color << "\n\n\n";
   }
-
-  if(element->opening(TAG_MODULE_NODE))
-  {
-    DataModuleNode *node = new DataModuleNode(this);
-    _nodes.push_back(node);
-    current = node;
-    node->add(element);
-  }
-
-}
-
-void DataModule::createXsd(XsdSpecification *spec)
-{
-  XsdSequence *root = new XsdSequence(TAG_MODULE_DEFINITION);
-  root->add(NA(TAG_NAME,          TAG_XSD_STRING,               true));
-  root->add(NE(TAG_MODULE_NODE, TAG_MODULE_NODE_DEFINITION, 1, TAG_XSD_UNBOUNDED));
-  spec->add(root);
-
-  DataModuleNode::createXsd(spec);
-}
-
-DataModuleNodes DataModule::nodes()
-{
-  return _nodes;
-}
-
-string DataModule::name()
-{
-  return _name;
+  gp << "e\n";
 }

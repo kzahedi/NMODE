@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Module of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -26,50 +26,28 @@
 
 
 
-#ifndef __DATA_MODULE_NEURON_H__
-#define __DATA_MODULE_NEURON_H__
+#ifndef __MODULE_GNUPLOT_H__
+#define __MODULE_GNUPLOT_H__
 
-#include "DataNode.h"
+#include "Module.h"
 
-#include "base/P3D.h"
+#define GNUPLOT_DEPRECATE_WARN
+#include "ext/gnuplot-iostream.h"
 
-# define TAG_MODULE_NEURON            (char*)"neuron"
-# define TAG_MODULE_NEURON_DEFINITION (char*)"module_neuron_definition"
-
-class DataModuleNeuron : public DataNode
+class ModuleGnuplot
 {
   public:
+    ModuleGnuplot();
+    // ~ModuleGnuplot();
 
-    /**
-     * @brief Constructor.
-     *
-     * @param parent
-     */
-    DataModuleNeuron(DataNode *parent);
+    //ModuleGnuplot(const ModuleGnuplot);
+    //ModuleGnuplot operator=(const ModuleGnuplot);
 
-    /**
-     * @brief Destructor.
-     */
-    virtual ~DataModuleNeuron();
-
-    void add(DataParseElement *element);
-
-    static void createXsd(XsdSpecification *spec);
-
-    string type();
-    string label();
-    P3D    position();
-    string transferfunction();
+    void plot(Module *m);
 
   private:
-    string _type;
-    string _label;
-    P3D    _position;
-    string _transferfunction;
+    Gnuplot gp;
 };
 
-typedef vector<DataModuleNeuron*> DataModuleNeurons;
 
-#endif // ___DATA_MODULE_NEURON_H__
-
-
+#endif // __MODULE_GNUPLOT_H__

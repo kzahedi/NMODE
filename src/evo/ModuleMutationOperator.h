@@ -29,8 +29,8 @@
 #ifndef __MODULE_MUTATION_OPERATOR_H__
 #define __MODULE_MUTATION_OPERATOR_H__
 
-#include "data/DataEvolutionNeuron.h"
-#include "data/DataEvolutionSynapse.h"
+#include "data/DataEvolutionNode.h"
+#include "data/DataEvolutionEdge.h"
 #include "Module.h"
 
 class ModuleMutationOperator
@@ -42,11 +42,11 @@ class ModuleMutationOperator
     //ModuleMutationOperator operator=(const ModuleMutationOperator);
 
     static void mutate(Module *module,
-                       DataEvolutionNeuron *_den,
-                       DataEvolutionSynapse *_des);
+                       DataEvolutionNode *_den,
+                       DataEvolutionEdge *_des);
 
   private:
-    static void __mutateDelEdge(Module *m, double probability);
+    static void __mutateDelEdge(Module *m,    double probability);
     static void __mutateModifyEdge(Module *m, double probability,
                                               double delta,
                                               double max);

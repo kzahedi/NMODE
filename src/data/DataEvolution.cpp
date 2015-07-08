@@ -38,8 +38,8 @@ DataEvolution::DataEvolution(DataNode *parent)
 
 DataEvolution::~DataEvolution()
 {
-  delete _neuron;
-  delete _synapse;
+  delete _node;
+  delete _edge;
 }
 
 
@@ -56,17 +56,17 @@ void DataEvolution::add(DataParseElement *element)
     return;
   }
 
-  if(element->opening(TAG_EVOLUTION_NEURON))
+  if(element->opening(TAG_EVOLUTION_NODE))
   {
-    _neuron = new DataEvolutionNeuron(this);
-    current = _neuron;
+    _node = new DataEvolutionNode(this);
+    current = _node;
     current->add(element);
   }
 
-  if(element->opening(TAG_EVOLUTION_SYNAPSE))
+  if(element->opening(TAG_EVOLUTION_EDGE))
   {
-    _synapse = new DataEvolutionSynapse(this);
-    current  = _synapse;
+    _edge = new DataEvolutionEdge(this);
+    current  = _edge;
     current->add(element);
   }
 
@@ -75,21 +75,21 @@ void DataEvolution::add(DataParseElement *element)
 void DataEvolution::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_EVOLUTION_DEFINITION);
-  root->add(NE(TAG_EVOLUTION_NEURON,  TAG_EVOLUTION_NEURON_DEFINITION,  1, 1));
-  root->add(NE(TAG_EVOLUTION_SYNAPSE, TAG_EVOLUTION_SYNAPSE_DEFINITION, 1, 1));
+  root->add(NE(TAG_EVOLUTION_NODE,  TAG_EVOLUTION_NODE_DEFINITION,  1, 1));
+  root->add(NE(TAG_EVOLUTION_EDGE, TAG_EVOLUTION_EDGE_DEFINITION, 1, 1));
   spec->add(root);
 
-  DataEvolutionNeuron::createXsd(spec);
-  DataEvolutionSynapse::createXsd(spec);
+  DataEvolutionNode::createXsd(spec);
+  DataEvolutionEdge::createXsd(spec);
 }
 
-DataEvolutionNeuron* DataEvolution::neuron()
+DataEvolutionNode* DataEvolution::node()
 {
-  return _neuron;
+  return _node;
 }
 
-DataEvolutionSynapse* DataEvolution::synapse()
+DataEvolutionEdge* DataEvolution::edge()
 {
-  return _synapse;
+  return _edge;
 }
 

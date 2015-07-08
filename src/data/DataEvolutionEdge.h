@@ -26,16 +26,16 @@
 
 
 
-#ifndef __DATA_EVOLUTION_NEURON_H__
-#define __DATA_EVOLUTION_NEURON_H__
+#ifndef __DATA_EVOLUTION_EDGE_H__
+#define __DATA_EVOLUTION_EDGE_H__
 
 #include "DataNode.h"
 #include "Version.h"
 
-# define TAG_EVOLUTION_NEURON            (char*)"neuron"
-# define TAG_EVOLUTION_NEURON_DEFINITION (char*)"neuron_evolution_definition"
+# define TAG_EVOLUTION_EDGE            (char*)"edge"
+# define TAG_EVOLUTION_EDGE_DEFINITION (char*)"edge_evolution_definition"
 
-class DataEvolutionNeuron : public DataNode
+class DataEvolutionEdge : public DataNode
 {
   public:
 
@@ -44,12 +44,12 @@ class DataEvolutionNeuron : public DataNode
      *
      * @param parent
      */
-    DataEvolutionNeuron(DataNode *parent);
+    DataEvolutionEdge(DataNode *parent);
 
     /**
      * @brief Destructor.
      */
-    virtual ~DataEvolutionNeuron();
+    virtual ~DataEvolutionEdge();
 
     void add(DataParseElement *element);
 
@@ -68,14 +68,17 @@ class DataEvolutionNeuron : public DataNode
     double _modifyProbability;
     double _modifyMaxValue;
     double _modifyDelta;
+
     double _addProbability;
     double _addMaxValue;
+
     double _delProbability;
+
     double _cost;
 
 
 };
 
-#endif // ___DATA_EVOLUTION_NEURON_H__
+#endif // ___DATA_EVOLUTION_EDGE_H__
 
 

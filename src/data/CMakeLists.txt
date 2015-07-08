@@ -43,12 +43,12 @@ add_library(ENPData SHARED XmlChangeLog.cpp
                            DataSimulator.cpp
 
                            DataEvolution.cpp
-                           DataEvolutionNeuron.cpp
-                           DataEvolutionSynapse.cpp
+                           DataEvolutionNode.cpp
+                           DataEvolutionEdge.cpp
 
                            DataConfiguration.cpp
                            DataModule.cpp
-                           DataModuleNeuron.cpp
+                           DataModuleNode.cpp
 
                            xsd/generator/YarsXSDGenerator.cpp
                            xsd/generator/XSDString.cpp

@@ -26,7 +26,7 @@
 
 
 
-#include "DataModuleNeuron.h"
+#include "DataModuleNode.h"
 
 #include <iostream>
 
@@ -51,23 +51,23 @@
 
 using namespace std;
 
-DataModuleNeuron::DataModuleNeuron(DataNode *parent)
+DataModuleNode::DataModuleNode(DataNode *parent)
   : DataNode(parent)
 { }
 
-DataModuleNeuron::~DataModuleNeuron()
+DataModuleNode::~DataModuleNode()
 { }
 
 
-void DataModuleNeuron::add(DataParseElement *element)
+void DataModuleNode::add(DataParseElement *element)
 {
-  if(element->closing(TAG_MODULE_NEURON))
+  if(element->closing(TAG_MODULE_NODE))
   {
     current = parent;
     return;
   }
 
-  if(element->opening(TAG_MODULE_NEURON))
+  if(element->opening(TAG_MODULE_NODE))
   {
     element->set(TAG_TYPE,  _type);
     element->set(TAG_LABEL, _label);
@@ -86,9 +86,9 @@ void DataModuleNeuron::add(DataParseElement *element)
   }
 }
 
-void DataModuleNeuron::createXsd(XsdSpecification *spec)
+void DataModuleNode::createXsd(XsdSpecification *spec)
 {
-  XsdSequence *root = new XsdSequence(TAG_MODULE_NEURON_DEFINITION);
+  XsdSequence *root = new XsdSequence(TAG_MODULE_NODE_DEFINITION);
   root->add(NA(TAG_TYPE,             TAG_TYPE_DEFINITION,             true));
   root->add(NA(TAG_LABEL,            TAG_XSD_STRING,                  true));
   root->add(NE(TAG_POSITION,         TAG_XYZ_DEFINITION,              1, 1));
@@ -112,22 +112,22 @@ void DataModuleNeuron::createXsd(XsdSpecification *spec)
 
 }
 
-string DataModuleNeuron::type()
+string DataModuleNode::type()
 {
   return _type;
 }
 
-string DataModuleNeuron::label()
+string DataModuleNode::label()
 {
   return _label;
 }
 
-P3D DataModuleNeuron::position()
+P3D DataModuleNode::position()
 {
   return _position;
 }
 
-string DataModuleNeuron::transferfunction()
+string DataModuleNode::transferfunction()
 {
   return _transferfunction;
 }

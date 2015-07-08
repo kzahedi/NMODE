@@ -47,8 +47,8 @@
                         (a.z - b.z) * (a.z - b.z));
 
 void ModuleMutationOperator::mutate(Module *m,
-                                    DataEvolutionNeuron *den,
-                                    DataEvolutionSynapse *des)
+                                    DataEvolutionNode *den,
+                                    DataEvolutionEdge *des)
 {
   __mutateDelEdge(m,    des->delProbability());
   __mutateModifyEdge(m, des->modifyProbability(), 
@@ -75,7 +75,7 @@ void ModuleMutationOperator::__mutateDelEdge(Module *m, double probability)
   {
     double w = m->edge(i)->weight();
     weights[i] = w;
-    sum += w;
+    sum += fabs(w);
   }
 
   for(int i = 0; i < m->e_size(); i++)

@@ -26,50 +26,55 @@
 
 
 
-#include "DataEvolutionNeuron.h"
+#include "DataEvolutionEdge.h"
 
 #include <iostream>
 
 
-#define TAG_MODIFY               (char*)"modify"
-#define TAG_MODIFY_DEFINITION    (char*)"modify_definition"
-#define TAG_ADD                  (char*)"add"
-#define TAG_ADD_DEFINITION       (char*)"add_definition"
-#define TAG_DEL                  (char*)"delete"
-#define TAG_DEL_DEFINITION       (char*)"delete_definition"
-#define TAG_PROBABILITY          (char*)"probability"
-#define TAG_MAX                  (char*)"maximum"
-#define TAG_DELTA                (char*)"delta"
-#define TAG_COST                 (char*)"cost"
+#define TAG_MODIFY            (char*)"modify"
+#define TAG_MODIFY_DEFINITION (char*)"modify_definition"
+
+#define TAG_ADD               (char*)"add"
+#define TAG_ADD_DEFINITION    (char*)"add_definition"
+
+#define TAG_DEL               (char*)"delete"
+#define TAG_DEL_DEFINITION    (char*)"delete_definition"
+
+#define TAG_PROBABILITY       (char*)"probability"
+#define TAG_MAX               (char*)"maximum"
+#define TAG_DELTA             (char*)"delta"
+#define TAG_COST              (char*)"cost"
 
 
 using namespace std;
 
-DataEvolutionNeuron::DataEvolutionNeuron(DataNode *parent)
+DataEvolutionEdge::DataEvolutionEdge(DataNode *parent)
   : DataNode(parent)
 {
   _modifyProbability = 0.1;
   _modifyMaxValue    = 4.0;
   _modifyDelta       = 0.5;
+
   _addProbability    = 0.01;
   _addMaxValue       = 1.0;
+
   _delProbability    = 0.1;
   _cost              = 0.0;
 }
 
-DataEvolutionNeuron::~DataEvolutionNeuron()
+DataEvolutionEdge::~DataEvolutionEdge()
 {
   // nothing to be done
 }
 
-void DataEvolutionNeuron::add(DataParseElement *element)
+void DataEvolutionEdge::add(DataParseElement *element)
 {
-  if(element->closing(TAG_EVOLUTION_NEURON))
+  if(element->closing(TAG_EVOLUTION_EDGE))
   {
     current = parent;
   }
 
-  if(element->opening(TAG_EVOLUTION_NEURON))
+  if(element->opening(TAG_EVOLUTION_EDGE))
   {
     element->set(TAG_COST, _cost);
   }
@@ -94,62 +99,65 @@ void DataEvolutionNeuron::add(DataParseElement *element)
 
 }
 
-void DataEvolutionNeuron::createXsd(XsdSpecification *spec)
+void DataEvolutionEdge::createXsd(XsdSpecification *spec)
 {
-  XsdSequence *root = new XsdSequence(TAG_EVOLUTION_NEURON_DEFINITION);
-  root->add(NA(TAG_COST,   TAG_POSITIVE_DECIMAL,     false));
-  root->add(NE(TAG_MODIFY, TAG_MODIFY_DEFINITION,    1, 1));
-  root->add(NE(TAG_ADD,    TAG_ADD_DEFINITION,       1, 1));
-  root->add(NE(TAG_DEL,    TAG_DEL_DEFINITION,       1, 1));
+  XsdSequence *root = new XsdSequence(TAG_EVOLUTION_EDGE_DEFINITION);
+  root->add(NA(TAG_COST,   TAG_POSITIVE_DECIMAL,  false));
+  root->add(NE(TAG_MODIFY, TAG_MODIFY_DEFINITION, 1, 1));
+  root->add(NE(TAG_ADD,    TAG_ADD_DEFINITION,    1, 1));
+  root->add(NE(TAG_DEL,    TAG_DEL_DEFINITION,    1, 1));
   spec->add(root);
 
   XsdSequence *modify = new XsdSequence(TAG_MODIFY_DEFINITION);
-  modify->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL, true));
+  modify->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL,    true));
   modify->add(NA(TAG_MAX,         TAG_POSITIVE_DECIMAL, true));
   modify->add(NA(TAG_DELTA,       TAG_POSITIVE_DECIMAL, true));
   spec->add(modify);
   
   XsdSequence *add = new XsdSequence(TAG_ADD_DEFINITION);
-  add->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL, true));
+  add->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL,    true));
   add->add(NA(TAG_MAX,         TAG_POSITIVE_DECIMAL, true));
   spec->add(add);
 
   XsdSequence *del = new XsdSequence(TAG_DEL_DEFINITION);
   del->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL, true));
   spec->add(del);
+
 }
 
-double DataEvolutionNeuron::modifyProbability()
+double DataEvolutionEdge::modifyProbability()
 {
   return _modifyProbability;
 }
 
-double DataEvolutionNeuron::modifyMaxValue()
+double DataEvolutionEdge::modifyMaxValue()
 {
   return _modifyMaxValue;
 }
 
-double DataEvolutionNeuron::modifyDelta()
+double DataEvolutionEdge::modifyDelta()
 {
   return _modifyDelta;
 }
 
-double DataEvolutionNeuron::addProbability()
+double DataEvolutionEdge::addProbability()
 {
   return _addProbability;
 }
 
-double DataEvolutionNeuron::addMaxValue()
+double DataEvolutionEdge::addMaxValue()
 {
   return _addMaxValue;
 }
 
-double DataEvolutionNeuron::delProbability()
+double DataEvolutionEdge::delProbability()
 {
   return _delProbability;
 }
 
-double DataEvolutionNeuron::cost()
+double DataEvolutionEdge::cost()
 {
   return _cost;
 }
+
+

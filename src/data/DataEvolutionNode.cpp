@@ -26,55 +26,50 @@
 
 
 
-#include "DataEvolutionSynapse.h"
+#include "DataEvolutionNode.h"
 
 #include <iostream>
 
 
-#define TAG_MODIFY            (char*)"modify"
-#define TAG_MODIFY_DEFINITION (char*)"modify_definition"
-
-#define TAG_ADD               (char*)"add"
-#define TAG_ADD_DEFINITION    (char*)"add_definition"
-
-#define TAG_DEL               (char*)"delete"
-#define TAG_DEL_DEFINITION    (char*)"delete_definition"
-
-#define TAG_PROBABILITY       (char*)"probability"
-#define TAG_MAX               (char*)"maximum"
-#define TAG_DELTA             (char*)"delta"
-#define TAG_COST              (char*)"cost"
+#define TAG_MODIFY               (char*)"modify"
+#define TAG_MODIFY_DEFINITION    (char*)"modify_definition"
+#define TAG_ADD                  (char*)"add"
+#define TAG_ADD_DEFINITION       (char*)"add_definition"
+#define TAG_DEL                  (char*)"delete"
+#define TAG_DEL_DEFINITION       (char*)"delete_definition"
+#define TAG_PROBABILITY          (char*)"probability"
+#define TAG_MAX                  (char*)"maximum"
+#define TAG_DELTA                (char*)"delta"
+#define TAG_COST                 (char*)"cost"
 
 
 using namespace std;
 
-DataEvolutionSynapse::DataEvolutionSynapse(DataNode *parent)
+DataEvolutionNode::DataEvolutionNode(DataNode *parent)
   : DataNode(parent)
 {
   _modifyProbability = 0.1;
   _modifyMaxValue    = 4.0;
   _modifyDelta       = 0.5;
-
   _addProbability    = 0.01;
   _addMaxValue       = 1.0;
-
   _delProbability    = 0.1;
   _cost              = 0.0;
 }
 
-DataEvolutionSynapse::~DataEvolutionSynapse()
+DataEvolutionNode::~DataEvolutionNode()
 {
   // nothing to be done
 }
 
-void DataEvolutionSynapse::add(DataParseElement *element)
+void DataEvolutionNode::add(DataParseElement *element)
 {
-  if(element->closing(TAG_EVOLUTION_SYNAPSE))
+  if(element->closing(TAG_EVOLUTION_NODE))
   {
     current = parent;
   }
 
-  if(element->opening(TAG_EVOLUTION_SYNAPSE))
+  if(element->opening(TAG_EVOLUTION_NODE))
   {
     element->set(TAG_COST, _cost);
   }
@@ -99,65 +94,62 @@ void DataEvolutionSynapse::add(DataParseElement *element)
 
 }
 
-void DataEvolutionSynapse::createXsd(XsdSpecification *spec)
+void DataEvolutionNode::createXsd(XsdSpecification *spec)
 {
-  XsdSequence *root = new XsdSequence(TAG_EVOLUTION_SYNAPSE_DEFINITION);
-  root->add(NA(TAG_COST,   TAG_POSITIVE_DECIMAL,  false));
-  root->add(NE(TAG_MODIFY, TAG_MODIFY_DEFINITION, 1, 1));
-  root->add(NE(TAG_ADD,    TAG_ADD_DEFINITION,    1, 1));
-  root->add(NE(TAG_DEL,    TAG_DEL_DEFINITION,    1, 1));
+  XsdSequence *root = new XsdSequence(TAG_EVOLUTION_NODE_DEFINITION);
+  root->add(NA(TAG_COST,   TAG_POSITIVE_DECIMAL,     false));
+  root->add(NE(TAG_MODIFY, TAG_MODIFY_DEFINITION,    1, 1));
+  root->add(NE(TAG_ADD,    TAG_ADD_DEFINITION,       1, 1));
+  root->add(NE(TAG_DEL,    TAG_DEL_DEFINITION,       1, 1));
   spec->add(root);
 
   XsdSequence *modify = new XsdSequence(TAG_MODIFY_DEFINITION);
-  modify->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL,    true));
+  modify->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL, true));
   modify->add(NA(TAG_MAX,         TAG_POSITIVE_DECIMAL, true));
   modify->add(NA(TAG_DELTA,       TAG_POSITIVE_DECIMAL, true));
   spec->add(modify);
   
   XsdSequence *add = new XsdSequence(TAG_ADD_DEFINITION);
-  add->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL,    true));
+  add->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL, true));
   add->add(NA(TAG_MAX,         TAG_POSITIVE_DECIMAL, true));
   spec->add(add);
 
   XsdSequence *del = new XsdSequence(TAG_DEL_DEFINITION);
   del->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL, true));
   spec->add(del);
-
 }
 
-double DataEvolutionSynapse::modifyProbability()
+double DataEvolutionNode::modifyProbability()
 {
   return _modifyProbability;
 }
 
-double DataEvolutionSynapse::modifyMaxValue()
+double DataEvolutionNode::modifyMaxValue()
 {
   return _modifyMaxValue;
 }
 
-double DataEvolutionSynapse::modifyDelta()
+double DataEvolutionNode::modifyDelta()
 {
   return _modifyDelta;
 }
 
-double DataEvolutionSynapse::addProbability()
+double DataEvolutionNode::addProbability()
 {
   return _addProbability;
 }
 
-double DataEvolutionSynapse::addMaxValue()
+double DataEvolutionNode::addMaxValue()
 {
   return _addMaxValue;
 }
 
-double DataEvolutionSynapse::delProbability()
+double DataEvolutionNode::delProbability()
 {
   return _delProbability;
 }
 
-double DataEvolutionSynapse::cost()
+double DataEvolutionNode::cost()
 {
   return _cost;
 }
-
-

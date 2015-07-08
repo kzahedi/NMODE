@@ -31,7 +31,7 @@
 
 #include "DataNode.h"
 
-#include "DataModuleNeuron.h"
+#include "DataModuleNode.h"
 
 # define TAG_MODULE            (char*)"module"
 # define TAG_MODULE_DEFINITION (char*)"module_definition"
@@ -56,14 +56,14 @@ class DataModule : public DataNode
 
     static void createXsd(XsdSpecification *spec);
 
-    DataModuleNeurons neurons();
+    DataModuleNodes nodes();
 
     string name();
 
   private:
     string _name;
 
-    DataModuleNeurons _neurones;
+    DataModuleNodes _nodes;
 };
 
 typedef vector<DataModule*> DataModules;

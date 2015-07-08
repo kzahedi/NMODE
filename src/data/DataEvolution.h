@@ -31,8 +31,8 @@
 
 #include "DataNode.h"
 
-#include "DataEvolutionNeuron.h"
-#include "DataEvolutionSynapse.h"
+#include "DataEvolutionNode.h"
+#include "DataEvolutionEdge.h"
 
 # define TAG_EVOLUTION                        (char*)"evolution"
 # define TAG_EVOLUTION_DEFINITION             (char*)"evolution_definition"
@@ -57,12 +57,12 @@ class DataEvolution : public DataNode
 
     static void createXsd(XsdSpecification *spec);
 
-    DataEvolutionNeuron*  neuron();
-    DataEvolutionSynapse* synapse();
+    DataEvolutionNode*  node();
+    DataEvolutionEdge* edge();
 
   private:
-    DataEvolutionNeuron  *_neuron;
-    DataEvolutionSynapse *_synapse;
+    DataEvolutionNode  *_node;
+    DataEvolutionEdge *_edge;
 
 };
 

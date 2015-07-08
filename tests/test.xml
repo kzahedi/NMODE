@@ -6,58 +6,81 @@
              nr="42"/>
 
   <evolution>
-    <neuron cost="0.1">
+    <node cost="0.1">
       <modify probability="0.11" maximum="0.12" delta="0.13"/>
       <add    probability="0.14" maximum="0.15"/>
       <delete probability="0.16"/>
-    </neuron>
-    <synapse cost="0.2">
+    </node>
+    <edge cost="0.2">
       <modify probability="0.21" maximum="0.22" delta="0.23"/>
       <add    probability="0.24" maximum="0.25"/>
       <delete probability="0.26"/>
-    </synapse>
+    </edge>
   </evolution>
 
   <configuration>
 
     <module name="module 1">
-      <neuron type="sensor" label="sensor 1">
+
+      <node type="input" label="input 1">
         <position x="0.0" y="0.0" z="0.0"/>
         <transferfunction name="id"/>
-      </neuron>
-      <neuron type="sensor" label="sensor 2">
+      </node>
+
+      <node type="input" label="input 2">
+        <position x="0.0" y="0.0" z="0.0"/>
+        <transferfunction name="id"/>
+      </node>
+
+      <node type="output" label="output 1">
+        <position x="0.0" y="0.0" z="0.0"/>
+        <transferfunction name="id"/>
+      </node>
+
+      <node type="output" label="output 2">
+        <position x="0.0" y="0.0" z="0.0"/>
+        <transferfunction name="id"/>
+      </node>
+
+      <node type="sensor" label="sensor 1">
+        <position x="0.0" y="0.0" z="0.0"/>
+        <transferfunction name="id"/>
+      </node>
+      <node type="sensor" label="sensor 2">
         <position x="1.0" y="0.0" z="0.0"/>
         <transferfunction name="id"/>
-      </neuron>
-      <neuron type="sensor" label="sensor 3">
+      </node>
+      <node type="sensor" label="sensor 3">
         <position x="2.0" y="0.0" z="0.0"/>
         <transferfunction name="id"/>
-      </neuron>
+      </node>
 
-      <neuron type="actuator" label="actuator 1">
+      <node type="actuator" label="actuator 1">
         <position x="0.5" y="1.0" z="0.0"/>
         <transferfunction name="tanh"/>
-      </neuron>
-      <neuron type="actuator" label="actuator 2">
+      </node>
+      <node type="actuator" label="actuator 2">
         <position x="1.5" y="1.0" z="0.0"/>
         <transferfunction name="sigm"/>
-      </neuron>
+      </node>
+
+      
     </module>
 
     <module name="module 2">
-      <neuron type="sensor" label="sensor 1">
+      <node type="sensor" label="sensor 1">
         <position x="0.0" y="0.0" z="0.0"/>
         <transferfunction name="sigm"/>
-      </neuron>
-      <neuron type="sensor" label="sensor 2">
+      </node>
+      <node type="sensor" label="sensor 2">
         <position x="1.0" y="0.0" z="0.0"/>
         <transferfunction name="id"/>
-      </neuron>
+      </node>
 
-      <neuron type="actuator" label="actuator 1">
+      <node type="actuator" label="actuator 1">
         <position x="0.5" y="1.0" z="0.0"/>
         <transferfunction name="tanh"/>
-      </neuron>
+      </node>
     </module>
 
   </configuration>
