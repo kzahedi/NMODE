@@ -43,21 +43,33 @@ class Module
     bool operator==(const Module m);
     bool operator!=(const Module m);
 
-    void addNode(Node *neuron);
+    void addNode(Node *neuron) throw (ENPException);
     string name();
 
     bool linked();
     void linkTo(Module *target);
 
     bool removeEdge(Edge *e);
+    void addEdge(Node *src, Node *dst, double weight) throw (ENPException);
 
+    Node*           node(int index);
     Nodes::iterator n_begin();
     Nodes::iterator n_end();
+    int             n_size();
+    int             s_size(); // number of sensor nodes
+    int             a_size(); // number of actuator nodes
+    int             h_size(); // number of hidden nodes
+
     Edges::iterator e_begin();
     Edges::iterator e_end();
+    int             e_size();
+    Edge*           edge(int index);
 
   private:
-    Nodes   _neurons;
+    Nodes   _nodes;
+    Nodes   _sensors;
+    Nodes   _actuators;
+    Nodes   _hidden;
     Edges   _edges;
     string  _name;
     bool    _linked;

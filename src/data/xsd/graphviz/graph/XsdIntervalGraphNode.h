@@ -25,31 +25,30 @@
  *************************************************************************/
 
 
-#ifndef __XSD_ELEMENT_GRAPH_NODE_H__
-#define __XSD_ELEMENT_GRAPH_NODE_H__
+#ifndef __XSD_INTERVAL_GRAPH_NODE_H__
+#define __XSD_INTERVAL_GRAPH_NODE_H__
 
 #include "XsdGraphNode.h"
-#include "xsd/specification/XsdElement.h"
+#include "data/xsd/specification/XsdInterval.h"
 
 #include <string>
 #include <sstream>
 
 using namespace std;
 
-class XsdElementGraphNode : public XsdGraphNode
+class XsdIntervalGraphNode : public XsdGraphNode
 {
   public:
-    XsdElementGraphNode(XsdElement *spec);
+    XsdIntervalGraphNode(XsdInterval *spec);
     string customLabel(string label);
     string name();
-    XsdElement* spec();
+    XsdInterval* spec();
 
   private:
-    stringstream _oss;
-    XsdElement *_spec;
-
+    stringstream  _oss;
+    XsdInterval  *_spec;
+    string        _specification;
+    string        _type;
 };
 
-#endif // __XSD_ELEMENT_GRAPH_NODE_H__
-
-
+#endif // __XSD_INTERVAL_GRAPH_NODE_H__

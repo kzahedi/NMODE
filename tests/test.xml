@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<enp version="0.0.1">
+<enp version="0.0.2">
   <simulator wd="working directory"
              xml="xml file"
              nr="42"/>
@@ -13,7 +13,7 @@
     </neuron>
     <synapse cost="0.2">
       <modify probability="0.21" maximum="0.22" delta="0.23"/>
-      <add    probability="0.24" maximum="0.25" iterations="100"/>
+      <add    probability="0.24" maximum="0.25"/>
       <delete probability="0.26"/>
     </synapse>
   </evolution>

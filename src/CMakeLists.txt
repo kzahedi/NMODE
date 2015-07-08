@@ -31,7 +31,6 @@ link_directories(${PROJECT_BINARY_DIR}/lib)
 
 add_subdirectory(base)
 add_subdirectory(data)
-add_subdirectory(xsd)
 add_subdirectory(evo)
 
 # add_library(ENPRNN SHARED RNN.cpp)

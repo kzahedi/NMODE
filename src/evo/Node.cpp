@@ -30,9 +30,13 @@
 
 #include "base/macros.h"
 
+#include <algorithm>
+
+
 Node::Node()
 {
-  _type = -1;
+  _type  = -1;
+  _value = 0.0;
 }
 
 Node::~Node()
@@ -47,9 +51,9 @@ void Node::setPosition(P3D position)
 void Node::setType(string type) throw (ENPException)
 {
   _type = -1;
-  if(type == "sensor")   _type = MODULE_NODE_TYPE_SENSOR;
-  if(type == "actuator") _type = MODULE_NODE_TYPE_ACTUATOR;
-  if(type == "hidden")   _type = MODULE_NODE_TYPE_HIDDEN;
+  if(type == "sensor")   _type = NODE_TYPE_SENSOR;
+  if(type == "actuator") _type = NODE_TYPE_ACTUATOR;
+  if(type == "hidden")   _type = NODE_TYPE_HIDDEN;
   if(_type == -1) throw ENPException("Node::setType uknown type");
 }
 
@@ -109,6 +113,11 @@ Edges::iterator Node::e_end()
   return _in.end();
 }
 
+int Node::e_size()
+{
+  return _in.size();
+}
+
 void Node::addEdge(Edge *e)
 {
   _in.push_back(e);
@@ -125,4 +134,50 @@ bool Node::removeEdge(Edge *e)
     }
   }
   return false;
+}
+
+bool Node::contains(Edge *e)
+{
+  if(_in.empty()) return false;
+
+  if(std::find(_in.begin(), _in.end(), e) != _in.end()) {
+    return true;
+  }
+  return false;
+}
+
+bool Node::contains(Node *n)
+{
+  FORC(Edges, e, _in)
+  {
+    if((*e)->source() == n) return true;
+  }
+  return false;
+}
+
+Edge* Node::edge(int index)
+{
+  return _in[index];
+}
+
+void Node::setValue(double v)
+{
+  _value = v;
+}
+
+double Node::value()
+{
+  return _value;
+}
+
+void Node::removeEdge(Node *src)
+{
+  FORC(Edges, e, _in)
+  {
+    if((*e)->source() == src)
+    {
+      removeEdge(*e);
+      return;
+    }
+  }
 }

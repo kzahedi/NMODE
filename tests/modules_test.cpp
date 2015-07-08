@@ -36,12 +36,18 @@
 
 #include <iostream>
 #include <string>
+#include <glog/logging.h>
 
 using namespace std;
 
 // Registers the fixture into the 'registry'
 CPPUNIT_TEST_SUITE_REGISTRATION( modulesTest );
 
+
+void modulesTest::setUp()
+{
+  cout << "HIER HIER" << endl;
+}
 
 void modulesTest::testModules()
 {
@@ -60,10 +66,10 @@ void modulesTest::testNodeEquality()
   a->setLabel("label");
   a->setType("sensor");
 
-  CPPUNIT_ASSERT("tanh"                  == a->transferfunction());
-  CPPUNIT_ASSERT(P3D(1.0, 1.0, 1.0)      == a->position());
-  CPPUNIT_ASSERT("label"                 == a->label());
-  CPPUNIT_ASSERT(MODULE_NODE_TYPE_SENSOR == a->type());
+  CPPUNIT_ASSERT("tanh"             == a->transferfunction());
+  CPPUNIT_ASSERT(P3D(1.0, 1.0, 1.0) == a->position());
+  CPPUNIT_ASSERT("label"            == a->label());
+  CPPUNIT_ASSERT(NODE_TYPE_SENSOR   == a->type());
 
   Node *b = new Node();
   b->setTransferfunction("tanh");
@@ -257,4 +263,34 @@ void modulesTest::testModuleInequality()
 void modulesTest::testModuleMutationOperator()
 {
   Random::initialise();
+}
+
+
+void modulesTest::testModuleAddEdge()
+{
+  Module *a = new Module("module 1");
+
+  Node *aa = new Node();
+  aa->setType("sensor");
+  aa->setLabel("sensor 1");
+  aa->setPosition(P3D(0.0,0.0,0.0));
+  aa->setTransferfunction("id");
+
+  Node *ab = new Node();
+  ab->setType("sensor");
+  ab->setLabel("sensor 2");
+  ab->setPosition(P3D(1.0,0.0,0.0));
+  ab->setTransferfunction("id");
+
+  a->addNode(aa);
+  a->addNode(ab);
+
+  a->addEdge(aa, ab, 1.0);
+
+  CPPUNIT_ASSERT(a->e_size()           == 1);
+  CPPUNIT_ASSERT(ab->e_size()          == 1);
+  CPPUNIT_ASSERT(aa->e_size()          == 0);
+  CPPUNIT_ASSERT(ab->edge(0)->source() == aa);
+
+  CPPUNIT_ASSERT_THROW(a->addEdge(aa, ab, 1.0), ENPException);
 }

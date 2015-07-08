@@ -32,7 +32,7 @@
 using namespace std;
 
 // #include "configuration/data/Data.h"
-#include "xsd/specification/XsdSpecification.h"
+#include "data/xsd/specification/XsdSpecification.h"
 
 #include "base/macros.h"
 

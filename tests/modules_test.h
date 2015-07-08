@@ -39,15 +39,18 @@ class modulesTest : public CppUnit::TestFixture
   CPPUNIT_TEST(testModuleEquality);
   CPPUNIT_TEST(testModuleInequality);
   CPPUNIT_TEST(testModuleMutationOperator);
+  CPPUNIT_TEST(testModuleAddEdge);
   CPPUNIT_TEST_SUITE_END();
 
   public:
 
+  void setUp();
   void testModules();
   void testNodeEquality();
   void testModuleEquality();
   void testModuleInequality();
   void testModuleMutationOperator();
+  void testModuleAddEdge();
 };
 
 #endif // __RNN_H__

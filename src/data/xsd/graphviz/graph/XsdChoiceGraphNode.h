@@ -25,44 +25,30 @@
  *************************************************************************/
 
 
-#ifndef __YARS_XSD_GRAPH_NODE_H__
-#define __YARS_XSD_GRAPH_NODE_H__
+#ifndef __XSD_CHOICE_GRAPH_NODE_H__
+#define __XSD_CHOICE_GRAPH_NODE_H__
 
-#include "xsd/specification/XsdSpecification.h"
+#include "XsdGraphNode.h"
+#include "data/xsd/specification/XsdChoice.h"
 
 #include <string>
-#include <vector>
-
-#define ATTRIBUTE_BGCOLOR     "#fee1b7"
-#define ELEMENT_BGCOLOR       "#adc9f0"
-#define CHOICE_BGCOLOR        "#adf0ad"
-#define SPECIFICATION_BGCOLOR "#fefeb7"
-
-#define REGEXP_BGCOLOR        "#f3afd7"
-#define INTERVAL_BGCOLOR      "#d9adf0"
-#define ENUM_BGCOLOR          "#b8adf0"
-
-#define OPTIONAL_COLOR        "#00A000"
-#define REQUIRED_COLOR        "#ff0000"
+#include <sstream>
 
 using namespace std;
 
-class XsdGraphNode
+class XsdChoiceGraphNode : public XsdGraphNode
 {
   public:
-    XsdGraphNode();
-    virtual ~XsdGraphNode() { };
-
-    virtual string   customLabel(string label) = 0;
-    virtual string   name()                    = 0;
-    virtual XsdNode* spec()                    = 0;
-
-    string uniqueNodeName();
-    void   setUniqueNodeName(string n);
-    bool   hasDefinition(string type);
+    XsdChoiceGraphNode(XsdChoice *spec);
+    string customLabel(string label);
+    string name();
+    XsdChoice* spec();
 
   private:
-    string            _uniqueName;
+    stringstream _oss;
+    XsdChoice *_spec;
+
 };
 
-#endif // __YARS_XSD_GRAPH_NODE_H__
+#endif // __XSD_CHOICE_GRAPH_NODE_H__
+

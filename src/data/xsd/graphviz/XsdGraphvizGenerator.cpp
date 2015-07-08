@@ -25,30 +25,56 @@
  *************************************************************************/
 
 
-#ifndef __XSD_REGULAR_EXPRESSION_GRAPH_NODE_H__
-#define __XSD_REGULAR_EXPRESSION_GRAPH_NODE_H__
+#include "XsdGraphvizGenerator.h"
 
-#include "XsdGraphNode.h"
-#include "xsd/specification/XsdRegularExpression.h"
+#include "data/xsd/graphviz/graph/XsdGraphNodeInstance.h"
 
-#include <string>
-#include <sstream>
+#include "base/macros.h"
 
-using namespace std;
+#include <vector>
+#include <iostream>
 
-class XsdRegularExpressionGraphNode : public XsdGraphNode
+XsdGraphvizGenerator::XsdGraphvizGenerator()
 {
-  public:
-    XsdRegularExpressionGraphNode(XsdRegularExpression *spec);
-    string customLabel(string label);
-    string name();
-    XsdRegularExpression* spec();
+  _graph = new XsdGraph();
+}
 
-  private:
-    stringstream          _oss;
-    XsdRegularExpression *_spec;
-    string                _specification;
-    string                _type;
-};
+void XsdGraphvizGenerator::generate(string parent, string name, bool leftToRight, int depth)
+{
+  _dot.str("");
+  _dot << "digraph structs {"         << endl;
+  if(leftToRight)
+  {
+    _dot << "  rankdir=LR;"             << endl;
+    // _dot << "  layout=circo;"             << endl;
+    // _dot << " ranksep=5;"<< endl << "  ratio=auto;"             << endl;
+    // _dot << " outputMode=\"edgesfirst\";" << endl;
 
-#endif // __XSD_REGULAR_EXPRESSION_GRAPH_NODE_H__
+  }
+  else
+  {
+    _dot << "  rankdir=TB;"             << endl;
+  }
+  //_dot << "  ranksep=\"equally\";"    << endl;
+  _dot << "  node [shape=plaintext];" << endl;
+
+  XsdGraphNodeInstance *node = _graph->get(parent, name);
+  __generate(node, depth);
+
+  _dot << "}" << endl;
+}
+
+void XsdGraphvizGenerator::__generate(XsdGraphNodeInstance *node, int depth)
+{
+  if(depth == 0) return;
+  int d = depth - 1;
+  _dot << " " << node->uniqueName() << " " << node->label() << endl;
+  if(d != 0)
+  {
+    FORP(vector<XsdGraphNodeInstance*>, i, node)
+    {
+      __generate(*i, d);
+      _dot << node->uniqueName() << ":" << (*i)->port() << " -> " << (*i)->uniqueName() << ";" << endl;
+    }
+  }
+}

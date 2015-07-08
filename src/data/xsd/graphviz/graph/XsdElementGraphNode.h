@@ -25,56 +25,31 @@
  *************************************************************************/
 
 
-#include "XsdGraphvizGenerator.h"
+#ifndef __XSD_ELEMENT_GRAPH_NODE_H__
+#define __XSD_ELEMENT_GRAPH_NODE_H__
 
-#include "xsd/graphviz/graph/XsdGraphNodeInstance.h"
+#include "XsdGraphNode.h"
+#include "data/xsd/specification/XsdElement.h"
 
-#include "base/macros.h"
+#include <string>
+#include <sstream>
 
-#include <vector>
-#include <iostream>
+using namespace std;
 
-XsdGraphvizGenerator::XsdGraphvizGenerator()
+class XsdElementGraphNode : public XsdGraphNode
 {
-  _graph = new XsdGraph();
-}
+  public:
+    XsdElementGraphNode(XsdElement *spec);
+    string customLabel(string label);
+    string name();
+    XsdElement* spec();
 
-void XsdGraphvizGenerator::generate(string parent, string name, bool leftToRight, int depth)
-{
-  _dot.str("");
-  _dot << "digraph structs {"         << endl;
-  if(leftToRight)
-  {
-    _dot << "  rankdir=LR;"             << endl;
-    // _dot << "  layout=circo;"             << endl;
-    // _dot << " ranksep=5;"<< endl << "  ratio=auto;"             << endl;
-    // _dot << " outputMode=\"edgesfirst\";" << endl;
+  private:
+    stringstream _oss;
+    XsdElement *_spec;
 
-  }
-  else
-  {
-    _dot << "  rankdir=TB;"             << endl;
-  }
-  //_dot << "  ranksep=\"equally\";"    << endl;
-  _dot << "  node [shape=plaintext];" << endl;
+};
 
-  XsdGraphNodeInstance *node = _graph->get(parent, name);
-  __generate(node, depth);
+#endif // __XSD_ELEMENT_GRAPH_NODE_H__
 
-  _dot << "}" << endl;
-}
 
-void XsdGraphvizGenerator::__generate(XsdGraphNodeInstance *node, int depth)
-{
-  if(depth == 0) return;
-  int d = depth - 1;
-  _dot << " " << node->uniqueName() << " " << node->label() << endl;
-  if(d != 0)
-  {
-    FORP(vector<XsdGraphNodeInstance*>, i, node)
-    {
-      __generate(*i, d);
-      _dot << node->uniqueName() << ":" << (*i)->port() << " -> " << (*i)->uniqueName() << ";" << endl;
-    }
-  }
-}

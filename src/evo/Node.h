@@ -26,8 +26,8 @@
 
 
 
-#ifndef __MODULE_NODE_H__
-#define __MODULE_NODE_H__
+#ifndef __NODE_H__
+#define __NODE_H__
 
 #include <vector>
 #include <string>
@@ -38,9 +38,9 @@
 
 #include "Edge.h"
 
-#define MODULE_NODE_TYPE_SENSOR   1001
-#define MODULE_NODE_TYPE_ACTUATOR 1002
-#define MODULE_NODE_TYPE_HIDDEN   1003
+#define NODE_TYPE_SENSOR   1001
+#define NODE_TYPE_ACTUATOR 1002
+#define NODE_TYPE_HIDDEN   1003
 
 using namespace std;
 
@@ -64,9 +64,18 @@ class Node
     int    type();
     string label();
     string transferfunction();
+    bool   contains(Edge *e);
+    bool   contains(Node *n);
+
+    void   removeEdge(Node *src);
 
     Edges::iterator e_begin();
     Edges::iterator e_end();
+    int             e_size();
+    Edge*           edge(int index);
+
+    void   setValue(double v);
+    double value();
 
     void addEdge(Edge *e);
     bool removeEdge(Edge *e);
@@ -82,6 +91,7 @@ class Node
 
     P3D    _position;
     int    _type;
+    double _value;
     string _label;
     string _transferfunction;
     Edges  _in;
@@ -89,5 +99,5 @@ class Node
 
 typedef vector<Node*> Nodes;
 
-#endif // __MODULE_NODE_H__
+#endif // __NODE_H__
 

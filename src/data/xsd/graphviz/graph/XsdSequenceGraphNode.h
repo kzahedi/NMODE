@@ -25,30 +25,28 @@
  *************************************************************************/
 
 
-#ifndef __XSD_CHOICE_GRAPH_NODE_H__
-#define __XSD_CHOICE_GRAPH_NODE_H__
+#ifndef __XSD_SEQUENCE_GRAPH_NODE_H__
+#define __XSD_SEQUENCE_GRAPH_NODE_H__
 
 #include "XsdGraphNode.h"
-#include "xsd/specification/XsdChoice.h"
+#include "data/xsd/specification/XsdSequence.h"
 
 #include <string>
 #include <sstream>
 
 using namespace std;
 
-class XsdChoiceGraphNode : public XsdGraphNode
+class XsdSequenceGraphNode : public XsdGraphNode
 {
   public:
-    XsdChoiceGraphNode(XsdChoice *spec);
+    XsdSequenceGraphNode(XsdSequence *spec);
     string customLabel(string label);
     string name();
-    XsdChoice* spec();
+    XsdSequence* spec();
 
   private:
     stringstream _oss;
-    XsdChoice *_spec;
-
+    XsdSequence *_spec;
 };
 
-#endif // __XSD_CHOICE_GRAPH_NODE_H__
-
+#endif // __XSD_SEQUENCE_GRAPH_NODE_H__

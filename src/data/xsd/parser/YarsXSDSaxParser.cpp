@@ -26,9 +26,6 @@
 
 
 #include "YarsXSDSaxParser.h"
-#include "YarsXSDSaxHandler.h"
-
-#include "xsd/generator/YarsXSDGenerator.h"
 
 #include <xercesc/sax2/SAX2XMLReader.hpp>
 #include <xercesc/sax2/XMLReaderFactory.hpp>
@@ -40,9 +37,12 @@
 #include <xercesc/validators/common/Grammar.hpp>
 #include <xercesc/framework/StdInInputSource.hpp>
 
-
 #include <iostream>
 #include <sstream>
+
+#include "YarsXSDSaxHandler.h"
+#include "data/xsd/generator/YarsXSDGenerator.h"
+
 
 using namespace std;
 using namespace xercesc;

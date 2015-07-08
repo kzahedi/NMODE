@@ -60,7 +60,6 @@ class DataEvolutionSynapse : public DataNode
     double modifyDelta();
     double addProbability();
     double addMaxValue();
-    int    addIteartions();
     double delProbability();
     double cost();
 
@@ -72,7 +71,6 @@ class DataEvolutionSynapse : public DataNode
 
     double _addProbability;
     double _addMaxValue;
-    double _addIteration;
 
     double _delProbability;
 

@@ -51,9 +51,14 @@ class ModuleMutationOperator
                                               double delta,
                                               double max);
     static void __mutateAddEdge(Module *m,    double probability,
-                                              double max,
-                                              int    iterations);
+                                              double max);
+    static void __mutateAddNode(Module *m,    double probability,
+                                              double max);
+    static void __mutateModifyNode(Module *m, double probability,
+                                              double delta,
+                                              double max);
 
+    static void __mutateDelNode(Module *m,    double probability);
 };
 
 

@@ -41,13 +41,27 @@ Module::Module(string name)
 
 Module::~Module()
 {
-  FORC(Nodes, n, _neurons) delete (*n);
-  _neurons.clear();
+  FORC(Nodes, n, _nodes) delete (*n);
+  _nodes.clear();
 }
 
-void Module::addNode(Node *neuron)
+void Module::addNode(Node *node) throw (ENPException)
 {
-  _neurons.push_back(neuron);
+  _nodes.push_back(node);
+  switch(node->type())
+  {
+    case NODE_TYPE_SENSOR:
+      _sensors.push_back(node);
+      break;
+    case NODE_TYPE_ACTUATOR:
+      _sensors.push_back(node);
+      break;
+    case NODE_TYPE_HIDDEN:
+      _hidden.push_back(node);
+      break;
+    default:
+      throw ENPException("Module::addNode: unknown node type");
+  }
 }
 
 string Module::name()
@@ -64,8 +78,8 @@ void Module::linkTo(Module *target)
 
 bool Module::operator==(const Module m)
 {
-  Nodes mn = m._neurons;
-  FORC(Nodes, a, _neurons)
+  Nodes mn = m._nodes;
+  FORC(Nodes, a, _nodes)
   {
     bool foundNode = false;
     FORC(Nodes, b, mn)
@@ -83,8 +97,8 @@ bool Module::operator==(const Module m)
 
 bool Module::operator!=(const Module m)
 {
-  Nodes mn = m._neurons;
-  FORC(Nodes, a, _neurons)
+  Nodes mn = m._nodes;
+  FORC(Nodes, a, _nodes)
   {
     bool foundNode = true;
     FORC(Nodes, b, mn)
@@ -103,12 +117,17 @@ bool Module::operator!=(const Module m)
 
 Nodes::iterator Module::n_begin()
 {
-  return _neurons.begin();
+  return _nodes.begin();
 }
 
 Nodes::iterator Module::n_end()
 {
-  return _neurons.end();
+  return _nodes.end();
+}
+
+int Module::n_size()
+{
+  return _nodes.size();
 }
 
 Edges::iterator Module::e_begin()
@@ -119,6 +138,11 @@ Edges::iterator Module::e_begin()
 Edges::iterator Module::e_end()
 {
   return _edges.end();
+}
+
+int Module::e_size()
+{
+  return _edges.size();
 }
 
 bool Module::removeEdge(Edge *e)
@@ -132,4 +156,45 @@ bool Module::removeEdge(Edge *e)
     }
   }
   return false;
+}
+
+int Module::s_size()
+{
+  return _sensors.size();
+}
+
+int Module::a_size()
+{
+  return _actuators.size();
+}
+
+int Module::h_size()
+{
+  return _hidden.size();
+}
+
+
+void Module::addEdge(Node *src, Node *dst, double weight) throw (ENPException)
+{
+  if(dst->contains(src)) throw ENPException("Module::addEdge: The destination node already contains an edge from the source node");
+  Edge *e = new Edge();
+  e->setSource(src);
+  e->setDestination(dst);
+  e->setWeight(weight);
+
+  dst->addEdge(e);
+
+  _edges.push_back(e);
+}
+
+
+Node* Module::node(int index)
+{
+  return _nodes[index];
+}
+
+
+Edge* Module::edge(int index)
+{
+  return _edges[index];
 }

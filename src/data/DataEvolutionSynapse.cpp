@@ -44,7 +44,6 @@
 #define TAG_MAX               (char*)"maximum"
 #define TAG_DELTA             (char*)"delta"
 #define TAG_COST              (char*)"cost"
-#define TAG_ITERATIONS        (char*)"iterations"
 
 
 using namespace std;
@@ -55,8 +54,10 @@ DataEvolutionSynapse::DataEvolutionSynapse(DataNode *parent)
   _modifyProbability = 0.1;
   _modifyMaxValue    = 4.0;
   _modifyDelta       = 0.5;
+
   _addProbability    = 0.01;
   _addMaxValue       = 1.0;
+
   _delProbability    = 0.1;
   _cost              = 0.0;
 }
@@ -116,7 +117,6 @@ void DataEvolutionSynapse::createXsd(XsdSpecification *spec)
   XsdSequence *add = new XsdSequence(TAG_ADD_DEFINITION);
   add->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL,    true));
   add->add(NA(TAG_MAX,         TAG_POSITIVE_DECIMAL, true));
-  add->add(NA(TAG_ITERATIONS,  TAG_POSITIVE_INTEGER, true));
   spec->add(add);
 
   XsdSequence *del = new XsdSequence(TAG_DEL_DEFINITION);
@@ -159,3 +159,5 @@ double DataEvolutionSynapse::cost()
 {
   return _cost;
 }
+
+

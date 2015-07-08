@@ -59,3 +59,14 @@ void Random::initialise(int seed)
 {
   srand(seed);
 }
+
+
+int Random::rand(int min, int max)
+{
+  return min + int(unit() * (double)max + 0.5);
+}
+
+double Random::rand(double min, double max)
+{
+  return min + (unit() * max);
+}

@@ -25,28 +25,30 @@
  *************************************************************************/
 
 
-#ifndef __XSD_SEQUENCE_GRAPH_NODE_H__
-#define __XSD_SEQUENCE_GRAPH_NODE_H__
+#ifndef __XSD_REGULAR_EXPRESSION_GRAPH_NODE_H__
+#define __XSD_REGULAR_EXPRESSION_GRAPH_NODE_H__
 
 #include "XsdGraphNode.h"
-#include "xsd/specification/XsdSequence.h"
+#include "data/xsd/specification/XsdRegularExpression.h"
 
 #include <string>
 #include <sstream>
 
 using namespace std;
 
-class XsdSequenceGraphNode : public XsdGraphNode
+class XsdRegularExpressionGraphNode : public XsdGraphNode
 {
   public:
-    XsdSequenceGraphNode(XsdSequence *spec);
+    XsdRegularExpressionGraphNode(XsdRegularExpression *spec);
     string customLabel(string label);
     string name();
-    XsdSequence* spec();
+    XsdRegularExpression* spec();
 
   private:
-    stringstream _oss;
-    XsdSequence *_spec;
+    stringstream          _oss;
+    XsdRegularExpression *_spec;
+    string                _specification;
+    string                _type;
 };
 
-#endif // __XSD_SEQUENCE_GRAPH_NODE_H__
+#endif // __XSD_REGULAR_EXPRESSION_GRAPH_NODE_H__

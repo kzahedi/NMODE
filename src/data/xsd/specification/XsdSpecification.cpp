@@ -170,16 +170,11 @@ XsdSpecification::XsdSpecification()
 
 XsdSpecification::~XsdSpecification()
 {
-  FORC(vector<XsdSequence*>, s, _sequences)
-    if(*s != NULL) delete (*s);
-  FORC(vector<XsdEnumeration*>, e, _enumerations)
-    if(*e != NULL) delete (*e);
-  FORC(vector<XsdChoice*>, c, _choices)
-    if(*c != NULL) delete (*c);
-  FORC(vector<XsdInterval*>, i, _intervals)
-    if(*i != NULL) delete (*i);
-  FORC(vector<XsdRegularExpression*>, r, _regExps)
-    if(*r != NULL) delete (*r);
+  // FORC(vector<XsdSequence*>,          s, _sequences)    if(*s != NULL) delete (*s);
+  // FORC(vector<XsdEnumeration*>,       e, _enumerations) if(*e != NULL) delete (*e);
+  // FORC(vector<XsdChoice*>,            c, _choices)      if(*c != NULL) delete (*c);
+  // FORC(vector<XsdInterval*>,          i, _intervals)    if(*i != NULL) delete (*i);
+  // FORC(vector<XsdRegularExpression*>, r, _regExps)      if(*r != NULL) delete (*r);
   // FOREACH(XsdNode*,              n, _nodes)        if(*n != NULL) delete (*n);
 
   _sequences.clear();

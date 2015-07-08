@@ -28,6 +28,8 @@
 
 #include "ModuleMutationOperator.h"
 
+#include <glog/logging.h>
+
 #include "base/macros.h"
 #include "base/Random.h"
 
@@ -37,6 +39,11 @@
 // }
 
 #define FORALLEDGES for(Edges::iterator e = m->e_begin(); e != m->e_end(); e++)
+#define FORALLNODES for(Nodes::iterator n = m->n_begin(); n != m->n_end(); n++)
+
+#define DIST(a, b) sqrt((a.x - b.x) * (a.x - b.x) +\
+                        (a.y - b.y) * (a.y - b.y) +\
+                        (a.z - b.z) * (a.z - b.z));
 
 void ModuleMutationOperator::mutate(Module *m,
                                     DataEvolutionNeuron *den,
@@ -47,8 +54,13 @@ void ModuleMutationOperator::mutate(Module *m,
                         des->modifyDelta(), 
                         des->modifyMaxValue());
   __mutateAddEdge(m,    des->addProbability(),
-                        des->addMaxValue(),
-                        des->addIteartions());
+                        des->addMaxValue());
+  __mutateModifyNode(m, den->modifyProbability(),
+                        den->modifyDelta(),
+                        den->modifyMaxValue());
+  __mutateAddNode(m,    den->addProbability(),
+                        den->addMaxValue());
+  __mutateDelNode(m,    den->delProbability());
 }
 
 
@@ -72,9 +84,9 @@ void ModuleMutationOperator::__mutateRemoveEdge(Module *m, double probability)
   // }
 }
 
-static void ModuleMutationOperator__mutateModifyEdge(Module *m, double probability,
-                                                                double delta,
-                                                                double max)
+void ModuleMutationOperator::__mutateModifyEdge(Module *m, double probability,
+                                                           double delta,
+                                                           double max)
 {
   FORALLEDGES
   {
@@ -89,15 +101,103 @@ static void ModuleMutationOperator__mutateModifyEdge(Module *m, double probabili
 }
 
 void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
-                                                        double max,
-                                                        int    iterations)
+                                                        double max)
 {
-  if(Random::unit() < probability)
+  if(Random::unit() >= probability) return;
+
+  double probabilities[m->n_size()][m->a_size() + m->h_size()];
+  double sum = 0.0;
+  double d   = 0.0;
+
+  for(int s_index = 0; s_index < m->n_size(); s_index++)
   {
-    for(int i = 0; i < iterations; i++)
+    Node *src_node = m->node(s_index);
+    for(int d_index = m->s_size(); d_index < m->n_size(); d_index++)
     {
-      // HIER
+      Node *dst_node = m->node(d_index);
+      if(src_node->contains(dst_node))
+      {
+        d    = DIST(src_node->position(), dst_node->position());
+        sum += d;
+        probabilities[s_index][d_index] = d;
+      }
+      else
+      {
+        probabilities[s_index][d_index] = 0.0;
+      }
+    }
+  }
+
+  for(int s_index = 0; s_index < m->n_size(); s_index++)
+  {
+    for(int d_index = m->s_size(); d_index < m->n_size(); d_index++)
+    {
+      probabilities[s_index][d_index] /= sum;
+    }
+  }
+
+  double p  = Random::unit();
+  double s  = 0.0;
+  for(int s_index = 0; s_index < m->n_size(); s_index++)
+  {
+    for(int d_index = m->s_size(); d_index < m->n_size(); d_index++)
+    {
+      s += probabilities[s_index][d_index];
+      if(p < s)
+      {
+        Node *src = m->node(s_index);
+        Node *dst = m->node(d_index);
+        m->addEdge(src, dst, Random::rand(-max, max));
+      }
     }
   }
 }
 
+void ModuleMutationOperator::__mutateAddNode(Module *m, double probability, double max)
+{
+  if(Random::unit() >= probability) return;
+
+  int ei    = int(Random::unit() * m->e_size() + 0.5); // edge index
+
+  Node *n   = new Node();
+
+  Edge *e   = m->edge(ei);
+  Node *src = e->source();
+  Node *dst = e->destination();
+
+  P3D sp    = src->position();
+  P3D dp    = dst->position();
+  P3D np    = (sp + dp) * 0.5;
+
+  n->setType("hidden");
+  n->setPosition(np);
+  n->setValue(Random::rand(-max, max));
+
+  e->setSource(n);
+  m->addEdge(src, n, 1.0);
+}
+
+void ModuleMutationOperator::__mutateModifyNode(Module *m, double probability,
+                                                           double delta,
+                                                           double max)
+{
+  if(Random::unit() >= probability) return;
+
+  int ni       = int(Random::unit() * m->n_size() + 0.5);
+  Node *n      = m->node(ni);
+  double value = n->value();
+  value += Random::rand(-delta, delta);
+  if(value >  max) value =  max;
+  if(value < -max) value = -max;
+  n->setValue(value);
+}
+
+
+void ModuleMutationOperator::__mutateDelNode(Module *m, double probability)
+{
+  if(Random::unit() >= probability) return;
+
+  int ni   = int(Random::unit() * m->n_size() + 0.5);
+  Node *nn = m->node(ni);
+  FORALLNODES (*n)->removeEdge(nn);
+}

@@ -29,7 +29,7 @@
 include_directories("${PROJECT_SOURCE_DIR}/src")
 link_directories(${PROJECT_BINARY_DIR}/lib)
 
-add_library(ENPBase STATIC RNN.cpp
+add_library(ENPBase SHARED RNN.cpp
                            P3D.cpp
                            Random.cpp
                            StringTokeniser.cpp

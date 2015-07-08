@@ -29,7 +29,7 @@
 include_directories("${PROJECT_SOURCE_DIR}/src")
 link_directories(${PROJECT_BINARY_DIR}/lib)
 
-add_library(ENPMain STATIC Configuration.cpp
+add_library(ENPMain SHARED Configuration.cpp
                            )
 
 target_link_libraries(ENPMain ${Boost_LIBRARIES} ENPData ENPCFG)

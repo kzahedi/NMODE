@@ -25,30 +25,44 @@
  *************************************************************************/
 
 
-#ifndef __XSD_ENUMERATION_GRAPH_NODE_H__
-#define __XSD_ENUMERATION_GRAPH_NODE_H__
+#ifndef __YARS_XSD_GRAPH_NODE_H__
+#define __YARS_XSD_GRAPH_NODE_H__
 
-#include "XsdGraphNode.h"
-#include "xsd/specification/XsdEnumeration.h"
+#include "data/xsd/specification/XsdSpecification.h"
 
 #include <string>
-#include <sstream>
+#include <vector>
+
+#define ATTRIBUTE_BGCOLOR     "#fee1b7"
+#define ELEMENT_BGCOLOR       "#adc9f0"
+#define CHOICE_BGCOLOR        "#adf0ad"
+#define SPECIFICATION_BGCOLOR "#fefeb7"
+
+#define REGEXP_BGCOLOR        "#f3afd7"
+#define INTERVAL_BGCOLOR      "#d9adf0"
+#define ENUM_BGCOLOR          "#b8adf0"
+
+#define OPTIONAL_COLOR        "#00A000"
+#define REQUIRED_COLOR        "#ff0000"
 
 using namespace std;
 
-class XsdEnumerationGraphNode : public XsdGraphNode
+class XsdGraphNode
 {
   public:
-    XsdEnumerationGraphNode(XsdEnumeration *spec);
-    string customLabel(string label);
-    string name();
-    XsdEnumeration* spec();
+    XsdGraphNode();
+    virtual ~XsdGraphNode() { };
+
+    virtual string   customLabel(string label) = 0;
+    virtual string   name()                    = 0;
+    virtual XsdNode* spec()                    = 0;
+
+    string uniqueNodeName();
+    void   setUniqueNodeName(string n);
+    bool   hasDefinition(string type);
 
   private:
-    stringstream    _oss;
-    XsdEnumeration *_spec;
-    string          _specification;
-    string          _type;
+    string            _uniqueName;
 };
 
-#endif // __XSD_ENUMERATION_GRAPH_NODE_H__
+#endif // __YARS_XSD_GRAPH_NODE_H__
