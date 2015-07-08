@@ -50,7 +50,7 @@ void ModuleMutationOperator::mutate(Module *m,
                                     DataEvolutionNeuron *den,
                                     DataEvolutionSynapse *des)
 {
-  __mutateRemoveEdge(m, des->delProbability());
+  __mutateDelEdge(m,    des->delProbability());
   __mutateModifyEdge(m, des->modifyProbability(), 
                         des->modifyDelta(), 
                         des->modifyMaxValue());
@@ -65,24 +65,36 @@ void ModuleMutationOperator::mutate(Module *m,
 }
 
 
-void ModuleMutationOperator::__mutateRemoveEdge(Module *m, double probability)
+void ModuleMutationOperator::__mutateDelEdge(Module *m, double probability)
 {
-  Edges toBeRemoved;
-  FORALLEDGES
+  if(Random::unit() >= probability) return;
+  double weights[m->e_size()];
+  double sum = 0.0;
+
+  for(int i = 0; i < m->e_size(); i++)
   {
-    if(Random::unit() < probability)
+    double w = m->edge(i)->weight();
+    weights[i] = w;
+    sum += w;
+  }
+
+  for(int i = 0; i < m->e_size(); i++)
+  {
+    weights[i] /= sum;
+  }
+
+  double p = Random::unit();
+  double s = 0.0;
+  for(int i = 0; i < m->e_size(); i++)
+  {
+    s += weights[i];
+    if(s <= p)
     {
-      toBeRemoved.push_back(*e);
+      m->removeEdge(m->edge(i));
+      return;
     }
   }
 
-  // for(Edges::reverse_iterator e = toBeRemoved.end();
-      // e != toBeRemoved.begin(); e--)
-  // {
-    // Node *dest = (*e)->destination();
-    // dest->removeEdge(*e);
-    // m->removeEdge(*e);
-  // }
 }
 
 void ModuleMutationOperator::__mutateModifyEdge(Module *m, double probability,
@@ -144,7 +156,7 @@ void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
     for(int d_index = m->s_size(); d_index < m->n_size(); d_index++)
     {
       s += probabilities[s_index][d_index];
-      if(p < s)
+      if(p <= s)
       {
         Node *src = m->node(s_index);
         Node *dst = m->node(d_index);
