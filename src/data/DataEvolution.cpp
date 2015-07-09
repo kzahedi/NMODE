@@ -29,6 +29,7 @@
 #include "DataEvolution.h"
 
 #include <iostream>
+#include <glog/logging.h>
 
 using namespace std;
 
@@ -45,6 +46,7 @@ DataEvolution::~DataEvolution()
 
 void DataEvolution::add(DataParseElement *element)
 {
+  VLOG(100) << "DataEvolution parsing: " << element->name();
   if(element->closing(TAG_EVOLUTION))
   {
     current = parent;

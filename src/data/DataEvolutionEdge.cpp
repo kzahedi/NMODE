@@ -29,6 +29,7 @@
 #include "DataEvolutionEdge.h"
 
 #include <iostream>
+#include <glog/logging.h>
 
 
 #define TAG_MODIFY            (char*)"modify"
@@ -69,6 +70,7 @@ DataEvolutionEdge::~DataEvolutionEdge()
 
 void DataEvolutionEdge::add(DataParseElement *element)
 {
+  VLOG(100) << "DataEvolutionEdge parsing: " << element->name();
   if(element->closing(TAG_EVOLUTION_EDGE))
   {
     current = parent;
@@ -77,6 +79,7 @@ void DataEvolutionEdge::add(DataParseElement *element)
   if(element->opening(TAG_EVOLUTION_EDGE))
   {
     element->set(TAG_COST, _cost);
+    VLOG(100) << "DataEvolutionEdge set cost to: " << _cost;
   }
 
   if(element->opening(TAG_MODIFY))
@@ -84,17 +87,23 @@ void DataEvolutionEdge::add(DataParseElement *element)
     element->set(TAG_PROBABILITY, _modifyProbability);
     element->set(TAG_MAX,         _modifyMaxValue);
     element->set(TAG_DELTA,       _modifyDelta);
+    VLOG(100) << "DataEvolutionEdge set modify probability to: " << _modifyProbability;
+    VLOG(100) << "DataEvolutionEdge set modify max to: " << _modifyMaxValue;
+    VLOG(100) << "DataEvolutionEdge set modify delta to: " << _modifyDelta;
   }
 
   if(element->opening(TAG_ADD))
   {
     element->set(TAG_PROBABILITY, _addProbability);
     element->set(TAG_MAX,         _addMaxValue);
+    VLOG(100) << "DataEvolutionEdge set add probability to: " << _addProbability;
+    VLOG(100) << "DataEvolutionEdge set add max to: " << _addMaxValue;
   }
 
   if(element->opening(TAG_DEL))
   {
     element->set(TAG_PROBABILITY, _delProbability);
+    VLOG(100) << "DataEvolutionEdge set del probability to: " << _delProbability;
   }
 
 }

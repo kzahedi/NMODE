@@ -87,6 +87,7 @@ void DataENP::createXsd(XsdSpecification *spec)
   _root->add(NE(TAG_SIMULATOR,     TAG_SIMULATOR_DEFINITION,     1, 1));
   _root->add(NE(TAG_EVOLUTION,     TAG_EVOLUTION_DEFINITION,     1, 1));
   _root->add(NE(TAG_CONFIGURATION, TAG_CONFIGURATION_DEFINITION, 1, 1));
+  // _root->add(NE(TAG_POPULATION,    TAG_POPULATION_DEFINITION   , 1, 1));
   spec->setRoot(_root);
 
   XsdRegularExpression *versionDefinition =
@@ -101,7 +102,7 @@ void DataENP::createXsd(XsdSpecification *spec)
 
 void DataENP::__getChild(DataParseElement *element)
 {
-  VLOG(5) << "DataENP parsing: " << element->name();
+  VLOG(100) << "DataENP parsing: " << element->name();
   if(element->opening(TAG_ENP))
   {
     string v;

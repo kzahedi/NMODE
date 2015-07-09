@@ -37,4 +37,4 @@ add_library(ENPBase SHARED RNN.cpp
                            ENPErrorHandler.cpp
                            FileSystemOperations.cpp)
 
-target_link_libraries(ENPBase ${Boost_LIBRARIES})
+target_link_libraries(ENPBase ${Boost_LIBRARIES} glog)

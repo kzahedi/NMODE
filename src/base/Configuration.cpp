@@ -34,6 +34,8 @@
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/variables_map.hpp>
 
+#include <glog/logging.h>
+
 using namespace std;
 
 namespace po = boost::program_options;
@@ -48,6 +50,7 @@ Configuration::Configuration(int argc, char* argv[], bool io)
 
   desc.add_options()
     ("help",    "print help message")
+    ("verbosity,v", po::value<int>(), "set verbose logging level, defaults to 0")
     ("cfg",     po::value<string>(&_cfg), "cfg file");
 
   ioo.add_options()
@@ -78,6 +81,13 @@ Configuration::Configuration(int argc, char* argv[], bool io)
     cerr << "Please give a configuration file. See " << argv[0] << " --help for more information." << endl;
     exit(-1);
   };
+
+  if (vm.count("verbosity")){
+    FLAGS_v = vm["verbosity"].as<int>();
+  }
+  else{
+    FLAGS_v = 0;
+  }
 
 }
 

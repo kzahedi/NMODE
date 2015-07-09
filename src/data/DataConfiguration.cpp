@@ -1,6 +1,6 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Configuration of Neural Pathways (ENP).              *
+ * This file is part of Configuration of Neural Pathways (ENP).          *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
@@ -48,6 +48,7 @@ DataConfiguration::~DataConfiguration()
 
 void DataConfiguration::add(DataParseElement *element)
 {
+  VLOG(100) << "DataConfiguration parsing: " << element->name();
   if(element->closing(TAG_CONFIGURATION))
   {
     current = parent;
