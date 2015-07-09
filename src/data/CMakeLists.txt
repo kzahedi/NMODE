@@ -77,5 +77,6 @@ add_library(ENPData SHARED XmlChangeLog.cpp
                            xsd/specification/XsdAttribute.cpp)
 
 
-target_link_libraries(ENPData ${XERCESC_LIBRARY_FILE} ${Boost_LIBRARIES} ENPBase)
+target_link_libraries(ENPData ${XERCESC_LIBRARY_FILE} ${Boost_LIBRARIES}
+  ENPBase glog)
 

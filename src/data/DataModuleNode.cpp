@@ -37,6 +37,8 @@
 #define TAG_TYPE                        (char*)"type"
 #define TAG_ACTUATOR                    (char*)"actuator"
 #define TAG_SENSOR                      (char*)"sensor"
+#define TAG_INPUT                       (char*)"input"
+#define TAG_OUTPUT                      (char*)"output"
 #define TAG_NAME                        (char*)"name"
 #define TAG_TANH                        (char*)"tanh"
 #define TAG_SIGM                        (char*)"sigm"
@@ -108,6 +110,8 @@ void DataModuleNode::createXsd(XsdSpecification *spec)
   XsdEnumeration *type = new XsdEnumeration(TAG_TYPE_DEFINITION, TAG_XSD_STRING);
   type->add(TAG_SENSOR);
   type->add(TAG_ACTUATOR);
+  type->add(TAG_INPUT);
+  type->add(TAG_OUTPUT);
   spec->add(type);
 
 }

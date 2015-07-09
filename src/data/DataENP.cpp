@@ -33,6 +33,7 @@
 #include "base/ENPErrorHandler.h"
 
 #include <iostream>
+#include <glog/logging.h>
 
 using namespace std;
 
@@ -100,6 +101,7 @@ void DataENP::createXsd(XsdSpecification *spec)
 
 void DataENP::__getChild(DataParseElement *element)
 {
+  VLOG(5) << "DataENP parsing: " << element->name();
   if(element->opening(TAG_ENP))
   {
     string v;

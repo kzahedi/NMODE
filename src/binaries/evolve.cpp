@@ -26,10 +26,30 @@
 
 
 
-#include "main/Configuration.h"
+#include "base/Configuration.h"
+#include "data/Data.h"
+
+#include <glog/logging.h>
+
+#include <iostream>
+
+using namespace std;
 
 int main(int argc, char** argv)
 {
-  // Configuration *configuraiton = new Configuration(argc, argv);
+  FLAGS_log_dir = "log";
+  google::InitGoogleLogging(argv[0]);
+  Configuration *configuration = new Configuration(argc, argv, true);
+
+  // FLAGS_logtostderr = 1;
+  
+  Data *data = Data::instance();
+
+  LOG_IF(INFO, configuration->input().size() > 0)  << "Input file given " << configuration->input();
+  LOG_IF(INFO, configuration->output().size() > 0) << "Output file given " << configuration->output();
+  LOG_IF(INFO, configuration->cfg().size() > 0)    << "Configuration given " << configuration->cfg();
+
+  data->read(configuration->cfg());
+  
   return 0;
 }

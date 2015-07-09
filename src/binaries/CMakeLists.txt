@@ -29,8 +29,9 @@
 include_directories("${PROJECT_SOURCE_DIR}/src")
 link_directories(${PROJECT_BINARY_DIR}/lib)
 
-add_library(ENPMain SHARED Configuration.cpp
-                           )
+add_executable(evolve evolve.cpp)
+target_link_libraries(evolve ENPData glog)
 
-target_link_libraries(ENPMain ${Boost_LIBRARIES} ENPData ENPCFG)
+add_executable(enp main.cpp)
+target_link_libraries(enp ENPData)
 

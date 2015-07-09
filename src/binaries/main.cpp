@@ -26,47 +26,13 @@
 
 
 
-#include "Configuration.h"
+#include "base/Configuration.h"
 
-#include <string>
 #include <iostream>
 
-#include <boost/program_options/parsers.hpp>
-#include <boost/program_options/variables_map.hpp>
-
-#include "data/Data.h"
-
-using namespace std;
-
-namespace po = boost::program_options;
-
-Configuration::Configuration(int argc, char* argv[])
+int main(int argc, char** argv)
 {
-  string xml;
-
-  po::options_description desc("Options");
-
-  desc.add_options()
-    ("help",    "print help message")
-    ("version", "print version information")
-    ("xml",    po::value<string>(&xml), "xml file");
-
-
-  po::positional_options_description positional;
-  positional.add("xml", -1);
-
-  po::variables_map vm;
-  po::store(po::command_line_parser(argc, argv).
-            options(desc).positional(positional).run(), vm);
-  po::notify(vm);
-
-  if (vm.count("help")) {
-    cout << desc << "\n";
-  }
-
-  if(vm.count("xml"))
-  {
-    Data::instance()->read(xml);
-  };
-
+  Configuration *configuration = new Configuration(argc, argv);
+  cout << configuration->cfg() << endl;
+  return 0;
 }

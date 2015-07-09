@@ -31,6 +31,7 @@
 #include "base/macros.h"
 
 #include <iostream>
+#include <glog/logging.h>
 
 using namespace std;
 

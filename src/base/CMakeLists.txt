@@ -31,9 +31,10 @@ link_directories(${PROJECT_BINARY_DIR}/lib)
 
 add_library(ENPBase SHARED RNN.cpp
                            P3D.cpp
+                           Configuration.cpp
                            Random.cpp
                            StringTokeniser.cpp
                            ENPErrorHandler.cpp
                            FileSystemOperations.cpp)
 
-target_link_libraries(ENPBase ${Boost_LIBRARIES} ENPCFG)
+target_link_libraries(ENPBase ${Boost_LIBRARIES})
