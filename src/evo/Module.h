@@ -41,6 +41,16 @@ class Module
     int             e_size();
     Edge*           edge(int index);
 
+    vector<int>::iterator src_indices_begin();
+    vector<int>::iterator src_indices_end();
+    int                   src_indices_size();
+    int                   src_index(int index);
+
+    vector<int>::iterator dst_indices_begin();
+    vector<int>::iterator dst_indices_end();
+    int                   dst_indices_size();
+    int                   dst_index(int index);
+
     bool            modified();
     void            setModified(bool m);
 
@@ -70,12 +80,17 @@ class Module
     Nodes   _nodes;
     Nodes   _sensors;
     Nodes   _actuators;
+    Nodes   _input;
+    Nodes   _output;
     Nodes   _hidden;
     Edges   _edges;
     string  _name;
     bool    _linked;
     bool    _modified;
     Module *_target;
+
+    vector<int> _src_indices;
+    vector<int> _dst_indices;
 };
 
 typedef vector<Module*> Modules;

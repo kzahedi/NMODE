@@ -17,7 +17,7 @@ int main(int argc, char** argv)
 
   Data *data = Data::instance();
 
-  LOG_IF(INFO, configuration->input().size() > 0) 
+  LOG_IF(INFO, configuration->input().size() > 0)
     << "Input file given " << configuration->input();
   LOG_IF(INFO, configuration->output().size() > 0)
     << "Output file given " << configuration->output();
@@ -36,7 +36,10 @@ int main(int argc, char** argv)
   DataEvolutionEdge *dee = data->specification()->evolution()->edge();
   DataEvolutionNode *den = data->specification()->evolution()->node();
 
-  ModuleMutationOperator::mutate(mod, den, dee);
+  for(int i = 0; i < 100; i++)
+  {
+    ModuleMutationOperator::mutate(mod, den, dee);
+  }
 
   VLOG(5) << "done.";
 

@@ -26,12 +26,37 @@ void Module::addNode(Node *node) throw (ENPException)
   {
     case NODE_TYPE_SENSOR:
       _sensors.push_back(node);
+      _src_indices.push_back(_sensors.size());
+      VLOG(50) << "adding sensor node: " << _sensors.size();
+      VLOG(50) << "  adding to sources: " << _src_indices.size();
       break;
     case NODE_TYPE_ACTUATOR:
       _sensors.push_back(node);
+      _src_indices.push_back(_sensors.size());
+      _dst_indices.push_back(_sensors.size());
+      VLOG(50) << "adding actuator node: " << _actuators.size();
+      VLOG(50) << "  adding to sources: " << _src_indices.size();
+      VLOG(50) << "  adding to destination: " << _dst_indices.size();
       break;
     case NODE_TYPE_HIDDEN:
       _hidden.push_back(node);
+      _src_indices.push_back(_sensors.size());
+      _dst_indices.push_back(_sensors.size());
+      VLOG(50) << "adding hidden node: " << _hidden.size();
+      VLOG(50) << "  adding to sources: " << _src_indices.size();
+      VLOG(50) << "  adding to destination: " << _dst_indices.size();
+      break;
+    case NODE_TYPE_INPUT:
+      _input.push_back(node);
+      _src_indices.push_back(_sensors.size());
+      VLOG(50) << "adding input node: " << _input.size();
+      VLOG(50) << "  adding to sources: " << _src_indices.size();
+      break;
+    case NODE_TYPE_OUTPUT:
+      _output.push_back(node);
+      _dst_indices.push_back(_sensors.size());
+      VLOG(50) << "adding output node: " << _output.size();
+      VLOG(50) << "  adding to destination: " << _dst_indices.size();
       break;
     default:
       throw ENPException("Module::addNode: unknown node type");
@@ -191,8 +216,9 @@ void Module::initialise(DataModule *data)
     node->setType((*n)->type());
     node->setBias((*n)->bias());
     node->setLabel((*n)->label());
+    node->setPosition((*n)->position());
     nodeMap.insert(std::make_pair(node->label(), node));
-    _nodes.push_back(node);
+    addNode(node);
   }
 
   for(DataModuleEdges::iterator e = data->e_begin(); e != data->e_end(); e++)
@@ -215,5 +241,45 @@ bool Module::modified()
 void Module::setModified(bool m)
 {
   _modified = m;
+}
+
+vector<int>::iterator Module::src_indices_begin()
+{
+  return _src_indices.begin();
+}
+
+vector<int>::iterator Module::src_indices_end()
+{
+  return _src_indices.end();
+}
+
+int Module::src_indices_size()
+{
+  return _src_indices.size();
+}
+
+int Module::src_index(int index)
+{
+  return _src_indices[index];
+}
+
+vector<int>::iterator Module::dst_indices_begin()
+{
+  return _dst_indices.begin();
+}
+
+vector<int>::iterator Module::dst_indices_end()
+{
+  return _dst_indices.end();
+}
+
+int Module::dst_indices_size()
+{
+  return _dst_indices.size();
+}
+
+int Module::dst_index(int index)
+{
+  return _dst_indices[index];
 }
 

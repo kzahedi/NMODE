@@ -17,56 +17,46 @@
   </evolution>
   <configuration>
     <module name="module 1">
+
       <node type="input" label="input 1">
-        <position x="0.0" y="0.0" z="0.0"/>
+        <position x="0.0" y="0.0" z="1.0"/>
         <transferfunction name="id"/>
       </node>
       <node type="input" label="input 2">
-        <position x="0.0" y="0.0" z="0.0"/>
+        <position x="0.0" y="0.0" z="-1.0"/>
         <transferfunction name="id"/>
       </node>
       <node type="output" label="output 1">
-        <position x="0.0" y="0.0" z="0.0"/>
+        <position x="0.0" y="0.0" z="1.0"/>
         <transferfunction name="id"/>
       </node>
       <node type="output" label="output 2">
-        <position x="0.0" y="0.0" z="0.0"/>
+        <position x="0.0" y="0.0" z="-1.0"/>
         <transferfunction name="id"/>
       </node>
+
       <node type="sensor" label="sensor 1">
-        <position x="0.0" y="0.0" z="0.0"/>
+        <position x="-1.0" y="0.0" z="0.0"/>
         <transferfunction name="id"/>
       </node>
       <node type="sensor" label="sensor 2">
-        <position x="1.0" y="0.0" z="0.0"/>
+        <position x="0.0" y="0.0" z="0.0"/>
         <transferfunction name="id"/>
       </node>
       <node type="sensor" label="sensor 3">
-        <position x="2.0" y="0.0" z="0.0"/>
-        <transferfunction name="id"/>
-      </node>
-      <node type="actuator" label="actuator 1">
-        <position x="0.5" y="1.0" z="0.0"/>
-        <transferfunction name="tanh"/>
-      </node>
-      <node type="actuator" label="actuator 2">
-        <position x="1.5" y="1.0" z="0.0"/>
-        <transferfunction name="sigm"/>
-      </node>
-    </module>
-    <module name="module 2">
-      <node type="sensor" label="sensor 1">
-        <position x="0.0" y="0.0" z="0.0"/>
-        <transferfunction name="sigm"/>
-      </node>
-      <node type="sensor" label="sensor 2">
         <position x="1.0" y="0.0" z="0.0"/>
         <transferfunction name="id"/>
       </node>
+
       <node type="actuator" label="actuator 1">
-        <position x="0.5" y="1.0" z="0.0"/>
+        <position x="-0.5" y="1.0" z="0.0"/>
         <transferfunction name="tanh"/>
       </node>
+      <node type="actuator" label="actuator 2">
+        <position x="0.5" y="1.0" z="0.0"/>
+        <transferfunction name="sigm"/>
+      </node>
+
     </module>
   </configuration>
 </enp>

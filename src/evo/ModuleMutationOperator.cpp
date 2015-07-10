@@ -16,7 +16,7 @@
 
 #define DIST(a, b) sqrt((a.x - b.x) * (a.x - b.x) +\
                         (a.y - b.y) * (a.y - b.y) +\
-                        (a.z - b.z) * (a.z - b.z));
+                        (a.z - b.z) * (a.z - b.z))
 
 void ModuleMutationOperator::mutate(Module *m,
                                     DataEvolutionNode *den,
@@ -27,8 +27,8 @@ void ModuleMutationOperator::mutate(Module *m,
   while(m->modified() == false)
   {
     __mutateDelEdge(m,    dee->delProbability());
-    __mutateModifyEdge(m, dee->modifyProbability(), 
-                          dee->modifyDelta(), 
+    __mutateModifyEdge(m, dee->modifyProbability(),
+                          dee->modifyDelta(),
                           dee->modifyMaxValue());
     __mutateAddEdge(m,    dee->addProbability(),
                           dee->addMaxValue());
@@ -54,7 +54,7 @@ void ModuleMutationOperator::__mutateDelEdge(Module *m, double probability)
   for(int i = 0; i < m->e_size(); i++)
   {
     double w = m->edge(i)->weight();
-    weights[i] = w;
+    weights[i] = fabs(w);
     sum += fabs(w);
   }
 
@@ -123,61 +123,72 @@ void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
   VLOG(50) << "  will add one edge";
   m->setModified(true);
 
-  double probabilities[m->n_size()][m->a_size() + m->h_size()];
-  double sum = 0.0;
-  double d   = 0.0;
+  double probabilities[m->src_indices_size()][m->dst_indices_size()];
+  double d   =  0.0;
+  double min = -1.0;
 
-  cout << " hier 0: " << m->n_size() << endl;
-  for(int s_index = 0; s_index < m->n_size(); s_index++)
+  for(int s_index = 0; s_index < m->src_indices_size(); s_index++)
   {
-    cout << " hier 100 " << endl;
-    Node *src_node = m->node(s_index);
-    for(int d_index = 0; d_index < m->n_size() - m->s_size(); d_index++)
+    Node *src_node = m->node(m->src_index(s_index));
+    for(int d_index = 0; d_index < m->dst_indices_size(); d_index++)
     {
-      cout << " hier 101 " << endl;
-      Node *dst_node = m->node(d_index + m->s_size());
+      Node *dst_node = m->node(m->dst_index(d_index));
       if(src_node->contains(dst_node))
       {
-        cout << " hier 102 " << endl;
-        d    = DIST(src_node->position(), dst_node->position());
-        sum += d;
-        probabilities[s_index][d_index] = d;
+        VLOG(50) << "edge from " << s_index << " to " << d_index << " already exists";
+        probabilities[s_index][d_index] = 0.0;
       }
       else
       {
-        cout << " hier 103: " << s_index << " " << d_index << endl;
-        probabilities[s_index][d_index] = 0.0;
+        VLOG(50) << "source node position " << src_node->position();
+        VLOG(50) << "destination node position " << dst_node->position();
+        d = DIST(src_node->position(), dst_node->position()) + 1.0;
+        probabilities[s_index][d_index] = d;
+        if(min < 0.0) min = d;
+        if(min < d)   min = d;
+        VLOG(50) << "edge from " << s_index << " to " << d_index << " does not exist. setting distance to " << d;
       }
     }
   }
 
-  cout << " hier 1 " << endl;
-
-  for(int s_index = 0; s_index < m->n_size(); s_index++)
+  double sum =  0.0;
+  for(int s_index = 0; s_index < m->src_indices_size(); s_index++)
   {
-    for(int d_index = 0; d_index < m->n_size() - m->s_size(); d_index++)
+    for(int d_index = 0; d_index < m->dst_indices_size(); d_index++)
     {
-      probabilities[s_index][d_index] /= sum;
+      if(probabilities[s_index][d_index] > 0.0)
+      {
+        probabilities[s_index][d_index] = min / probabilities[s_index][d_index];
+        sum += probabilities[s_index][d_index];
+      }
     }
   }
 
-  cout << " hier 2 " << endl;
+  for(int s_index = 0; s_index < m->src_indices_size(); s_index++)
+  {
+    for(int d_index = 0; d_index < m->dst_indices_size(); d_index++)
+    {
+      probabilities[s_index][d_index] = probabilities[s_index][d_index] / sum;
+    }
+  }
 
   if(VLOG_IS_ON(50))
   {
-    VLOG(50) << "probabilities";
     stringstream sst;
+    sst << "probabilities " << m->src_indices_size() << "x" << m->dst_indices_size();
     sst.precision(3);
     sst.setf(ios::fixed,ios::floatfield);
-    for(int s_index = 0; s_index < m->n_size(); s_index++)
+    sst << "[ ";
+    for(int s_index = 0; s_index < m->src_indices_size(); s_index++)
     {
-      sst << probabilities[s_index][0];
-      for(int d_index = 1; d_index < m->n_size() - m->s_size(); d_index++)
+      sst << " [ " << probabilities[s_index][0];
+      for(int d_index = 0; d_index < m->dst_indices_size(); d_index++)
       {
-        sst << " " << probabilities[s_index][d_index];
+        sst << ", " << probabilities[s_index][d_index];
       }
-      sst << endl;
+      sst << " ]";
     }
+    sst << " ]";
     VLOG(50) << sst.str();
   }
 
@@ -193,11 +204,12 @@ void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
       {
         Node *src = m->node(s_index);
         Node *dst = m->node(d_index);
+        VLOG(50) << "adding edge from " << src->label() << " -> " << dst->label();
         Edge *e   = m->addEdge(src, dst, Random::rand(-max, max));
         VLOG(50) << "adding edge from " << m->node(s_index)->label() << " to "
                                         << m->node(d_index)->label() << " with "
                                         << e->weight();
-
+        return;
       }
     }
   }
@@ -211,6 +223,7 @@ void ModuleMutationOperator::__mutateAddNode(Module *m, double probability, doub
   m->setModified(true);
 
   int ei    = int(Random::unit() * m->e_size() + 0.5); // edge index
+  VLOG(50) << "edge index into which a neuron will be inserted: " << ei;
 
   Node *n   = new Node();
 
@@ -230,7 +243,16 @@ void ModuleMutationOperator::__mutateAddNode(Module *m, double probability, doub
   n->setLabel(oss.str());
 
   e->setSource(n);
-  m->addEdge(src, n, 1.0);
+  VLOG(50) << "adding node from: " << src->label() << " " << n->label();
+  Edge *ne = m->addEdge(src, n, 1.0);
+  VLOG(50) << "source neuron's position " << src->position();
+  VLOG(50) << "destination neuron's position " << dst->position();
+  VLOG(50) << "new neuron's position " << n->position();
+  VLOG(50) << "new synapse goes from " << e->source()->label() << " -> "
+           << e->destination()->label() << " with " << e->weight();
+  VLOG(50) << "new synapse goes from " << ne->source()->label() << " -> "
+           << ne->destination()->label() << " with " << ne->weight();
+
 }
 
 void ModuleMutationOperator::__mutateModifyNode(Module *m, double probability,
