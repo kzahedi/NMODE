@@ -195,9 +195,9 @@ void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
   double p  = Random::unit();
   double s  = 0.0;
   VLOG(50) << "p = " << p;
-  for(int s_index = 0; s_index < m->n_size(); s_index++)
+  for(int s_index = 0; s_index < m->src_indices_size(); s_index++)
   {
-    for(int d_index = m->s_size(); d_index < m->n_size(); d_index++)
+    for(int d_index = m->s_size(); d_index < m->dst_indices_size(); d_index++)
     {
       s += probabilities[s_index][d_index];
       if(p <= s)
@@ -218,11 +218,12 @@ void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
 void ModuleMutationOperator::__mutateAddNode(Module *m, double probability, double max)
 {
   VLOG(50) << "mutate add node called";
+  if(m->e_size() == 0) return;
   if(Random::unit() >= probability) return;
   VLOG(50) << "  will add one node";
   m->setModified(true);
 
-  int ei    = int(Random::unit() * m->e_size() + 0.5); // edge index
+  int ei    = int(Random::unit() * m->e_size());
   VLOG(50) << "edge index into which a neuron will be inserted: " << ei;
 
   Node *n   = new Node();
@@ -264,9 +265,13 @@ void ModuleMutationOperator::__mutateModifyNode(Module *m, double probability,
   VLOG(50) << "  will modify one node";
   m->setModified(true);
 
-  int ni        = int(Random::unit() * m->n_size() + 0.5);
+  int ni        = int(Random::unit() * m->n_size());
+  cout << "hier 0: ni " << ni << endl;
+  cout << "hier 0: ns " << m->n_size() << endl;
   Node *n       = m->node(ni);
+  cout << "hier 0: " << n << endl;
   double value  = n->bias();
+  cout << "hier 1" << endl;
   value        += Random::rand(-delta, delta);
   if(value >  max) value =  max;
   if(value < -max) value = -max;
@@ -281,7 +286,7 @@ void ModuleMutationOperator::__mutateDelNode(Module *m, double probability)
   VLOG(50) << "  will del one node";
   m->setModified(true);
 
-  int ni   = int(Random::unit() * m->n_size() + 0.5);
+  int ni   = int(Random::unit() * m->n_size());
   Node *nn = m->node(ni);
   FORALLNODES (*n)->removeEdge(nn);
 }
