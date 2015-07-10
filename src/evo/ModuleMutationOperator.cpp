@@ -202,13 +202,14 @@ void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
       s += probabilities[s_index][d_index];
       if(p <= s)
       {
-        Node *src = m->node(s_index);
-        Node *dst = m->node(d_index);
+        Node *src = m->node(m->src_index(s_index));
+        Node *dst = m->node(m->dst_index(d_index));
         VLOG(50) << "adding edge from " << src->label() << " -> " << dst->label();
         Edge *e   = m->addEdge(src, dst, Random::rand(-max, max));
-        VLOG(50) << "adding edge from " << m->node(s_index)->label() << " to "
-                                        << m->node(d_index)->label() << " with "
-                                        << e->weight();
+        VLOG(50) << "adding edge from "
+                 << m->node(m->src_index(s_index))->label() << " to "
+                 << m->node(m->dst_index(d_index))->label() << " with "
+                 << e->weight();
         return;
       }
     }
