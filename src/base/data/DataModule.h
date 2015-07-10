@@ -29,14 +29,15 @@
 #ifndef __DATA_MODULE_H__
 #define __DATA_MODULE_H__
 
-#include "DataXsdNode.h"
-
 #include "DataNode.h"
+
+#include "DataModuleNode.h"
+#include "DataModuleEdge.h"
 
 # define TAG_MODULE            (char*)"module"
 # define TAG_MODULE_DEFINITION (char*)"module_definition"
 
-class DataModule : public DataXsdNode
+class DataModule : public DataNode
 {
   public:
 
@@ -45,7 +46,7 @@ class DataModule : public DataXsdNode
      *
      * @param parent
      */
-    DataModule(DataXsdNode *parent);
+    DataModule(DataNode *parent);
 
     /**
      * @brief Destructor.
@@ -56,17 +57,23 @@ class DataModule : public DataXsdNode
 
     static void createXsd(XsdSpecification *spec);
 
-    DataNodes           nodes();
-    DataNodes::iterator n_begin();
-    DataNodes::iterator n_end();
-    int                 n_size();
+    DataModuleNodes           nodes();
+    DataModuleNodes::iterator n_begin();
+    DataModuleNodes::iterator n_end();
+    int                       n_size();
+
+    DataModuleEdges           edges();
+    DataModuleEdges::iterator e_begin();
+    DataModuleEdges::iterator e_end();
+    int                       e_size();
 
     string name();
 
   private:
     string _name;
 
-    DataNodes _nodes;
+    DataModuleNodes _nodes;
+    DataModuleEdges _edges;
 };
 
 typedef vector<DataModule*> DataModules;

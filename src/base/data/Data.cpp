@@ -133,7 +133,7 @@ string Data::header()
 
     sst << "    <module name=\"" << (*m)->name() << "\">" << endl;
 
-    for(DataNodes::iterator n = (*m)->n_begin(); n != (*m)->n_end(); n++)
+    for(DataModuleNodes::iterator n = (*m)->n_begin(); n != (*m)->n_end(); n++)
     {
       sst << "      <node type=\"" << (*n)->type() << "\" label=\"" << (*n)->label() << "\">" << endl;
       sst << "        <position x=\"" << (*n)->position().x

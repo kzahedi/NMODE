@@ -1,6 +1,6 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Module of Neural Pathways (ENP).              *
+ * This file is part of Module of Neural Pathways (ENP).                 *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
@@ -26,118 +26,61 @@
 
 
 
-#include "DataModule.h"
-
-#include "base/macros.h"
+#include "DataModuleEdge.h"
 
 #include <iostream>
 #include <glog/logging.h>
 
-#define TAG_NAME (char*)"name"
+#define TAG_SOURCE                      (char*)"source"
+#define TAG_DESTINATION                 (char*)"destination"
+#define TAG_WEIGHT                      (char*)"weight"
 
 using namespace std;
 
-DataModule::DataModule(DataNode *parent)
+DataModuleEdge::DataModuleEdge(DataNode *parent)
   : DataNode(parent)
 { }
 
-DataModule::~DataModule()
+void DataModuleEdge::add(DataParseElement *element)
 {
-}
-
-void DataModule::add(DataParseElement *element)
-{
-
   VLOG(100) << "parsing " << element->name();
-  if(element->closing(TAG_MODULE))
+  if(element->closing(TAG_MODULE_EDGE))
   {
     current = parent;
     return;
   }
 
-  if(element->opening(TAG_MODULE))
-  {
-    element->set(TAG_NAME, _name);
-    VLOG(100) << "setting name to " << _name;
-  }
-
-  VLOG(100) << "checking for " << TAG_MODULE_NODE;
-  if(element->opening(TAG_MODULE_NODE))
-  {
-    VLOG(100) << "found " << TAG_MODULE_NODE;
-    DataModuleNode *node = new DataModuleNode(this);
-    _nodes.push_back(node);
-    current = node;
-    node->add(element);
-  }
-
-  VLOG(100) << "checking for " << TAG_MODULE_EDGE;
   if(element->opening(TAG_MODULE_EDGE))
   {
-    VLOG(100) << "found " << TAG_MODULE_EDGE;
-    DataModuleEdge *edge = new DataModuleEdge(this);
-    _edges.push_back(edge);
-    current = edge;
-    edge->add(element);
+    element->set(TAG_SOURCE,      _source);
+    element->set(TAG_DESTINATION, _destination);
+    element->set(TAG_WEIGHT,      _weight);
+    VLOG(100) << "set edge values to " << _source << " -> " << _destination << " with " << _weight;
   }
 
 }
 
-void DataModule::createXsd(XsdSpecification *spec)
+void DataModuleEdge::createXsd(XsdSpecification *spec)
 {
-  XsdSequence *root = new XsdSequence(TAG_MODULE_DEFINITION);
-  root->add(NA(TAG_NAME,        TAG_XSD_STRING,             true));
-  root->add(NE(TAG_MODULE_NODE, TAG_MODULE_NODE_DEFINITION, 1, TAG_XSD_UNBOUNDED));
-  root->add(NE(TAG_MODULE_EDGE, TAG_MODULE_EDGE_DEFINITION, 0, TAG_XSD_UNBOUNDED));
+  XsdSequence *root = new XsdSequence(TAG_MODULE_EDGE_DEFINITION);
+  root->add(NA(TAG_SOURCE,      TAG_XSD_STRING,  true));
+  root->add(NA(TAG_DESTINATION, TAG_XSD_STRING,  true));
+  root->add(NA(TAG_WEIGHT,      TAG_XSD_DECIMAL, true));
   spec->add(root);
-
-  DataModuleNode::createXsd(spec);
 }
 
-string DataModule::name()
+string DataModuleEdge::source()
 {
-  return _name;
+  return _source;
 }
 
-DataModuleNodes::iterator DataModule::n_begin()
+string DataModuleEdge::destination()
 {
-  return _nodes.begin();
+  return _destination;
 }
 
-DataModuleNodes::iterator DataModule::n_end()
+double DataModuleEdge::weight()
 {
-  return _nodes.end();
-}
-
-int DataModule::n_size()
-{
-  return _nodes.size();
-}
-
-
-DataModuleNodes DataModule::nodes()
-{
-  return _nodes;
-}
-
-DataModuleEdges::iterator DataModule::e_begin()
-{
-  return _edges.begin();
-}
-
-DataModuleEdges::iterator DataModule::e_end()
-{
-  return _edges.end();
-}
-
-int DataModule::e_size()
-{
-  return _edges.size();
-}
-
-
-DataModuleEdges DataModule::edges()
-{
-  return _edges;
+  return _weight;
 }
 

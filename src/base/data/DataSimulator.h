@@ -29,12 +29,12 @@
 #ifndef __DATA_SIMULATOR_H__
 #define __DATA_SIMULATOR_H__
 
-#include "DataXsdNode.h"
+#include "DataNode.h"
 
 # define TAG_SIMULATOR            (char*)"simulator"
 # define TAG_SIMULATOR_DEFINITION (char*)"simulator_definition"
 
-class DataSimulator : public DataXsdNode
+class DataSimulator : public DataNode
 {
   public:
 
@@ -43,7 +43,7 @@ class DataSimulator : public DataXsdNode
      *
      * @param parent
      */
-    DataSimulator(DataXsdNode *parent);
+    DataSimulator(DataNode *parent);
 
     /**
      * @brief Destructor.

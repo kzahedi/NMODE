@@ -29,7 +29,7 @@
 #ifndef __DATA_ENP_H__
 #define __DATA_ENP_H__
 
-#include "DataXsdNode.h"
+#include "DataNode.h"
 #include "Version.h"
 
 #include "DataEvolution.h"
@@ -41,7 +41,7 @@
 # define TAG_ENP_DEFINITION             (char*)"enp_definition"
 # define TAG_VERSION_REGULAR_EXPRESSION (char*)"[0-9]+.[0-9]+.[0-9]+"
 
-class DataENP : public DataXsdNode
+class DataENP : public DataNode
 {
   public:
 
@@ -50,7 +50,7 @@ class DataENP : public DataXsdNode
      *
      * @param parent
      */
-    DataENP(DataXsdNode *parent);
+    DataENP(DataNode *parent);
 
     /**
      * @brief Destructor.

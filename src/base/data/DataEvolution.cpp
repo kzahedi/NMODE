@@ -33,8 +33,8 @@
 
 using namespace std;
 
-DataEvolution::DataEvolution(DataXsdNode *parent)
-  : DataXsdNode(parent)
+DataEvolution::DataEvolution(DataNode *parent)
+  : DataNode(parent)
 { }
 
 DataEvolution::~DataEvolution()

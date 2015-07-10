@@ -29,16 +29,16 @@
 #ifndef __DATA_POPULATION_H__
 #define __DATA_POPULATION_H__
 
-#include "DataXsdNode.h"
+#include "DataNode.h"
 #include "DataIndividual.h"
 
 # define TAG_POPULATION            (char*)"population"
 # define TAG_POPULATION_DEFINITION (char*)"population_definition"
 
-class DataPopulation : public DataXsdNode
+class DataPopulation : public DataNode
 {
   public:
-    DataPopulation(DataXsdNode *parent);
+    DataPopulation(DataNode *parent);
     // ~DataPopulation();
 
     //DataPopulation(const DataPopulation);

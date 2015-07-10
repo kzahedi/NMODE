@@ -29,14 +29,14 @@
 #ifndef __DATA_CONFIGURATION_H__
 #define __DATA_CONFIGURATION_H__
 
-#include "DataXsdNode.h"
+#include "DataNode.h"
 
 #include "DataModule.h"
 
 # define TAG_CONFIGURATION            (char*)"configuration"
 # define TAG_CONFIGURATION_DEFINITION (char*)"configuration_definition"
 
-class DataConfiguration : public DataXsdNode
+class DataConfiguration : public DataNode
 {
   public:
 
@@ -45,7 +45,7 @@ class DataConfiguration : public DataXsdNode
      *
      * @param parent
      */
-    DataConfiguration(DataXsdNode *parent);
+    DataConfiguration(DataNode *parent);
 
     /**
      * @brief Destructor.

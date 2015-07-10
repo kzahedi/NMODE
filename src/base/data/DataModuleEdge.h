@@ -1,6 +1,6 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Simulator of Neural Pathways (ENP).              *
+ * This file is part of Evolution of Neural Pathways (ENP).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
@@ -26,64 +26,41 @@
 
 
 
-#include "DataSimulator.h"
+#ifndef __DATA_MODULE_EDGE_H__
+#define __DATA_MODULE_EDGE_H__
 
-#include <iostream>
+#include "DataNode.h"
+#include "base/P3D.h"
 
-#define TAG_WD  (char*)"wd"
-#define TAG_XML (char*)"xml"
-#define TAG_NR  (char*)"nr"
-
+#include <vector>
 
 using namespace std;
 
-DataSimulator::DataSimulator(DataNode *parent)
-  : DataNode(parent)
-{ }
+# define TAG_MODULE_EDGE            (char*)"edge"
+# define TAG_MODULE_EDGE_DEFINITION (char*)"module_edge_definition"
 
-DataSimulator::~DataSimulator()
+class DataModuleEdge : public DataNode
 {
-}
+  public:
+    DataModuleEdge(DataNode *parent);
+    // ~DataModuleEdge();
 
+    //DataModuleEdge(const DataModuleEdge);
+    //DataModuleEdge operator=(const DataModuleEdge);
 
-void DataSimulator::add(DataParseElement *element)
-{
-  if(element->closing(TAG_SIMULATOR))
-  {
-    current = parent;
-    return;
-  }
+    void add(DataParseElement *element);
+    static void createXsd(XsdSpecification *spec);
 
-  if(element->opening(TAG_SIMULATOR))
-  {
-    element->set(TAG_WD,  _workingDirectory);
-    element->set(TAG_XML, _xml);
-    element->set(TAG_NR,  _nr);
-    return;
-  }
-}
+    string source();
+    string destination();
+    double weight();
 
-void DataSimulator::createXsd(XsdSpecification *spec)
-{
-  XsdSequence *root = new XsdSequence(TAG_SIMULATOR_DEFINITION);
-  root->add(NA(TAG_WD,  TAG_XSD_STRING,                true));
-  root->add(NA(TAG_XML, TAG_XSD_STRING,                true));
-  root->add(NA(TAG_NR,  TAG_POSITIVE_NON_ZERO_DECIMAL, true));
-  spec->add(root);
-}
+  private:
+    string _source;
+    string _destination;
+    double _weight;
+};
 
-string DataSimulator::workingDirectory()
-{
-  return _workingDirectory;
-}
+typedef vector<DataModuleEdge*> DataModuleEdges;
 
-string DataSimulator::xml()
-{
-  return _xml;
-}
-
-int DataSimulator::nr()
-{
-  return _nr;
-}
-
+#endif // __DATA_MODULE_EDGE_H__

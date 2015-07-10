@@ -46,7 +46,7 @@ using namespace std;
 /**
  * @brief Basic class for all objects that store XML data.
  */
-class DataXsdNode
+class DataNode
 {
   public:
 
@@ -55,12 +55,12 @@ class DataXsdNode
      *
      * @param parent
      */
-    DataXsdNode(DataXsdNode *parent);
+    DataNode(DataNode *parent);
 
     /**
      * @brief Destructor, does nothing
      */
-    ~DataXsdNode();
+    ~DataNode();
 
     /**
      * @brief This function must be implemented by every data storing class. It
@@ -74,8 +74,8 @@ class DataXsdNode
     virtual void add(DataParseElement* ) = 0;
 
   protected:
-    DataXsdNode        *parent;
-    static DataXsdNode *current;
+    DataNode        *parent;
+    static DataNode *current;
 };
 
 #endif // __DATA_XSD_NODE_H__

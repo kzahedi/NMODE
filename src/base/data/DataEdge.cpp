@@ -26,7 +26,7 @@
 
 
 
-#include "DataEdge.h"
+#include "DataModuleEdge.h"
 
 #include <iostream>
 #include <glog/logging.h>
@@ -37,8 +37,8 @@
 
 using namespace std;
 
-DataPopulationModuleEdge::DataPopulationModuleEdge(DataXsdNode *parent)
-  : DataXsdNode(parent)
+DataPopulationModuleEdge::DataPopulationModuleEdge(DataNode *parent)
+  : DataNode(parent)
 { }
 
 void DataPopulationModuleEdge::add(DataParseElement *element)

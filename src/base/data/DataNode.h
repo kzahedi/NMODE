@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Module of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,51 +25,51 @@
  *************************************************************************/
 
 
+#ifndef __DATA_XSD_NODE_H__
+#define __DATA_XSD_NODE_H__
 
-#ifndef __DATA_MODULE_NODE_H__
-#define __DATA_MODULE_NODE_H__
+#include "DataParseElement.h"
+#include "base/xsd/specification/specification.h"
 
-#include "DataXsdNode.h"
+#include <string>
+#include <ostream>
+#include <iostream>
 
-#include "base/P3D.h"
+using namespace std;
 
-# define TAG_MODULE_NODE            (char*)"node"
-# define TAG_MODULE_NODE_DEFINITION (char*)"module_node_definition"
-
-class DataNode : public DataXsdNode
+/**
+ * @brief Basic class for all objects that store XML data.
+ */
+class DataNode
 {
   public:
 
     /**
-     * @brief Constructor.
+     * @brief Default constructor. Takes parent node as parameter
      *
      * @param parent
      */
-    DataNode(DataXsdNode *parent);
+    DataNode(DataNode *parent);
 
     /**
-     * @brief Destructor.
+     * @brief Destructor, does nothing
      */
-    virtual ~DataNode();
+    ~DataNode();
 
-    void add(DataParseElement *element);
+    /**
+     * @brief This function must be implemented by every data storing class. It
+     * takes a DataParseElement and should decide if the contained data is
+     * either stored, passed on to a child, or if the current node is set to the
+     * parent.
+     *
+     * @param DataParseElement
+     * @sa DataParseElement
+     */
+    virtual void add(DataParseElement* ) = 0;
 
-    static void createXsd(XsdSpecification *spec);
-
-    string type();
-    string label();
-    P3D    position();
-    string transferfunction();
-
-  private:
-    string _type;
-    string _label;
-    P3D    _position;
-    string _transferfunction;
+  protected:
+    DataNode        *parent;
+    static DataNode *current;
 };
 
-typedef vector<DataNode*> DataNodes;
-
-#endif // ___DATA_MODULE_NODE_H__
-
-
+#endif // __DATA_XSD_NODE_H__

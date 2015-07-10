@@ -34,8 +34,8 @@
 #define TAG_FITNESS   (char*)"fitness"
 #define TAG_OFFSPRING (char*)"offspring"
 
-DataIndividual::DataIndividual(DataXsdNode *parent)
-  : DataXsdNode(parent)
+DataIndividual::DataIndividual(DataNode *parent)
+  : DataNode(parent)
 {
   _id         = 1;
   _fitness    = 0.0;
@@ -49,8 +49,10 @@ void DataIndividual::add(DataParseElement *element)
     current = parent;
   }
 
+  VLOG(100) << "checking for " << TAG_MODULE;
   if(element->opening(TAG_MODULE))
   {
+    VLOG(100) << "found " << TAG_MODULE;
     DataModule *dpm = new DataModule(this);
     _modules.push_back(dpm);
     current = dpm;
@@ -61,9 +63,10 @@ void DataIndividual::add(DataParseElement *element)
 void DataIndividual::createXsd(XsdSpecification *spec)
 {
   XsdSequence *_root = new XsdSequence(TAG_INDIVIDUAL_DEFINITION);
-  _root->add(NA(TAG_ID,        TAG_POSITIVE_INTEGER, false));
-  _root->add(NA(TAG_FITNESS,   TAG_XSD_DECIMAL,      false));
-  _root->add(NA(TAG_OFFSPRING, TAG_POSITIVE_INTEGER, false));
+  _root->add(NA(TAG_ID,        TAG_POSITIVE_INTEGER,  false));
+  _root->add(NA(TAG_FITNESS,   TAG_XSD_DECIMAL,       false));
+  _root->add(NA(TAG_OFFSPRING, TAG_POSITIVE_INTEGER,  false));
+  _root->add(NE(TAG_MODULE,    TAG_MODULE_DEFINITION, 1, TAG_XSD_UNBOUNDED));
   spec->add(_root);
 
   DataModule::createXsd(spec);

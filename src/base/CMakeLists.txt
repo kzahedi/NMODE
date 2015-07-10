@@ -71,22 +71,23 @@ add_library(ENPBase SHARED xsd/generator/YarsXSDGenerator.cpp
                            data/DataParseElement.cpp
 
                            data/Data.cpp
-                           data/DataXsdNode.cpp
                            data/DataNode.cpp
+
                            data/DataENP.cpp
 
                            data/DataSimulator.cpp
+
+                           data/DataConfiguration.cpp
 
                            data/DataEvolution.cpp
                            data/DataEvolutionNode.cpp
                            data/DataEvolutionEdge.cpp
 
-                           data/DataConfiguration.cpp
-                           data/DataModule.cpp
-
                            data/DataPopulation.cpp
                            data/DataIndividual.cpp
-                           data/DataEdge.cpp
+                           data/DataModule.cpp
+                           data/DataModuleEdge.cpp
+                           data/DataModuleNode.cpp
                            )
 
 target_link_libraries(ENPBase ${Boost_LIBRARIES} ${XERCESC_LIBRARY_FILE} glog)

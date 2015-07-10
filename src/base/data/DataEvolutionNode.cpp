@@ -45,8 +45,8 @@
 
 using namespace std;
 
-DataEvolutionNode::DataEvolutionNode(DataXsdNode *parent)
-  : DataXsdNode(parent)
+DataEvolutionNode::DataEvolutionNode(DataNode *parent)
+  : DataNode(parent)
 {
   _modifyProbability = 0.1;
   _modifyMaxValue    = 4.0;

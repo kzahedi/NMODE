@@ -29,16 +29,16 @@
 #ifndef __DATA_INDIVIDUAL_H__
 #define __DATA_INDIVIDUAL_H__
 
-#include "DataXsdNode.h"
+#include "DataNode.h"
 #include "DataModule.h"
 
 # define TAG_INDIVIDUAL            (char*)"individual"
 # define TAG_INDIVIDUAL_DEFINITION (char*)"individual_definition"
 
-class DataIndividual : public DataXsdNode
+class DataIndividual : public DataNode
 {
   public:
-    DataIndividual(DataXsdNode *parent);
+    DataIndividual(DataNode *parent);
     // ~DataIndividual();
 
     //DataIndividual(const DataIndividual);

@@ -29,7 +29,7 @@
 #ifndef __DATA__EDGE_H__
 #define __DATA__EDGE_H__
 
-#include "DataXsdNode.h"
+#include "DataNode.h"
 #include "base/P3D.h"
 
 #include <vector>
@@ -39,10 +39,10 @@ using namespace std;
 # define TAG_EDGE            (char*)"edge"
 # define TAG_EDGE_DEFINITION (char*)"population_module_edge_definition"
 
-class DataPopulationModuleEdge : public DataXsdNode
+class DataPopulationModuleEdge : public DataNode
 {
   public:
-    DataPopulationModuleEdge(DataXsdNode *parent);
+    DataPopulationModuleEdge(DataNode *parent);
     // ~DataPopulationModuleEdge();
 
     //DataPopulationModuleEdge(const DataPopulationModuleEdge);

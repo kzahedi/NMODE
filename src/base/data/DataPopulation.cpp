@@ -32,8 +32,8 @@
 
 #define TAG_GENERATION (char*)"generation"
 
-DataPopulation::DataPopulation(DataXsdNode *parent)
-  : DataXsdNode(parent)
+DataPopulation::DataPopulation(DataNode *parent)
+  : DataNode(parent)
 {
   _generation = 1;
 }
@@ -64,8 +64,8 @@ void DataPopulation::add(DataParseElement *element)
 void DataPopulation::createXsd(XsdSpecification *spec)
 {
   XsdSequence *_root = new XsdSequence(TAG_POPULATION_DEFINITION);
-  _root->add(NA(TAG_GENERATION, TAG_POSITIVE_INTEGER,  false));
-  _root->add(NE(TAG_MODULE,     TAG_MODULE_DEFINITION, 1, TAG_XSD_UNBOUNDED));
+  _root->add(NA(TAG_GENERATION, TAG_POSITIVE_INTEGER,      false));
+  _root->add(NE(TAG_INDIVIDUAL, TAG_INDIVIDUAL_DEFINITION, 1, TAG_XSD_UNBOUNDED));
   spec->add(_root);
 
   DataModule::createXsd(spec);

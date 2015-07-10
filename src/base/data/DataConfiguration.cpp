@@ -35,8 +35,8 @@
 
 using namespace std;
 
-DataConfiguration::DataConfiguration(DataXsdNode *parent)
-  : DataXsdNode(parent)
+DataConfiguration::DataConfiguration(DataNode *parent)
+  : DataNode(parent)
 { }
 
 DataConfiguration::~DataConfiguration()
