@@ -133,6 +133,7 @@ void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
     for(int d_index = 0; d_index < m->dst_indices_size(); d_index++)
     {
       Node *dst_node = m->node(m->dst_index(d_index));
+      cout << src_node << " " << dst_node << endl;
       if(src_node->contains(dst_node))
       {
         VLOG(50) << "edge from " << s_index << " to " << d_index << " already exists";
@@ -140,8 +141,6 @@ void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
       }
       else
       {
-        VLOG(50) << "source node position " << src_node->position();
-        VLOG(50) << "destination node position " << dst_node->position();
         d = DIST(src_node->position(), dst_node->position()) + 1.0;
         probabilities[s_index][d_index] = d;
         if(min < 0.0) min = d;
@@ -197,19 +196,22 @@ void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
   VLOG(50) << "p = " << p;
   for(int s_index = 0; s_index < m->src_indices_size(); s_index++)
   {
-    for(int d_index = m->s_size(); d_index < m->dst_indices_size(); d_index++)
+    for(int d_index = 0; d_index < m->dst_indices_size(); d_index++)
     {
       s += probabilities[s_index][d_index];
+      VLOG(50) << "  s = " << s;
       if(p <= s)
       {
         Node *src = m->node(m->src_index(s_index));
         Node *dst = m->node(m->dst_index(d_index));
         VLOG(50) << "adding edge from " << src->label() << " -> " << dst->label();
+        VLOG(50) << "  before number of edges: " << m->e_size();
         Edge *e   = m->addEdge(src, dst, Random::rand(-max, max));
-        VLOG(50) << "adding edge from "
+        VLOG(50) << "  adding edge from "
                  << m->node(m->src_index(s_index))->label() << " to "
                  << m->node(m->dst_index(d_index))->label() << " with "
                  << e->weight();
+        VLOG(50) << "  after number of edges: " << m->e_size();
         return;
       }
     }
@@ -219,6 +221,7 @@ void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
 void ModuleMutationOperator::__mutateAddNode(Module *m, double probability, double max)
 {
   VLOG(50) << "mutate add node called";
+  VLOG(50) << "  number of nodes: " << m->e_size();
   if(m->e_size() == 0) return;
   if(Random::unit() >= probability) return;
   VLOG(50) << "  will add one node";

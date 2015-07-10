@@ -21,46 +21,46 @@ Module::~Module()
 
 void Module::addNode(Node *node) throw (ENPException)
 {
-  _nodes.push_back(node);
   switch(node->type())
   {
     case NODE_TYPE_SENSOR:
       _sensors.push_back(node);
-      _src_indices.push_back(_sensors.size());
-      VLOG(50) << "adding sensor node: " << _sensors.size();
+      _src_indices.push_back(_nodes.size());
+      VLOG(50) << "adding sensor node: " << _sensors.size() << " " << _nodes.size();
       VLOG(50) << "  adding to sources: " << _src_indices.size();
       break;
     case NODE_TYPE_ACTUATOR:
-      _sensors.push_back(node);
-      _src_indices.push_back(_sensors.size());
-      _dst_indices.push_back(_sensors.size());
-      VLOG(50) << "adding actuator node: " << _actuators.size();
+      _actuators.push_back(node);
+      _src_indices.push_back(_nodes.size());
+      _dst_indices.push_back(_nodes.size());
+      VLOG(50) << "adding actuator node: " << _actuators.size() << " " << _nodes.size();
       VLOG(50) << "  adding to sources: " << _src_indices.size();
       VLOG(50) << "  adding to destination: " << _dst_indices.size();
       break;
     case NODE_TYPE_HIDDEN:
       _hidden.push_back(node);
-      _src_indices.push_back(_sensors.size());
-      _dst_indices.push_back(_sensors.size());
-      VLOG(50) << "adding hidden node: " << _hidden.size();
+      _src_indices.push_back(_nodes.size());
+      _dst_indices.push_back(_nodes.size());
+      VLOG(50) << "adding hidden node: " << _hidden.size() << " " << _nodes.size();
       VLOG(50) << "  adding to sources: " << _src_indices.size();
       VLOG(50) << "  adding to destination: " << _dst_indices.size();
       break;
     case NODE_TYPE_INPUT:
       _input.push_back(node);
       _src_indices.push_back(_sensors.size());
-      VLOG(50) << "adding input node: " << _input.size();
+      VLOG(50) << "adding input node: " << _input.size() << " " << _nodes.size();
       VLOG(50) << "  adding to sources: " << _src_indices.size();
       break;
     case NODE_TYPE_OUTPUT:
       _output.push_back(node);
-      _dst_indices.push_back(_sensors.size());
-      VLOG(50) << "adding output node: " << _output.size();
+      _dst_indices.push_back(_nodes.size());
+      VLOG(50) << "adding output node: " << _output.size() << " " << _nodes.size();
       VLOG(50) << "  adding to destination: " << _dst_indices.size();
       break;
     default:
       throw ENPException("Module::addNode: unknown node type");
   }
+  _nodes.push_back(node);
 }
 
 string Module::name()
