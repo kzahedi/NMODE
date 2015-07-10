@@ -1,6 +1,6 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Module of Neural Pathways (ENP).              *
+ * This file is part of Evolution of Neural Pathways (ENP).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
@@ -26,50 +26,41 @@
 
 
 
-#ifndef __DATA_MODULE_NODE_H__
-#define __DATA_MODULE_NODE_H__
+#ifndef __DATA__EDGE_H__
+#define __DATA__EDGE_H__
 
-#include "DataNode.h"
-
+#include "DataXsdNode.h"
 #include "base/P3D.h"
 
-# define TAG_MODULE_NODE            (char*)"node"
-# define TAG_MODULE_NODE_DEFINITION (char*)"module_node_definition"
+#include <vector>
 
-class DataModuleNode : public DataNode
+using namespace std;
+
+# define TAG_EDGE            (char*)"edge"
+# define TAG_EDGE_DEFINITION (char*)"population_module_edge_definition"
+
+class DataPopulationModuleEdge : public DataXsdNode
 {
   public:
+    DataPopulationModuleEdge(DataXsdNode *parent);
+    // ~DataPopulationModuleEdge();
 
-    /**
-     * @brief Constructor.
-     *
-     * @param parent
-     */
-    DataModuleNode(DataNode *parent);
-
-    /**
-     * @brief Destructor.
-     */
-    virtual ~DataModuleNode();
+    //DataPopulationModuleEdge(const DataPopulationModuleEdge);
+    //DataPopulationModuleEdge operator=(const DataPopulationModuleEdge);
 
     void add(DataParseElement *element);
-
     static void createXsd(XsdSpecification *spec);
 
-    string type();
-    string label();
-    P3D    position();
-    string transferfunction();
+    string source();
+    string destination();
+    double weight();
 
   private:
-    string _type;
-    string _label;
-    P3D    _position;
-    string _transferfunction;
+    string _source;
+    string _destination;
+    double _weight;
 };
 
-typedef vector<DataModuleNode*> DataModuleNodes;
+typedef vector<DataPopulationModuleEdge*> DataPopulationModuleEdges;
 
-#endif // ___DATA_MODULE_NODE_H__
-
-
+#endif // __DATA__EDGE_H__

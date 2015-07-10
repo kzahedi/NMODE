@@ -37,8 +37,8 @@
 
 using namespace std;
 
-DataSimulator::DataSimulator(DataNode *parent)
-  : DataNode(parent)
+DataSimulator::DataSimulator(DataXsdNode *parent)
+  : DataXsdNode(parent)
 { }
 
 DataSimulator::~DataSimulator()

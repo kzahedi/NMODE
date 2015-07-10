@@ -35,8 +35,8 @@
 
 using namespace std;
 
-DataConfiguration::DataConfiguration(DataNode *parent)
-  : DataNode(parent)
+DataConfiguration::DataConfiguration(DataXsdNode *parent)
+  : DataXsdNode(parent)
 { }
 
 DataConfiguration::~DataConfiguration()
@@ -76,6 +76,22 @@ void DataConfiguration::createXsd(XsdSpecification *spec)
   spec->add(root);
 
   DataModule::createXsd(spec);
+}
+
+
+DataModules::iterator DataConfiguration::m_begin()
+{
+  return _modules.begin();
+}
+
+DataModules::iterator DataConfiguration::m_end()
+{
+  return _modules.end();
+}
+
+int DataConfiguration::m_size()
+{
+  return _modules.size();
 }
 
 DataModules DataConfiguration::modules()

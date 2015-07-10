@@ -24,6 +24,8 @@
  *                                                                       *
  *************************************************************************/
 
+  // ofstream ofs;
+  // ofs.open(filename, std::ofstream::out);
 
 
 #ifndef __MODULE_H__

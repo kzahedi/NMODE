@@ -1,6 +1,6 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Module of Neural Pathways (ENP).                 *
+ * This file is part of Evolution of Neural Pathways (ENP).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
@@ -26,60 +26,36 @@
 
 
 
-#include "DataPopulationModuleEdge.h"
+#ifndef __DATA_INDIVIDUAL_H__
+#define __DATA_INDIVIDUAL_H__
 
-#include <iostream>
-#include <glog/logging.h>
+#include "DataXsdNode.h"
+#include "DataModule.h"
 
-#define TAG_SOURCE                      (char*)"source"
-#define TAG_DESTINATION                 (char*)"destination"
-#define TAG_WEIGHT                      (char*)"weight"
+# define TAG_INDIVIDUAL            (char*)"individual"
+# define TAG_INDIVIDUAL_DEFINITION (char*)"individual_definition"
 
-using namespace std;
-
-DataPopulationModuleEdge::DataPopulationModuleEdge(DataNode *parent)
-  : DataNode(parent)
-{ }
-
-void DataPopulationModuleEdge::add(DataParseElement *element)
+class DataIndividual : public DataXsdNode
 {
-  if(element->closing(TAG_POPULATION_MODULE_EDGE))
-  {
-    current = parent;
-    return;
-  }
+  public:
+    DataIndividual(DataXsdNode *parent);
+    // ~DataIndividual();
 
-  if(element->opening(TAG_POPULATION_MODULE_EDGE))
-  {
-    element->set(TAG_SOURCE,      _source);
-    element->set(TAG_DESTINATION, _destination);
-    element->set(TAG_WEIGHT,      _weight);
-    VLOG(100) << "set edge values to " << _source << " -> " << _destination << " with " << _weight;
-  }
+    //DataIndividual(const DataIndividual);
+    //DataIndividual operator=(const DataIndividual);
 
-}
+    void add(DataParseElement *element);
+    static void createXsd(XsdSpecification *spec);
 
-void DataPopulationModuleEdge::createXsd(XsdSpecification *spec)
-{
-  XsdSequence *root = new XsdSequence(TAG_POPULATION_MODULE_EDGE_DEFINITION);
-  root->add(NA(TAG_SOURCE,      TAG_XSD_STRING,  true));
-  root->add(NA(TAG_DESTINATION, TAG_XSD_STRING,  true));
-  root->add(NA(TAG_WEIGHT,      TAG_XSD_DECIMAL, true));
-  spec->add(root);
-}
+  private:
 
-string DataPopulationModuleEdge::source()
-{
-  return _source;
-}
+    int         _id;
+    double      _fitness;
+    DataModules _modules;
+};
 
-string DataPopulationModuleEdge::destination()
-{
-  return _destination;
-}
+typedef vector<DataIndividual*> DataIndividuals;
 
-double DataPopulationModuleEdge::weight()
-{
-  return _weight;
-}
+#endif // __DATA_INDIVIDUAL_H__
+
 

@@ -32,12 +32,10 @@
 
 #define TAG_GENERATION (char*)"generation"
 
-DataPopulation::DataPopulation(DataNode *parent)
-  : DataNode(parent)
+DataPopulation::DataPopulation(DataXsdNode *parent)
+  : DataXsdNode(parent)
 {
-  _id         = 1;
   _generation = 1;
-  _fitness    = 0.0;
 }
 
 void DataPopulation::add(DataParseElement *element)
@@ -54,11 +52,11 @@ void DataPopulation::add(DataParseElement *element)
     VLOG(100) << "set generation to " << _generation;
   }
 
-  if(element->opening(TAG_POPULATION_MODULE))
+  if(element->opening(TAG_INDIVIDUAL))
   {
-    DataPopulationModule *dpm = new DataPopulationModule(this);
-    _modules.push_back(dpm);
-    current = dpm;
+    DataIndividual *i = new DataIndividual(this);
+    _individuals.push_back(i);
+    current = i;
     current->add(element);
   }
 }
@@ -66,9 +64,30 @@ void DataPopulation::add(DataParseElement *element)
 void DataPopulation::createXsd(XsdSpecification *spec)
 {
   XsdSequence *_root = new XsdSequence(TAG_POPULATION_DEFINITION);
-  _root->add(NA(TAG_GENERATION, TAG_POSITIVE_INTEGER, false));
-  _root->add(NE(TAG_POPULATION_MODULE, TAG_POPULATION_MODULE_DEFINITION, 1, TAG_XSD_UNBOUNDED));
+  _root->add(NA(TAG_GENERATION, TAG_POSITIVE_INTEGER,  false));
+  _root->add(NE(TAG_MODULE,     TAG_MODULE_DEFINITION, 1, TAG_XSD_UNBOUNDED));
   spec->add(_root);
 
-  DataPopulationModule::createXsd(spec);
+  DataModule::createXsd(spec);
 }
+
+DataIndividuals::iterator DataPopulation::i_begin()
+{
+  return _individuals.begin();
+}
+
+DataIndividuals::iterator DataPopulation::i_end()
+{
+  return _individuals.end();
+}
+
+int DataPopulation::i_size()
+{
+  return _individuals.size();
+}
+
+DataIndividuals DataPopulation::individuals()
+{
+  return _individuals;
+}
+

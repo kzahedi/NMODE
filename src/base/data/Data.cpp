@@ -29,6 +29,9 @@
 #include "Data.h"
 
 #include "base/xsd/parser/YarsXSDSaxParser.h"
+#include "base/data/XmlChangeLog.h"
+
+#include <glog/logging.h>
 
 Data* Data::_me = NULL;
 
@@ -43,17 +46,17 @@ Data* Data::instance()
 
 Data::Data()
 {
-  _spec = new DataENP(NULL);
+  _root = new DataENP(NULL);
 }
 
 Data::~Data()
 {
-  delete _spec;
+  delete _root;
 }
 
 DataENP* Data::specification()
 {
-  return _spec;
+  return _root;
 }
 
 void Data::clear()
@@ -85,4 +88,68 @@ XsdSpecification* Data::xsd()
   XsdSpecification *spec = new XsdSpecification();
   DataENP::createXsd(spec);
   return spec;
+}
+
+string Data::header()
+{
+  stringstream sst;
+
+#define SIM  _root->simulator()
+#define EVON _root->evolution()->node()
+#define EVOE _root->evolution()->edge()
+
+  sst << "<?xml version=\"1.0\"?>" << endl << endl;
+  sst << "<enp version=\""     << XmlChangeLog::version() << "\">" << endl;
+  sst << "  <simulator wd=\""  << SIM->workingDirectory() <<  "\"" << endl;
+  sst << "             xml=\"" << SIM->xml() << "\"" << endl;
+  sst << "             nr=\""  << SIM->nr() << "\"/>" << endl;
+
+  sst << "  <evolution>" << endl;
+  sst << "    <node cost=\"" << EVON->cost() << "\">" << endl;
+  sst << "      <modify probability=\"" << EVON->modifyProbability() << "\" "
+    << "maximum=\"" << EVON->modifyMaxValue() << "\" "
+    << "delta=\""   << EVON->modifyDelta() << "\"/>" << endl;
+  sst << "      <add    probability=\"" << EVON->addProbability() << "\" "
+    << "maximum=\"" << EVON->addMaxValue() << "\"/>" << endl;
+  sst << "      <delete probability=\"" << EVON->delProbability() << "\"/>" << endl;
+  sst << "    </node>" << endl;
+  sst << "    <edge cost=\"" << EVOE->cost() << "\">" << endl;
+  sst << "      <modify probability=\"" << EVON->modifyProbability() << "\" "
+    << "maximum=\"" << EVOE->modifyMaxValue() << "\" "
+    << "delta=\""   << EVOE->modifyDelta() << "\"/>" << endl;
+  sst << "      <add    probability=\"" << EVOE->addProbability() << "\" "
+    << "maximum=\"" << EVOE->addMaxValue() << "\"/>" << endl;
+  sst << "      <delete probability=\"" << EVOE->delProbability() << "\"/>" << endl;
+  sst << "    </edge>" << endl;
+  sst << "  </evolution>" << endl;
+
+  sst << "  <configuration>" << endl;
+
+  for(DataModules::iterator
+      m = _root->configuration()->m_begin();
+      m != _root->configuration()->m_end();
+      m++)
+  {
+
+    sst << "    <module name=\"" << (*m)->name() << "\">" << endl;
+
+    for(DataNodes::iterator n = (*m)->n_begin(); n != (*m)->n_end(); n++)
+    {
+      sst << "      <node type=\"" << (*n)->type() << "\" label=\"" << (*n)->label() << "\">" << endl;
+      sst << "        <position x=\"" << (*n)->position().x
+        << "\" y=\"" << (*n)->position().y << "\" z=\"" << (*n)->position().z << "\"/>" << endl;
+      sst << "        <transferfunction name=\"" << (*n)->transferfunction() << "\"/>" << endl;
+      sst << "      </node>" << endl;
+    }
+    sst << "    </module>" << endl;
+  }
+  sst << "  </configuration>" << endl;
+  return sst.str();
+}
+
+string Data::footer()
+{
+  stringstream sst;
+  sst << "</enp>" << endl;
+  return sst.str();
 }

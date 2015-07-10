@@ -36,8 +36,8 @@
 
 using namespace std;
 
-DataModule::DataModule(DataNode *parent)
-  : DataNode(parent)
+DataModule::DataModule(DataXsdNode *parent)
+  : DataXsdNode(parent)
 { }
 
 DataModule::~DataModule()
@@ -60,7 +60,7 @@ void DataModule::add(DataParseElement *element)
 
   if(element->opening(TAG_MODULE_NODE))
   {
-    DataModuleNode *node = new DataModuleNode(this);
+    DataNode *node = new DataNode(this);
     _nodes.push_back(node);
     current = node;
     node->add(element);
@@ -75,15 +75,32 @@ void DataModule::createXsd(XsdSpecification *spec)
   root->add(NE(TAG_MODULE_NODE, TAG_MODULE_NODE_DEFINITION, 1, TAG_XSD_UNBOUNDED));
   spec->add(root);
 
-  DataModuleNode::createXsd(spec);
-}
-
-DataModuleNodes DataModule::nodes()
-{
-  return _nodes;
+  DataNode::createXsd(spec);
 }
 
 string DataModule::name()
 {
   return _name;
 }
+
+DataNodes::iterator DataModule::n_begin()
+{
+  return _nodes.begin();
+}
+
+DataNodes::iterator DataModule::n_end()
+{
+  return _nodes.end();
+}
+
+int DataModule::n_size()
+{
+  return _nodes.size();
+}
+
+
+DataNodes DataModule::nodes()
+{
+  return _nodes;
+}
+

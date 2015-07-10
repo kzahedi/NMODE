@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,42 +25,17 @@
  *************************************************************************/
 
 
+#include "DataXsdNode.h"
 
-#ifndef __DATA_POPULATION_MODULE_EDGE_H__
-#define __DATA_POPULATION_MODULE_EDGE_H__
+DataXsdNode*         DataXsdNode::current = NULL;
 
-#include "DataNode.h"
-#include "base/P3D.h"
-
-#include <vector>
-
-using namespace std;
-
-# define TAG_POPULATION_MODULE_EDGE            (char*)"edge"
-# define TAG_POPULATION_MODULE_EDGE_DEFINITION (char*)"population_module_edge_definition"
-
-class DataPopulationModuleEdge : public DataNode
+DataXsdNode::DataXsdNode(DataXsdNode *_parent)
 {
-  public:
-    DataPopulationModuleEdge(DataNode *parent);
-    // ~DataPopulationModuleEdge();
+  parent = _parent;
+}
 
-    //DataPopulationModuleEdge(const DataPopulationModuleEdge);
-    //DataPopulationModuleEdge operator=(const DataPopulationModuleEdge);
-
-    void add(DataParseElement *element);
-    static void createXsd(XsdSpecification *spec);
-
-    string source();
-    string destination();
-    double weight();
-
-  private:
-    string _source;
-    string _destination;
-    double _weight;
-};
-
-typedef vector<DataPopulationModuleEdge*> DataPopulationModuleEdges;
-
-#endif // __DATA_POPULATION_MODULE_EDGE_H__
+DataXsdNode::~DataXsdNode()
+{
+  // nothing to be done
+  // DO NOT DELETE EITHER parent OR current
+}

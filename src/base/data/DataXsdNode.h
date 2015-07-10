@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,43 +25,57 @@
  *************************************************************************/
 
 
+#ifndef __DATA_XSD_NODE_H__
+#define __DATA_XSD_NODE_H__
 
-#ifndef __DATA_POPULATION_MODULE_H__
-#define __DATA_POPULATION_MODULE_H__
+#include "DataParseElement.h"
+#include "base/xsd/specification/specification.h"
 
-#include "DataNode.h"
-#include "DataPopulationModuleNode.h"
-#include "DataPopulationModuleEdge.h"
+#include <string>
+#include <ostream>
+#include <iostream>
 
-#include <vector>
+# define DIVIDER                        "_"
+# define DEFINITION                     "definition"
+
+
+
 
 using namespace std;
 
-# define TAG_POPULATION_MODULE            (char*)"module"
-# define TAG_POPULATION_MODULE_DEFINITION (char*)"population_module_definition"
-
-class DataPopulationModule : public DataNode
+/**
+ * @brief Basic class for all objects that store XML data.
+ */
+class DataXsdNode
 {
   public:
-    DataPopulationModule(DataNode *parent);
-    // ~DataPopulationModule();
 
-    //DataPopulationModule(const DataPopulationModule);
-    //DataPopulationModule operator=(const DataPopulationModule);
+    /**
+     * @brief Default constructor. Takes parent node as parameter
+     *
+     * @param parent
+     */
+    DataXsdNode(DataXsdNode *parent);
 
-    void add(DataParseElement *element);
-    static void createXsd(XsdSpecification *spec);
+    /**
+     * @brief Destructor, does nothing
+     */
+    ~DataXsdNode();
 
-  private:
+    /**
+     * @brief This function must be implemented by every data storing class. It
+     * takes a DataParseElement and should decide if the contained data is
+     * either stored, passed on to a child, or if the current node is set to the
+     * parent.
+     *
+     * @param DataParseElement
+     * @sa DataParseElement
+     */
+    virtual void add(DataParseElement* ) = 0;
 
-    int    _id;
-    double _fitness;
-    int    _offspring;
-
-    DataPopulationModuleNodes _nodes;
-    DataPopulationModuleEdges _edges;
+  protected:
+    DataXsdNode        *parent;
+    static DataXsdNode *current;
 };
 
-typedef vector<DataPopulationModule*> DataPopulationModules;
-
-#endif // __DATA_POPULATION_MODULE_H__
+#endif // __DATA_XSD_NODE_H__

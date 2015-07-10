@@ -29,13 +29,13 @@
 #ifndef __DATA_EVOLUTION_EDGE_H__
 #define __DATA_EVOLUTION_EDGE_H__
 
-#include "DataNode.h"
+#include "DataXsdNode.h"
 #include "Version.h"
 
 # define TAG_EVOLUTION_EDGE            (char*)"edge"
 # define TAG_EVOLUTION_EDGE_DEFINITION (char*)"edge_evolution_definition"
 
-class DataEvolutionEdge : public DataNode
+class DataEvolutionEdge : public DataXsdNode
 {
   public:
 
@@ -44,7 +44,7 @@ class DataEvolutionEdge : public DataNode
      *
      * @param parent
      */
-    DataEvolutionEdge(DataNode *parent);
+    DataEvolutionEdge(DataXsdNode *parent);
 
     /**
      * @brief Destructor.

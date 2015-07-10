@@ -57,5 +57,6 @@ int main(int argc, char** argv)
   data->read(configuration->cfg());
 
   VLOG(5) << "done.";
+
   return 0;
 }

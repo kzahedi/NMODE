@@ -29,7 +29,7 @@
 #ifndef __DATA_EVOLUTION_H__
 #define __DATA_EVOLUTION_H__
 
-#include "DataNode.h"
+#include "DataXsdNode.h"
 
 #include "DataEvolutionNode.h"
 #include "DataEvolutionEdge.h"
@@ -37,7 +37,7 @@
 # define TAG_EVOLUTION                        (char*)"evolution"
 # define TAG_EVOLUTION_DEFINITION             (char*)"evolution_definition"
 
-class DataEvolution : public DataNode
+class DataEvolution : public DataXsdNode
 {
   public:
 
@@ -46,7 +46,7 @@ class DataEvolution : public DataNode
      *
      * @param parent
      */
-    DataEvolution(DataNode *parent);
+    DataEvolution(DataXsdNode *parent);
 
     /**
      * @brief Destructor.
@@ -57,7 +57,7 @@ class DataEvolution : public DataNode
 
     static void createXsd(XsdSpecification *spec);
 
-    DataEvolutionNode*  node();
+    DataEvolutionNode* node();
     DataEvolutionEdge* edge();
 
   private:

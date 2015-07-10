@@ -36,6 +36,7 @@
 
 #include "DataENP.h"
 
+
 using namespace std;
 
 class Data
@@ -48,11 +49,13 @@ class Data
     XsdSpecification* xsd();
     void clear();
     void read(string xmlFile);
+    string header();
+    string footer();
 
   private:
     Data();
     static Data *_me;
-    DataENP     *_spec;
+    DataENP     *_root;
 };
 
 #endif // __DATA_H__

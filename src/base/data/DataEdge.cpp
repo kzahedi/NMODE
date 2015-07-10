@@ -1,6 +1,6 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Module of Neural Pathways (ENP).                 *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
@@ -26,46 +26,60 @@
 
 
 
-#ifndef __DATA_POPULATION_MODULE_NODE_H__
-#define __DATA_POPULATION_MODULE_NODE_H__
+#include "DataEdge.h"
 
-#include "DataNode.h"
-#include "base/P3D.h"
+#include <iostream>
+#include <glog/logging.h>
 
-#include <vector>
+#define TAG_SOURCE                      (char*)"source"
+#define TAG_DESTINATION                 (char*)"destination"
+#define TAG_WEIGHT                      (char*)"weight"
 
 using namespace std;
 
-# define TAG_POPULATION_MODULE_NODE            (char*)"node"
-# define TAG_POPULATION_MODULE_NODE_DEFINITION (char*)"population_module_node_definition"
+DataPopulationModuleEdge::DataPopulationModuleEdge(DataXsdNode *parent)
+  : DataXsdNode(parent)
+{ }
 
-class DataPopulationModuleNode : public DataNode
+void DataPopulationModuleEdge::add(DataParseElement *element)
 {
-  public:
-    DataPopulationModuleNode(DataNode *parent);
-    // ~DataPopulationModuleNode();
+  if(element->closing(TAG_EDGE))
+  {
+    current = parent;
+    return;
+  }
 
-    //DataPopulationModuleNode(const DataPopulationModuleNode);
-    //DataPopulationModuleNode operator=(const DataPopulationModuleNode);
+  if(element->opening(TAG_EDGE))
+  {
+    element->set(TAG_SOURCE,      _source);
+    element->set(TAG_DESTINATION, _destination);
+    element->set(TAG_WEIGHT,      _weight);
+    VLOG(100) << "set edge values to " << _source << " -> " << _destination << " with " << _weight;
+  }
 
-    void add(DataParseElement *element);
-    static void createXsd(XsdSpecification *spec);
+}
 
-    string type();
-    string label();
-    P3D    position();
-    string transferfunction();
-    double bias();
+void DataPopulationModuleEdge::createXsd(XsdSpecification *spec)
+{
+  XsdSequence *root = new XsdSequence(TAG_EDGE_DEFINITION);
+  root->add(NA(TAG_SOURCE,      TAG_XSD_STRING,  true));
+  root->add(NA(TAG_DESTINATION, TAG_XSD_STRING,  true));
+  root->add(NA(TAG_WEIGHT,      TAG_XSD_DECIMAL, true));
+  spec->add(root);
+}
 
-  private:
-    string _type;
-    string _label;
-    P3D    _position;
-    string _transferfunction;
-    double _bias;
+string DataPopulationModuleEdge::source()
+{
+  return _source;
+}
 
-};
+string DataPopulationModuleEdge::destination()
+{
+  return _destination;
+}
 
-typedef vector<DataPopulationModuleNode*> DataPopulationModuleNodes;
+double DataPopulationModuleEdge::weight()
+{
+  return _weight;
+}
 
-#endif // __DATA_POPULATION_MODULE_NODE_H__

@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (PopulationModule).              *
+ * This file is part of Evolution of Neural Pathways (ENP).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/PopulationModule                                   *
+ * Web: https://github.com/kzahedi/ENP                                   *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -26,71 +26,45 @@
 
 
 
-#include "DataPopulationModule.h"
+#include "DataIndividual.h"
 
 #include "glog/logging.h"
 
 #define TAG_ID        (char*)"id"
-#define TAG_OFFSPRING (char*)"offspring"
 #define TAG_FITNESS   (char*)"fitness"
+#define TAG_OFFSPRING (char*)"offspring"
 
-
-DataPopulationModule::DataPopulationModule(DataNode *parent)
-  : DataNode(parent)
+DataIndividual::DataIndividual(DataXsdNode *parent)
+  : DataXsdNode(parent)
 {
-  _id        = 1;
-  _fitness   = 0.0;
-  _offspring = 0;
+  _id         = 1;
+  _fitness    = 0.0;
 }
 
-void DataPopulationModule::add(DataParseElement *element)
+void DataIndividual::add(DataParseElement *element)
 {
   VLOG(100) << "parsing " << element->name();
-  if(element->closing(TAG_POPULATION_MODULE))
+  if(element->closing(TAG_INDIVIDUAL))
   {
     current = parent;
-    return;
   }
 
-  if(element->opening(TAG_POPULATION_MODULE))
+  if(element->opening(TAG_MODULE))
   {
-    element->set(TAG_ID,         _id);
-    element->set(TAG_FITNESS,    _fitness);
-    element->set(TAG_OFFSPRING,  _offspring);
-    VLOG(100) << "set id to "        << _id;
-    VLOG(100) << "set fitness to "   << _fitness;
-    VLOG(100) << "set offspring to " << _offspring;
-  }
-
-  if(element->opening(TAG_POPULATION_MODULE_NODE))
-  {
-    DataPopulationModuleNode *node = new DataPopulationModuleNode(this);
-    current = node;
-    _nodes.push_back(node);
+    DataModule *dpm = new DataModule(this);
+    _modules.push_back(dpm);
+    current = dpm;
     current->add(element);
   }
-
-  if(element->opening(TAG_POPULATION_MODULE_EDGE))
-  {
-    DataPopulationModuleEdge *edge = new DataPopulationModuleEdge(this);
-    current = edge;
-    _edges.push_back(edge);
-    current->add(element);
-  }
-
 }
 
-void DataPopulationModule::createXsd(XsdSpecification *spec)
+void DataIndividual::createXsd(XsdSpecification *spec)
 {
-  XsdSequence *_root = new XsdSequence(TAG_POPULATION_MODULE_DEFINITION);
+  XsdSequence *_root = new XsdSequence(TAG_INDIVIDUAL_DEFINITION);
   _root->add(NA(TAG_ID,        TAG_POSITIVE_INTEGER, false));
   _root->add(NA(TAG_FITNESS,   TAG_XSD_DECIMAL,      false));
   _root->add(NA(TAG_OFFSPRING, TAG_POSITIVE_INTEGER, false));
-  _root->add(NE(TAG_POPULATION_MODULE_NODE, TAG_POPULATION_MODULE_NODE_DEFINITION, 0, TAG_XSD_UNBOUNDED));
-  _root->add(NE(TAG_POPULATION_MODULE_EDGE, TAG_POPULATION_MODULE_EDGE_DEFINITION, 0, TAG_XSD_UNBOUNDED));
   spec->add(_root);
 
-  DataPopulationModuleNode::createXsd(spec);
-  DataPopulationModuleEdge::createXsd(spec);
+  DataModule::createXsd(spec);
 }
-

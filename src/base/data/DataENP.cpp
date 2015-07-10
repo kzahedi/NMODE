@@ -40,8 +40,8 @@ using namespace std;
 # define TAG_VERSION            (char*)"version"
 # define TAG_VERSION_DEFINITION (char*)"version_definition"
 
-DataENP::DataENP(DataNode *parent)
-  : DataNode(parent)
+DataENP::DataENP(DataXsdNode *parent)
+  : DataXsdNode(parent)
 {
 
 #include "ChangeLog.h" // do not move from here
