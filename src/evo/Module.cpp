@@ -1,36 +1,10 @@
-/*************************************************************************
- *                                                                       *
- * This file is part of Yet Another Robot Simulator (YARS).              *
- * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
- * All rights reserved.                                                  *
- * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/YARS                                  *
- *                                                                       *
- * For a list of contributors see the file AUTHORS.                      *
- *                                                                       *
- * YARS is free software; you can redistribute it and/or modify it under *
- * the terms of the GNU General Public License as published by the Free  *
- * Software Foundation; either version 2 of the License, or (at your     *
- * option) any later version.                                            *
- *                                                                       *
- * YARS is distributed in the hope that it will be useful, but WITHOUT   *
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or *
- * FITNESS FOR A PARTICULAR PURPOSE.                                     *
- *                                                                       *
- * You should have received a copy of the GNU General Public License     *
- * along with YARS in the file COPYING; if not, write to the Free        *
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor,               *
- * Boston, MA 02110-1301, USA                                            *
- *                                                                       *
- *************************************************************************/
-
-
-
 #include "Module.h"
+#include "base/macros.h"
+#include "base/data/DataModule.h"
 
 #include <iostream>
-
-#include "base/macros.h"
+#include <map>
+#include <glog/logging.h>
 
 
 Module::Module(string name)
@@ -174,7 +148,7 @@ int Module::h_size()
 }
 
 
-void Module::addEdge(Node *src, Node *dst, double weight) throw (ENPException)
+Edge* Module::addEdge(Node *src, Node *dst, double weight) throw (ENPException)
 {
   if(dst->contains(src)) throw ENPException("Module::addEdge: The destination node already contains an edge from the source node");
   Edge *e = new Edge();
@@ -185,6 +159,8 @@ void Module::addEdge(Node *src, Node *dst, double weight) throw (ENPException)
   dst->addEdge(e);
 
   _edges.push_back(e);
+
+  return e;
 }
 
 
@@ -198,3 +174,46 @@ Edge* Module::edge(int index)
 {
   return _edges[index];
 }
+
+void Module::setName(string name)
+{
+  _name = name;
+  VLOG(100) << "setting name to " << _name;
+}
+
+void Module::initialise(DataModule *data)
+{
+  std::map<string, Node*> nodeMap;
+
+  for(DataModuleNodes::iterator n = data->n_begin(); n != data->n_end(); n++)
+  {
+    Node *node = new Node();
+    node->setType((*n)->type());
+    node->setBias((*n)->bias());
+    node->setLabel((*n)->label());
+    nodeMap.insert(std::make_pair(node->label(), node));
+    _nodes.push_back(node);
+  }
+
+  for(DataModuleEdges::iterator e = data->e_begin(); e != data->e_end(); e++)
+  {
+    Edge *edge = new Edge();
+    Node *src  = nodeMap[(*e)->source()];
+    Node *dst  = nodeMap[(*e)->destination()];
+    edge->setSource(src);
+    edge->setDestination(dst);
+    edge->setWeight((*e)->weight());
+    _edges.push_back(edge);
+  }
+}
+
+bool Module::modified()
+{
+  return _modified;
+}
+
+void Module::setModified(bool m)
+{
+  _modified = m;
+}
+

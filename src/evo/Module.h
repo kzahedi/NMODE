@@ -1,37 +1,8 @@
-/*************************************************************************
- *                                                                       *
- * This file is part of Yet Another Robot Simulator (YARS).              *
- * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
- * All rights reserved.                                                  *
- * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/YARS                                  *
- *                                                                       *
- * For a list of contributors see the file AUTHORS.                      *
- *                                                                       *
- * YARS is free software; you can redistribute it and/or modify it under *
- * the terms of the GNU General Public License as published by the Free  *
- * Software Foundation; either version 2 of the License, or (at your     *
- * option) any later version.                                            *
- *                                                                       *
- * YARS is distributed in the hope that it will be useful, but WITHOUT   *
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or *
- * FITNESS FOR A PARTICULAR PURPOSE.                                     *
- *                                                                       *
- * You should have received a copy of the GNU General Public License     *
- * along with YARS in the file COPYING; if not, write to the Free        *
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor,               *
- * Boston, MA 02110-1301, USA                                            *
- *                                                                       *
- *************************************************************************/
-
-  // ofstream ofs;
-  // ofs.open(filename, std::ofstream::out);
-
-
 #ifndef __MODULE_H__
 #define __MODULE_H__
 
 #include "Node.h"
+#include "base/data/DataModule.h"
 
 class Module
 {
@@ -47,12 +18,15 @@ class Module
 
     void addNode(Node *neuron) throw (ENPException);
     string name();
+    void   setName(string name);
 
     bool linked();
     void linkTo(Module *target);
 
-    bool removeEdge(Edge *e);
-    void addEdge(Node *src, Node *dst, double weight) throw (ENPException);
+    bool  removeEdge(Edge *e);
+    Edge* addEdge(Node *src, Node *dst, double weight) throw (ENPException);
+
+    void initialise(DataModule *module);
 
     Node*           node(int index);
     Nodes::iterator n_begin();
@@ -67,6 +41,9 @@ class Module
     int             e_size();
     Edge*           edge(int index);
 
+    bool            modified();
+    void            setModified(bool m);
+
     friend std::ostream& operator<<(std::ostream& str, const Module& m)
     {
       str << "Module: " << m._name << endl;
@@ -77,7 +54,7 @@ class Module
                        << (*n)->type()             << ", "
                        << (*n)->position()         << ", "
                        << (*n)->transferfunction() << ", "
-                       << (*n)->value()            << "]";
+                       << (*n)->bias()            << "]";
       }
       str << "  Edges: " << endl;
       for(Edges::const_iterator e = m._edges.begin(); e != m._edges.end(); e++)
@@ -97,8 +74,11 @@ class Module
     Edges   _edges;
     string  _name;
     bool    _linked;
+    bool    _modified;
     Module *_target;
 };
+
+typedef vector<Module*> Modules;
 
 #endif // __MODULE_H__
 

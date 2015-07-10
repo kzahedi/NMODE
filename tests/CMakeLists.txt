@@ -36,10 +36,10 @@ add_executable(cfg-tests main.cpp cfg_test.cpp)
 target_link_libraries(cfg-tests ENPBase cppunit)
 
 add_executable(xml-tests main.cpp xml_test.cpp)
-target_link_libraries(xml-tests ENPBase ENPData cppunit)
+target_link_libraries(xml-tests ENPBase cppunit)
 
 add_executable(modules-tests main.cpp modules_test.cpp)
-target_link_libraries(modules-tests ENPEvo ENPBase ENPData cppunit)
+target_link_libraries(modules-tests ENPEvo ENPBase cppunit)
 
 ADD_TEST(rnn     "${PROJECT_BINARY_DIR}/bin/rnn-tests")
 ADD_TEST(cfg     "${PROJECT_BINARY_DIR}/bin/cfg-tests")

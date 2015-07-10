@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Yet Another Robot Simulator (YARS).              *
- * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
+ * This file is part of Evolution of Neural Pathways (ENP).              *
+ * Copyright (C) 2015 Keyan Ghazi-Zahedi.                                *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/YARS                                  *
+ * Web: https://github.com/kzahedi/ENP                                   *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,51 +25,4 @@
  *************************************************************************/
 
 
-#ifndef __DATA_NODE_H__
-#define __DATA_NODE_H__
 
-#include "DataParseElement.h"
-#include "base/xsd/specification/specification.h"
-
-#include <string>
-#include <ostream>
-#include <iostream>
-
-using namespace std;
-
-/**
- * @brief Basic class for all objects that store XML data.
- */
-class DataNode
-{
-  public:
-
-    /**
-     * @brief Default constructor. Takes parent node as parameter
-     *
-     * @param parent
-     */
-    DataNode(DataNode *parent);
-
-    /**
-     * @brief Destructor, does nothing
-     */
-    ~DataNode();
-
-    /**
-     * @brief This function must be implemented by every data storing class. It
-     * takes a DataParseElement and should decide if the contained data is
-     * either stored, passed on to a child, or if the current node is set to the
-     * parent.
-     *
-     * @param DataParseElement
-     * @sa DataParseElement
-     */
-    virtual void add(DataParseElement* ) = 0;
-
-  protected:
-    DataNode        *parent;
-    static DataNode *current;
-};
-
-#endif // __DATA_NODE_H__

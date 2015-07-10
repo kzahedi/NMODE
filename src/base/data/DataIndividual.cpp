@@ -1,31 +1,3 @@
-/*************************************************************************
- *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
- * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
- * All rights reserved.                                                  *
- * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
- *                                                                       *
- * For a list of contributors see the file AUTHORS.                      *
- *                                                                       *
- * YARS is free software; you can redistribute it and/or modify it under *
- * the terms of the GNU General Public License as published by the Free  *
- * Software Foundation; either version 2 of the License, or (at your     *
- * option) any later version.                                            *
- *                                                                       *
- * YARS is distributed in the hope that it will be useful, but WITHOUT   *
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or *
- * FITNESS FOR A PARTICULAR PURPOSE.                                     *
- *                                                                       *
- * You should have received a copy of the GNU General Public License     *
- * along with YARS in the file COPYING; if not, write to the Free        *
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor,               *
- * Boston, MA 02110-1301, USA                                            *
- *                                                                       *
- *************************************************************************/
-
-
-
 #include "DataIndividual.h"
 
 #include "glog/logging.h"
@@ -37,8 +9,9 @@
 DataIndividual::DataIndividual(DataNode *parent)
   : DataNode(parent)
 {
-  _id         = 1;
-  _fitness    = 0.0;
+  _id        = 1;
+  _fitness   = 0.0;
+  _offspring = 0;
 }
 
 void DataIndividual::add(DataParseElement *element)
@@ -49,10 +22,16 @@ void DataIndividual::add(DataParseElement *element)
     current = parent;
   }
 
-  VLOG(100) << "checking for " << TAG_MODULE;
+  if(element->opening(TAG_INDIVIDUAL))
+  {
+    element->set(TAG_ID,        _id);
+    element->set(TAG_FITNESS,   _fitness);
+    element->set(TAG_OFFSPRING, _offspring);
+    VLOG(100) << "setting id = " << _id << " fitness = " << _fitness << " offspring = " << _offspring;
+  }
+
   if(element->opening(TAG_MODULE))
   {
-    VLOG(100) << "found " << TAG_MODULE;
     DataModule *dpm = new DataModule(this);
     _modules.push_back(dpm);
     current = dpm;
@@ -71,3 +50,39 @@ void DataIndividual::createXsd(XsdSpecification *spec)
 
   DataModule::createXsd(spec);
 }
+
+int DataIndividual::id()
+{
+  return _id;
+}
+
+double DataIndividual::fitness()
+{
+  return _fitness;
+}
+
+int DataIndividual::offspring()
+{
+  return _offspring;
+}
+
+DataModules::iterator DataIndividual::m_begin()
+{
+  return _modules.begin();
+}
+
+DataModules::iterator DataIndividual::m_end()
+{
+  return _modules.end();
+}
+
+int DataIndividual::m_size()
+{
+  return _modules.size();
+}
+
+DataModules DataIndividual::modules()
+{
+  return _modules;
+}
+
