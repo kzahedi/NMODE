@@ -26,40 +26,33 @@
 
 
 
-#ifndef __MODULE_MUTATION_OPERATOR_H__
-#define __MODULE_MUTATION_OPERATOR_H__
+#ifndef __DATA_H__
+#define __DATA_H__
 
-#include "base/data/DataEvolutionNode.h"
-#include "base/data/DataEvolutionEdge.h"
-#include "Module.h"
+#include <vector>
+#include <string>
 
-class ModuleMutationOperator
+#include "base/xsd/specification/XsdSpecification.h"
+
+#include "DataENP.h"
+
+using namespace std;
+
+class Data
 {
   public:
-    // ~ModuleMutationOperator();
-
-    //ModuleMutationOperator(const ModuleMutationOperator);
-    //ModuleMutationOperator operator=(const ModuleMutationOperator);
-
-    static void mutate(Module *module,
-                       DataEvolutionNode *_den,
-                       DataEvolutionEdge *_des);
+    static Data* instance();
+    static void close();
+    ~Data();
+    DataENP* specification();
+    XsdSpecification* xsd();
+    void clear();
+    void read(string xmlFile);
 
   private:
-    static void __mutateDelEdge(Module *m,    double probability);
-    static void __mutateModifyEdge(Module *m, double probability,
-                                              double delta,
-                                              double max);
-    static void __mutateAddEdge(Module *m,    double probability,
-                                              double max);
-    static void __mutateAddNode(Module *m,    double probability,
-                                              double max);
-    static void __mutateModifyNode(Module *m, double probability,
-                                              double delta,
-                                              double max);
-
-    static void __mutateDelNode(Module *m,    double probability);
+    Data();
+    static Data *_me;
+    DataENP     *_spec;
 };
 
-
-#endif // __MODULE_MUTATION_OPERATOR_H__
+#endif // __DATA_H__

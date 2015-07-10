@@ -25,41 +25,33 @@
  *************************************************************************/
 
 
+#ifndef __YARS_XSD_GRAPHVIZ_GENERATOR_H__
+#define __YARS_XSD_GRAPHVIZ_GENERATOR_H__
 
-#ifndef __MODULE_MUTATION_OPERATOR_H__
-#define __MODULE_MUTATION_OPERATOR_H__
+#include "base/xsd/graphviz/graph/XsdGraph.h"
 
-#include "base/data/DataEvolutionNode.h"
-#include "base/data/DataEvolutionEdge.h"
-#include "Module.h"
+#include <sstream>
 
-class ModuleMutationOperator
+using namespace std;
+
+class XsdGraphvizGenerator
 {
   public:
-    // ~ModuleMutationOperator();
+    XsdGraphvizGenerator();
 
-    //ModuleMutationOperator(const ModuleMutationOperator);
-    //ModuleMutationOperator operator=(const ModuleMutationOperator);
+    void generate(string parent, string name, bool leftToRight, int depth);
 
-    static void mutate(Module *module,
-                       DataEvolutionNode *_den,
-                       DataEvolutionEdge *_des);
+    friend std::ostream& operator<<(std::ostream& str, XsdGraphvizGenerator& g)
+    {
+      str << g._dot.str() << endl;
+      return str;
+    };
 
   private:
-    static void __mutateDelEdge(Module *m,    double probability);
-    static void __mutateModifyEdge(Module *m, double probability,
-                                              double delta,
-                                              double max);
-    static void __mutateAddEdge(Module *m,    double probability,
-                                              double max);
-    static void __mutateAddNode(Module *m,    double probability,
-                                              double max);
-    static void __mutateModifyNode(Module *m, double probability,
-                                              double delta,
-                                              double max);
+    void __generate(XsdGraphNodeInstance *node, int depth);
 
-    static void __mutateDelNode(Module *m,    double probability);
+    stringstream  _dot;
+    XsdGraph     *_graph;
 };
 
-
-#endif // __MODULE_MUTATION_OPERATOR_H__
+#endif // __YARS_XSD_GRAPHVIZ_GENERATOR_H__

@@ -25,41 +25,56 @@
  *************************************************************************/
 
 
+#include "XsdGraphvizGenerator.h"
 
-#ifndef __MODULE_MUTATION_OPERATOR_H__
-#define __MODULE_MUTATION_OPERATOR_H__
+#include "base/xsd/graphviz/graph/XsdGraphNodeInstance.h"
 
-#include "base/data/DataEvolutionNode.h"
-#include "base/data/DataEvolutionEdge.h"
-#include "Module.h"
+#include "base/macros.h"
 
-class ModuleMutationOperator
+#include <vector>
+#include <iostream>
+
+XsdGraphvizGenerator::XsdGraphvizGenerator()
 {
-  public:
-    // ~ModuleMutationOperator();
+  _graph = new XsdGraph();
+}
 
-    //ModuleMutationOperator(const ModuleMutationOperator);
-    //ModuleMutationOperator operator=(const ModuleMutationOperator);
+void XsdGraphvizGenerator::generate(string parent, string name, bool leftToRight, int depth)
+{
+  _dot.str("");
+  _dot << "digraph structs {"         << endl;
+  if(leftToRight)
+  {
+    _dot << "  rankdir=LR;"             << endl;
+    // _dot << "  layout=circo;"             << endl;
+    // _dot << " ranksep=5;"<< endl << "  ratio=auto;"             << endl;
+    // _dot << " outputMode=\"edgesfirst\";" << endl;
 
-    static void mutate(Module *module,
-                       DataEvolutionNode *_den,
-                       DataEvolutionEdge *_des);
+  }
+  else
+  {
+    _dot << "  rankdir=TB;"             << endl;
+  }
+  //_dot << "  ranksep=\"equally\";"    << endl;
+  _dot << "  node [shape=plaintext];" << endl;
 
-  private:
-    static void __mutateDelEdge(Module *m,    double probability);
-    static void __mutateModifyEdge(Module *m, double probability,
-                                              double delta,
-                                              double max);
-    static void __mutateAddEdge(Module *m,    double probability,
-                                              double max);
-    static void __mutateAddNode(Module *m,    double probability,
-                                              double max);
-    static void __mutateModifyNode(Module *m, double probability,
-                                              double delta,
-                                              double max);
+  XsdGraphNodeInstance *node = _graph->get(parent, name);
+  __generate(node, depth);
 
-    static void __mutateDelNode(Module *m,    double probability);
-};
+  _dot << "}" << endl;
+}
 
-
-#endif // __MODULE_MUTATION_OPERATOR_H__
+void XsdGraphvizGenerator::__generate(XsdGraphNodeInstance *node, int depth)
+{
+  if(depth == 0) return;
+  int d = depth - 1;
+  _dot << " " << node->uniqueName() << " " << node->label() << endl;
+  if(d != 0)
+  {
+    FORP(vector<XsdGraphNodeInstance*>, i, node)
+    {
+      __generate(*i, d);
+      _dot << node->uniqueName() << ":" << (*i)->port() << " -> " << (*i)->uniqueName() << ";" << endl;
+    }
+  }
+}

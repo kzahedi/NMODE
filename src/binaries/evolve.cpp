@@ -27,7 +27,7 @@
 
 
 #include "base/Configuration.h"
-#include "data/Data.h"
+#include "base/data/Data.h"
 
 #include <glog/logging.h>
 
@@ -53,7 +53,9 @@ int main(int argc, char** argv)
   LOG_IF(INFO, configuration->cfg().size() > 0)
     << "Configuration given " << configuration->cfg();
 
+  VLOG(5) << "reading file " << configuration->cfg();
   data->read(configuration->cfg());
-  
+
+  VLOG(5) << "done.";
   return 0;
 }

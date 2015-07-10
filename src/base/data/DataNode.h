@@ -26,40 +26,55 @@
 
 
 
-#ifndef __MODULE_MUTATION_OPERATOR_H__
-#define __MODULE_MUTATION_OPERATOR_H__
+#ifndef __DATA_NODE_H__
+#define __DATA_NODE_H__
 
-#include "base/data/DataEvolutionNode.h"
-#include "base/data/DataEvolutionEdge.h"
-#include "Module.h"
+#include "DataParseElement.h"
+#include "base/xsd/specification/specification.h"
 
-class ModuleMutationOperator
+#include <string>
+#include <ostream>
+#include <iostream>
+
+# define DIV "_"
+# define DEF "definition"
+
+
+using namespace std;
+
+/**
+ * @brief Basic class for all objects that store XML data.
+ */
+class DataNode
 {
   public:
-    // ~ModuleMutationOperator();
 
-    //ModuleMutationOperator(const ModuleMutationOperator);
-    //ModuleMutationOperator operator=(const ModuleMutationOperator);
+    /**
+     * @brief Default constructor. Takes parent node as parameter
+     *
+     * @param parent
+     */
+    DataNode(DataNode *parent);
 
-    static void mutate(Module *module,
-                       DataEvolutionNode *_den,
-                       DataEvolutionEdge *_des);
+    /**
+     * @brief Destructor, does nothing
+     */
+    ~DataNode();
 
-  private:
-    static void __mutateDelEdge(Module *m,    double probability);
-    static void __mutateModifyEdge(Module *m, double probability,
-                                              double delta,
-                                              double max);
-    static void __mutateAddEdge(Module *m,    double probability,
-                                              double max);
-    static void __mutateAddNode(Module *m,    double probability,
-                                              double max);
-    static void __mutateModifyNode(Module *m, double probability,
-                                              double delta,
-                                              double max);
+    /**
+     * @brief This function must be implemented by every data storing class. It
+     * takes a DataParseElement and should decide if the contained data is
+     * either stored, passed on to a child, or if the current node is set to the
+     * parent.
+     *
+     * @param DataParseElement
+     * @sa DataParseElement
+     */
+    virtual void add(DataParseElement* ) = 0;
 
-    static void __mutateDelNode(Module *m,    double probability);
+  protected:
+    DataNode        *parent;
+    static DataNode *current;
 };
 
-
-#endif // __MODULE_MUTATION_OPERATOR_H__
+#endif // __DATA_NODE_H__

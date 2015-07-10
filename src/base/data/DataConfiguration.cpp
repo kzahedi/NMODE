@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Yet Another Robot Simulator (YARS).              *
+ * This file is part of Configuration of Neural Pathways (ENP).          *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/YARS                                  *
+ * Web: https://github.com/kzahedi/ENP                                   *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -26,40 +26,59 @@
 
 
 
-#ifndef __MODULE_MUTATION_OPERATOR_H__
-#define __MODULE_MUTATION_OPERATOR_H__
+#include "DataConfiguration.h"
 
-#include "base/data/DataEvolutionNode.h"
-#include "base/data/DataEvolutionEdge.h"
-#include "Module.h"
+#include "base/macros.h"
 
-class ModuleMutationOperator
+#include <iostream>
+#include <glog/logging.h>
+
+using namespace std;
+
+DataConfiguration::DataConfiguration(DataNode *parent)
+  : DataNode(parent)
+{ }
+
+DataConfiguration::~DataConfiguration()
 {
-  public:
-    // ~ModuleMutationOperator();
-
-    //ModuleMutationOperator(const ModuleMutationOperator);
-    //ModuleMutationOperator operator=(const ModuleMutationOperator);
-
-    static void mutate(Module *module,
-                       DataEvolutionNode *_den,
-                       DataEvolutionEdge *_des);
-
-  private:
-    static void __mutateDelEdge(Module *m,    double probability);
-    static void __mutateModifyEdge(Module *m, double probability,
-                                              double delta,
-                                              double max);
-    static void __mutateAddEdge(Module *m,    double probability,
-                                              double max);
-    static void __mutateAddNode(Module *m,    double probability,
-                                              double max);
-    static void __mutateModifyNode(Module *m, double probability,
-                                              double delta,
-                                              double max);
-
-    static void __mutateDelNode(Module *m,    double probability);
-};
+  FORC(DataModules, m, _modules) delete (*m);
+  _modules.clear();
+}
 
 
-#endif // __MODULE_MUTATION_OPERATOR_H__
+void DataConfiguration::add(DataParseElement *element)
+{
+  VLOG(100) << "parsing: " << element->name();
+  if(element->closing(TAG_CONFIGURATION))
+  {
+    current = parent;
+    return;
+  }
+
+  if(element->opening(TAG_CONFIGURATION))
+  {
+    return;
+  }
+
+  if(element->opening(TAG_MODULE))
+  {
+    DataModule* module = new DataModule(this);
+    _modules.push_back(module);
+    current = module;
+    current->add(element);
+  }
+}
+
+void DataConfiguration::createXsd(XsdSpecification *spec)
+{
+  XsdSequence *root = new XsdSequence(TAG_CONFIGURATION_DEFINITION);
+  root->add(NE(TAG_MODULE,  TAG_MODULE_DEFINITION,  1, TAG_XSD_UNBOUNDED));
+  spec->add(root);
+
+  DataModule::createXsd(spec);
+}
+
+DataModules DataConfiguration::modules()
+{
+  return _modules;
+}

@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Yet Another Robot Simulator (YARS).              *
+ * This file is part of Evolution of Neural Pathways (Population).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/YARS                                  *
+ * Web: https://github.com/kzahedi/Population                                   *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -26,40 +26,49 @@
 
 
 
-#ifndef __MODULE_MUTATION_OPERATOR_H__
-#define __MODULE_MUTATION_OPERATOR_H__
+#include "DataPopulation.h"
 
-#include "base/data/DataEvolutionNode.h"
-#include "base/data/DataEvolutionEdge.h"
-#include "Module.h"
+#include "glog/logging.h"
 
-class ModuleMutationOperator
+#define TAG_GENERATION (char*)"generation"
+
+DataPopulation::DataPopulation(DataNode *parent)
+  : DataNode(parent)
 {
-  public:
-    // ~ModuleMutationOperator();
+  _id         = 1;
+  _generation = 1;
+  _fitness    = 0.0;
+}
 
-    //ModuleMutationOperator(const ModuleMutationOperator);
-    //ModuleMutationOperator operator=(const ModuleMutationOperator);
+void DataPopulation::add(DataParseElement *element)
+{
+  VLOG(100) << "parsing " << element->name();
+  if(element->closing(TAG_POPULATION))
+  {
+    current = parent;
+  }
 
-    static void mutate(Module *module,
-                       DataEvolutionNode *_den,
-                       DataEvolutionEdge *_des);
+  if(element->opening(TAG_POPULATION))
+  {
+    element->set(TAG_GENERATION, _generation);
+    VLOG(100) << "set generation to " << _generation;
+  }
 
-  private:
-    static void __mutateDelEdge(Module *m,    double probability);
-    static void __mutateModifyEdge(Module *m, double probability,
-                                              double delta,
-                                              double max);
-    static void __mutateAddEdge(Module *m,    double probability,
-                                              double max);
-    static void __mutateAddNode(Module *m,    double probability,
-                                              double max);
-    static void __mutateModifyNode(Module *m, double probability,
-                                              double delta,
-                                              double max);
+  if(element->opening(TAG_POPULATION_MODULE))
+  {
+    DataPopulationModule *dpm = new DataPopulationModule(this);
+    _modules.push_back(dpm);
+    current = dpm;
+    current->add(element);
+  }
+}
 
-    static void __mutateDelNode(Module *m,    double probability);
-};
+void DataPopulation::createXsd(XsdSpecification *spec)
+{
+  XsdSequence *_root = new XsdSequence(TAG_POPULATION_DEFINITION);
+  _root->add(NA(TAG_GENERATION, TAG_POSITIVE_INTEGER, false));
+  _root->add(NE(TAG_POPULATION_MODULE, TAG_POPULATION_MODULE_DEFINITION, 1, TAG_XSD_UNBOUNDED));
+  spec->add(_root);
 
-
-#endif // __MODULE_MUTATION_OPERATOR_H__
+  DataPopulationModule::createXsd(spec);
+}

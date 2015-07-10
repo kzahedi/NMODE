@@ -27,9 +27,11 @@
 
 
 #include "base/Configuration.h"
+#include "base/xsd/generator/YarsXSDGenerator.h"
 
 #include <string>
 #include <iostream>
+#include <fstream>
 
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/variables_map.hpp>
@@ -51,6 +53,7 @@ Configuration::Configuration(int argc, char* argv[], bool io)
   desc.add_options()
     ("help",    "print help message")
     ("verbosity,v", po::value<int>(), "set verbose logging level, defaults to 0")
+    ("xsd",     "export the XSD and quit.")
     ("cfg",     po::value<string>(&_cfg), "cfg file");
 
   ioo.add_options()
@@ -76,19 +79,37 @@ Configuration::Configuration(int argc, char* argv[], bool io)
     exit(0);
   }
 
+  if(vm.count("xsd"))
+  {
+    YarsXSDGenerator *xsd = new YarsXSDGenerator();
+    // cout << (*xsd) << endl;
+    ofstream myfile;
+    stringstream filename;
+    filename << "enp.xsd";
+    myfile.open(filename.str().c_str());
+    myfile << (*xsd) << endl;
+    myfile.close();
+    cout << filename.str() << " written to current directory." << endl;
+    delete xsd;
+    exit(0);
+  }
+
   if(vm.count("cfg") == 0)
   {
-    cerr << "Please give a configuration file. See " << argv[0] << " --help for more information." << endl;
+    cerr << "Please give a configuration file. See "
+         << argv[0]
+         << " --help for more information." << endl;
     exit(-1);
   };
 
-  if (vm.count("verbosity")){
+  if (vm.count("verbosity"))
+  {
     FLAGS_v = vm["verbosity"].as<int>();
   }
-  else{
+  else
+  {
     FLAGS_v = 0;
   }
-
 }
 
 string Configuration::input()

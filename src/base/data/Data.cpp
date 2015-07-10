@@ -26,40 +26,63 @@
 
 
 
-#ifndef __MODULE_MUTATION_OPERATOR_H__
-#define __MODULE_MUTATION_OPERATOR_H__
+#include "Data.h"
 
-#include "base/data/DataEvolutionNode.h"
-#include "base/data/DataEvolutionEdge.h"
-#include "Module.h"
+#include "base/xsd/parser/YarsXSDSaxParser.h"
 
-class ModuleMutationOperator
+Data* Data::_me = NULL;
+
+Data* Data::instance()
 {
-  public:
-    // ~ModuleMutationOperator();
+  if(_me == NULL)
+  {
+    _me = new Data();
+  }
+  return _me;
+}
 
-    //ModuleMutationOperator(const ModuleMutationOperator);
-    //ModuleMutationOperator operator=(const ModuleMutationOperator);
+Data::Data()
+{
+  _spec = new DataENP(NULL);
+}
 
-    static void mutate(Module *module,
-                       DataEvolutionNode *_den,
-                       DataEvolutionEdge *_des);
+Data::~Data()
+{
+  delete _spec;
+}
 
-  private:
-    static void __mutateDelEdge(Module *m,    double probability);
-    static void __mutateModifyEdge(Module *m, double probability,
-                                              double delta,
-                                              double max);
-    static void __mutateAddEdge(Module *m,    double probability,
-                                              double max);
-    static void __mutateAddNode(Module *m,    double probability,
-                                              double max);
-    static void __mutateModifyNode(Module *m, double probability,
-                                              double delta,
-                                              double max);
+DataENP* Data::specification()
+{
+  return _spec;
+}
 
-    static void __mutateDelNode(Module *m,    double probability);
-};
+void Data::clear()
+{
+}
 
+void Data::close()
+{
+  // if(_me != NULL) delete _me;
+}
 
-#endif // __MODULE_MUTATION_OPERATOR_H__
+void Data::read(string xmlFile)
+{
+  YarsXSDSaxParser *parser = new YarsXSDSaxParser();
+  parser->read(xmlFile);
+  if(parser->errors() > 0)
+  {
+    for(std::vector<string>::iterator i = parser->w_begin(); i != parser->w_end(); i++) cout << "WARNING: " << *i << endl;
+    for(std::vector<string>::iterator i = parser->e_begin(); i != parser->e_end(); i++) cout << "ERROR: " << *i << endl;
+    for(std::vector<string>::iterator i = parser->f_begin(); i != parser->f_end(); i++) cout << "FATAL: " << *i << endl;
+    delete parser;
+    exit(-1);
+  }
+  delete parser;
+}
+
+XsdSpecification* Data::xsd()
+{
+  XsdSpecification *spec = new XsdSpecification();
+  DataENP::createXsd(spec);
+  return spec;
+}

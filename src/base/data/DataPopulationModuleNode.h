@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Yet Another Robot Simulator (YARS).              *
+ * This file is part of Evolution of Neural Pathways (ENP).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/YARS                                  *
+ * Web: https://github.com/kzahedi/ENP                                   *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -26,40 +26,46 @@
 
 
 
-#ifndef __MODULE_MUTATION_OPERATOR_H__
-#define __MODULE_MUTATION_OPERATOR_H__
+#ifndef __DATA_POPULATION_MODULE_NODE_H__
+#define __DATA_POPULATION_MODULE_NODE_H__
 
-#include "base/data/DataEvolutionNode.h"
-#include "base/data/DataEvolutionEdge.h"
-#include "Module.h"
+#include "DataNode.h"
+#include "base/P3D.h"
 
-class ModuleMutationOperator
+#include <vector>
+
+using namespace std;
+
+# define TAG_POPULATION_MODULE_NODE            (char*)"node"
+# define TAG_POPULATION_MODULE_NODE_DEFINITION (char*)"population_module_node_definition"
+
+class DataPopulationModuleNode : public DataNode
 {
   public:
-    // ~ModuleMutationOperator();
+    DataPopulationModuleNode(DataNode *parent);
+    // ~DataPopulationModuleNode();
 
-    //ModuleMutationOperator(const ModuleMutationOperator);
-    //ModuleMutationOperator operator=(const ModuleMutationOperator);
+    //DataPopulationModuleNode(const DataPopulationModuleNode);
+    //DataPopulationModuleNode operator=(const DataPopulationModuleNode);
 
-    static void mutate(Module *module,
-                       DataEvolutionNode *_den,
-                       DataEvolutionEdge *_des);
+    void add(DataParseElement *element);
+    static void createXsd(XsdSpecification *spec);
+
+    string type();
+    string label();
+    P3D    position();
+    string transferfunction();
+    double bias();
 
   private:
-    static void __mutateDelEdge(Module *m,    double probability);
-    static void __mutateModifyEdge(Module *m, double probability,
-                                              double delta,
-                                              double max);
-    static void __mutateAddEdge(Module *m,    double probability,
-                                              double max);
-    static void __mutateAddNode(Module *m,    double probability,
-                                              double max);
-    static void __mutateModifyNode(Module *m, double probability,
-                                              double delta,
-                                              double max);
+    string _type;
+    string _label;
+    P3D    _position;
+    string _transferfunction;
+    double _bias;
 
-    static void __mutateDelNode(Module *m,    double probability);
 };
 
+typedef vector<DataPopulationModuleNode*> DataPopulationModuleNodes;
 
-#endif // __MODULE_MUTATION_OPERATOR_H__
+#endif // __DATA_POPULATION_MODULE_NODE_H__

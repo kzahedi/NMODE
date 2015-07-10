@@ -84,4 +84,74 @@
     </module>
 
   </configuration>
+  <population generation="1">
+    <module fitness="1.0" offspring="2" id="213">
+      <node type="input" label="input 1">
+        <position x="0.0" y="0.0" z="0.0"/>
+        <transferfunction name="id"/>
+        <bias value="1.1"/>
+      </node>
+
+      <node type="input" label="input 2">
+        <position x="0.0" y="0.0" z="0.0"/>
+        <transferfunction name="id"/>
+        <bias value="1.2"/>
+      </node>
+
+      <node type="output" label="output 1">
+        <position x="0.0" y="0.0" z="0.0"/>
+        <transferfunction name="id"/>
+        <bias value="1.3"/>
+      </node>
+
+      <node type="output" label="output 2">
+        <position x="0.0" y="0.0" z="0.0"/>
+        <transferfunction name="id"/>
+        <bias value="1.4"/>
+      </node>
+
+      <node type="sensor" label="sensor 1">
+        <position x="0.0" y="0.0" z="0.0"/>
+        <transferfunction name="id"/>
+        <bias value="1.5"/>
+      </node>
+      <node type="sensor" label="sensor 2">
+        <position x="1.0" y="0.0" z="0.0"/>
+        <transferfunction name="id"/>
+        <bias value="-1.6"/>
+      </node>
+      <node type="sensor" label="sensor 3">
+        <position x="2.0" y="0.0" z="0.0"/>
+        <transferfunction name="id"/>
+        <bias value="-1.7"/>
+      </node>
+
+      <node type="actuator" label="actuator 1">
+        <position x="0.5" y="1.0" z="0.0"/>
+        <transferfunction name="tanh"/>
+        <bias value="-1.8"/>
+      </node>
+      <node type="actuator" label="actuator 2">
+        <position x="1.5" y="1.0" z="0.0"/>
+        <transferfunction name="sigm"/>
+        <bias value="-1.9"/>
+      </node>
+
+      <node type="hidden" label="hidden 1">
+        <position x="1.5" y="4.0" z="0.0"/>
+        <transferfunction name="sigm"/>
+        <bias value="2.0"/>
+      </node>
+
+      <node type="hidden" label="hidden 2">
+        <position x="1.5" y="-4.0" z="0.0"/>
+        <transferfunction name="sigm"/>
+        <bias value="-2.1"/>
+      </node>
+
+      <edge source="sensor 1" destination="hidden 2" weight="3.1"/>
+      <edge source="sensor 2" destination="hidden 1" weight="-3.2"/>
+
+    </module>
+  </population>
 </enp>

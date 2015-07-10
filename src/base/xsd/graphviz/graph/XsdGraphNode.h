@@ -25,41 +25,44 @@
  *************************************************************************/
 
 
+#ifndef __YARS_XSD_GRAPH_NODE_H__
+#define __YARS_XSD_GRAPH_NODE_H__
 
-#ifndef __MODULE_MUTATION_OPERATOR_H__
-#define __MODULE_MUTATION_OPERATOR_H__
+#include "base/xsd/specification/XsdSpecification.h"
 
-#include "base/data/DataEvolutionNode.h"
-#include "base/data/DataEvolutionEdge.h"
-#include "Module.h"
+#include <string>
+#include <vector>
 
-class ModuleMutationOperator
+#define ATTRIBUTE_BGCOLOR     "#fee1b7"
+#define ELEMENT_BGCOLOR       "#adc9f0"
+#define CHOICE_BGCOLOR        "#adf0ad"
+#define SPECIFICATION_BGCOLOR "#fefeb7"
+
+#define REGEXP_BGCOLOR        "#f3afd7"
+#define INTERVAL_BGCOLOR      "#d9adf0"
+#define ENUM_BGCOLOR          "#b8adf0"
+
+#define OPTIONAL_COLOR        "#00A000"
+#define REQUIRED_COLOR        "#ff0000"
+
+using namespace std;
+
+class XsdGraphNode
 {
   public:
-    // ~ModuleMutationOperator();
+    XsdGraphNode();
+    virtual ~XsdGraphNode() { };
 
-    //ModuleMutationOperator(const ModuleMutationOperator);
-    //ModuleMutationOperator operator=(const ModuleMutationOperator);
+    virtual string   customLabel(string label) = 0;
+    virtual string   name()                    = 0;
+    virtual XsdNode* spec()                    = 0;
 
-    static void mutate(Module *module,
-                       DataEvolutionNode *_den,
-                       DataEvolutionEdge *_des);
+    string uniqueNodeName();
+    void   setUniqueNodeName(string n);
+    bool   hasDefinition(string type);
 
   private:
-    static void __mutateDelEdge(Module *m,    double probability);
-    static void __mutateModifyEdge(Module *m, double probability,
-                                              double delta,
-                                              double max);
-    static void __mutateAddEdge(Module *m,    double probability,
-                                              double max);
-    static void __mutateAddNode(Module *m,    double probability,
-                                              double max);
-    static void __mutateModifyNode(Module *m, double probability,
-                                              double delta,
-                                              double max);
-
-    static void __mutateDelNode(Module *m,    double probability);
+    string            _uniqueName;
 };
 
-
-#endif // __MODULE_MUTATION_OPERATOR_H__
+#endif // __YARS_XSD_GRAPH_NODE_H__

@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Yet Another Robot Simulator (YARS).              *
+ * This file is part of Evolution of Neural Pathways (ENP).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/YARS                                  *
+ * Web: https://github.com/kzahedi/ENP                                   *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -26,40 +26,59 @@
 
 
 
-#ifndef __MODULE_MUTATION_OPERATOR_H__
-#define __MODULE_MUTATION_OPERATOR_H__
+#ifndef __DATA_ENP_H__
+#define __DATA_ENP_H__
 
-#include "base/data/DataEvolutionNode.h"
-#include "base/data/DataEvolutionEdge.h"
-#include "Module.h"
+#include "DataNode.h"
+#include "Version.h"
 
-class ModuleMutationOperator
+#include "DataEvolution.h"
+#include "DataConfiguration.h"
+#include "DataSimulator.h"
+#include "DataPopulation.h"
+
+# define TAG_ENP                        (char*)"enp"
+# define TAG_ENP_DEFINITION             (char*)"enp_definition"
+# define TAG_VERSION_REGULAR_EXPRESSION (char*)"[0-9]+.[0-9]+.[0-9]+"
+
+class DataENP : public DataNode
 {
   public:
-    // ~ModuleMutationOperator();
 
-    //ModuleMutationOperator(const ModuleMutationOperator);
-    //ModuleMutationOperator operator=(const ModuleMutationOperator);
+    /**
+     * @brief Constructor.
+     *
+     * @param parent
+     */
+    DataENP(DataNode *parent);
 
-    static void mutate(Module *module,
-                       DataEvolutionNode *_den,
-                       DataEvolutionEdge *_des);
+    /**
+     * @brief Destructor.
+     */
+    virtual ~DataENP();
+
+    Version version();
+    void setVersion(Version version);
+
+    void add(DataParseElement *element);
+
+    static void createXsd(XsdSpecification *spec);
+
+    DataSimulator     *simulator();
+    DataEvolution     *evolution();
+    DataConfiguration *configuration();
 
   private:
-    static void __mutateDelEdge(Module *m,    double probability);
-    static void __mutateModifyEdge(Module *m, double probability,
-                                              double delta,
-                                              double max);
-    static void __mutateAddEdge(Module *m,    double probability,
-                                              double max);
-    static void __mutateAddNode(Module *m,    double probability,
-                                              double max);
-    static void __mutateModifyNode(Module *m, double probability,
-                                              double delta,
-                                              double max);
+    void __getChild(DataParseElement *element);
 
-    static void __mutateDelNode(Module *m,    double probability);
+    Version            _version;
+    DataSimulator     *_simulator;
+    DataEvolution     *_evolution;
+    DataConfiguration *_configuration;
+    DataPopulation    *_population;
+
 };
 
+#endif // ___DATA_ENP_H__
 
-#endif // __MODULE_MUTATION_OPERATOR_H__
+

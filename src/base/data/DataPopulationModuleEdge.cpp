@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Yet Another Robot Simulator (YARS).              *
+ * This file is part of Module of Neural Pathways (ENP).                 *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/YARS                                  *
+ * Web: https://github.com/kzahedi/ENP                                   *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -26,40 +26,60 @@
 
 
 
-#ifndef __MODULE_MUTATION_OPERATOR_H__
-#define __MODULE_MUTATION_OPERATOR_H__
+#include "DataPopulationModuleEdge.h"
 
-#include "base/data/DataEvolutionNode.h"
-#include "base/data/DataEvolutionEdge.h"
-#include "Module.h"
+#include <iostream>
+#include <glog/logging.h>
 
-class ModuleMutationOperator
+#define TAG_SOURCE                      (char*)"source"
+#define TAG_DESTINATION                 (char*)"destination"
+#define TAG_WEIGHT                      (char*)"weight"
+
+using namespace std;
+
+DataPopulationModuleEdge::DataPopulationModuleEdge(DataNode *parent)
+  : DataNode(parent)
+{ }
+
+void DataPopulationModuleEdge::add(DataParseElement *element)
 {
-  public:
-    // ~ModuleMutationOperator();
+  if(element->closing(TAG_POPULATION_MODULE_EDGE))
+  {
+    current = parent;
+    return;
+  }
 
-    //ModuleMutationOperator(const ModuleMutationOperator);
-    //ModuleMutationOperator operator=(const ModuleMutationOperator);
+  if(element->opening(TAG_POPULATION_MODULE_EDGE))
+  {
+    element->set(TAG_SOURCE,      _source);
+    element->set(TAG_DESTINATION, _destination);
+    element->set(TAG_WEIGHT,      _weight);
+    VLOG(100) << "set edge values to " << _source << " -> " << _destination << " with " << _weight;
+  }
 
-    static void mutate(Module *module,
-                       DataEvolutionNode *_den,
-                       DataEvolutionEdge *_des);
+}
 
-  private:
-    static void __mutateDelEdge(Module *m,    double probability);
-    static void __mutateModifyEdge(Module *m, double probability,
-                                              double delta,
-                                              double max);
-    static void __mutateAddEdge(Module *m,    double probability,
-                                              double max);
-    static void __mutateAddNode(Module *m,    double probability,
-                                              double max);
-    static void __mutateModifyNode(Module *m, double probability,
-                                              double delta,
-                                              double max);
+void DataPopulationModuleEdge::createXsd(XsdSpecification *spec)
+{
+  XsdSequence *root = new XsdSequence(TAG_POPULATION_MODULE_EDGE_DEFINITION);
+  root->add(NA(TAG_SOURCE,      TAG_XSD_STRING,  true));
+  root->add(NA(TAG_DESTINATION, TAG_XSD_STRING,  true));
+  root->add(NA(TAG_WEIGHT,      TAG_XSD_DECIMAL, true));
+  spec->add(root);
+}
 
-    static void __mutateDelNode(Module *m,    double probability);
-};
+string DataPopulationModuleEdge::source()
+{
+  return _source;
+}
 
+string DataPopulationModuleEdge::destination()
+{
+  return _destination;
+}
 
-#endif // __MODULE_MUTATION_OPERATOR_H__
+double DataPopulationModuleEdge::weight()
+{
+  return _weight;
+}
+
