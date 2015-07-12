@@ -28,6 +28,7 @@
 #include "Random.h"
 
 #include <stdlib.h>
+#include <glog/logging.h>
 
 #ifdef _MSC_VER
 #  include <time.h>
@@ -41,8 +42,10 @@
 void Random::initialise()
 {
 #ifdef __APPLE__
+  VLOG(1) << "random initialised by sranddev";
   sranddev();
 #else
+  VLOG(1) << "random initialised by clock_gettime";
   timespec time;
   clock_gettime(CLOCK_REALTIME, &time);
   srand(time.tv_nsec);

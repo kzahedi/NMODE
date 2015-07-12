@@ -2,6 +2,7 @@
 #include "base/data/Data.h"
 #include "evo/Population.h"
 #include "evo/ModuleMutationOperator.h"
+#include "base/Random.h"
 
 #include <glog/logging.h>
 
@@ -14,7 +15,7 @@ int main(int argc, char** argv)
 {
   google::InitGoogleLogging(argv[0]);
   Configuration *configuration = new Configuration(argc, argv, true);
-
+  Random::initialise();
   Data *data = Data::instance();
 
   LOG_IF(INFO, configuration->input().size() > 0)
