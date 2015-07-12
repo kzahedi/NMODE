@@ -43,10 +43,10 @@ void ModuleMutationOperator::mutate(Module *m,
 
 void ModuleMutationOperator::__mutateDelEdge(Module *m, double probability)
 {
-  VLOG(51) << "mutate del edge called";
+  VLOG(51) << "  mutate del edge called";
   if(m->e_size()    == 0)           return;
   if(Random::unit() >= probability) return;
-  VLOG(51) << "  will mutate edge";
+  VLOG(51) << "    will mutate edge";
   m->setModified(true);
   double weights[m->e_size()];
   double sum = 0.0;
@@ -66,25 +66,26 @@ void ModuleMutationOperator::__mutateDelEdge(Module *m, double probability)
   if(VLOG_IS_ON(51))
   {
     stringstream sst;
-    sst << weights[0];
+    sst << "    weights " << weights[0];
     for(int i = 1; i < m->e_size(); i++)
     {
       sst << " " << weights[i];
     }
-    VLOG(51) << sst.str();
+    VLOG(51) << "  weights " << sst.str();
   }
 
   double p = Random::unit();
   double s = 0.0;
 
-  VLOG(51) << "p = " << p;
+  VLOG(51) << "    p = " << p;
 
   for(int i = 0; i < m->e_size(); i++)
   {
     s += weights[i];
     if(s <= p)
     {
-      VLOG(51) << "removing edge " << i << ": " << m->edge(i)->source()->label() << " -> "
+      VLOG(51) << "    removing edge " << i << ": " << m->edge(i)->source()->label()
+               << " -> "
                << m->edge(i)->destination()->label() << " with "
                << m->edge(i)->weight();
       m->removeEdge(m->edge(i));
@@ -97,12 +98,12 @@ void ModuleMutationOperator::__mutateModifyEdge(Module *m, double probability,
                                                            double delta,
                                                            double max)
 {
-  VLOG(52) << "mutate modify edge called";
+  VLOG(52) << "  mutate modify edge called";
   FORALLEDGES
   {
     if(Random::unit() < probability)
     {
-      VLOG(52) << "  will modify edge " << (*e)->source()->label()
+      VLOG(52) << "    will modify edge " << (*e)->source()->label()
                << " -> " <<  (*e)->destination()->label()
                << ": " << (*e)->weight();
       m->setModified(true);
@@ -110,7 +111,7 @@ void ModuleMutationOperator::__mutateModifyEdge(Module *m, double probability,
       if(weight >  max) weight =  max;
       if(weight < -max) weight = -max;
       (*e)->setWeight(weight);
-      VLOG(52) << "new weight is " << (*e)->weight();
+      VLOG(52) << "    new weight is " << (*e)->weight();
     }
   }
 }
@@ -118,9 +119,9 @@ void ModuleMutationOperator::__mutateModifyEdge(Module *m, double probability,
 void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
                                                         double max)
 {
-  VLOG(53) << "mutate add edge called";
+  VLOG(53) << "  mutate add edge called";
   if(Random::unit() >= probability) return;
-  VLOG(53) << "  will add one edge";
+  VLOG(53) << "    will add one edge";
   m->setModified(true);
 
   double probabilities[m->src_indices_size()][m->dst_indices_size()];
@@ -135,7 +136,7 @@ void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
       Node *dst_node = m->node(m->dst_index(d_index));
       if(dst_node->contains(src_node))
       {
-        VLOG(53) << "edge from " << s_index << " to " << d_index << " already exists";
+        VLOG(53) << "    edge from " << s_index << " to " << d_index << " already exists";
         probabilities[s_index][d_index] = 0.0;
       }
       else
@@ -144,7 +145,8 @@ void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
         probabilities[s_index][d_index] = d;
         if(min < 0.0) min = d;
         if(min < d)   min = d;
-        VLOG(53) << "edge from " << s_index << " to " << d_index << " does not exist. setting distance to " << d;
+        VLOG(53) << "    edge from " << s_index << " to "
+                 << d_index << " does not exist. setting distance to " << d;
       }
     }
   }
@@ -173,7 +175,7 @@ void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
   if(VLOG_IS_ON(53))
   {
     stringstream sst;
-    sst << "probabilities " << m->src_indices_size() << "x" << m->dst_indices_size();
+    sst << "    probabilities " << m->src_indices_size() << "x" << m->dst_indices_size();
     sst.precision(3);
     sst.setf(ios::fixed,ios::floatfield);
     sst << "[ ";
@@ -192,25 +194,25 @@ void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
 
   double p  = Random::unit();
   double s  = 0.0;
-  VLOG(53) << "p = " << p;
+  VLOG(53) << "    p = " << p;
   for(int s_index = 0; s_index < m->src_indices_size(); s_index++)
   {
     for(int d_index = 0; d_index < m->dst_indices_size(); d_index++)
     {
       s += probabilities[s_index][d_index];
-      VLOG(53) << "  s = " << s;
+      VLOG(53) << "    s = " << s;
       if(p <= s)
       {
         Node *src = m->node(m->src_index(s_index));
         Node *dst = m->node(m->dst_index(d_index));
-        VLOG(53) << "adding edge from " << src->label() << " -> " << dst->label();
-        VLOG(53) << "  before number of edges: " << m->e_size();
+        VLOG(53) << "    adding edge from " << src->label() << " -> " << dst->label();
+        VLOG(53) << "    before number of edges: " << m->e_size();
         Edge *e   = m->addEdge(src, dst, Random::rand(-max, max));
-        VLOG(53) << "  adding edge from "
+        VLOG(53) << "    adding edge from "
                  << m->node(m->src_index(s_index))->label() << " to "
                  << m->node(m->dst_index(d_index))->label() << " with "
                  << e->weight();
-        VLOG(53) << "  after number of edges: " << m->e_size();
+        VLOG(53) << "    after number of edges: " << m->e_size();
         return;
       }
     }
@@ -219,15 +221,15 @@ void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
 
 void ModuleMutationOperator::__mutateAddNode(Module *m, double probability, double max)
 {
-  VLOG(55) << "mutate add node called";
-  VLOG(55) << "  number of nodes: " << m->e_size();
+  VLOG(55) << "  mutate add node called";
+  VLOG(55) << "    number of nodes: " << m->e_size();
   if(m->e_size() == 0) return;
   if(Random::unit() >= probability) return;
-  VLOG(55) << "  will add one node";
+  VLOG(55) << "    will add one node";
   m->setModified(true);
 
   int ei    = int(Random::unit() * m->e_size());
-  VLOG(55) << "edge index into which a neuron will be inserted: " << ei;
+  VLOG(55) << "    edge index into which a neuron will be inserted: " << ei;
 
   Node *n   = new Node();
 
@@ -247,14 +249,14 @@ void ModuleMutationOperator::__mutateAddNode(Module *m, double probability, doub
   n->setLabel(oss.str());
 
   e->setSource(n);
-  VLOG(55) << "adding node from: " << src->label() << " " << n->label();
+  VLOG(55) << "    adding node from: " << src->label() << " " << n->label();
   Edge *ne = m->addEdge(src, n, 1.0);
-  VLOG(55) << "source neuron's position " << src->position();
-  VLOG(55) << "destination neuron's position " << dst->position();
-  VLOG(55) << "new neuron's position " << n->position();
-  VLOG(55) << "new synapse goes from " << e->source()->label() << " -> "
+  VLOG(55) << "    source neuron's position " << src->position();
+  VLOG(55) << "    destination neuron's position " << dst->position();
+  VLOG(55) << "    new neuron's position " << n->position();
+  VLOG(55) << "    new synapse goes from " << e->source()->label() << " -> "
            << e->destination()->label() << " with " << e->weight();
-  VLOG(55) << "new synapse goes from " << ne->source()->label() << " -> "
+  VLOG(55) << "    new synapse goes from " << ne->source()->label() << " -> "
            << ne->destination()->label() << " with " << ne->weight();
 
 }
@@ -263,9 +265,9 @@ void ModuleMutationOperator::__mutateModifyNode(Module *m, double probability,
                                                            double delta,
                                                            double max)
 {
-  VLOG(54) << "mutate modify node called";
+  VLOG(54) << "  mutate modify node called";
   if(Random::unit() >= probability) return;
-  VLOG(54) << "  will modify one node";
+  VLOG(54) << "    will modify one node";
   m->setModified(true);
 
   int ni        = int(Random::unit() * m->n_size());
@@ -280,9 +282,9 @@ void ModuleMutationOperator::__mutateModifyNode(Module *m, double probability,
 
 void ModuleMutationOperator::__mutateDelNode(Module *m, double probability)
 {
-  VLOG(56) << "mutate del node called";
+  VLOG(56) << "  mutate del node called";
   if(Random::unit() >= probability) return;
-  VLOG(56) << "  will del one node";
+  VLOG(56) << "    will del one node";
   m->setModified(true);
 
   int ni   = int(Random::unit() * m->n_size());

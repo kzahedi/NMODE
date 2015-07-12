@@ -7,7 +7,9 @@
 #include <glog/logging.h>
 
 Population::Population()
-{}
+{
+  _generation = 1;
+}
 
 Population::~Population()
 {}
@@ -46,3 +48,18 @@ Individual* Population::individual(int index)
 {
   return _individuals[index];
 }
+
+Individuals::iterator Population::i_begin()
+{
+  return _individuals.begin();
+}
+Individuals::iterator Population::i_end()
+{
+  return _individuals.end();
+}
+
+int Population::i_size()
+{
+  return _individuals.size();
+}
+

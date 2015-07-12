@@ -56,7 +56,14 @@ class Node
 
     friend std::ostream& operator<<(std::ostream& str, const Node& n)
     {
-      str << "[" << n._label << ", " << n._type << ", " << n._position << ", " << n._transferfunction << ", " << n._bias << "]";
+      str << "        <node type=\"" << n._stype << "\" label=\"" << n._label << "\">" << endl;
+      str << "          <position x=\"" << n._position.x
+                           << "\" y=\"" << n._position.y
+                           << "\" z=\"" << n._position.z
+                           << "\"/>" << endl;
+      str << "          <transferfunction name=\"" << n._transferfunction << "\"/>" << endl;
+      str << "          <bias value=\"" << n._bias << "\"/>" << endl;
+      str << "        </node>" << endl;
       return str;
     };
 
@@ -66,6 +73,7 @@ class Node
     P3D    _position;
     int    _type;
     double _bias;
+    string _stype;
     string _label;
     string _transferfunction;
     Edges  _in;

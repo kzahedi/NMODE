@@ -1,15 +1,13 @@
 #ifndef __EDGE_H__
 #define __EDGE_H__
 
-#include <vector>
-#include <string>
-#include <ostream>
-
-#include "base/P3D.h"
-
 #define EDGE_TYPE_SENSOR   1001
 #define EDGE_TYPE_ACTUATOR 1002
 #define EDGE_TYPE_HIDDEN   1003
+
+#include "base/P3D.h"
+
+#include <vector>
 
 using namespace std;
 
@@ -33,14 +31,6 @@ class Edge
     Node*  source();
     Node*  destination();
     double weight();
-
-    // friend std::ostream& operator<<(std::ostream& str, const Edge& e)
-    // {
-      // Node *s = e._src;
-      // Node *d = e._dest;
-      // str << "[" << s->label() << " -> " << d->label() << " -> " << e._weight << "]";
-      // return str;
-    // };
 
   private:
 

@@ -29,6 +29,7 @@ void Node::setType(string type) throw (ENPException)
   if(type == "output")   _type = NODE_TYPE_OUTPUT;
   if(type == "hidden")   _type = NODE_TYPE_HIDDEN;
   if(_type == -1) throw ENPException("Node::setType uknown type");
+  _stype = type;
 }
 
 void Node::setLabel(string label)

@@ -50,4 +50,3 @@ bool Edge::operator!=(const Edge o)
           _src    != o._src    ||
           _dest   != o._dest);
 }
-

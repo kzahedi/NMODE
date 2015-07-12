@@ -56,23 +56,27 @@ class Module
 
     friend std::ostream& operator<<(std::ostream& str, const Module& m)
     {
-      str << "Module: " << m._name << endl;
-      str << "  Nodes: " << endl;
+      str << "      <module name=\"" << m._name << "\">" << endl;
       for(Nodes::const_iterator n = m._nodes.begin(); n != m._nodes.end(); n++)
       {
-        str << "    [" << (*n)->label()            << ", "
-                       << (*n)->type()             << ", "
-                       << (*n)->position()         << ", "
-                       << (*n)->transferfunction() << ", "
-                       << (*n)->bias()            << "]";
+        str << "        <node type=\"" << (*n)->type()
+            << "\" label=\"" << (*n)->label() << "\">" << endl;
+        str << "          <position x=\"" << (*n)->position().x
+          << "\" y=\"" << (*n)->position().x
+          << "\" z=\"" << (*n)->position().x
+          << "\"/>" << endl;
+        str << "          <transferfunction name=\"" << (*n)->transferfunction()
+            << "\"/>" << endl;
+        str << "          <bias value=\"" << (*n)->bias() << "\"/>" << endl;
+        str << "        </node>" << endl;
       }
-      str << "  Edges: " << endl;
       for(Edges::const_iterator e = m._edges.begin(); e != m._edges.end(); e++)
       {
-        str << "    [" << (*e)->source()->label()      << " -> "
-                       << (*e)->destination()->label() << ": "
-                       << (*e)->weight()               << "]";
+        str << "        <edge source=\"" << (*e)->source()->label()
+          << "\" destination=\"" << (*e)->destination()->label() << "\" weight=\""
+          << (*e)->weight()<< "\"/>" << endl;
       }
+      str << "      </module>" << endl;
       return str;
     };
 
