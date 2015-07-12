@@ -40,19 +40,20 @@ int main(int argc, char** argv)
   stringstream sst;
   for(int i = 0; i < 100; i++)
   {
+    sst.str("");
     sst << "test_" << i << ".xml";
-    // cout << sst.str() << endl;
+    cout << "opening " << sst.str() << endl;
+
     ModuleMutationOperator::mutate(mod, den, dee);
 
     std::ofstream ofs;
     ofs.open (sst.str(), std::ofstream::out);
+    sst.str("");
     sst << data->header();
     sst << *pop;
     sst << data->footer();
     ofs << sst.str();
     ofs.close();
-    sst.str();
-    
   }
 
   VLOG(5) << "done.";
