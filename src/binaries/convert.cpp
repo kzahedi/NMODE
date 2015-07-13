@@ -23,12 +23,12 @@ using namespace std;
 void convert(int index, Individual* individual, string filename)
 {
   stringstream sst;
-  sst << "individual_" << index << "_" << filename.substr(0, filename.size()-4) << ".pov";
+  sst << "individual_" << index << "_" << filename.substr(0, filename.size()-4) << ".html";
 
   std::ofstream ofs;
   ofs.open (sst.str(), std::ofstream::out);
   sst.str("");
-  sst << Exporter::toPov(individual);
+  sst << Exporter::toX3d(individual);
   ofs << sst.str();
   ofs.close();
 }
@@ -65,7 +65,6 @@ void convert(int index, string filename)
 
 int main(int argc, char** argv)
 {
-
   po::options_description desc("Options");
   po::options_description ioo("Input/Output Options");
   po::options_description cmdline_options;
@@ -113,7 +112,6 @@ int main(int argc, char** argv)
   {
     convert(index, *s);
   }
-
 
   return 0;
 }

@@ -42,7 +42,6 @@ class Node
     bool   contains(Edge *e);
     bool   contains(Node *n);
 
-    void   removeEdge(Node *src);
 
     Edges::iterator e_begin();
     Edges::iterator e_end();
@@ -54,6 +53,7 @@ class Node
 
     void addEdge(Edge *e);
     bool removeEdge(Edge *e);
+    void removeEdge(Node *n);
 
     friend std::ostream& operator<<(std::ostream& str, const Node& n)
     {

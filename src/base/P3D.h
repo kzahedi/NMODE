@@ -285,6 +285,8 @@ class P3D
      * \param[in] double value
      */
     const P3D operator*(const double value) const;
+    const P3D operator/(const double value) const;
+
     /* cross product */
     const P3D operator*(const P3D &b) const;
 

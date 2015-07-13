@@ -15,15 +15,17 @@ class Exporter
     static string toXml(Individual *individual);
     static string toXml(Module *module);
 
-    // static string toPov(Population *population, bool useHeader = true);
-    static string toPov(Individual *individual, bool useHeader = true);
-    static string toPov(Module *module,         bool useHeader = false);
-    static string toPov(Node *node,             bool useHeader = false);
-    // static string toPov(Edge *edge,             bool useHeader = false);
+    static string toX3d(Individual *individual);
+    static string toX3d(Module     *module);
+    static string toX3d(Node       *node);
+    static string toX3d(Edge       *edge);
+
+
 
   private:
 
-    static string __povHeader();
+    static string __x3dHeader();
+    static string __x3dFooter();
 
 
 };

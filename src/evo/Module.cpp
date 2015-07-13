@@ -283,5 +283,48 @@ int Module::dst_index(int index)
   return _dst_indices[index];
 }
 
+bool Module::removeNode(Node *n)
+{
+  Nodes::iterator i;
 
+  i = std::find(_nodes.begin(), _nodes.end(), n);
+  if(i != _nodes.end()) _nodes.erase(i);
 
+  switch(n->type())
+  {
+    case NODE_TYPE_SENSOR:
+      i = std::find(_sensors.begin(), _sensors.end(), n);
+      if(i != _sensors.end()) _sensors.erase(i);
+      break;
+    case NODE_TYPE_ACTUATOR:
+      i = std::find(_actuators.begin(), _actuators.end(), n);
+      if(i != _actuators.end()) _actuators.erase(i);
+      break;
+    case NODE_TYPE_HIDDEN:
+      i = std::find(_hidden.begin(), _hidden.end(), n);
+      if(i != _hidden.end()) _hidden.erase(i);
+      break;
+    case NODE_TYPE_INPUT:
+      i = std::find(_input.begin(), _input.end(), n);
+      if(i != _input.end()) _input.erase(i);
+      break;
+    case NODE_TYPE_OUTPUT:
+      i = std::find(_output.begin(), _output.end(), n);
+      if(i != _output.end()) _output.erase(i);
+      break;
+    default:
+      throw ENPException("unknown node type in Module::removeNode");
+  }
+
+  FORC(Nodes, nn, _nodes) (*nn)->removeEdge(n);
+  FORC(Edges, e, _edges)
+  {
+    if((*e)->source() == n || (*e)->destination())
+    {
+      Edges::iterator ei = std::find(_edges.begin(), _edges.end(), *e);
+      if(ei != _edges.end()) _edges.erase(ei);
+    }
+  }
+
+  return true;
+}

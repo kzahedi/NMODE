@@ -150,11 +150,11 @@ double Node::bias()
   return _bias;
 }
 
-void Node::removeEdge(Node *src)
+void Node::removeEdge(Node *n)
 {
   FORC(Edges, e, _in)
   {
-    if((*e)->source() == src)
+    if((*e)->source() == n)
     {
       removeEdge(*e);
       return;

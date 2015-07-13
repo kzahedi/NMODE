@@ -23,6 +23,7 @@ class Module
     bool                  linked();
     void                  linkTo(Module *target);
 
+    bool                  removeNode(Node *n);
     bool                  removeEdge(Edge *e);
     Edge*                 addEdge(Node *src, Node *dst, double weight) throw (ENPException);
 

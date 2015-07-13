@@ -14,10 +14,6 @@
 #define FORALLEDGES for(Edges::iterator e = m->e_begin(); e != m->e_end(); e++)
 #define FORALLNODES for(Nodes::iterator n = m->n_begin(); n != m->n_end(); n++)
 
-#define DIST(a, b) sqrt((a.x - b.x) * (a.x - b.x) +\
-                        (a.y - b.y) * (a.y - b.y) +\
-                        (a.z - b.z) * (a.z - b.z))
-
 void ModuleMutationOperator::mutate(Module *m,
                                     DataEvolutionNode *den,
                                     DataEvolutionEdge *dee)
@@ -37,7 +33,7 @@ void ModuleMutationOperator::mutate(Module *m,
                           den->modifyMaxValue());
     __mutateAddNode(m,    den->addProbability(),
                           den->addMaxValue());
-    __mutateDelNode(m,    den->delProbability());
+    // __mutateDelNode(m,    den->delProbability());
   }
 }
 
@@ -222,7 +218,7 @@ void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
 void ModuleMutationOperator::__mutateAddNode(Module *m, double probability, double max)
 {
   VLOG(55) << "  mutate add node called";
-  VLOG(55) << "    number of nodes: " << m->e_size();
+  VLOG(55) << "    number of edges: " << m->e_size();
   if(m->e_size() == 0) return;
   if(Random::unit() >= probability) return;
   VLOG(55) << "    will add one node";
@@ -259,6 +255,7 @@ void ModuleMutationOperator::__mutateAddNode(Module *m, double probability, doub
   VLOG(55) << "    new synapse goes from " << ne->source()->label() << " -> "
            << ne->destination()->label() << " with " << ne->weight();
 
+  m->addNode(n);
 }
 
 void ModuleMutationOperator::__mutateModifyNode(Module *m, double probability,
@@ -289,5 +286,5 @@ void ModuleMutationOperator::__mutateDelNode(Module *m, double probability)
 
   int ni   = int(Random::unit() * m->n_size());
   Node *nn = m->node(ni);
-  FORALLNODES (*n)->removeEdge(nn);
+  m->removeNode(nn);
 }

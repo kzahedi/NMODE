@@ -42,7 +42,7 @@ int main(int argc, char** argv)
   for(int i = 0; i < 100; i++)
   {
     sst.str("");
-    sst << "test_" << i << ".xml";
+    sst << "generation_" << i << ".xml";
     cout << "opening " << sst.str() << endl;
 
     ModuleMutationOperator::mutate(mod, den, dee);

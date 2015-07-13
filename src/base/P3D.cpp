@@ -141,6 +141,7 @@ const P3D P3D::operator-(const P3D &b) const
   return r;
 }
 
+/* cross product */
 const P3D P3D::operator*(const P3D &b) const
 {
   P3D r;
@@ -152,17 +153,20 @@ const P3D P3D::operator*(const P3D &b) const
 
 double P3D::dot(const P3D &b) const
 {
-  double r = 0.0;
-  r += x * b.x;
-  r += y * b.y;
-  r += z * b.z;
-  return r;
+  return x * b.x + y * b.y + z * b.z;
 }
 
 const P3D P3D::operator*(const double value) const
 {
   P3D r = *this;
   r *= value;
+  return r;
+}
+
+const P3D P3D::operator/(const double value) const
+{
+  P3D r = *this;
+  r /= value;
   return r;
 }
 
