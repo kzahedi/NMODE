@@ -23,7 +23,7 @@ using namespace std;
 void convert(int index, Individual* individual, string filename)
 {
   stringstream sst;
-  sst << "individual_" << index << "_" << filename;
+  sst << "individual_" << index << "_" << filename.substr(0, filename.size()-4) << ".pov";
 
   std::ofstream ofs;
   ofs.open (sst.str(), std::ofstream::out);
@@ -43,6 +43,12 @@ void convert(int index, string filename)
 
   if(index >= 0)
   {
+    if(index > pop->i_size())
+    {
+      cout << "Individual index out of range [0, " << (pop->i_size() - 1) << "]" << endl;
+      exit(-1);
+    }
+
     Individual *ind = pop->individual(index);
     convert(index, ind, filename);
   }

@@ -100,7 +100,7 @@ string Exporter::toPov(Individual *i, bool useHeader)
 {
   stringstream sst;
   if(useHeader) sst << __povHeader();
-  for(Modules::iterator m = i->m_begin(); m != i->m_end(); m++) sst << toPov(*m);
+  for(Modules::iterator m = i->m_end(); m != i->m_end(); m++) toPov(*m);
   return sst.str();
 }
 
@@ -109,7 +109,7 @@ string Exporter::toPov(Module *m, bool useHeader)
   stringstream sst;
   if(useHeader) sst << __povHeader();
 
-  for(Nodes::iterator n = m->n_begin(); n != m->n_end(); n++) sst << toPov(*n) << endl;
+  for(Nodes::iterator n = m->n_end(); n != m->n_end(); n++) toPov(*n);
   // for(Edges::iterator e = m->e_end(); e != m->e_end(); e++) toPov(*e);
 
   return sst.str();
