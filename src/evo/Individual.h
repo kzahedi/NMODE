@@ -29,23 +29,9 @@ class Individual
     void    add(DataModule *module);
 
     Module* module(int index);
-
-    friend std::ostream& operator<<(std::ostream& str, const Individual& i)
-    {
-      str << "    <individual"
-          << " id=\""      << i._id      << "\""
-          << " fitness=\"" << i._fitness << "\""
-          << ">" << endl;
-
-      for(Modules::const_iterator m = i._modules.begin();
-                                  m != i._modules.end();
-                                  m++)
-      {
-        str << **m;
-      }
-      str << "    </individual>" << endl;
-      return str;
-    };
+    Modules::iterator m_begin();
+    Modules::iterator m_end();
+    int               m_size();
 
   private:
     double  _fitness;

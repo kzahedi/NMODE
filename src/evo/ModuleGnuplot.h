@@ -16,6 +16,7 @@ class ModuleGnuplot
     //ModuleGnuplot operator=(const ModuleGnuplot);
 
     void plot(Module *m);
+    string convert(Module *m);
 
   private:
     Gnuplot gp;

@@ -2,6 +2,7 @@
 #include "base/data/Data.h"
 #include "evo/Population.h"
 #include "evo/ModuleMutationOperator.h"
+#include "evo/PopulationExporter.h"
 #include "base/Random.h"
 
 #include <glog/logging.h>
@@ -50,7 +51,7 @@ int main(int argc, char** argv)
     ofs.open (sst.str(), std::ofstream::out);
     sst.str("");
     sst << data->header();
-    sst << *pop;
+    sst << PopulationExporter::toXml(pop);
     sst << data->footer();
     ofs << sst.str();
     ofs.close();

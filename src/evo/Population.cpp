@@ -63,3 +63,7 @@ int Population::i_size()
   return _individuals.size();
 }
 
+int Population::generation()
+{
+  return _generation;
+}

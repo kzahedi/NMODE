@@ -5,6 +5,7 @@ add_library(ENPEvo SHARED Module.cpp
                           Node.cpp
                           Edge.cpp
                           ModuleMutationOperator.cpp
+                          PopulationExporter.cpp
                           Population.cpp
                           Individual.cpp
                           )

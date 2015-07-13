@@ -13,33 +13,33 @@ class Module
     //Module(const Module);
     //Module operator=(const Module);
 
-    bool operator==(const Module m);
-    bool operator!=(const Module m);
+    bool operator == (const Module m);
+    bool operator != (const Module m);
 
-    void addNode(Node *neuron) throw (ENPException);
-    string name();
-    void   setName(string name);
+    void                  addNode(Node *neuron) throw (ENPException);
+    string                name();
+    void                  setName(string name);
 
-    bool linked();
-    void linkTo(Module *target);
+    bool                  linked();
+    void                  linkTo(Module *target);
 
-    bool  removeEdge(Edge *e);
-    Edge* addEdge(Node *src, Node *dst, double weight) throw (ENPException);
+    bool                  removeEdge(Edge *e);
+    Edge*                 addEdge(Node *src, Node *dst, double weight) throw (ENPException);
 
-    void initialise(DataModule *module);
+    void                  initialise(DataModule *module);
 
-    Node*           node(int index);
-    Nodes::iterator n_begin();
-    Nodes::iterator n_end();
-    int             n_size();
-    int             s_size(); // number of sensor nodes
-    int             a_size(); // number of actuator nodes
-    int             h_size(); // number of hidden nodes
+    Node*                 node(int index);
+    Nodes::iterator       n_begin();
+    Nodes::iterator       n_end();
+    int                   n_size();
+    int                   s_size(); // number of sensor nodes
+    int                   a_size(); // number of actuator nodes
+    int                   h_size(); // number of hidden nodes
 
-    Edges::iterator e_begin();
-    Edges::iterator e_end();
-    int             e_size();
-    Edge*           edge(int index);
+    Edges::iterator       e_begin();
+    Edges::iterator       e_end();
+    int                   e_size();
+    Edge*                 edge(int index);
 
     vector<int>::iterator src_indices_begin();
     vector<int>::iterator src_indices_end();
@@ -51,34 +51,8 @@ class Module
     int                   dst_indices_size();
     int                   dst_index(int index);
 
-    bool            modified();
-    void            setModified(bool m);
-
-    friend std::ostream& operator<<(std::ostream& str, const Module& m)
-    {
-      str << "      <module name=\"" << m._name << "\">" << endl;
-      for(Nodes::const_iterator n = m._nodes.begin(); n != m._nodes.end(); n++)
-      {
-        str << "        <node type=\"" << (*n)->type()
-            << "\" label=\"" << (*n)->label() << "\">" << endl;
-        str << "          <position x=\"" << (*n)->position().x
-          << "\" y=\"" << (*n)->position().x
-          << "\" z=\"" << (*n)->position().x
-          << "\"/>" << endl;
-        str << "          <transferfunction name=\"" << (*n)->transferfunction()
-            << "\"/>" << endl;
-        str << "          <bias value=\"" << (*n)->bias() << "\"/>" << endl;
-        str << "        </node>" << endl;
-      }
-      for(Edges::const_iterator e = m._edges.begin(); e != m._edges.end(); e++)
-      {
-        str << "        <edge source=\"" << (*e)->source()->label()
-          << "\" destination=\"" << (*e)->destination()->label() << "\" weight=\""
-          << (*e)->weight()<< "\"/>" << endl;
-      }
-      str << "      </module>" << endl;
-      return str;
-    };
+    bool                  modified();
+    void                  setModified(bool m);
 
   private:
     Nodes   _nodes;

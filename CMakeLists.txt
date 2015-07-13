@@ -62,26 +62,9 @@ INSTALL(DIRECTORY ${PROJECT_BINARY_DIR}/lib
   PATTERN "*.dylib" 
   )
 
-# matrix
-
-INSTALL(DIRECTORY ${PROJECT_SOURCE_DIR}/src/
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/include/enp/
-  PATTERN "*.svn*" EXCLUDE
-  PATTERN "*.txt*" EXCLUDE
-  PATTERN "*.sw*" EXCLUDE
-  PATTERN "*.cpp" EXCLUDE
-  PATTERN "*.h")
-
-INSTALL(DIRECTORY ${PROJECT_BINARY_DIR}/src/
-  DESTINATION ${CMAKE_INSTALL_PREFIX}/include/epn/
-  PATTERN "*.svn*" EXCLUDE
-  PATTERN "*.txt*" EXCLUDE
-  PATTERN "*.sw*" EXCLUDE
-  PATTERN "*.cpp" EXCLUDE
-  PATTERN "*.h")
-
 include_directories(${CMAKE_SRC})
 
 include(cmake/IncludePackages.cmake)
+
 add_subdirectory(src)
 add_subdirectory(tests)

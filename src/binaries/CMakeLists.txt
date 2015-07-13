@@ -7,3 +7,5 @@ target_link_libraries(evolve ENPBase glog ENPEvo)
 add_executable(enp main.cpp)
 target_link_libraries(enp ENPBase)
 
+add_executable(convert convert.cpp)
+target_link_libraries(convert ${Boost_LIBRARIES} ENPEvo)

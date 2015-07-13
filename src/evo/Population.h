@@ -23,20 +23,9 @@ class Population
     Individuals::iterator i_end();
     int                   i_size();
     Individual*           individual(int index);
+    string                toPovray();
+    int                   generation();
 
-    friend std::ostream& operator<<(std::ostream& str, const Population& p)
-    {
-      str <<"  <population generation=\"" << p._generation << "\">" << endl;
-
-      for(Individuals::const_iterator i  = p._individuals.begin();
-                                      i != p._individuals.end();
-                                      i++)
-      {
-        str << **i;
-      }
-      str <<"  </population>" << endl;
-      return str;
-    };
   private:
     Individuals _individuals;
     int         _generation;

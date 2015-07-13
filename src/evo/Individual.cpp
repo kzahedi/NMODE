@@ -53,3 +53,19 @@ Module* Individual::module(int index)
 {
   return _modules[index];
 }
+
+Modules::iterator Individual::m_begin()
+{
+  return _modules.begin();
+}
+
+Modules::iterator Individual::m_end()
+{
+  return _modules.end();
+}
+
+int Individual::m_size()
+{
+  return _modules.size();
+}
+
