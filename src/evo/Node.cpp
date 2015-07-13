@@ -52,6 +52,11 @@ int Node::type()
   return _type;
 }
 
+string Node::stype()
+{
+  return _stype;
+}
+
 string Node::label()
 {
   return _label;

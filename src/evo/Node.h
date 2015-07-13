@@ -36,6 +36,7 @@ class Node
 
     P3D    position();
     int    type();
+    string stype();
     string label();
     string transferfunction();
     bool   contains(Edge *e);

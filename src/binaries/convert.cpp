@@ -1,6 +1,7 @@
 #include "base/data/Data.h"
 #include "evo/Population.h"
 #include "evo/ModuleMutationOperator.h"
+#include "evo/Exporter.h"
 #include "base/Random.h"
 
 #include <glog/logging.h>
@@ -19,8 +20,17 @@ namespace po = boost::program_options;
 
 using namespace std;
 
-void convert(int index, Individual* individual)
+void convert(int index, Individual* individual, string filename)
 {
+  stringstream sst;
+  sst << "individual_" << index << "_" << filename;
+
+  std::ofstream ofs;
+  ofs.open (sst.str(), std::ofstream::out);
+  sst.str("");
+  sst << Exporter::toPov(individual);
+  ofs << sst.str();
+  ofs.close();
 }
 
 void convert(int index, string filename)
@@ -34,16 +44,16 @@ void convert(int index, string filename)
   if(index >= 0)
   {
     Individual *ind = pop->individual(index);
-    // convert
+    convert(index, ind, filename);
   }
   else
   {
     for(int i = 0; i < pop->i_size(); i++)
     {
       Individual *ind = pop->individual(i);
+      convert(i, ind, filename);
     }
   }
-
 }
 
 
@@ -53,7 +63,7 @@ int main(int argc, char** argv)
   po::options_description desc("Options");
   po::options_description ioo("Input/Output Options");
   po::options_description cmdline_options;
-  
+
   po::variables_map vm;
 
   vector<string> xml;
