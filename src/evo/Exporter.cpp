@@ -70,8 +70,8 @@ string Exporter::__x3dHeader()
   sst << "<html> " << endl;
   sst << "  <head> " << endl;
   sst << "    <title>My first X3DOM page</title>      " << endl;
-  sst << "    <script type='text/javascript' src='http://www.x3dom.org/download/x3dom.js'> </script> " << endl;
-  sst << "    <link rel='stylesheet' type='text/css' href='http://www.x3dom.org/download/x3dom.css'></link> " << endl;
+  sst << "    <script type='text/javascript' src='x3dom.js'> </script> " << endl;
+  sst << "    <link rel='stylesheet' type='text/css' href='x3dom.css'></link> " << endl;
   sst << "  </head> " << endl;
   sst << "  <body> " << endl;
   sst << "    <center>" << endl;
@@ -95,7 +95,7 @@ string Exporter::toX3d(Individual *i)
   sst << "      <p> " << endl;
   sst << "        Individual " << i->id() << " with fitness " << i->fitness() << endl;
   sst << "      </p> " << endl;
-  sst << "      <x3d width='1000px' height='800px'> " << endl;
+  sst << "      <x3d width='900px' height='700px'> " << endl;
   sst << "      <scene> " << endl;
 
   for(Modules::const_iterator m = i->m_begin(); m != i->m_end(); m++) sst << toX3d(*m);
@@ -192,11 +192,46 @@ string Exporter::toX3d(Edge *e)
   Node *src     = e->source();
   Node *dst     = e->destination();
 
+  // TODO self-connection
+  if(src == dst) return "";
+
   P3D psrc      = src->position();
   P3D pdst      = dst->position();
+  P3D centre    = (psrc + pdst) * 0.5;
 
-  P3D dir       = pdst - psrc;
-  double length = DIST(psrc, pdst) - 0.2;
+  P3D dir       = pdst - centre;
+
+  dir.x = dir.x * sin(2.0 / 180.0 * M_PI_2);
+  dir.y = dir.y * cos(2.0 / 180.0 * M_PI_2);
+
+  P3D centre1 = centre + dir;
+
+  dir       = centre - psrc;
+
+  dir.x = dir.x * sin(2.0 / 180.0 * M_PI_2);
+  dir.y = dir.y * cos(2.0 / 180.0 * M_PI_2);
+
+  P3D centre2 = psrc + dir;
+
+  string color = string("1 0 0");
+  if(e->weight() > 0.0)
+  {
+    color = string("0 0 1");
+  }
+
+  sst << __cylinder(psrc,    centre2, "1 0 0");
+  sst << __cylinder(centre1, centre2, "1 0 0");
+  sst << __cylinder(centre1, pdst,    "1 0 0");
+
+  return sst.str();
+}
+
+
+string Exporter::__cylinder(P3D start, P3D end, string color)
+{
+  stringstream sst;
+  P3D dir       = end - start;
+  double length = DIST(start, end);
 
   // TODO: self connection
   if(dir.length() < 0.00001) return "";
@@ -206,55 +241,20 @@ string Exporter::toX3d(Edge *e)
   double dot = v.dot(dir);
   double angle = acos(dot / (v.length() * dir.length()));
 
-  P3D centre = (psrc + pdst) * 0.5;
+  P3D centre = (start + end) * 0.5;
 
-  sst << "    <transform translation='" << centre.x << " " << centre.y << " " << centre.z << "'>"
+  sst << "      <transform translation='" << centre.x << " " << centre.y << " " << centre.z << "'>"
       << endl;
-  sst << "      <transform rotation='" << cross.x << " " << cross.y << " " << cross.z << " "
+  sst << "        <transform rotation='" << cross.x << " " << cross.y << " " << cross.z << " "
       << angle << "'>" << endl;
-  sst << "        <shape> " << endl;
-  sst << "            <appearance> " << endl;
-  if(e->weight() < 0.0)
-  {
-    sst << "              <material diffuseColor='1 0 0'></material> " << endl;
-  }
-  else
-  {
-    sst << "              <material diffuseColor='0 0 1'></material> " << endl;
-  }
-
-  sst << "            </appearance> " << endl;
-  sst << "          <cylinder radius='0.0125' height='" << length << "'></cylinder> " << endl;
-  sst << "        <shape> " << endl;
+  sst << "          <shape> " << endl;
+  sst << "              <appearance> " << endl;
+  sst << "                <material diffuseColor='" << color << "'></material> " << endl;
+  sst << "              </appearance> " << endl;
+  sst << "            <cylinder radius='0.0125' height='" << length << "'></cylinder> " << endl;
+  sst << "          <shape> " << endl;
+  sst << "        </transform>" << endl;
   sst << "      </transform>" << endl;
-  sst << "    </transform>" << endl;
-
-
-  // switch(n->type())
-  // {
-    // case NODE_TYPE_SENSOR:
-      // sst << "        <material diffuseColor='1 0 0'></material> " << endl;
-      // break;
-    // case NODE_TYPE_ACTUATOR:
-      // sst << "        <material diffuseColor='0 1 0'></material> " << endl;
-      // break;
-    // case NODE_TYPE_HIDDEN:
-      // sst << "        <material diffuseColor='0 0 1'></material> " << endl;
-      // break;
-    // case NODE_TYPE_INPUT:
-      // sst << "        <material diffuseColor='0.98 0.81 0'></material> " << endl;
-      // break;
-    // case NODE_TYPE_OUTPUT:
-      // sst << "        <material diffuseColor='0.98 0.41 0'></material> " << endl;
-      // break;
-    // default:
-      // throw ENPException("unkown node type in Exporter::toPov(Node *node, ...");
-  // }
-
-  // sst << "        </appearance> " << endl;
-  // sst << "        <sphere radius='0.1'></sphere> " << endl;
-  // sst << "    </shape> " << endl;
-  // sst << "    </transform> " << endl;
   return sst.str();
 
 }

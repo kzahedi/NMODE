@@ -27,6 +27,7 @@ class Exporter
     static string __x3dHeader();
     static string __x3dFooter();
 
+    static string __cylinder(P3D start, P3D end, string color);
 
 };
 
