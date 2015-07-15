@@ -110,6 +110,7 @@ int main(int argc, char** argv)
 
   for(vector<string>::iterator s = xml.begin(); s != xml.end(); s++)
   {
+    cout << "XML file: " << *s << endl;
     convert(index, *s);
   }
 

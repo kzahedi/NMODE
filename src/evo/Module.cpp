@@ -9,8 +9,9 @@
 
 Module::Module(string name)
 {
-  _name   = name;
-  _linked = false;
+  _name     = name;
+  _linked   = false;
+  _globalId = 0;
 }
 
 Module::~Module()
@@ -21,46 +22,32 @@ Module::~Module()
 
 void Module::addNode(Node *node) throw (ENPException)
 {
+  _nodes.push_back(node);
   switch(node->type())
   {
     case NODE_TYPE_SENSOR:
       _sensors.push_back(node);
-      _src_indices.push_back(_nodes.size());
-      VLOG(50) << "adding sensor node: " << _sensors.size() << " " << _nodes.size();
-      VLOG(50) << "  adding to sources: " << _src_indices.size();
+      VLOG(50) << "adding sensor node: " << node->label();
       break;
     case NODE_TYPE_ACTUATOR:
       _actuators.push_back(node);
-      _src_indices.push_back(_nodes.size());
-      _dst_indices.push_back(_nodes.size());
-      VLOG(50) << "adding actuator node: " << _actuators.size() << " " << _nodes.size();
-      VLOG(50) << "  adding to sources: " << _src_indices.size();
-      VLOG(50) << "  adding to destination: " << _dst_indices.size();
+      VLOG(50) << "adding actuator node: " << node->label();
       break;
     case NODE_TYPE_HIDDEN:
       _hidden.push_back(node);
-      _src_indices.push_back(_nodes.size());
-      _dst_indices.push_back(_nodes.size());
-      VLOG(50) << "adding hidden node: " << _hidden.size() << " " << _nodes.size();
-      VLOG(50) << "  adding to sources: " << _src_indices.size();
-      VLOG(50) << "  adding to destination: " << _dst_indices.size();
+      VLOG(50) << "adding hidden node: " << node->label();
       break;
     case NODE_TYPE_INPUT:
       _input.push_back(node);
-      _src_indices.push_back(_sensors.size());
-      VLOG(50) << "adding input node: " << _input.size() << " " << _nodes.size();
-      VLOG(50) << "  adding to sources: " << _src_indices.size();
+      VLOG(50) << "adding input node: " << node->label();
       break;
     case NODE_TYPE_OUTPUT:
       _output.push_back(node);
-      _dst_indices.push_back(_nodes.size());
-      VLOG(50) << "adding output node: " << _output.size() << " " << _nodes.size();
-      VLOG(50) << "  adding to destination: " << _dst_indices.size();
+      VLOG(50) << "adding output node: " << node->label();
       break;
     default:
       throw ENPException("Module::addNode: unknown node type");
   }
-  _nodes.push_back(node);
 }
 
 string Module::name()
@@ -188,12 +175,15 @@ Edge* Module::addEdge(Node *src, Node *dst, double weight) throw (ENPException)
   return e;
 }
 
+Node* Module::hiddenNode(int index)
+{
+  return _hidden[index];
+}
 
 Node* Module::node(int index)
 {
   return _nodes[index];
 }
-
 
 Edge* Module::edge(int index)
 {
@@ -243,88 +233,64 @@ void Module::setModified(bool m)
   _modified = m;
 }
 
-vector<int>::iterator Module::src_indices_begin()
+bool Module::removeNode(Node *n) throw (ENPException)
 {
-  return _src_indices.begin();
-}
-
-vector<int>::iterator Module::src_indices_end()
-{
-  return _src_indices.end();
-}
-
-int Module::src_indices_size()
-{
-  return _src_indices.size();
-}
-
-int Module::src_index(int index)
-{
-  return _src_indices[index];
-}
-
-vector<int>::iterator Module::dst_indices_begin()
-{
-  return _dst_indices.begin();
-}
-
-vector<int>::iterator Module::dst_indices_end()
-{
-  return _dst_indices.end();
-}
-
-int Module::dst_indices_size()
-{
-  return _dst_indices.size();
-}
-
-int Module::dst_index(int index)
-{
-  return _dst_indices[index];
-}
-
-bool Module::removeNode(Node *n)
-{
+  if(n->type() != NODE_TYPE_HIDDEN) throw ENPException("Attempting to remove non-hidden node");
   Nodes::iterator i;
 
-  i = std::find(_nodes.begin(), _nodes.end(), n);
-  if(i != _nodes.end()) _nodes.erase(i);
-
-  switch(n->type())
+  int neuron_index = -1;
+  for(int i = 0; i < (int)_nodes.size(); i++)
   {
-    case NODE_TYPE_SENSOR:
-      i = std::find(_sensors.begin(), _sensors.end(), n);
-      if(i != _sensors.end()) _sensors.erase(i);
-      break;
-    case NODE_TYPE_ACTUATOR:
-      i = std::find(_actuators.begin(), _actuators.end(), n);
-      if(i != _actuators.end()) _actuators.erase(i);
-      break;
-    case NODE_TYPE_HIDDEN:
-      i = std::find(_hidden.begin(), _hidden.end(), n);
-      if(i != _hidden.end()) _hidden.erase(i);
-      break;
-    case NODE_TYPE_INPUT:
-      i = std::find(_input.begin(), _input.end(), n);
-      if(i != _input.end()) _input.erase(i);
-      break;
-    case NODE_TYPE_OUTPUT:
-      i = std::find(_output.begin(), _output.end(), n);
-      if(i != _output.end()) _output.erase(i);
-      break;
-    default:
-      throw ENPException("unknown node type in Module::removeNode");
-  }
-
-  FORC(Nodes, nn, _nodes) (*nn)->removeEdge(n);
-  FORC(Edges, e, _edges)
-  {
-    if((*e)->source() == n || (*e)->destination())
+    if(_nodes[i] == n)
     {
-      Edges::iterator ei = std::find(_edges.begin(), _edges.end(), *e);
-      if(ei != _edges.end()) _edges.erase(ei);
+      neuron_index = i;
+      break;
     }
   }
 
+  VLOG(50) << "   Found neuron index " << neuron_index;
+
+  i = std::find(_nodes.begin(), _nodes.end(), n);
+  if(i != _nodes.end())
+  {
+    _nodes.erase(i);
+    VLOG(50) << "   Removed neuron " << (*i)->label() << " from nodes";
+  }
+
+  i = std::find(_hidden.begin(), _hidden.end(), n);
+  if(i != _hidden.end())
+  {
+    _hidden.erase(i);
+    VLOG(50) << "   Removed neuron " << (*i)->label() << " from hidden";
+  }
+
+  Edges toBeRemoved;
+  FORC(Edges, e, _edges)
+  {
+    if((*e)->source()->label()      == n->label() ||
+       (*e)->destination()->label() == n->label())
+    {
+      VLOG(50) << "    Removing edge with "
+        << (*e)->source()->label() << " -> "
+        << (*e)->destination()->label() << " with " << (*e)->weight();
+      Edges::iterator ei = std::find(_edges.begin(), _edges.end(), *e);
+      if(ei != _edges.end()) toBeRemoved.push_back(*e);
+    }
+  }
+
+  for(Edges::iterator e = toBeRemoved.begin(); e != toBeRemoved.end(); e++)
+  {
+    Edges::iterator ei = std::find(_edges.begin(), _edges.end(), *e);
+    _edges.erase(ei);
+  }
+
+  FORC(Nodes, nn, _nodes) (*nn)->removeEdge(n);
   return true;
+}
+
+int Module::getNewNodeId()
+{
+  int i = _globalId;
+  _globalId++;
+  return i;
 }

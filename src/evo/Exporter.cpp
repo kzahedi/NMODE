@@ -233,7 +233,6 @@ string Exporter::__cylinder(P3D start, P3D end, string color)
   P3D dir       = end - start;
   double length = DIST(start, end);
 
-  // TODO: self connection
   if(dir.length() < 0.00001) return "";
 
   P3D v(0.0, 1.0, 0.0);

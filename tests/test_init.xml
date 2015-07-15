@@ -65,42 +65,42 @@
       <module name="module 1">
 
         <node type="sensor" label="sensor 1">
-          <position x="-2.0" y="2.0" z="-2.0"/>
+          <position x="-2.0" y="1.0" z="0.0"/>
           <transferfunction name="id"/>
         </node>
         <node type="sensor" label="sensor 2">
-          <position x="0.0" y="2.0" z="-2.0"/>
+          <position x="0.0" y="1.0" z="0.0"/>
           <transferfunction name="id"/>
         </node>
         <node type="sensor" label="sensor 3">
-          <position x="2.0" y="2.0" z="-2.0"/>
+          <position x="2.0" y="1.0" z="0.0"/>
           <transferfunction name="id"/>
         </node>
 
         <node type="actuator" label="actuator 1">
-          <position x="-1.5" y="-2.0" z="1.0"/>
+          <position x="-1.0" y="-1.0" z="0.0"/>
           <transferfunction name="id"/>
         </node>
         <node type="actuator" label="actuator 1">
-          <position x="1.5" y="-2.0" z="1.0"/>
+          <position x="1.0" y="-1.0" z="0.0"/>
           <transferfunction name="id"/>
         </node>
 
         <node type="input" label="input 1">
-          <position x="-4.5" y="0.5" z="2.0"/>
+          <position x="-4.0" y="-0.25" z="-0.5"/>
           <transferfunction name="id"/>
         </node>
         <node type="input" label="input 1">
-          <position x="-4.5" y="-0.5" z="2.0"/>
+          <position x="-4.0" y="-0.25" z="0.5"/>
           <transferfunction name="id"/>
         </node>
 
         <node type="output" label="output 1">
-          <position x="4.5" y="0.5" z="-1.0"/>
+          <position x="-4.0" y="0.25" z="-0.5"/>
           <transferfunction name="id"/>
         </node>
         <node type="output" label="output 1">
-          <position x="4.5" y="-0.5" z="-1.0"/>
+          <position x="-4.0" y="0.25" z="0.5"/>
           <transferfunction name="id"/>
         </node>
 

@@ -3,6 +3,7 @@
 #include "base/macros.h"
 
 #include <algorithm>
+#include <glog/logging.h>
 
 
 Node::Node()
@@ -103,19 +104,6 @@ void Node::addEdge(Edge *e)
   _in.push_back(e);
 }
 
-bool Node::removeEdge(Edge *e)
-{
-  FORC(Edges, i, _in)
-  {
-    if((**i) == *e)
-    {
-      _in.erase(i);
-      return true;
-    }
-  }
-  return false;
-}
-
 bool Node::contains(Edge *e)
 {
   if(_in.empty()) return false;
@@ -154,10 +142,44 @@ void Node::removeEdge(Node *n)
 {
   FORC(Edges, e, _in)
   {
-    if((*e)->source() == n)
+    if((*e)->source()->label() == n->label())
     {
-      removeEdge(*e);
-      return;
+      if(removeEdge(*e))
+      {
+        return;
+      }
     }
   }
 }
+
+bool Node::removeEdge(Edge *e)
+{
+  Edges::iterator ei = std::find(_in.begin(), _in.end(), e);
+  if(ei != _in.end())
+  {
+    _in.erase(ei);
+
+    VLOG(20) << "   removing input edge with "
+      << e->source()->label() << " -> "
+      << e->destination()->label()
+      << " with " << e->weight();
+    return true;
+  }
+  return false;
+}
+
+bool Node::isSource()
+{
+  return (_type == NODE_TYPE_ACTUATOR ||
+          _type == NODE_TYPE_SENSOR   ||
+          _type == NODE_TYPE_INPUT    ||
+          _type == NODE_TYPE_HIDDEN);
+}
+
+bool Node::isDestination()
+{
+  return (_type == NODE_TYPE_ACTUATOR ||
+          _type == NODE_TYPE_OUTPUT   ||
+          _type == NODE_TYPE_HIDDEN);
+}
+

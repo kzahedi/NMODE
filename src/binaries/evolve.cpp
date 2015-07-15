@@ -12,11 +12,32 @@
 
 using namespace std;
 
+string prefix(int i)
+{
+  stringstream sst;
+  sst << i;
+  string s = sst.str();
+
+  while(s.length() < 4)
+  {
+    s = "0" + s;
+  }
+  return s;
+}
+
 int main(int argc, char** argv)
 {
   google::InitGoogleLogging(argv[0]);
   Configuration *configuration = new Configuration(argc, argv, true);
   Random::initialise();
+  stringstream sst;
+  sst << "Random:";
+  for(int i = 0; i < 10; i++)
+  {
+    sst << " " << Random::rand(0, 100);
+  }
+  VLOG(10) << sst.str();
+  sst.str("");
   Data *data = Data::instance();
 
   LOG_IF(INFO, configuration->input().size() > 0)
@@ -38,11 +59,11 @@ int main(int argc, char** argv)
   DataEvolutionEdge *dee = data->specification()->evolution()->edge();
   DataEvolutionNode *den = data->specification()->evolution()->node();
 
-  stringstream sst;
-  for(int i = 0; i < 100; i++)
+  for(int i = 0; i < 200; i++)
   {
+    VLOG(50) << " generation " << i;
     sst.str("");
-    sst << "generation_" << i << ".xml";
+    sst << "generation_" << prefix(i) << ".xml";
     cout << "opening " << sst.str() << endl;
 
     ModuleMutationOperator::mutate(mod, den, dee);

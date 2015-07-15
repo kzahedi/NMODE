@@ -55,6 +55,9 @@ class Node
     bool removeEdge(Edge *e);
     void removeEdge(Node *n);
 
+    bool isSource();
+    bool isDestination();
+
     friend std::ostream& operator<<(std::ostream& str, const Node& n)
     {
       str << "        <node type=\"" << n._stype << "\" label=\"" << n._label << "\">" << endl;

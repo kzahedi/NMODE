@@ -31,6 +31,7 @@ class ModuleMutationOperator
                                               double max);
 
     static void __mutateDelNode(Module *m,    double probability);
+    static void __cleanup(Module *m);
 };
 
 

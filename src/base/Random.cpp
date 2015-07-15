@@ -25,51 +25,54 @@
  *************************************************************************/
 
 
+
 #include "Random.h"
 
 #include <stdlib.h>
-#include <glog/logging.h>
-
-#ifdef _MSC_VER
-#  include <time.h>
-#else
-#  include <sys/time.h>
-#  include <time.h>
-#endif
 
 #include <iostream>
 
+using namespace std;
+
 void Random::initialise()
 {
-#ifdef __APPLE__
-  VLOG(1) << "random initialised by sranddev";
-  sranddev();
-#else
-  VLOG(1) << "random initialised by clock_gettime";
-  timespec time;
-  clock_gettime(CLOCK_REALTIME, &time);
-  srand(time.tv_nsec);
-#endif // __APPLE__
+  time_t t;
+  time(&t);
+  srand48(t);
+
+  // cout << "random initialised:";
+  // for(int i = 0; i < 10; i++)
+  // {
+    // cout << " " << rand(0, 100);
+  // }
+  // cout << endl;
+  // cout << "random initialised:";
+  // for(int i = 0; i < 10; i++)
+  // {
+    // cout << " " << unit();
+  // }
+  // cout << endl;
+
 }
 
 double Random::unit()
 {
-  return ((double)random()) /
-         ((double)RAND_MAX);
+  return drand48();
 }
 
 void Random::initialise(int seed)
 {
+  cout << "using Random::initialise(" << seed << ")" << endl;
   srand(seed);
 }
 
-
 int Random::rand(int min, int max)
 {
-  return min + int(unit() * (double)max + 0.5);
+  return min + int(drand48() * (double)(max-min) + 0.5);
 }
+
 
 double Random::rand(double min, double max)
 {
-  return min + (unit() * max);
+  return min + drand48() * (double)(max - min);
 }
