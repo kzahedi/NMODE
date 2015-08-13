@@ -54,20 +54,29 @@
         <transferfunction name="sigm"/>
       </node>
     </module>
+
     <module name="module 2">
-      <node type="sensor" label="sensor 1">
-        <position x="0.0" y="0.0" z="0.0"/>
-        <transferfunction name="sigm"/>
-      </node>
-      <node type="sensor" label="sensor 2">
-        <position x="1.0" y="0.0" z="0.0"/>
-        <transferfunction name="id"/>
-      </node>
-      <node type="actuator" label="actuator 1">
-        <position x="0.5" y="1.0" z="0.0"/>
-        <transferfunction name="tanh"/>
-      </node>
+      <copy name="module 1"/>
+      <rotate    x="0.0" y="0.0" z="180.0"/>
+      <translate x="0.0" y="0.0" z="0.0"/>
     </module>
+
+    <!-- <module name="cpg"> -->
+
+      <!-- <node type="connector" ref="module 1/input 1"> -->
+      <!-- <node type="connector" ref="module 1/input 2"> -->
+
+      <!-- <node type="connector" ref="module 1/output 1"> -->
+      <!-- <node type="connector" ref="module 1/output 2"> -->
+
+      <!-- <node type="connector" ref="module 2/input 1"> -->
+      <!-- <node type="connector" ref="module 2/input 2"> -->
+
+      <!-- <node type="connector" ref="module 2/output 1"> -->
+      <!-- <node type="connector" ref="module 2/output 2"> -->
+
+    <!-- </module> -->
+
   </configuration>
   <population generation="1">
     <individual fitness="1.234" offspring="2" id="213">

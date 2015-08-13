@@ -164,10 +164,6 @@ void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
           {
             d  = DIST(src_node->position(), dst_node->position());
             d *= d;
-            if(d < 0.1)
-            {
-              d = 0.0;
-            }
             probabilities[s_index][d_index] = d;
             if(min < 0.0) min = d;
             if(min < d)   min = d;

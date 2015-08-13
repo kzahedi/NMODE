@@ -29,6 +29,7 @@ add_library(ENPBase SHARED xsd/generator/YarsXSDGenerator.cpp
  
                            RNN.cpp
                            P3D.cpp
+                           Quaternion.cpp
                            Configuration.cpp
                            Random.cpp
                            StringTokeniser.cpp

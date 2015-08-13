@@ -6,6 +6,8 @@
 #include "DataModuleNode.h"
 #include "DataModuleEdge.h"
 
+#include "base/Quaternion.h"
+
 # define TAG_MODULE            (char*)"module"
 # define TAG_MODULE_DEFINITION (char*)"module_definition"
 
@@ -40,12 +42,20 @@ class DataModule : public DataNode
     int                       e_size();
 
     string name();
+    string ref();
+
+    P3D translation();
+    Quaternion rotation();
 
   private:
     string _name;
+    string _ref;
 
     DataModuleNodes _nodes;
     DataModuleEdges _edges;
+
+    Quaternion _rotation;
+    P3D        _translation;
 };
 
 typedef vector<DataModule*> DataModules;
