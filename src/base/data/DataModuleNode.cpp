@@ -14,6 +14,7 @@
 #define TAG_INPUT                       (char*)"input"
 #define TAG_OUTPUT                      (char*)"output"
 #define TAG_HIDDEN                      (char*)"hidden"
+#define TAG_CONNECTOR                   (char*)"connector"
 #define TAG_NAME                        (char*)"name"
 #define TAG_TANH                        (char*)"tanh"
 #define TAG_SIGM                        (char*)"sigm"
@@ -80,8 +81,8 @@ void DataModuleNode::createXsd(XsdSpecification *spec)
   XsdSequence *root = new XsdSequence(TAG_MODULE_NODE_DEFINITION);
   root->add(NA(TAG_TYPE,             TAG_TYPE_DEFINITION,             true));
   root->add(NA(TAG_LABEL,            TAG_XSD_STRING,                  true));
-  root->add(NE(TAG_POSITION,         TAG_XYZ_DEFINITION,              1, 1));
-  root->add(NE(TAG_TRANSFERFUNCTION, TAG_TRANSFERFUNCTION_DEFINITION, 1, 1));
+  root->add(NE(TAG_POSITION,         TAG_XYZ_DEFINITION,              0, 1));
+  root->add(NE(TAG_TRANSFERFUNCTION, TAG_TRANSFERFUNCTION_DEFINITION, 0, 1));
   root->add(NE(TAG_BIAS,             TAG_BIAS_DEFINITION,             0, 1));
   spec->add(root);
 
@@ -105,6 +106,7 @@ void DataModuleNode::createXsd(XsdSpecification *spec)
   type->add(TAG_INPUT);
   type->add(TAG_OUTPUT);
   type->add(TAG_HIDDEN);
+  type->add(TAG_CONNECTOR);
   spec->add(type);
 
 }

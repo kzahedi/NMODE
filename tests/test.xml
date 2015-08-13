@@ -61,21 +61,21 @@
       <translate x="0.0" y="0.0" z="0.0"/>
     </module>
 
-    <!-- <module name="cpg"> -->
+    <module name="cpg">
 
-      <!-- <node type="connector" ref="module 1/input 1"> -->
-      <!-- <node type="connector" ref="module 1/input 2"> -->
+      <node type="connector" label="module 1/input 1"/>
+      <node type="connector" label="module 1/input 2"/>
 
-      <!-- <node type="connector" ref="module 1/output 1"> -->
-      <!-- <node type="connector" ref="module 1/output 2"> -->
+      <node type="connector" label="module 1/output 1"/>
+      <node type="connector" label="module 1/output 2"/>
 
-      <!-- <node type="connector" ref="module 2/input 1"> -->
-      <!-- <node type="connector" ref="module 2/input 2"> -->
+      <node type="connector" label="module 2/input 1"/>
+      <node type="connector" label="module 2/input 2"/>
 
-      <!-- <node type="connector" ref="module 2/output 1"> -->
-      <!-- <node type="connector" ref="module 2/output 2"> -->
+      <node type="connector" label="module 2/output 1"/>
+      <node type="connector" label="module 2/output 2"/>
 
-    <!-- </module> -->
+    </module>
 
   </configuration>
   <population generation="1">
