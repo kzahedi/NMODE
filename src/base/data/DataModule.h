@@ -41,21 +41,23 @@ class DataModule : public DataNode
     DataModuleEdges::iterator e_end();
     int                       e_size();
 
-    string name();
-    string ref();
+    string                    name();
+    string                    ref();
 
-    P3D translation();
-    Quaternion rotation();
+    P3D                       translation();
+    Quaternion                rotation();
 
   private:
-    string _name;
-    string _ref;
+    string          _name;
+    string          _ref;
 
     DataModuleNodes _nodes;
     DataModuleEdges _edges;
 
-    Quaternion _rotation;
-    P3D        _translation;
+    Quaternion      _rotation;
+    P3D             _translation;
+
+    bool*           _mirror;
 };
 
 typedef vector<DataModule*> DataModules;

@@ -4,7 +4,9 @@ link_directories(${PROJECT_BINARY_DIR}/lib)
 add_library(ENPEvo SHARED Module.cpp
                           Node.cpp
                           Edge.cpp
-                          ModuleMutationOperator.cpp
+                          MutateModuleOperator.cpp
+                          MutateIndividualOperator.cpp
+                          MutatePopulationOperator.cpp
                           Exporter.cpp
                           Population.cpp
                           Individual.cpp

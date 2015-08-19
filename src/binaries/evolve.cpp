@@ -1,7 +1,7 @@
 #include "base/Configuration.h"
 #include "base/data/Data.h"
 #include "evo/Population.h"
-#include "evo/ModuleMutationOperator.h"
+#include "evo/MutatePopulationOperator.h"
 #include "evo/Exporter.h"
 #include "base/Random.h"
 
@@ -40,12 +40,9 @@ int main(int argc, char** argv)
   sst.str("");
   Data *data = Data::instance();
 
-  LOG_IF(INFO, configuration->input().size() > 0)
-    << "Input file given " << configuration->input();
-  LOG_IF(INFO, configuration->output().size() > 0)
-    << "Output file given " << configuration->output();
-  LOG_IF(INFO, configuration->cfg().size() > 0)
-    << "Configuration given " << configuration->cfg();
+  LOG_IF(INFO, configuration->input().size()  > 0) << "Input file given "    << configuration->input();
+  LOG_IF(INFO, configuration->output().size() > 0) << "Output file given "   << configuration->output();
+  LOG_IF(INFO, configuration->cfg().size()    > 0) << "Configuration given " << configuration->cfg();
 
   VLOG(5) << "reading file " << configuration->cfg();
   data->read(configuration->cfg());
@@ -53,11 +50,6 @@ int main(int argc, char** argv)
   Population *pop = new Population();
   pop->initialise();
 
-  Individual *ind = pop->individual(0);
-  Module     *mod = ind->module(0);
-
-  DataEvolutionEdge *dee = data->specification()->evolution()->edge();
-  DataEvolutionNode *den = data->specification()->evolution()->node();
 
   for(int i = 0; i < 200; i++)
   {
@@ -66,7 +58,7 @@ int main(int argc, char** argv)
     sst << "generation_" << prefix(i) << ".xml";
     cout << "opening " << sst.str() << endl;
 
-    ModuleMutationOperator::mutate(mod, den, dee);
+    MutatePopulationOperator::mutate(pop);
 
     std::ofstream ofs;
     ofs.open (sst.str(), std::ofstream::out);

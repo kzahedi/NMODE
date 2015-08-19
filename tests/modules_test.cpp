@@ -260,7 +260,7 @@ void modulesTest::testModuleInequality()
 }
 
 
-void modulesTest::testModuleMutationOperator()
+void modulesTest::testMutateModuleOperator()
 {
   Random::initialise();
 }

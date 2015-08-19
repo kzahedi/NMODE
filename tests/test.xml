@@ -57,8 +57,9 @@
 
     <module name="module 2">
       <copy name="module 1"/>
-      <rotate    x="0.0" y="0.0" z="180.0"/>
-      <translate x="0.0" y="0.0" z="0.0"/>
+      <mirror    x="false" y="true" z="false"/>
+      <rotate    x="0.0"   y="0.0"  z="0.0"/>
+      <translate x="0.0"   y="0.0"  z="0.0"/>
     </module>
 
     <module name="cpg">

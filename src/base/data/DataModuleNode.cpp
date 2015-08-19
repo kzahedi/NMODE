@@ -20,6 +20,7 @@
 #define TAG_SIGM                        (char*)"sigm"
 #define TAG_ID                          (char*)"id"
 #define TAG_TYPE_DEFINITION             (char*)"type_definition"
+#define TAG_TYPE_CONNECTOR_DEFINITION   (char*)"type_connector_definition"
 #define TAG_LABEL                       (char*)"label"
 #define TAG_POSITION                    (char*)"position"
 #define TAG_XYZ_DEFINITION              (char*)"xyz_definition"
@@ -94,20 +95,26 @@ void DataModuleNode::createXsd(XsdSpecification *spec)
   bias->add(NA(TAG_VALUE, TAG_XSD_DECIMAL, true));
   spec->add(bias);
 
-  XsdEnumeration *tfuncenum = new XsdEnumeration(TAG_TFUNCTION_ENUMERATION, TAG_XSD_STRING);
+  XsdEnumeration *tfuncenum = new XsdEnumeration(TAG_TFUNCTION_ENUMERATION,
+                                                 TAG_XSD_STRING);
   tfuncenum->add(TAG_TANH);
   tfuncenum->add(TAG_SIGM);
   tfuncenum->add(TAG_ID);
   spec->add(tfuncenum);
 
-  XsdEnumeration *type = new XsdEnumeration(TAG_TYPE_DEFINITION, TAG_XSD_STRING);
+  XsdEnumeration *type = new XsdEnumeration(TAG_TYPE_DEFINITION,
+                                            TAG_XSD_STRING);
   type->add(TAG_SENSOR);
   type->add(TAG_ACTUATOR);
   type->add(TAG_INPUT);
   type->add(TAG_OUTPUT);
   type->add(TAG_HIDDEN);
-  type->add(TAG_CONNECTOR);
   spec->add(type);
+
+  XsdEnumeration *connectorType = new XsdEnumeration(TAG_TYPE_CONNECTOR_DEFINITION,
+                                                     TAG_XSD_STRING);
+  type->add(TAG_CONNECTOR);
+  spec->add(connectorType);
 
 }
 

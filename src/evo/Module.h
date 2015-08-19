@@ -47,6 +47,8 @@ class Module
     void                  setModified(bool m);
     int                   getNewNodeId();
 
+    bool                  isCopy();
+
   private:
     Nodes       _nodes;
     Nodes       _sensors;
@@ -59,7 +61,8 @@ class Module
     bool        _linked;
     bool        _modified;
     Module     *_target;
-
+    DataModule *_data;
+    bool        _isCopy;
     int         _globalId;
 };
 

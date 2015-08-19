@@ -38,7 +38,7 @@ class modulesTest : public CppUnit::TestFixture
   CPPUNIT_TEST(testNodeEquality);
   CPPUNIT_TEST(testModuleEquality);
   CPPUNIT_TEST(testModuleInequality);
-  CPPUNIT_TEST(testModuleMutationOperator);
+  CPPUNIT_TEST(testMutateModuleOperator);
   CPPUNIT_TEST(testModuleAddEdge);
   CPPUNIT_TEST_SUITE_END();
 
@@ -49,7 +49,7 @@ class modulesTest : public CppUnit::TestFixture
   void testNodeEquality();
   void testModuleEquality();
   void testModuleInequality();
-  void testModuleMutationOperator();
+  void testMutateModuleOperator();
   void testModuleAddEdge();
 };
 

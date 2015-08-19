@@ -1,4 +1,4 @@
-#include "ModuleMutationOperator.h"
+#include "MutateModuleOperator.h"
 
 #include <glog/logging.h>
 
@@ -7,7 +7,7 @@
 
 #include <sstream>
 
-// ModuleMutationOperator::ModuleMutationOperator()
+// MutateModuleOperator::MutateModuleOperator()
 // {
 // }
 
@@ -22,7 +22,7 @@
     VLOG(50) << "      Edge: " << (*e)->source()->label() << " -> " <<  (*e)->destination()->label() << " = " << (*e)->weight();
 
 
-void ModuleMutationOperator::mutate(Module *m,
+void MutateModuleOperator::mutate(Module *m,
                                     DataEvolutionNode *den,
                                     DataEvolutionEdge *dee)
 {
@@ -47,7 +47,7 @@ void ModuleMutationOperator::mutate(Module *m,
   }
 }
 
-void ModuleMutationOperator::__mutateDelEdge(Module *m, double probability)
+void MutateModuleOperator::__mutateDelEdge(Module *m, double probability)
 {
   if(m->e_size()    == 0)           return;
   if(Random::unit() >= probability) return;
@@ -102,7 +102,7 @@ void ModuleMutationOperator::__mutateDelEdge(Module *m, double probability)
   VLOG(50) << "<<<<< del edge";
 }
 
-void ModuleMutationOperator::__mutateModifyEdge(Module *m, double probability,
+void MutateModuleOperator::__mutateModifyEdge(Module *m, double probability,
                                                            double delta,
                                                            double max)
 {
@@ -127,7 +127,7 @@ void ModuleMutationOperator::__mutateModifyEdge(Module *m, double probability,
   VLOG(50) << "<<<<< modify edge";
 }
 
-void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
+void MutateModuleOperator::__mutateAddEdge(Module *m, double probability,
                                                         double max)
 {
   if(Random::unit() >= probability) return;
@@ -246,7 +246,7 @@ void ModuleMutationOperator::__mutateAddEdge(Module *m, double probability,
   VLOG(50) << "<<<<< add edge";
 }
 
-void ModuleMutationOperator::__mutateAddNode(Module *m, double probability, double max)
+void MutateModuleOperator::__mutateAddNode(Module *m, double probability, double max)
 {
   if(m->e_size() == 0) return;
   if(Random::unit() >= probability) return;
@@ -327,7 +327,7 @@ void ModuleMutationOperator::__mutateAddNode(Module *m, double probability, doub
   VLOG(50) << "<<<<< add node";
 }
 
-void ModuleMutationOperator::__mutateModifyNode(Module *m, double probability,
+void MutateModuleOperator::__mutateModifyNode(Module *m, double probability,
                                                            double delta,
                                                            double max)
 {
@@ -349,7 +349,7 @@ void ModuleMutationOperator::__mutateModifyNode(Module *m, double probability,
 }
 
 
-void ModuleMutationOperator::__mutateDelNode(Module *m, double probability)
+void MutateModuleOperator::__mutateDelNode(Module *m, double probability)
 {
   if(m->h_size() == 0) return; // no hidden node to remove
   if(Random::unit() >= probability) return;
@@ -366,7 +366,7 @@ void ModuleMutationOperator::__mutateDelNode(Module *m, double probability)
 }
 
 
-void ModuleMutationOperator::__cleanup(Module *m)
+void MutateModuleOperator::__cleanup(Module *m)
 {
   VLOG(50) << ">>>>> clean up";
   LOG_MODULE;

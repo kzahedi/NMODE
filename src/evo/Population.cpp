@@ -3,6 +3,7 @@
 #include "Module.h"
 
 #include "base/data/Data.h"
+#include "base/macros.h"
 
 #include <glog/logging.h>
 
@@ -53,6 +54,7 @@ Individuals::iterator Population::i_begin()
 {
   return _individuals.begin();
 }
+
 Individuals::iterator Population::i_end()
 {
   return _individuals.end();

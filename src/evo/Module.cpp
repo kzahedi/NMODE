@@ -12,6 +12,7 @@ Module::Module(string name)
   _name     = name;
   _linked   = false;
   _globalId = 0;
+  _isCopy   = false;
 }
 
 Module::~Module()
@@ -198,28 +199,39 @@ void Module::setName(string name)
 
 void Module::initialise(DataModule *data)
 {
-  std::map<string, Node*> nodeMap;
+  _data = data;
 
-  for(DataModuleNodes::iterator n = data->n_begin(); n != data->n_end(); n++)
+  if(data->ref().size() > 0)
   {
-    Node *node = new Node();
-    node->setType((*n)->type());
-    node->setBias((*n)->bias());
-    node->setLabel((*n)->label());
-    node->setPosition((*n)->position());
-    nodeMap.insert(std::make_pair(node->label(), node));
-    addNode(node);
+    _isCopy = true;
   }
-
-  for(DataModuleEdges::iterator e = data->e_begin(); e != data->e_end(); e++)
+  else
   {
-    Edge *edge = new Edge();
-    Node *src  = nodeMap[(*e)->source()];
-    Node *dst  = nodeMap[(*e)->destination()];
-    edge->setSource(src);
-    edge->setDestination(dst);
-    edge->setWeight((*e)->weight());
-    _edges.push_back(edge);
+    _isCopy = false;
+
+    std::map<string, Node*> nodeMap;
+
+    for(DataModuleNodes::iterator n = data->n_begin(); n != data->n_end(); n++)
+    {
+      Node *node = new Node();
+      node->setType((*n)->type());
+      node->setBias((*n)->bias());
+      node->setLabel((*n)->label());
+      node->setPosition((*n)->position());
+      nodeMap.insert(std::make_pair(node->label(), node));
+      addNode(node);
+    }
+
+    for(DataModuleEdges::iterator e = data->e_begin(); e != data->e_end(); e++)
+    {
+      Edge *edge = new Edge();
+      Node *src  = nodeMap[(*e)->source()];
+      Node *dst  = nodeMap[(*e)->destination()];
+      edge->setSource(src);
+      edge->setDestination(dst);
+      edge->setWeight((*e)->weight());
+      _edges.push_back(edge);
+    }
   }
 }
 
@@ -293,4 +305,9 @@ int Module::getNewNodeId()
   int i = _globalId;
   _globalId++;
   return i;
+}
+
+bool Module::isCopy()
+{
+  return _isCopy;
 }

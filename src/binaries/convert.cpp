@@ -1,6 +1,6 @@
 #include "base/data/Data.h"
 #include "evo/Population.h"
-#include "evo/ModuleMutationOperator.h"
+#include "evo/MutateModuleOperator.h"
 #include "evo/Exporter.h"
 #include "base/Random.h"
 

@@ -5,13 +5,13 @@
 #include "base/data/DataEvolutionEdge.h"
 #include "Module.h"
 
-class ModuleMutationOperator
+class MutateModuleOperator
 {
   public:
-    // ~ModuleMutationOperator();
+    // ~MutateModuleOperator();
 
-    //ModuleMutationOperator(const ModuleMutationOperator);
-    //ModuleMutationOperator operator=(const ModuleMutationOperator);
+    //MutateModuleOperator(const MutateModuleOperator);
+    //MutateModuleOperator operator=(const MutateModuleOperator);
 
     static void mutate(Module *module,
                        DataEvolutionNode *_den,
