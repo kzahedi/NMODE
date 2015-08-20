@@ -29,6 +29,7 @@ class DataIndividual : public DataNode
     DataModules           modules();
 
   private:
+    void        __linkConnectorNodes();
 
     int         _id;
     int         _offspring;

@@ -29,10 +29,12 @@ class DataModuleNode : public DataNode
     static void createXsd(XsdSpecification *spec);
 
     string type();
-    string label(); // if label contains a '/' its a reference
-    P3D    position();
+    string label();        // if label contains a '/' its a reference
     string transferfunction();
     double bias();
+
+    P3D    position();
+    void   setPosition(P3D p);
 
   private:
     string _type;

@@ -24,11 +24,12 @@ void Node::setPosition(P3D position)
 void Node::setType(string type) throw (ENPException)
 {
   _type = -1;
-  if(type == "sensor")   _type = NODE_TYPE_SENSOR;
-  if(type == "actuator") _type = NODE_TYPE_ACTUATOR;
-  if(type == "input")    _type = NODE_TYPE_INPUT;
-  if(type == "output")   _type = NODE_TYPE_OUTPUT;
-  if(type == "hidden")   _type = NODE_TYPE_HIDDEN;
+  if(type == "sensor")    _type = NODE_TYPE_SENSOR;
+  if(type == "actuator")  _type = NODE_TYPE_ACTUATOR;
+  if(type == "input")     _type = NODE_TYPE_INPUT;
+  if(type == "output")    _type = NODE_TYPE_OUTPUT;
+  if(type == "hidden")    _type = NODE_TYPE_HIDDEN;
+  if(type == "connector") _type = NODE_TYPE_CONNECTOR;
   if(_type == -1) throw ENPException("Node::setType uknown type");
   _stype = type;
 }
@@ -170,16 +171,18 @@ bool Node::removeEdge(Edge *e)
 
 bool Node::isSource()
 {
-  return (_type == NODE_TYPE_ACTUATOR ||
-          _type == NODE_TYPE_SENSOR   ||
-          _type == NODE_TYPE_INPUT    ||
+  return (_type == NODE_TYPE_ACTUATOR  ||
+          _type == NODE_TYPE_SENSOR    ||
+          _type == NODE_TYPE_INPUT     ||
+          _type == NODE_TYPE_CONNECTOR ||
           _type == NODE_TYPE_HIDDEN);
 }
 
 bool Node::isDestination()
 {
-  return (_type == NODE_TYPE_ACTUATOR ||
-          _type == NODE_TYPE_OUTPUT   ||
+  return (_type == NODE_TYPE_ACTUATOR  ||
+          _type == NODE_TYPE_OUTPUT    ||
+          _type == NODE_TYPE_CONNECTOR ||
           _type == NODE_TYPE_HIDDEN);
 }
 

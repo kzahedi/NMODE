@@ -3,6 +3,7 @@
 #include "base/macros.h"
 
 #include <iostream>
+#include <string>
 #include <glog/logging.h>
 
 #define TAG_NAME                   (char*)"name"
@@ -18,6 +19,8 @@
 #define TAG_MODULE_P3D_DEFINITION  (char*)"p3d_definition"
 #define TAG_MODULE_B3D_DEFINITION  (char*)"b3d_definition"
 #define TAG_TRUE_FALSE_DEFINITION  (char*)"true_definition"
+
+#define TAG_CONNECTOR              (char*)"connector"
 
 #define TAG_X                      (char*)"x"
 #define TAG_Y                      (char*)"y"
@@ -42,6 +45,7 @@ void DataModule::add(DataParseElement *element)
   VLOG(100) << "parsing " << element->name();
   if(element->closing(TAG_MODULE))
   {
+    __linkConnectorNeurons();
     current = parent;
     return;
   }
@@ -200,4 +204,19 @@ DataModuleEdges DataModule::edges()
 string DataModule::ref()
 {
   return _ref;
+}
+
+void DataModule::__linkConnectorNeurons()
+{
+  FORC(DataModuleNodes, n, _nodes)
+  {
+    if((*n)->type() == TAG_CONNECTOR)
+    {
+      string label          = (*n)->label();
+      string::size_type pos = label.find('/');
+      string module_name    = label.substr(0, pos);
+      string node_name      = label.substr(pos+1, label.size()-1);
+      cout << label << " -> " << module_name << " / " << node_name << endl;
+    }
+  }
 }

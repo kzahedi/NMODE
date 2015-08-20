@@ -2,9 +2,12 @@
 
 #include "glog/logging.h"
 
+#include "base/macros.h"
+
 #define TAG_ID        (char*)"id"
 #define TAG_FITNESS   (char*)"fitness"
 #define TAG_OFFSPRING (char*)"offspring"
+#define TAG_CONNECTOR (char*)"connector"
 
 DataIndividual::DataIndividual(DataNode *parent)
   : DataNode(parent)
@@ -17,8 +20,10 @@ DataIndividual::DataIndividual(DataNode *parent)
 void DataIndividual::add(DataParseElement *element)
 {
   VLOG(100) << "parsing " << element->name();
+
   if(element->closing(TAG_INDIVIDUAL))
   {
+    __linkConnectorNodes();
     current = parent;
   }
 
@@ -86,3 +91,34 @@ DataModules DataIndividual::modules()
   return _modules;
 }
 
+void DataIndividual::__linkConnectorNodes()
+{
+  FORC(DataModules, a, _modules)
+  {
+    cout << "working on module " << (*n)->name() << endl;
+    FORC(DataModuleNodes, an, (*a)->nodes())
+    {
+      if((*an)->type() == TAG_CONNECTOR)
+      {
+        string label          = (*an)->label();
+        string::size_type pos = label.find('/');
+        string module_name    = label.substr(0, pos);
+        string node_name      = label.substr(pos+1, label.size()-1);
+        FORC(DataModules, b, _modules)
+        {
+          if((*b)->name() == module_name)
+          {
+            FORC(DataModuleNodes, bn, (*b)->nodes())
+            {
+              if((*bn)->type() != TAG_CONNECTOR && (*bn)->label() == node_name)
+              {
+                cout << "setting position of " << (*an)->label() << " to " << (*an)->position() << " from " << (*bn)->label() << " which has " << (*bn)->position() << endl;
+                (*an)->setPosition((*bn)->position());
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

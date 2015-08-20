@@ -46,6 +46,10 @@ void Module::addNode(Node *node) throw (ENPException)
       _output.push_back(node);
       VLOG(50) << "adding output node: " << node->label();
       break;
+    case NODE_TYPE_CONNECTOR:
+      _output.push_back(node);
+      VLOG(50) << "adding output node: " << node->label();
+      break;
     default:
       throw ENPException("Module::addNode: unknown node type");
   }

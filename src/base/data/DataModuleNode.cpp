@@ -142,3 +142,8 @@ double DataModuleNode::bias()
 {
   return _bias;
 }
+
+void DataModuleNode::setPosition(P3D p)
+{
+  _position = p;
+}

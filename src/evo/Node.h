@@ -10,11 +10,12 @@
 
 #include "Edge.h"
 
-#define NODE_TYPE_SENSOR   1001
-#define NODE_TYPE_ACTUATOR 1002
-#define NODE_TYPE_HIDDEN   1003
-#define NODE_TYPE_INPUT    1004
-#define NODE_TYPE_OUTPUT   1005
+#define NODE_TYPE_SENSOR    1001
+#define NODE_TYPE_ACTUATOR  1002
+#define NODE_TYPE_HIDDEN    1003
+#define NODE_TYPE_INPUT     1004
+#define NODE_TYPE_OUTPUT    1005
+#define NODE_TYPE_CONNECTOR 1006
 
 using namespace std;
 

@@ -48,6 +48,8 @@ class DataModule : public DataNode
     Quaternion                rotation();
 
   private:
+    void            __linkConnectorNeurons();
+
     string          _name;
     string          _ref;
 
