@@ -11,7 +11,14 @@ using namespace std;
 
 DataModuleEdge::DataModuleEdge(DataNode *parent)
   : DataNode(parent)
-{ }
+{
+  _sourceNode      = NULL;
+  _destinationNode = NULL;
+}
+
+DataModuleEdge::~DataModuleEdge()
+{
+}
 
 void DataModuleEdge::add(DataParseElement *element)
 {
@@ -69,3 +76,14 @@ bool DataModuleEdge::operator!=(const DataModuleEdge o)
           _source      != o._source ||
           _destination != o._destination);
 }
+
+DataModuleNode* DataModuleEdge::sourceNode()
+{
+  return _sourceNode;
+}
+
+DataModuleNode* DataModuleEdge::destinationNode()
+{
+  return _destinationNode;
+}
+

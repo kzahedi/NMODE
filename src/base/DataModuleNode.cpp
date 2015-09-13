@@ -1,5 +1,7 @@
 #include "DataModuleNode.h"
 
+#include "macros.h"
+
 #include <iostream>
 #include <glog/logging.h>
 
@@ -175,3 +177,112 @@ void DataModuleNode::setNodeName(string nn)
 {
   _nodeName = nn;
 }
+
+bool DataModuleNode::operator==(const DataModuleNode o)
+{
+  return (_position         == o._position &&
+          _label            == o._label    &&
+          _type             == o._type     &&
+          _transferfunction == o._transferfunction);
+}
+
+bool DataModuleNode::operator!=(const DataModuleNode o)
+{
+  return (_position         != o._position ||
+          _label            != o._label    ||
+          _type             != o._type     ||
+          _transferfunction != o._transferfunction);
+}
+
+bool DataModuleNode::contains(DataModuleEdge *e)
+{
+  if(_in.empty()) return false;
+
+  if(std::find(_in.begin(), _in.end(), e) != _in.end()) {
+    return true;
+  }
+  return false;
+}
+
+bool DataModuleNode::contains(DataModuleNode *n)
+{
+  FORC(DataModuleEdges, e, _in)
+  {
+    if((*e)->sourceNode() == n) return true;
+  }
+  return false;
+}
+
+DataModuleEdges::iterator DataModuleNode::e_begin()
+{
+  return _in.begin();
+}
+
+DataModuleEdges::iterator DataModuleNode::e_end()
+{
+  return _in.end();
+}
+
+int DataModuleNode::e_size()
+{
+  return _in.size();
+}
+
+DataModuleEdge* DataModuleNode::edge(int index)
+{
+  return _in[index];
+}
+
+void DataModuleNode::addEdge(DataModuleEdge *e)
+{
+  _in.push_back(e);
+}
+
+void DataModuleNode::removeEdge(DataModuleNode *n)
+{
+  FORC(DataModuleEdges, e, _in)
+  {
+    if((*e)->sourceNode()->label() == n->label())
+    {
+      if(removeEdge(*e))
+      {
+        return;
+      }
+    }
+  }
+}
+
+bool DataModuleNode::removeEdge(DataModuleEdge *e)
+{
+  DataModuleEdges::iterator ei = std::find(_in.begin(), _in.end(), e);
+  if(ei != _in.end())
+  {
+    _in.erase(ei);
+
+    VLOG(20) << "   removing input edge with "
+      << e->sourceNode()->label() << " -> "
+      << e->destinationNode()->label()
+      << " with " << e->weight();
+    return true;
+  }
+  return false;
+}
+
+bool DataModuleNode::isSource()
+{
+  return (_type == TAG_ACTUATOR  ||
+          _type == TAG_SENSOR    ||
+          _type == TAG_INPUT     ||
+          _type == TAG_CONNECTOR ||
+          _type == TAG_HIDDEN);
+}
+
+bool DataModuleNode::isDestination()
+{
+  return (_type == TAG_ACTUATOR  ||
+          _type == TAG_OUTPUT    ||
+          _type == TAG_CONNECTOR ||
+          _type == TAG_HIDDEN);
+}
+
+

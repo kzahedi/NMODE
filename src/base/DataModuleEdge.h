@@ -39,11 +39,13 @@ using namespace std;
 # define TAG_MODULE_EDGE            (char*)"edge"
 # define TAG_MODULE_EDGE_DEFINITION (char*)"module_edge_definition"
 
+class DataModuleNode;
+
 class DataModuleEdge : public DataNode
 {
   public:
     DataModuleEdge(DataNode *parent);
-    // ~DataModuleEdge();
+    ~DataModuleEdge();
 
     //DataModuleEdge(const DataModuleEdge);
     //DataModuleEdge operator=(const DataModuleEdge);
@@ -55,13 +57,18 @@ class DataModuleEdge : public DataNode
     string destination();
     double weight();
 
+    DataModuleNode *sourceNode();
+    DataModuleNode *destinationNode();
+
     bool operator==(const DataModuleEdge o);
     bool operator!=(const DataModuleEdge o);
 
   private:
-    string _source;
-    string _destination;
-    double _weight;
+    string          _source;
+    string          _destination;
+    double          _weight;
+    DataModuleNode *_sourceNode;
+    DataModuleNode *_destinationNode;
 };
 
 typedef vector<DataModuleEdge*> DataModuleEdges;

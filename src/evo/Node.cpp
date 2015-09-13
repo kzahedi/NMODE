@@ -69,41 +69,7 @@ string Node::transferfunction()
   return _transferfunction;
 }
 
-bool Node::operator==(const Node o)
-{
-  return (_position         == o._position &&
-          _label            == o._label    &&
-          _type             == o._type     &&
-          _transferfunction == o._transferfunction);
-}
 
-bool Node::operator!=(const Node o)
-{
-  return (_position         != o._position ||
-          _label            != o._label    ||
-          _type             != o._type     ||
-          _transferfunction != o._transferfunction);
-}
-
-Edges::iterator Node::e_begin()
-{
-  return _in.begin();
-}
-
-Edges::iterator Node::e_end()
-{
-  return _in.end();
-}
-
-int Node::e_size()
-{
-  return _in.size();
-}
-
-void Node::addEdge(Edge *e)
-{
-  _in.push_back(e);
-}
 
 bool Node::contains(Edge *e)
 {
@@ -124,11 +90,6 @@ bool Node::contains(Node *n)
   return false;
 }
 
-Edge* Node::edge(int index)
-{
-  return _in[index];
-}
-
 void Node::setBias(double v)
 {
   _bias = v;
@@ -139,50 +100,4 @@ double Node::bias()
   return _bias;
 }
 
-void Node::removeEdge(Node *n)
-{
-  FORC(Edges, e, _in)
-  {
-    if((*e)->source()->label() == n->label())
-    {
-      if(removeEdge(*e))
-      {
-        return;
-      }
-    }
-  }
-}
-
-bool Node::removeEdge(Edge *e)
-{
-  Edges::iterator ei = std::find(_in.begin(), _in.end(), e);
-  if(ei != _in.end())
-  {
-    _in.erase(ei);
-
-    VLOG(20) << "   removing input edge with "
-      << e->source()->label() << " -> "
-      << e->destination()->label()
-      << " with " << e->weight();
-    return true;
-  }
-  return false;
-}
-
-bool Node::isSource()
-{
-  return (_type == NODE_TYPE_ACTUATOR  ||
-          _type == NODE_TYPE_SENSOR    ||
-          _type == NODE_TYPE_INPUT     ||
-          _type == NODE_TYPE_CONNECTOR ||
-          _type == NODE_TYPE_HIDDEN);
-}
-
-bool Node::isDestination()
-{
-  return (_type == NODE_TYPE_ACTUATOR  ||
-          _type == NODE_TYPE_OUTPUT    ||
-          _type == NODE_TYPE_CONNECTOR ||
-          _type == NODE_TYPE_HIDDEN);
-}
 
