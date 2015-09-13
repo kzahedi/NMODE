@@ -56,3 +56,16 @@ double DataModuleEdge::weight()
   return _weight;
 }
 
+bool DataModuleEdge::operator==(const DataModuleEdge o)
+{
+  return (_weight      == o._weight &&
+          _source      == o._source &&
+          _destination == o._destination);
+}
+
+bool DataModuleEdge::operator!=(const DataModuleEdge o)
+{
+  return (_weight      != o._weight ||
+          _source      != o._source ||
+          _destination != o._destination);
+}

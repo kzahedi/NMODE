@@ -55,6 +55,9 @@ class DataModuleEdge : public DataNode
     string destination();
     double weight();
 
+    bool operator==(const DataModuleEdge o);
+    bool operator!=(const DataModuleEdge o);
+
   private:
     string _source;
     string _destination;
