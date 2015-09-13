@@ -29,7 +29,7 @@
 #define __XSD_SEQUENCE_GRAPH_NODE_H__
 
 #include "XsdGraphNode.h"
-#include "base/xsd/specification/XsdSequence.h"
+#include "XsdSequence.h"
 
 #include <string>
 #include <sstream>

@@ -32,6 +32,7 @@ DataModule::DataModule(DataNode *parent)
   : DataNode(parent)
 {
   _mirror = new bool[3];
+  _isCopy = false;
 }
 
 DataModule::~DataModule()
@@ -45,7 +46,7 @@ void DataModule::add(DataParseElement *element)
   VLOG(100) << "parsing " << element->name();
   if(element->closing(TAG_MODULE))
   {
-    __linkConnectorNeurons();
+    // __linkConnectorNeurons();
     current = parent;
     return;
   }
@@ -56,7 +57,6 @@ void DataModule::add(DataParseElement *element)
     VLOG(100) << "setting name to " << _name;
   }
 
-  VLOG(100) << "checking for " << TAG_MODULE_NODE;
   if(element->opening(TAG_MODULE_NODE))
   {
     VLOG(100) << "found " << TAG_MODULE_NODE;
@@ -66,7 +66,6 @@ void DataModule::add(DataParseElement *element)
     node->add(element);
   }
 
-  VLOG(100) << "checking for " << TAG_MODULE_EDGE;
   if(element->opening(TAG_MODULE_EDGE))
   {
     VLOG(100) << "found " << TAG_MODULE_EDGE;
@@ -76,7 +75,6 @@ void DataModule::add(DataParseElement *element)
     edge->add(element);
   }
 
-  VLOG(100) << "checking for " << TAG_MODULE_ROTATE;
   if(element->opening(TAG_MODULE_ROTATE))
   {
     VLOG(100) << "found " << TAG_MODULE_ROTATE;
@@ -88,7 +86,6 @@ void DataModule::add(DataParseElement *element)
     VLOG(100) << "  found " << _rotation;
   }
 
-  VLOG(100) << "checking for " << TAG_MODULE_MIRROR;
   if(element->opening(TAG_MODULE_MIRROR))
   {
     VLOG(100) << "found " << TAG_MODULE_MIRROR;
@@ -99,7 +96,6 @@ void DataModule::add(DataParseElement *element)
     VLOG(100) << "found " << _mirror[0] << " " << _mirror[1] << " " << _mirror[2];
   }
 
-  VLOG(100) << "checking for " << TAG_MODULE_TRANSLATE;
   if(element->opening(TAG_MODULE_TRANSLATE))
   {
     VLOG(100) << "found " << TAG_MODULE_TRANSLATE;
@@ -109,14 +105,13 @@ void DataModule::add(DataParseElement *element)
     VLOG(100) << "  found " << _translation;
   }
 
-  VLOG(100) << "checking for " << TAG_MODULE_COPY;
   if(element->opening(TAG_MODULE_COPY))
   {
     VLOG(100) << "found " << TAG_MODULE_COPY;
     element->set(TAG_NAME, _ref);
     VLOG(100) << "  found " << _ref;
+    _isCopy = true;
   }
-
 }
 
 void DataModule::createXsd(XsdSpecification *spec)
@@ -206,17 +201,31 @@ string DataModule::ref()
   return _ref;
 }
 
-void DataModule::__linkConnectorNeurons()
+// void DataModule::__linkConnectorNeurons()
+// {
+  // FORC(DataModuleNodes, n, _nodes)
+  // {
+    // if((*n)->type() == TAG_CONNECTOR)
+    // {
+      // string label          = (*n)->label();
+      // string::size_type pos = label.find('/');
+      // string module_name    = label.substr(0, pos);
+      // string node_name      = label.substr(pos+1, label.size()-1);
+      // VLOG(100) << label << " -> " << module_name << " / " << node_name;
+      // (*n)->setModuleName(module_name);
+      // (*n)->setNodeName(node_name);
+    // }
+  // }
+// }
+
+void DataModule::update()
 {
-  FORC(DataModuleNodes, n, _nodes)
-  {
-    if((*n)->type() == TAG_CONNECTOR)
-    {
-      string label          = (*n)->label();
-      string::size_type pos = label.find('/');
-      string module_name    = label.substr(0, pos);
-      string node_name      = label.substr(pos+1, label.size()-1);
-      cout << label << " -> " << module_name << " / " << node_name << endl;
-    }
-  }
+  _copiedEdges.clear();
+  _copiedNodes.clear();
+
+}
+
+bool DataModule::isCopy()
+{
+  return _isCopy;
 }

@@ -12,7 +12,7 @@ DataEvolution::DataEvolution(DataNode *parent)
 DataEvolution::~DataEvolution()
 {
   delete _node;
-  delete _edge;
+  // delete _edge;
 }
 
 

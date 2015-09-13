@@ -25,6 +25,7 @@ void convert(int index, Individual* individual, string filename)
   stringstream sst;
   sst << "individual_" << index << "_" << filename.substr(0, filename.size()-4) << ".html";
 
+  cout << "opening file " << sst.str() << endl;
   std::ofstream ofs;
   ofs.open (sst.str(), std::ofstream::out);
   sst.str("");
@@ -65,6 +66,8 @@ void convert(int index, string filename)
 
 int main(int argc, char** argv)
 {
+  google::InitGoogleLogging(argv[0]);
+
   po::options_description desc("Options");
   po::options_description ioo("Input/Output Options");
   po::options_description cmdline_options;
@@ -72,13 +75,15 @@ int main(int argc, char** argv)
   po::variables_map vm;
 
   vector<string> xml;
-  int index = -1;
-
+  int index = 0;
 
   string logdir;
   desc.add_options()
-    ("index,i", po::value<int>(&index),  "index of the individual")
-    ("xml",     po::value<vector<string> >(&xml), "xml files");
+    ("index,i", po::value<int>(&index)->implicit_value(0), "index of the individual [default is 0]")
+    ("xml",     po::value<vector<string> >(&xml), "xml files")
+    ("verbosity,v", po::value<int>(),           "set verbose logging level, defaults to 0")
+    ("logstderr,l",                             "set verbose logging level, defaults to 0")
+    ("logdir,L",    po::value<string>(&logdir), "set verbose logging level, defaults to 0");
 
   po::positional_options_description positional;
   positional.add("xml", -1);
@@ -95,6 +100,33 @@ int main(int argc, char** argv)
   if(vm.count("index") > 0)
   {
     cout << "Individual index: " << index << endl;
+  }
+
+  if (vm.count("verbosity"))
+  {
+    FLAGS_v = vm["verbosity"].as<int>();
+  }
+  else
+  {
+    FLAGS_v = 0;
+  }
+
+  if (vm.count("logstderr"))
+  {
+    FLAGS_alsologtostderr = 1;
+  }
+  else
+  {
+    FLAGS_alsologtostderr = 0;
+  }
+
+  if (vm.count("logdir"))
+  {
+    FLAGS_log_dir = logdir.c_str();
+  }
+  else
+  {
+    FLAGS_log_dir = ".";
   }
 
   if(vm.count("xml") > 0)
@@ -116,4 +148,3 @@ int main(int argc, char** argv)
 
   return 0;
 }
-

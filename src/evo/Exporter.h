@@ -1,5 +1,5 @@
-#ifndef __POPULATION_EXPORTER_H__
-#define __POPULATION_EXPORTER_H__
+#ifndef __EXPORTER_H__
+#define __EXPORTER_H__
 
 #include "Population.h"
 

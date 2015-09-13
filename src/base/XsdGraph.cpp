@@ -32,9 +32,9 @@
 using namespace std;
 
 // #include "configuration/data/Data.h"
-#include "base/xsd/specification/XsdSpecification.h"
+#include "XsdSpecification.h"
 
-#include "base/macros.h"
+#include "macros.h"
 
 #include "XsdSequenceGraphNode.h"
 #include "XsdChoiceGraphNode.h"

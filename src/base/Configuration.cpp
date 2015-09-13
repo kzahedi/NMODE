@@ -1,5 +1,5 @@
-#include "base/Configuration.h"
-#include "base/xsd/generator/YarsXSDGenerator.h"
+#include "Configuration.h"
+#include "YarsXSDGenerator.h"
 
 #include <string>
 #include <iostream>
@@ -48,7 +48,8 @@ Configuration::Configuration(int argc, char* argv[], bool io)
             run(), vm);
   po::notify(vm);
 
-  if (vm.count("help")) {
+  if (vm.count("help"))
+  {
     cout << desc << "\n";
     if(io) cout << ioo << "\n";
     exit(0);

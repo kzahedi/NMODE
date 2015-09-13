@@ -25,30 +25,51 @@
  *************************************************************************/
 
 
-#ifndef __XSD_CHOICE_GRAPH_NODE_H__
-#define __XSD_CHOICE_GRAPH_NODE_H__
+#ifndef __DATA_NODE_H__
+#define __DATA_NODE_H__
 
-#include "XsdGraphNode.h"
-#include "base/xsd/specification/XsdChoice.h"
+#include "DataParseElement.h"
+#include "specification.h"
 
 #include <string>
-#include <sstream>
+#include <ostream>
+#include <iostream>
 
 using namespace std;
 
-class XsdChoiceGraphNode : public XsdGraphNode
+/**
+ * @brief Basic class for all objects that store XML data.
+ */
+class DataNode
 {
   public:
-    XsdChoiceGraphNode(XsdChoice *spec);
-    string customLabel(string label);
-    string name();
-    XsdChoice* spec();
 
-  private:
-    stringstream _oss;
-    XsdChoice *_spec;
+    /**
+     * @brief Default constructor. Takes parent node as parameter
+     *
+     * @param parent
+     */
+    DataNode(DataNode *parent);
 
+    /**
+     * @brief Destructor, does nothing
+     */
+    ~DataNode();
+
+    /**
+     * @brief This function must be implemented by every data storing class. It
+     * takes a DataParseElement and should decide if the contained data is
+     * either stored, passed on to a child, or if the current node is set to the
+     * parent.
+     *
+     * @param DataParseElement
+     * @sa DataParseElement
+     */
+    virtual void add(DataParseElement* ) = 0;
+
+  protected:
+    DataNode        *parent;
+    static DataNode *current;
 };
 
-#endif // __XSD_CHOICE_GRAPH_NODE_H__
-
+#endif // __DATA_NODE_H__

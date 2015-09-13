@@ -1,4 +1,7 @@
 <?xml version="1.0"?>
+<!--
+     Test file for visualisation
+-->
 <enp version="0.0.2">
   <simulator wd="working directory"
              xml="xml file"
@@ -16,71 +19,72 @@
     </edge>
   </evolution>
   <configuration>
-    <module name="module 1">
-      <node type="input" label="input 1">
-        <position x="0.0" y="0.0" z="0.0"/>
-        <transferfunction name="id"/>
-      </node>
-      <node type="input" label="input 2">
-        <position x="0.0" y="0.0" z="0.0"/>
-        <transferfunction name="id"/>
-      </node>
-      <node type="output" label="output 1">
-        <position x="0.0" y="0.0" z="0.0"/>
-        <transferfunction name="id"/>
-      </node>
-      <node type="output" label="output 2">
-        <position x="0.0" y="0.0" z="0.0"/>
-        <transferfunction name="id"/>
-      </node>
-      <node type="sensor" label="sensor 1">
-        <position x="0.0" y="0.0" z="0.0"/>
-        <transferfunction name="id"/>
-      </node>
-      <node type="sensor" label="sensor 2">
-        <position x="1.0" y="0.0" z="0.0"/>
-        <transferfunction name="id"/>
-      </node>
-      <node type="sensor" label="sensor 3">
-        <position x="2.0" y="0.0" z="0.0"/>
-        <transferfunction name="id"/>
-      </node>
-      <node type="actuator" label="actuator 1">
-        <position x="0.5" y="1.0" z="0.0"/>
-        <transferfunction name="tanh"/>
-      </node>
-      <node type="actuator" label="actuator 2">
-        <position x="1.5" y="1.0" z="0.0"/>
-        <transferfunction name="sigm"/>
-      </node>
-    </module>
+    <!-- <module name="module 1"> -->
+      <!-- <node type="input" label="input 1"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </node> -->
+      <!-- <node type="input" label="input 2"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </node> -->
+      <!-- <node type="output" label="output 1"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </node> -->
+      <!-- <node type="output" label="output 2"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </node> -->
+      <!-- <node type="sensor" label="sensor 1"> -->
+        <!-- <position x="0.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </node> -->
+      <!-- <node type="sensor" label="sensor 2"> -->
+        <!-- <position x="1.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </node> -->
+      <!-- <node type="sensor" label="sensor 3"> -->
+        <!-- <position x="2.0" y="0.0" z="0.0"/> -->
+        <!-- <transferfunction name="id"/> -->
+      <!-- </node> -->
+      <!-- <node type="actuator" label="actuator 1"> -->
+        <!-- <position x="0.5" y="1.0" z="0.0"/> -->
+        <!-- <transferfunction name="tanh"/> -->
+      <!-- </node> -->
+      <!-- <node type="actuator" label="actuator 2"> -->
+        <!-- <position x="1.5" y="1.0" z="0.0"/> -->
+        <!-- <transferfunction name="sigm"/> -->
+      <!-- </node> -->
+    <!-- </module> -->
 
-    <module name="module 2">
-      <copy name="module 1"/>
-      <mirror    x="false" y="true" z="false"/>
-      <rotate    x="0.0"   y="0.0"  z="0.0"/>
-      <translate x="0.0"   y="0.0"  z="0.0"/>
-    </module>
+    <!-- <module name="module 2"> -->
+      <!-- <copy name="module 1"/> -->
+      <!-- <mirror    x="false" y="true" z="false"/> -->
+      <!-- <rotate    x="0.0"   y="0.0"  z="0.0"/> -->
+      <!-- <translate x="0.0"   y="0.0"  z="0.0"/> -->
+    <!-- </module> -->
 
-    <module name="cpg">
+    <!-- <module name="cpg"> -->
 
-      <node type="connector" label="module 1/input 1"/>
-      <node type="connector" label="module 1/input 2"/>
+      <!-- <node type="connector" label="module 1/input 1"/> -->
+      <!-- <node type="connector" label="module 1/input 2"/> -->
 
-      <node type="connector" label="module 1/output 1"/>
-      <node type="connector" label="module 1/output 2"/>
+      <!-- <node type="connector" label="module 1/output 1"/> -->
+      <!-- <node type="connector" label="module 1/output 2"/> -->
 
-      <node type="connector" label="module 2/input 1"/>
-      <node type="connector" label="module 2/input 2"/>
+      <!-- <node type="connector" label="module 2/input 1"/> -->
+      <!-- <node type="connector" label="module 2/input 2"/> -->
 
-      <node type="connector" label="module 2/output 1"/>
-      <node type="connector" label="module 2/output 2"/>
+      <!-- <node type="connector" label="module 2/output 1"/> -->
+      <!-- <node type="connector" label="module 2/output 2"/> -->
 
-    </module>
-
+    <!-- </module> -->
   </configuration>
+
   <population generation="1">
     <individual fitness="1.234" offspring="2" id="213">
+
       <module name="module 1">
         <node type="input" label="input 1">
           <position x="0.0" y="0.0" z="0.0"/>
@@ -128,18 +132,42 @@
           <bias value="-1.9"/>
         </node>
         <node type="hidden" label="hidden 1">
-          <position x="1.5" y="4.0" z="0.0"/>
+          <position x="1.5" y="0.5" z="0.0"/>
           <transferfunction name="sigm"/>
           <bias value="2.0"/>
         </node>
         <node type="hidden" label="hidden 2">
-          <position x="1.5" y="-4.0" z="0.0"/>
+          <position x="0.5" y="0.5" z="0.0"/>
           <transferfunction name="sigm"/>
           <bias value="-2.1"/>
         </node>
         <edge source="sensor 1" destination="hidden 2" weight="3.1"/>
         <edge source="sensor 2" destination="hidden 1" weight="-3.2"/>
       </module>
+
+      <module name="module 2">
+        <copy name="module 1"/>
+        <mirror    x="false" y="true" z="false"/>
+        <rotate    x="0.0"   y="0.0"  z="0.0"/>
+        <translate x="0.0"   y="0.0"  z="0.0"/>
+      </module>
+
+    <!-- <module name="cpg"> -->
+
+      <!-- <node type="connector" label="module 1/input 1"/> -->
+      <!-- <node type="connector" label="module 1/input 2"/> -->
+
+      <!-- <node type="connector" label="module 1/output 1"/> -->
+      <!-- <node type="connector" label="module 1/output 2"/> -->
+
+      <!-- <node type="connector" label="module 2/input 1"/> -->
+      <!-- <node type="connector" label="module 2/input 2"/> -->
+
+      <!-- <node type="connector" label="module 2/output 1"/> -->
+      <!-- <node type="connector" label="module 2/output 2"/> -->
+
+    <!-- </module> -->
+
     </individual>
   </population>
 </enp>

@@ -25,33 +25,30 @@
  *************************************************************************/
 
 
-#ifndef __YARS_XSD_GRAPHVIZ_GENERATOR_H__
-#define __YARS_XSD_GRAPHVIZ_GENERATOR_H__
+#ifndef __XSD_INTERVAL_GRAPH_NODE_H__
+#define __XSD_INTERVAL_GRAPH_NODE_H__
 
-#include "base/xsd/graphviz/graph/XsdGraph.h"
+#include "XsdGraphNode.h"
+#include "XsdInterval.h"
 
+#include <string>
 #include <sstream>
 
 using namespace std;
 
-class XsdGraphvizGenerator
+class XsdIntervalGraphNode : public XsdGraphNode
 {
   public:
-    XsdGraphvizGenerator();
-
-    void generate(string parent, string name, bool leftToRight, int depth);
-
-    friend std::ostream& operator<<(std::ostream& str, XsdGraphvizGenerator& g)
-    {
-      str << g._dot.str() << endl;
-      return str;
-    };
+    XsdIntervalGraphNode(XsdInterval *spec);
+    string customLabel(string label);
+    string name();
+    XsdInterval* spec();
 
   private:
-    void __generate(XsdGraphNodeInstance *node, int depth);
-
-    stringstream  _dot;
-    XsdGraph     *_graph;
+    stringstream  _oss;
+    XsdInterval  *_spec;
+    string        _specification;
+    string        _type;
 };
 
-#endif // __YARS_XSD_GRAPHVIZ_GENERATOR_H__
+#endif // __XSD_INTERVAL_GRAPH_NODE_H__

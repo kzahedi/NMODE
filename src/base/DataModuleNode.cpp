@@ -45,6 +45,7 @@ void DataModuleNode::add(DataParseElement *element)
   VLOG(100) << "parsing " << element->name();
   if(element->closing(TAG_MODULE_NODE))
   {
+    VLOG(100) << "closing " << _label;
     current = parent;
     return;
   }
@@ -146,4 +147,31 @@ double DataModuleNode::bias()
 void DataModuleNode::setPosition(P3D p)
 {
   _position = p;
+}
+
+
+void DataModuleNode::setTransferfunction(string tf)
+{
+  _transferfunction = tf;
+}
+
+
+string DataModuleNode::moduleName()
+{
+  return _moduleName;
+}
+
+void DataModuleNode::setModuleName(string mn)
+{
+  _moduleName = mn;
+}
+
+string DataModuleNode::nodeName()
+{
+  return _nodeName;
+}
+
+void DataModuleNode::setNodeName(string nn)
+{
+  _nodeName = nn;
 }

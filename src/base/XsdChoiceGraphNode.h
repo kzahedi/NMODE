@@ -25,30 +25,30 @@
  *************************************************************************/
 
 
-#ifndef __XSD_ENUMERATION_GRAPH_NODE_H__
-#define __XSD_ENUMERATION_GRAPH_NODE_H__
+#ifndef __XSD_CHOICE_GRAPH_NODE_H__
+#define __XSD_CHOICE_GRAPH_NODE_H__
 
 #include "XsdGraphNode.h"
-#include "base/xsd/specification/XsdEnumeration.h"
+#include "XsdChoice.h"
 
 #include <string>
 #include <sstream>
 
 using namespace std;
 
-class XsdEnumerationGraphNode : public XsdGraphNode
+class XsdChoiceGraphNode : public XsdGraphNode
 {
   public:
-    XsdEnumerationGraphNode(XsdEnumeration *spec);
+    XsdChoiceGraphNode(XsdChoice *spec);
     string customLabel(string label);
     string name();
-    XsdEnumeration* spec();
+    XsdChoice* spec();
 
   private:
-    stringstream    _oss;
-    XsdEnumeration *_spec;
-    string          _specification;
-    string          _type;
+    stringstream _oss;
+    XsdChoice *_spec;
+
 };
 
-#endif // __XSD_ENUMERATION_GRAPH_NODE_H__
+#endif // __XSD_CHOICE_GRAPH_NODE_H__
+

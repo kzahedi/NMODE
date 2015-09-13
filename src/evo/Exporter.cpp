@@ -4,6 +4,7 @@
 #include <math.h>
 
 #include "base/macros.h"
+#include "glog/logging.h"
 
 
 string Exporter::toXml(Module *m)
@@ -98,8 +99,11 @@ string Exporter::toX3d(Individual *i)
   sst << "      <x3d width='900px' height='700px'> " << endl;
   sst << "      <scene> " << endl;
 
-  for(Modules::const_iterator m = i->m_begin(); m != i->m_end(); m++) sst << toX3d(*m);
-
+  for(Modules::const_iterator m = i->m_begin(); m != i->m_end(); m++)
+  {
+    sst << toX3d(*m);
+    VLOG(10) << "  exporting module " << (*m)->name();
+  }
   sst << "      </scene> " << endl;
   sst << __x3dFooter();
   return sst.str();
@@ -107,6 +111,8 @@ string Exporter::toX3d(Individual *i)
 
 string Exporter::toX3d(Module *m)
 {
+  if(m->isCopy()) m->updateFromLink();
+
   stringstream sst;
   for(Nodes::const_iterator n = m->n_begin(); n != m->n_end(); n++) sst << toX3d(*n);
   for(Edges::const_iterator e = m->e_begin(); e != m->e_end(); e++) sst << toX3d(*e);
@@ -147,8 +153,11 @@ string Exporter::toX3d(Node *n)
     case NODE_TYPE_OUTPUT:
       sst << "        <material diffuseColor='0.98 0.41 0'></material> " << endl;
       break;
+    case NODE_TYPE_CONNECTOR:
+      sst << "        <material diffuseColor='0.41 0.98 0'></material> " << endl;
+      break;
     default:
-      throw ENPException("unkown node type in Exporter::toPov(Node *node, ...");
+      throw ENPException("unkown node type in Exporter::toX3d(Node *node, ...");
   }
 
   sst << "        </appearance> " << endl;

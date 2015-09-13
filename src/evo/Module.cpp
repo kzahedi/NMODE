@@ -10,7 +10,6 @@
 Module::Module(string name)
 {
   _name     = name;
-  _linked   = false;
   _globalId = 0;
   _isCopy   = false;
 }
@@ -62,7 +61,7 @@ string Module::name()
 
 void Module::linkTo(Module *target)
 {
-  _linked = true;
+  _isCopy = true;
   _target = target;
 }
 
@@ -203,16 +202,11 @@ void Module::setName(string name)
 
 void Module::initialise(DataModule *data)
 {
-  _data = data;
+  _data   = data;
+  _isCopy = data->isCopy();
 
-  if(data->ref().size() > 0)
+  if(_isCopy == false)
   {
-    _isCopy = true;
-  }
-  else
-  {
-    _isCopy = false;
-
     std::map<string, Node*> nodeMap;
 
     for(DataModuleNodes::iterator n = data->n_begin(); n != data->n_end(); n++)
@@ -314,4 +308,10 @@ int Module::getNewNodeId()
 bool Module::isCopy()
 {
   return _isCopy;
+}
+
+
+void Module::updateFromLink()
+{
+
 }

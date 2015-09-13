@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 
-#include "base/xsd/specification/XsdSpecification.h"
+#include "XsdSpecification.h"
 
 #include "DataENP.h"
 

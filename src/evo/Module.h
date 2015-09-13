@@ -2,7 +2,7 @@
 #define __MODULE_H__
 
 #include "Node.h"
-#include "base/data/DataModule.h"
+#include "base/DataModule.h"
 
 class Module
 {
@@ -48,6 +48,7 @@ class Module
     int                   getNewNodeId();
 
     bool                  isCopy();
+    void                  updateFromLink();
 
   private:
     Nodes       _nodes;
@@ -58,7 +59,6 @@ class Module
     Nodes       _hidden;
     Edges       _edges;
     string      _name;
-    bool        _linked;
     bool        _modified;
     Module     *_target;
     DataModule *_data;

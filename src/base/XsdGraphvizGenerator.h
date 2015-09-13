@@ -25,30 +25,33 @@
  *************************************************************************/
 
 
-#ifndef __XSD_REGULAR_EXPRESSION_GRAPH_NODE_H__
-#define __XSD_REGULAR_EXPRESSION_GRAPH_NODE_H__
+#ifndef __YARS_XSD_GRAPHVIZ_GENERATOR_H__
+#define __YARS_XSD_GRAPHVIZ_GENERATOR_H__
 
-#include "XsdGraphNode.h"
-#include "base/xsd/specification/XsdRegularExpression.h"
+#include "XsdGraph.h"
 
-#include <string>
 #include <sstream>
 
 using namespace std;
 
-class XsdRegularExpressionGraphNode : public XsdGraphNode
+class XsdGraphvizGenerator
 {
   public:
-    XsdRegularExpressionGraphNode(XsdRegularExpression *spec);
-    string customLabel(string label);
-    string name();
-    XsdRegularExpression* spec();
+    XsdGraphvizGenerator();
+
+    void generate(string parent, string name, bool leftToRight, int depth);
+
+    friend std::ostream& operator<<(std::ostream& str, XsdGraphvizGenerator& g)
+    {
+      str << g._dot.str() << endl;
+      return str;
+    };
 
   private:
-    stringstream          _oss;
-    XsdRegularExpression *_spec;
-    string                _specification;
-    string                _type;
+    void __generate(XsdGraphNodeInstance *node, int depth);
+
+    stringstream  _dot;
+    XsdGraph     *_graph;
 };
 
-#endif // __XSD_REGULAR_EXPRESSION_GRAPH_NODE_H__
+#endif // __YARS_XSD_GRAPHVIZ_GENERATOR_H__

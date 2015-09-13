@@ -41,7 +41,7 @@
 #include <sstream>
 
 #include "YarsXSDSaxHandler.h"
-#include "base/xsd/generator/YarsXSDGenerator.h"
+#include "YarsXSDGenerator.h"
 
 
 using namespace std;

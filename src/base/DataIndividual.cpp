@@ -23,7 +23,8 @@ void DataIndividual::add(DataParseElement *element)
 
   if(element->closing(TAG_INDIVIDUAL))
   {
-    __linkConnectorNodes();
+    // __linkConnectorNodes();
+    VLOG(100) << "closing " << element->name();
     current = parent;
   }
 
@@ -91,34 +92,44 @@ DataModules DataIndividual::modules()
   return _modules;
 }
 
-void DataIndividual::__linkConnectorNodes()
-{
-  FORC(DataModules, a, _modules)
-  {
-    cout << "working on module " << (*n)->name() << endl;
-    FORC(DataModuleNodes, an, (*a)->nodes())
-    {
-      if((*an)->type() == TAG_CONNECTOR)
-      {
-        string label          = (*an)->label();
-        string::size_type pos = label.find('/');
-        string module_name    = label.substr(0, pos);
-        string node_name      = label.substr(pos+1, label.size()-1);
-        FORC(DataModules, b, _modules)
-        {
-          if((*b)->name() == module_name)
-          {
-            FORC(DataModuleNodes, bn, (*b)->nodes())
-            {
-              if((*bn)->type() != TAG_CONNECTOR && (*bn)->label() == node_name)
-              {
-                cout << "setting position of " << (*an)->label() << " to " << (*an)->position() << " from " << (*bn)->label() << " which has " << (*bn)->position() << endl;
-                (*an)->setPosition((*bn)->position());
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-}
+
+// void DataIndividual::__linkConnectorNodes()
+// {
+//   VLOG(100) << "  __linkConnectorNodes called with " << _modules.size() << " modules";
+//   FORC(DataModules, a, _modules)
+//   {
+//     VLOG(100) << "working on module " << (*a)->name() << " with " << (*a)->n_size() << " nodes";
+//     FORC(DataModuleNodes, an, (*a)->nodes())
+//     {
+//       VLOG(100) << " node " << (*an);
+//       VLOG(100) << " node type is " << (*an)->type() << " vs. " << TAG_CONNECTOR;
+//       if((*an)->type() == TAG_CONNECTOR)
+//       {
+//         string label          = (*an)->label();
+//         string::size_type pos = label.find('/');
+//         string module_name    = label.substr(0, pos);
+//         string node_name      = label.substr(pos+1, label.size()-1);
+//         FORC(DataModules, b, _modules)
+//         {
+//           if((*b)->name() == module_name)
+//           {
+//             FORC(DataModuleNodes, bn, (*b)->nodes())
+//             {
+//               if((*bn)->type() != TAG_CONNECTOR && (*bn)->label() == node_name)
+//               {
+//                 VLOG(100) << "setting position of " << (*an)->label() << " to "
+//                           << (*an)->position() << " from " << (*bn)->label()
+//                           << " which has " << (*bn)->position();
+//                 VLOG(100) << "setting transferfunction of " << (*an)->label()
+//                           << " to " << (*an)->transferfunction() << " from "
+//                           << (*bn)->label() << " which has " << (*bn)->position();
+//                 (*an)->setPosition((*bn)->position());
+//                 (*an)->setTransferfunction((*bn)->transferfunction());
+//               }
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }

@@ -36,10 +36,6 @@ void Individual::initialise(DataIndividual *data)
 {
   _fitness = data->fitness();
   _id      = data->id();
-  for(DataModules::iterator m = data->m_begin(); m != data->m_end(); m++)
-  {
-    add(*m);
-  }
 }
 
 void Individual::add(DataModule *data)

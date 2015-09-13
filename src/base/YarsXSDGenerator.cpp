@@ -42,7 +42,7 @@
 using namespace std;
 
 #include "XSDString.h"
-#include "base/data/Data.h"
+#include "Data.h"
 
 XERCES_CPP_NAMESPACE_USE
 

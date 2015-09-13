@@ -27,9 +27,9 @@
 
 #include "YarsXSDSaxHandler.h"
 
-#include "base/data/Data.h"
-#include "base/data/DataParseElement.h"
-#include "base/data/DataParseAttribute.h"
+#include "Data.h"
+#include "DataParseElement.h"
+#include "DataParseAttribute.h"
 
 #include <iostream>
 #include <sstream>

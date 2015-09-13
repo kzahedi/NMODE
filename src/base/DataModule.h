@@ -47,8 +47,11 @@ class DataModule : public DataNode
     P3D                       translation();
     Quaternion                rotation();
 
+    void                      update();
+    bool                      isCopy();
+
   private:
-    void            __linkConnectorNeurons();
+    // void            __linkConnectorNeurons();
 
     string          _name;
     string          _ref;
@@ -60,6 +63,9 @@ class DataModule : public DataNode
     P3D             _translation;
 
     bool*           _mirror;
+    bool            _isCopy;
+    DataModuleEdges _copiedEdges;
+    DataModuleNodes _copiedNodes;
 };
 
 typedef vector<DataModule*> DataModules;

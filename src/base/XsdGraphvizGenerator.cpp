@@ -25,44 +25,56 @@
  *************************************************************************/
 
 
-#ifndef __YARS_XSD_GRAPH_NODE_H__
-#define __YARS_XSD_GRAPH_NODE_H__
+#include "XsdGraphvizGenerator.h"
 
-#include "base/xsd/specification/XsdSpecification.h"
+#include "XsdGraphNodeInstance.h"
 
-#include <string>
+#include "macros.h"
+
 #include <vector>
+#include <iostream>
 
-#define ATTRIBUTE_BGCOLOR     "#fee1b7"
-#define ELEMENT_BGCOLOR       "#adc9f0"
-#define CHOICE_BGCOLOR        "#adf0ad"
-#define SPECIFICATION_BGCOLOR "#fefeb7"
-
-#define REGEXP_BGCOLOR        "#f3afd7"
-#define INTERVAL_BGCOLOR      "#d9adf0"
-#define ENUM_BGCOLOR          "#b8adf0"
-
-#define OPTIONAL_COLOR        "#00A000"
-#define REQUIRED_COLOR        "#ff0000"
-
-using namespace std;
-
-class XsdGraphNode
+XsdGraphvizGenerator::XsdGraphvizGenerator()
 {
-  public:
-    XsdGraphNode();
-    virtual ~XsdGraphNode() { };
+  _graph = new XsdGraph();
+}
 
-    virtual string   customLabel(string label) = 0;
-    virtual string   name()                    = 0;
-    virtual XsdNode* spec()                    = 0;
+void XsdGraphvizGenerator::generate(string parent, string name, bool leftToRight, int depth)
+{
+  _dot.str("");
+  _dot << "digraph structs {"         << endl;
+  if(leftToRight)
+  {
+    _dot << "  rankdir=LR;"             << endl;
+    // _dot << "  layout=circo;"             << endl;
+    // _dot << " ranksep=5;"<< endl << "  ratio=auto;"             << endl;
+    // _dot << " outputMode=\"edgesfirst\";" << endl;
 
-    string uniqueNodeName();
-    void   setUniqueNodeName(string n);
-    bool   hasDefinition(string type);
+  }
+  else
+  {
+    _dot << "  rankdir=TB;"             << endl;
+  }
+  //_dot << "  ranksep=\"equally\";"    << endl;
+  _dot << "  node [shape=plaintext];" << endl;
 
-  private:
-    string            _uniqueName;
-};
+  XsdGraphNodeInstance *node = _graph->get(parent, name);
+  __generate(node, depth);
 
-#endif // __YARS_XSD_GRAPH_NODE_H__
+  _dot << "}" << endl;
+}
+
+void XsdGraphvizGenerator::__generate(XsdGraphNodeInstance *node, int depth)
+{
+  if(depth == 0) return;
+  int d = depth - 1;
+  _dot << " " << node->uniqueName() << " " << node->label() << endl;
+  if(d != 0)
+  {
+    FORP(vector<XsdGraphNodeInstance*>, i, node)
+    {
+      __generate(*i, d);
+      _dot << node->uniqueName() << ":" << (*i)->port() << " -> " << (*i)->uniqueName() << ";" << endl;
+    }
+  }
+}

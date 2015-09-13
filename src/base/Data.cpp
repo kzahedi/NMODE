@@ -1,7 +1,7 @@
 #include "Data.h"
 
-#include "base/xsd/parser/YarsXSDSaxParser.h"
-#include "base/data/XmlChangeLog.h"
+#include "YarsXSDSaxParser.h"
+#include "XmlChangeLog.h"
 
 #include <glog/logging.h>
 

@@ -44,7 +44,7 @@ void DataConfiguration::add(DataParseElement *element)
 void DataConfiguration::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_CONFIGURATION_DEFINITION);
-  root->add(NE(TAG_MODULE,  TAG_MODULE_DEFINITION,  1, TAG_XSD_UNBOUNDED));
+  root->add(NE(TAG_MODULE,  TAG_MODULE_DEFINITION,  0, TAG_XSD_UNBOUNDED));
   spec->add(root);
 
   DataModule::createXsd(spec);

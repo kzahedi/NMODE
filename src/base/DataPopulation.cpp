@@ -63,4 +63,3 @@ DataIndividuals DataPopulation::individuals()
 {
   return _individuals;
 }
-

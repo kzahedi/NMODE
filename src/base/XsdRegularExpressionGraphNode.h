@@ -25,79 +25,30 @@
  *************************************************************************/
 
 
-#ifndef __YARS_XSD_SAX_HANDLER_H__
-#define __YARS_XSD_SAX_HANDLER_H__
+#ifndef __XSD_REGULAR_EXPRESSION_GRAPH_NODE_H__
+#define __XSD_REGULAR_EXPRESSION_GRAPH_NODE_H__
 
-#include <xercesc/sax2/Attributes.hpp>
-#include <xercesc/sax2/DefaultHandler.hpp>
+#include "XsdGraphNode.h"
+#include "XsdRegularExpression.h"
 
 #include <string>
-#include <vector>
+#include <sstream>
 
-#include "base/data/DataENP.h"
+using namespace std;
 
-
-XERCES_CPP_NAMESPACE_USE
-
-/**
- * @brief This is the SAX2 parser of YARS. It should not be changed. This parser
- * creates entities of type DataParseElement, which also contain
- * DataParseAttribute. 
- *
- *
- * @sa DataParseElement
- * @sa DataParseAttribute
- */
-class YarsXSDSaxHandler : public DefaultHandler
+class XsdRegularExpressionGraphNode : public XsdGraphNode
 {
   public:
-    YarsXSDSaxHandler();
-
-    void startElement(
-        const   XMLCh* const    uri,
-        const   XMLCh* const    localname,
-        const   XMLCh* const    qname,
-        const   Attributes&     attrs);
-
-    void endElement(
-        const XMLCh *const uri,
-        const XMLCh *const localname,
-        const XMLCh *const qname);
-
-    void startDocument();
-    void endDocument();
-
-    void error(const SAXParseException& e);
-    void fatalError(const SAXParseException& e);
-    void warning(const SAXParseException& e);
-
-    /**
-     * @brief Returns a list of strings with error messages.
-     *
-     * @return list of strings
-     */
-    std::vector<std::string> errors();
-
-    /**
-     * @brief Returns a list of strings with warnings.
-     *
-     * @return list of strings
-     */
-    std::vector<std::string> warnings();
-
-    /**
-     * @brief Returns a list of strings with fatal messages.
-     *
-     * @return list of strings
-     */
-    std::vector<std::string> fatals();
+    XsdRegularExpressionGraphNode(XsdRegularExpression *spec);
+    string customLabel(string label);
+    string name();
+    XsdRegularExpression* spec();
 
   private:
-    DataENP *_spec;
-
-    std::vector<std::string> _errors;
-    std::vector<std::string> _warnings;
-    std::vector<std::string> _fatals;
+    stringstream          _oss;
+    XsdRegularExpression *_spec;
+    string                _specification;
+    string                _type;
 };
 
-#endif // __YARS_XSD_SAX_HANDLER_H__
+#endif // __XSD_REGULAR_EXPRESSION_GRAPH_NODE_H__

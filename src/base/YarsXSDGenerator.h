@@ -37,12 +37,12 @@
 #include <xercesc/framework/MemBufFormatTarget.hpp>
 #include "XSDString.h"
 
-#include "base/xsd/specification/XsdSequence.h"
-#include "base/xsd/specification/XsdEnumeration.h"
-#include "base/xsd/specification/XsdElement.h"
-#include "base/xsd/specification/XsdChoice.h"
-#include "base/xsd/specification/XsdRegularExpression.h"
-#include "base/xsd/specification/XsdInterval.h"
+#include "XsdSequence.h"
+#include "XsdEnumeration.h"
+#include "XsdElement.h"
+#include "XsdChoice.h"
+#include "XsdRegularExpression.h"
+#include "XsdInterval.h"
 
 XERCES_CPP_NAMESPACE_USE
 

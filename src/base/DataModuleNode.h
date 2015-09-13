@@ -30,17 +30,27 @@ class DataModuleNode : public DataNode
 
     string type();
     string label();        // if label contains a '/' its a reference
-    string transferfunction();
     double bias();
 
     P3D    position();
-    void   setPosition(P3D p);
+    void   setPosition(P3D);
+
+    string transferfunction();
+    void   setTransferfunction(string);
+
+    string moduleName();
+    void   setModuleName(string);
+
+    string nodeName();
+    void   setNodeName(string);
 
   private:
     string _type;
     string _label;
     P3D    _position;
     string _transferfunction;
+    string _nodeName;
+    string _moduleName;
     double _bias;
 };
 
