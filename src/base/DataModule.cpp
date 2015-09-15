@@ -1,6 +1,6 @@
 #include "DataModule.h"
 
-#include "base/macros.h"
+#include "macros.h"
 
 #include <iostream>
 #include <string>
@@ -31,13 +31,16 @@ using namespace std;
 DataModule::DataModule(DataNode *parent)
   : DataNode(parent)
 {
-  _mirror = new bool[3];
-  _isCopy = false;
+  _mirrorAxes   = new bool[3];
+  _isCopy   = false;
+  _isLinked = false;
+  _globalId = 0;
+  _modified = false;
 }
 
 DataModule::~DataModule()
 {
-  delete _mirror;
+  delete _mirrorAxes;
 }
 
 void DataModule::add(DataParseElement *element)
@@ -90,10 +93,10 @@ void DataModule::add(DataParseElement *element)
   {
     VLOG(100) << "found " << TAG_MODULE_MIRROR;
     P3D r;
-    element->set(TAG_X, _mirror[0]);
-    element->set(TAG_Y, _mirror[1]);
-    element->set(TAG_Z, _mirror[2]);
-    VLOG(100) << "found " << _mirror[0] << " " << _mirror[1] << " " << _mirror[2];
+    element->set(TAG_X, _mirrorAxes[0]);
+    element->set(TAG_Y, _mirrorAxes[1]);
+    element->set(TAG_Z, _mirrorAxes[2]);
+    VLOG(100) << "found " << _mirrorAxes[0] << " " << _mirrorAxes[1] << " " << _mirrorAxes[2];
   }
 
   if(element->opening(TAG_MODULE_TRANSLATE))
@@ -170,7 +173,6 @@ int DataModule::n_size()
   return _nodes.size();
 }
 
-
 DataModuleNodes DataModule::nodes()
 {
   return _nodes;
@@ -228,4 +230,222 @@ void DataModule::update()
 bool DataModule::isCopy()
 {
   return _isCopy;
+}
+
+bool DataModule::isLinked()
+{
+  return _isLinked;
+}
+
+void DataModule::linkTo(DataModule* t)
+{
+  _target = t;
+}
+
+bool DataModule::operator==(const DataModule m)
+{
+  DataModuleNodes mn = m._nodes;
+  FORC(DataModuleNodes, a, _nodes)
+  {
+    bool foundDataNode = false;
+    FORC(DataModuleNodes, b, mn)
+    {
+      if(**a == **b)
+      {
+        foundDataNode = true;
+        break;
+      }
+    }
+    if(foundDataNode == false) return false;
+  }
+  return true;
+}
+
+bool DataModule::operator!=(const DataModule m)
+{
+  DataModuleNodes mn = m._nodes;
+  FORC(DataModuleNodes, a, _nodes)
+  {
+    bool foundDataNode = true;
+    FORC(DataModuleNodes, b, mn)
+    {
+      if(**a != **b)
+      {
+        foundDataNode = false;
+        break;
+      }
+    }
+    if(foundDataNode == false) return true;
+  }
+  return false;
+}
+
+bool DataModule::removeNode(DataModuleNode *n) throw (ENPException)
+{
+  if(n->type() != TAG_HIDDEN) throw ENPException("Attempting to remove non-hidden node");
+  DataModuleNodes::iterator i;
+
+  int neuron_index = -1;
+  for(int i = 0; i < (int)_nodes.size(); i++)
+  {
+    if(_nodes[i] == n)
+    {
+      neuron_index = i;
+      break;
+    }
+  }
+
+  VLOG(50) << "   Found neuron index " << neuron_index;
+
+  i = std::find(_nodes.begin(), _nodes.end(), n);
+  if(i != _nodes.end())
+  {
+    _nodes.erase(i);
+    VLOG(50) << "   Removed neuron " << (*i)->label() << " from nodes";
+  }
+
+  i = std::find(_hidden.begin(), _hidden.end(), n);
+  if(i != _hidden.end())
+  {
+    _hidden.erase(i);
+    VLOG(50) << "   Removed neuron " << (*i)->label() << " from hidden";
+  }
+
+  DataModuleEdges toBeRemoved;
+  FORC(DataModuleEdges, e, _edges)
+  {
+    if((*e)->source()      == n->label() ||
+       (*e)->destination() == n->label())
+    {
+      VLOG(50) << "    Removing edge with "
+        << (*e)->source()      << " -> "
+        << (*e)->destination() << " with " << (*e)->weight();
+      DataModuleEdges::iterator ei = std::find(_edges.begin(), _edges.end(), *e);
+      if(ei != _edges.end()) toBeRemoved.push_back(*e);
+    }
+  }
+
+  for(DataModuleEdges::iterator e = toBeRemoved.begin(); e != toBeRemoved.end(); e++)
+  {
+    DataModuleEdges::iterator ei = std::find(_edges.begin(), _edges.end(), *e);
+    _edges.erase(ei);
+  }
+
+  FORC(DataModuleNodes, nn, _nodes) (*nn)->removeEdge(n);
+  return true;
+}
+
+bool DataModule::removeEdge(DataModuleEdge *e)
+{
+  FORC(DataModuleEdges, i, _edges)
+  {
+    if((**i) == *e)
+    {
+      _edges.erase(i);
+      return true;
+    }
+  }
+  return false;
+}
+
+
+DataModuleEdge* DataModule::addEdge(DataModuleNode *src, DataModuleNode *dst, double weight) throw (ENPException)
+{
+  if(dst->contains(src)) throw ENPException("Module::addEdge: The destination node already contains an edge from the source node");
+  DataModuleEdge *e = new DataModuleEdge(NULL);
+  e->setSourceNode(src);
+  e->setDestinationNode(dst);
+  e->setWeight(weight);
+
+  dst->addEdge(e);
+
+  _edges.push_back(e);
+
+  return e;
+}
+
+DataModuleNode* DataModule::node(int index)
+{
+  return _nodes[index];
+}
+
+
+
+DataModuleNodes::iterator DataModule::s_begin()
+{
+  return _sensors.begin();
+}
+
+DataModuleNodes::iterator DataModule::s_end()
+{
+  return _sensors.end();
+}
+
+int DataModule::s_size()
+{
+  return _sensors.size();
+}
+
+DataModuleNodes DataModule::sensorNodes()
+{
+  return _sensors;
+}
+
+
+
+DataModuleNodes::iterator DataModule::a_begin()
+{
+  return _actuators.begin();
+}
+
+DataModuleNodes::iterator DataModule::a_end()
+{
+  return _actuators.end();
+}
+
+int DataModule::a_size()
+{
+  return _actuators.size();
+}
+
+DataModuleNodes DataModule::actuatorNodes()
+{
+  return _actuators;
+}
+
+DataModuleNode* DataModule::sensorNode(int index)
+{
+  return _sensors[index];
+}
+
+DataModuleNode* DataModule::actuatorNode(int index)
+{
+  return _actuators[index];
+}
+
+DataModuleNode* DataModule::hiddenNode(int index)
+{
+  return _hidden[index];
+}
+
+bool DataModule::modified()
+{
+  return _modified;
+}
+
+void DataModule::setModified(bool m)
+{
+  _modified = m;
+}
+
+int DataModule::getNewNodeId()
+{
+  int i = _globalId;
+  _globalId++;
+  return i;
+}
+
+void DataModule::updateFromLink()
+{
+  // TODO
 }

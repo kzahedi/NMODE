@@ -63,3 +63,14 @@ DataIndividuals DataPopulation::individuals()
 {
   return _individuals;
 }
+
+DataIndividual DataPopulation::individual(int index)
+{
+  return _individuals[index];
+}
+
+int DataPopulation::generation()
+{
+  return _generation;
+}
+

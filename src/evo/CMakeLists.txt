@@ -2,8 +2,6 @@ include_directories("${PROJECT_SOURCE_DIR}/src")
 link_directories(${PROJECT_BINARY_DIR}/lib)
 
 add_library(ENPEvo SHARED Module.cpp
-                          Node.cpp
-                          Edge.cpp
                           MutateModuleOperator.cpp
                           MutateIndividualOperator.cpp
                           MutatePopulationOperator.cpp

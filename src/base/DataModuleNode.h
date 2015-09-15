@@ -9,6 +9,12 @@
 # define TAG_MODULE_NODE            (char*)"node"
 # define TAG_MODULE_NODE_DEFINITION (char*)"module_node_definition"
 
+# define TAG_ACTUATOR               (char*)"actuator"
+# define TAG_SENSOR                 (char*)"sensor"
+# define TAG_INPUT                  (char*)"input"
+# define TAG_HIDDEN                 (char*)"hidden"
+# define TAG_CONNECTOR              (char*)"connector"
+
 class DataModuleNode : public DataNode
 {
   public:

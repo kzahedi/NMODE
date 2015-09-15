@@ -92,6 +92,16 @@ DataModules DataIndividual::modules()
   return _modules;
 }
 
+void DataIndividual::setFitness(double f)
+{
+  _fitness = f;
+}
+void DataIndividual::setId(int id)
+{
+  _id = id;
+}
+
+
 
 // void DataIndividual::__linkConnectorNodes()
 // {

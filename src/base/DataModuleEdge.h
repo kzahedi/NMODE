@@ -55,10 +55,14 @@ class DataModuleEdge : public DataNode
 
     string source();
     string destination();
-    double weight();
 
-    DataModuleNode *sourceNode();
-    DataModuleNode *destinationNode();
+    double weight();
+    void   setWeight(double);
+
+    DataModuleNode* sourceNode();
+    void            setSourceNode(DataModuleNode*);
+    DataModuleNode* destinationNode();
+    void            setDestinationNode(DataModuleNode*);
 
     bool operator==(const DataModuleEdge o);
     bool operator!=(const DataModuleEdge o);

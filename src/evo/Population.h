@@ -23,7 +23,6 @@ class Population
     Individuals::iterator i_end();
     int                   i_size();
     Individual*           individual(int index);
-    string                toPovray();
     int                   generation();
 
   private:

@@ -87,3 +87,17 @@ DataModuleNode* DataModuleEdge::destinationNode()
   return _destinationNode;
 }
 
+void DataModuleEdge::setSourceNode(DataModuleNode* src)
+{
+  _sourceNode = src;
+}
+
+void DataModuleEdge::setDestinationNode(DataModuleNode* dst)
+{
+  _destinationNode = dst;
+}
+
+void DataModuleEdge::setWeight(double w)
+{
+  _weight = w;
+}

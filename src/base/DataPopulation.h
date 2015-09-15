@@ -24,6 +24,8 @@ class DataPopulation : public DataNode
     DataIndividuals::iterator i_end();
     int                       i_size();
     DataIndividuals           individuals();
+    DataIndividual            individual(int index);
+    int                       generation();
 
   private:
 

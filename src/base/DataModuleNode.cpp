@@ -11,12 +11,7 @@
 #define TAG_NAME                        (char*)"name"
 #define TAG_VALUE                       (char*)"value"
 #define TAG_TYPE                        (char*)"type"
-#define TAG_ACTUATOR                    (char*)"actuator"
-#define TAG_SENSOR                      (char*)"sensor"
-#define TAG_INPUT                       (char*)"input"
-#define TAG_OUTPUT                      (char*)"output"
-#define TAG_HIDDEN                      (char*)"hidden"
-#define TAG_CONNECTOR                   (char*)"connector"
+// #define TAG_OUTPUT                      (char*)"output"
 #define TAG_NAME                        (char*)"name"
 #define TAG_TANH                        (char*)"tanh"
 #define TAG_SIGM                        (char*)"sigm"
@@ -110,7 +105,7 @@ void DataModuleNode::createXsd(XsdSpecification *spec)
   type->add(TAG_SENSOR);
   type->add(TAG_ACTUATOR);
   type->add(TAG_INPUT);
-  type->add(TAG_OUTPUT);
+  // type->add(TAG_OUTPUT);
   type->add(TAG_HIDDEN);
   spec->add(type);
 
@@ -280,7 +275,7 @@ bool DataModuleNode::isSource()
 bool DataModuleNode::isDestination()
 {
   return (_type == TAG_ACTUATOR  ||
-          _type == TAG_OUTPUT    ||
+          // _type == TAG_OUTPUT    ||
           _type == TAG_CONNECTOR ||
           _type == TAG_HIDDEN);
 }

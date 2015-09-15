@@ -23,10 +23,14 @@ class DataIndividual : public DataNode
     int    offspring();
     double fitness();
 
+    void setFitness(double);
+    void setId(int id);
+
     DataModules::iterator m_begin();
     DataModules::iterator m_end();
     int                   m_size();
     DataModules           modules();
+    DataModule*           module(int index);
 
   private:
     // void        __linkConnectorNodes();
