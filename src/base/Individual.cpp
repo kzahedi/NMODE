@@ -17,7 +17,7 @@ Individual::Individual(XsdParseNode *parent)
   _offspring = 0;
 }
 
-void Individual::add(DataParseElement *element)
+void Individual::add(ParseElement *element)
 {
   VLOG(100) << "parsing " << element->name();
 
@@ -101,6 +101,10 @@ void Individual::setId(int id)
   _id = id;
 }
 
+void Individual::addModule(Module *m)
+{
+  _modules.push_back(m);
+}
 
 
 // void Individual::__linkConnectorNodes()

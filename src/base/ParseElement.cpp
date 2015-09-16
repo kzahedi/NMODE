@@ -29,14 +29,14 @@ string ParseElement::name()
   return _name;
 }
 
-void ParseElement::add(DataParseAttribute *attribute)
+void ParseElement::add(ParseAttribute *attribute)
 {
   push_back(attribute);
 }
 
-DataParseAttribute* ParseElement::attribute(string name)
+ParseAttribute* ParseElement::attribute(string name)
 {
-  for(std::vector<DataParseAttribute*>::iterator i = begin(); i != end(); i++)
+  for(std::vector<ParseAttribute*>::iterator i = begin(); i != end(); i++)
   {
     if( (*i)->name() == name)
     {

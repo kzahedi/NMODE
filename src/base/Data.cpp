@@ -53,6 +53,11 @@ void Data::read(string xmlFile)
     exit(-1);
   }
   delete parser;
+
+  if(_root->population() == NULL)
+  {
+    _root->initialiseFirstPopulationFromConfiguration();
+  }
 }
 
 XsdSpecification* Data::xsd()

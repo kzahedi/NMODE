@@ -40,12 +40,12 @@ XERCES_CPP_NAMESPACE_USE
 
 /**
  * @brief This is the SAX2 parser of YARS. It should not be changed. This parser
- * creates entities of type DataParseElement, which also contain
- * DataParseAttribute. 
+ * creates entities of type ParseElement, which also contain
+ * ParseAttribute. 
  *
  *
- * @sa DataParseElement
- * @sa DataParseAttribute
+ * @sa ParseElement
+ * @sa ParseAttribute
  */
 class YarsXSDSaxHandler : public DefaultHandler
 {

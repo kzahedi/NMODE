@@ -1,5 +1,5 @@
-#include "base/data/Data.h"
-#include "evo/Population.h"
+#include "base/Data.h"
+#include "base/Population.h"
 #include "evo/MutateModuleOperator.h"
 #include "evo/Exporter.h"
 #include "base/Random.h"
@@ -37,10 +37,8 @@ void convert(int index, Individual* individual, string filename)
 void convert(int index, string filename)
 {
   Data *data = Data::instance();
-
   data->read(filename);
-  Population *pop = new Population();
-  pop->initialise();
+  Population *pop = data->specification()->population();
 
   if(index >= 0)
   {

@@ -65,4 +65,4 @@ include_directories(${CMAKE_SRC})
 include(cmake/IncludePackages.cmake)
 
 add_subdirectory(src)
-# add_subdirectory(tests)
+add_subdirectory(tests)

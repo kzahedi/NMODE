@@ -24,11 +24,11 @@ class DataConfiguration : public XsdParseNode
      */
     virtual ~DataConfiguration();
 
-    void add(DataParseElement *element);
+    void add(ParseElement *element);
 
     Modules::iterator m_begin();
     Modules::iterator m_end();
-    int                   m_size();
+    int               m_size();
     Modules           modules();
 
     static void createXsd(XsdSpecification *spec);

@@ -1,7 +1,7 @@
 #ifndef __DATA_PARSE_ELEMENT_H__
 #define __DATA_PARSE_ELEMENT_H__
 
-#include "DataParseAttribute.h"
+#include "ParseAttribute.h"
 
 #include <string>
 #include <vector>
@@ -15,9 +15,9 @@ using namespace std;
 /**
  * @brief Interface between parser and representation.
  *
- * @sa DataParseAttribute
+ * @sa ParseAttribute
  */
-class ParseElement : public std::vector<DataParseAttribute*>
+class ParseElement : public std::vector<ParseAttribute*>
 {
   public:
     /**
@@ -62,7 +62,7 @@ class ParseElement : public std::vector<DataParseAttribute*>
      *
      * @param attribute
      */
-    void add(DataParseAttribute *attribute);
+    void add(ParseAttribute *attribute);
 
     /**
      * @brief Returns the attribute, which is identified by its name, on NULL
@@ -71,9 +71,9 @@ class ParseElement : public std::vector<DataParseAttribute*>
      * @param name
      *
      * @return attribute, or NULL if not found
-     * @s DataParseAttribute
+     * @s ParseAttribute
      */
-    DataParseAttribute* attribute(string name);
+    ParseAttribute* attribute(string name);
     bool hasAttriute(string name);
 
     /**

@@ -48,7 +48,7 @@ void xmlTest::testXml()
   
   ENP              *enp  = d->specification();
 
-  DataSimulator        *sim = enp->simulator();
+  Simulator        *sim = enp->simulator();
 
 
   CPPUNIT_ASSERT("working directory" == sim->workingDirectory());
@@ -72,14 +72,13 @@ void xmlTest::testXml()
   CPPUNIT_ASSERT_DOUBLES_EQUAL(0.23, evos->modifyDelta(),       0.000001);
 
   DataConfiguration *conf = enp->configuration();
-  DataModules        mods = conf->modules();
+  Modules            mods = conf->modules();
 
-
-  CPPUNIT_ASSERT(2 == mods.size());
+  CPPUNIT_ASSERT(3 == mods.size());
   CPPUNIT_ASSERT("module 1" == mods[0]->name());
 
-  DataModuleNodes mod_1_nodes = mods[0]->nodes();
-  CPPUNIT_ASSERT(5 == mod_1_nodes.size());
+  Nodes mod_1_nodes = mods[0]->nodes();
+  CPPUNIT_ASSERT(9 == mod_1_nodes.size());
 
   CPPUNIT_ASSERT("sensor"           == mod_1_nodes[0]->type());
   CPPUNIT_ASSERT("sensor 1"         == mod_1_nodes[0]->label());
@@ -107,7 +106,7 @@ void xmlTest::testXml()
   CPPUNIT_ASSERT("sigm"             == mod_1_nodes[4]->transferfunction());
 
   CPPUNIT_ASSERT("module 2" == mods[1]->name());
-  DataModuleNodes mod_2_nodes = mods[1]->nodes();
+  Nodes mod_2_nodes = mods[1]->nodes();
   CPPUNIT_ASSERT(3 == mod_2_nodes.size());
 
   CPPUNIT_ASSERT("sensor"           == mod_2_nodes[0]->type());

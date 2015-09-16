@@ -50,7 +50,7 @@ class Edge : public XsdParseNode
     //Edge(const Edge);
     //Edge operator=(const Edge);
 
-    void add(DataParseElement *element);
+    void add(ParseElement *element);
     static void createXsd(XsdSpecification *spec);
 
     string source();

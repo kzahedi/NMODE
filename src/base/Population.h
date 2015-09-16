@@ -10,22 +10,23 @@
 class Population : public XsdParseNode
 {
   public:
-    Population(XsdParseNode *parent);
+    Population(XsdParseNode *parent = NULL);
     // ~Population();
 
     //Population(const Population);
     //Population operator=(const Population);
 
-    void add(DataParseElement *element);
+    void add(ParseElement *element);
     static void createXsd(XsdSpecification *spec);
 
     
     Individuals::iterator i_begin();
     Individuals::iterator i_end();
-    int                       i_size();
+    int                   i_size();
     Individuals           individuals();
-    Individual            individual(int index);
-    int                       generation();
+    Individual*           individual(int index);
+    int                   generation();
+    void                  addIndividual(Individual*);
 
   private:
 

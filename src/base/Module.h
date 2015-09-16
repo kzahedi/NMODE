@@ -21,14 +21,15 @@ class Module : public XsdParseNode
      *
      * @param parent
      */
-    Module(XsdParseNode *parent);
+    Module(XsdParseNode *parent = NULL);
 
     /**
      * @brief Destructor.
      */
     virtual ~Module();
 
-    void add(DataParseElement *element);
+    void add(ParseElement *element);
+    void setName(string name);
 
     static void createXsd(XsdSpecification *spec);
 

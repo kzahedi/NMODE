@@ -18,7 +18,7 @@ DataConfiguration::~DataConfiguration()
 }
 
 
-void DataConfiguration::add(DataParseElement *element)
+void DataConfiguration::add(ParseElement *element)
 {
   VLOG(100) << "parsing: " << element->name();
   if(element->closing(TAG_CONFIGURATION))

@@ -23,7 +23,7 @@ class EvolutionNode : public XsdParseNode
      */
     virtual ~EvolutionNode();
 
-    void add(DataParseElement *element);
+    void add(ParseElement *element);
 
     static void createXsd(XsdSpecification *spec);
 

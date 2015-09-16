@@ -31,7 +31,7 @@
 // #include "main/Configuration.h"
 // #include "data/Data.h"
 #include "base/Random.h"
-#include "base/DataModuleNode.h"
+#include "base/Node.h"
 #include "base/Module.h"
 
 #include <iostream>
@@ -69,7 +69,7 @@ void modulesTest::testNodeEquality()
   CPPUNIT_ASSERT("tanh"             == a->transferfunction());
   CPPUNIT_ASSERT(P3D(1.0, 1.0, 1.0) == a->position());
   CPPUNIT_ASSERT("label"            == a->label());
-  CPPUNIT_ASSERT(NODE_TYPE_SENSOR   == a->type());
+  CPPUNIT_ASSERT(TAG_SENSOR         == a->type());
 
   Node *b = new Node();
   b->setTransferfunction("tanh");
@@ -94,7 +94,8 @@ void modulesTest::testNodeEquality()
 
 void modulesTest::testModuleEquality()
 {
-  Module *a = new Module("module 1");
+  Module *a = new Module();
+  a->setName("module 1");
 
   Node *aa = new Node();
   aa->setType("sensor");
@@ -133,7 +134,8 @@ void modulesTest::testModuleEquality()
   a->addNode(ae);
 
 
-  Module *b = new Module("module 2");
+  Module *b = new Module();
+  b->setName("module 2");
 
   Node *ba = new Node();
   ba->setType("sensor");
@@ -179,7 +181,8 @@ void modulesTest::testModuleEquality()
 
 void modulesTest::testModuleInequality()
 {
-  Module *a = new Module("module 1");
+  Module *a = new Module();
+  a->setName("module 1");
 
   Node *aa = new Node();
   aa->setType("sensor");
@@ -218,7 +221,8 @@ void modulesTest::testModuleInequality()
   a->addNode(ae);
 
 
-  Module *b = new Module("module 2");
+  Module *b = new Module();
+  b->setName("module 2");
 
   Node *ba = new Node();
   ba->setType("sensor");
@@ -268,7 +272,8 @@ void modulesTest::testMutateModuleOperator()
 
 void modulesTest::testModuleAddEdge()
 {
-  Module *a = new Module("module 1");
+  Module *a = new Module();
+  a->setName("module 1");
 
   Node *aa = new Node();
   aa->setType("sensor");
@@ -287,10 +292,10 @@ void modulesTest::testModuleAddEdge()
 
   a->addEdge(aa, ab, 1.0);
 
-  CPPUNIT_ASSERT(a->e_size()           == 1);
-  CPPUNIT_ASSERT(ab->e_size()          == 1);
-  CPPUNIT_ASSERT(aa->e_size()          == 0);
-  CPPUNIT_ASSERT(ab->edge(0)->source() == aa);
+  CPPUNIT_ASSERT(a->e_size()               == 1);
+  CPPUNIT_ASSERT(ab->e_size()              == 1);
+  CPPUNIT_ASSERT(aa->e_size()              == 0);
+  CPPUNIT_ASSERT(ab->edge(0)->sourceNode() == aa);
 
   CPPUNIT_ASSERT_THROW(a->addEdge(aa, ab, 1.0), ENPException);
 }

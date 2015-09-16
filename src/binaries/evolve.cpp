@@ -1,6 +1,6 @@
 #include "base/Configuration.h"
-#include "base/data/Data.h"
-#include "evo/Population.h"
+#include "base/Data.h"
+#include "base/Population.h"
 #include "evo/MutatePopulationOperator.h"
 #include "evo/Exporter.h"
 #include "base/Random.h"
@@ -46,10 +46,9 @@ int main(int argc, char** argv)
 
   VLOG(5) << "reading file " << configuration->cfg();
   data->read(configuration->cfg());
+  Population *pop = data->specification()->population();
 
-  Population *pop = new Population();
-  pop->initialise();
-
+  cout << "Population: " << pop << endl;
 
   for(int i = 0; i < 200; i++)
   {

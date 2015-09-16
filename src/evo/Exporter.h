@@ -1,7 +1,7 @@
 #ifndef __EXPORTER_H__
 #define __EXPORTER_H__
 
-#include "Population.h"
+#include "base/Population.h"
 
 #include <string>
 
@@ -19,8 +19,6 @@ class Exporter
     static string toX3d(Module     *module);
     static string toX3d(Node       *node);
     static string toX3d(Edge       *edge);
-
-
 
   private:
 

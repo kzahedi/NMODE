@@ -28,8 +28,8 @@
 #include "YarsXSDSaxHandler.h"
 
 #include "Data.h"
-#include "DataParseElement.h"
-#include "DataParseAttribute.h"
+#include "ParseElement.h"
+#include "ParseAttribute.h"
 
 #include <iostream>
 #include <sstream>
@@ -52,14 +52,14 @@ void YarsXSDSaxHandler::startElement(
   char* m_uri         = XMLString::transcode(uri);
   char* m_localname   = XMLString::transcode(localname);
   char* m_qname       = XMLString::transcode(qname);
-  DataParseElement *element = new DataParseElement(YARS_DATA_PARSE_ELEMENT_TYPE_OPENING);
+  ParseElement *element = new ParseElement(YARS_DATA_PARSE_ELEMENT_TYPE_OPENING);
   element->setName(message);
 
   if(attrs.getLength() > 0)
   {
     for (XMLSize_t i = 0; i < attrs.getLength(); i++)
     {
-      DataParseAttribute *a = new DataParseAttribute();
+      ParseAttribute *a = new ParseAttribute();
       string a_qname = XMLString::transcode(attrs.getQName(i));
       string a_uri   = XMLString::transcode(attrs.getURI(i));
       string a_local = XMLString::transcode(attrs.getLocalName(i));
@@ -83,7 +83,7 @@ void YarsXSDSaxHandler::endElement(
     const XMLCh *const)
 {
   char* message = XMLString::transcode(localname);
-  DataParseElement *element = new DataParseElement(YARS_DATA_PARSE_ELEMENT_TYPE_CLOSING);
+  ParseElement *element = new ParseElement(YARS_DATA_PARSE_ELEMENT_TYPE_CLOSING);
   element->setName(message);
   _spec->add(element);
   delete element;

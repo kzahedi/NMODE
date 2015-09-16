@@ -13,7 +13,7 @@ string Exporter::toXml(Module *m)
   sst << "      <module name=\"" << m->name() << "\">" << endl;
   for(Nodes::const_iterator n = m->n_begin(); n != m->n_end(); n++)
   {
-    sst << "        <node type=\"" << (*n)->stype()
+    sst << "        <node type=\"" << (*n)->type()
       << "\" label=\"" << (*n)->label() << "\">" << endl;
     sst << "          <position x=\"" << (*n)->position().x
       << "\" y=\"" << (*n)->position().y
@@ -26,8 +26,8 @@ string Exporter::toXml(Module *m)
   }
   for(Edges::const_iterator e = m->e_begin(); e != m->e_end(); e++)
   {
-    sst << "        <edge source=\"" << (*e)->source()->label()
-      << "\" destination=\"" << (*e)->destination()->label() << "\" weight=\""
+    sst << "        <edge source=\"" << (*e)->source()
+      << "\" destination=\"" << (*e)->destination() << "\" weight=\""
       << (*e)->weight()<< "\"/>" << endl;
   }
   sst << "      </module>" << endl;
@@ -136,27 +136,28 @@ string Exporter::toX3d(Node *n)
     << n->position().z << "'>" << endl;
   sst << "    <shape> " << endl;
   sst << "        <appearance> " << endl;
-  switch(n->type())
+  if(n->type() == TAG_SENSOR)
   {
-    case NODE_TYPE_SENSOR:
       sst << "        <material diffuseColor='1 0 0'></material> " << endl;
-      break;
-    case NODE_TYPE_ACTUATOR:
+  }
+  else if(n->type() == TAG_ACTUATOR)
+  {
       sst << "        <material diffuseColor='0 1 0'></material> " << endl;
-      break;
-    case NODE_TYPE_HIDDEN:
+  }
+  else if(n->type() == TAG_HIDDEN)
+  {
       sst << "        <material diffuseColor='0 0 1'></material> " << endl;
-      break;
-    case NODE_TYPE_INPUT:
+  }
+  else if(n->type() == TAG_INPUT)
+  {
       sst << "        <material diffuseColor='0.98 0.81 0'></material> " << endl;
-      break;
-    case NODE_TYPE_OUTPUT:
-      sst << "        <material diffuseColor='0.98 0.41 0'></material> " << endl;
-      break;
-    case NODE_TYPE_CONNECTOR:
+  }
+  else if(n->type() == TAG_CONNECTOR)
+  {
       sst << "        <material diffuseColor='0.41 0.98 0'></material> " << endl;
-      break;
-    default:
+  }
+  else
+  {
       throw ENPException("unkown node type in Exporter::toX3d(Node *node, ...");
   }
 
@@ -198,8 +199,8 @@ string Exporter::toX3d(Edge *e)
 {
   stringstream sst;
 
-  Node *src     = e->source();
-  Node *dst     = e->destination();
+  Node *src     = e->sourceNode();
+  Node *dst     = e->destinationNode();
 
   // TODO self-connection
   if(src == dst) return "";

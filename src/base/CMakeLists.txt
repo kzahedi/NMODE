@@ -14,7 +14,7 @@ add_library(ENPBase SHARED RNN.cpp
                            XmlChangeLogEntry.cpp
                            Version.cpp
 
-                           DataParseAttribute.cpp
+                           ParseAttribute.cpp
                            ParseElement.cpp
 
                            Data.cpp

@@ -16,7 +16,7 @@ Evolution::~Evolution()
 }
 
 
-void Evolution::add(DataParseElement *element)
+void Evolution::add(ParseElement *element)
 {
   VLOG(100) << "parsing: " << element->name();
   if(element->closing(TAG_EVOLUTION))

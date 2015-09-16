@@ -63,7 +63,7 @@ EvolutionNode::~EvolutionNode()
   // nothing to be done
 }
 
-void EvolutionNode::add(DataParseElement *element)
+void EvolutionNode::add(ParseElement *element)
 {
   if(element->closing(TAG_EVOLUTION_NODE))
   {

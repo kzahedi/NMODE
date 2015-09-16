@@ -37,7 +37,7 @@ Node::~Node()
 { }
 
 
-void Node::add(DataParseElement *element)
+void Node::add(ParseElement *element)
 {
   VLOG(100) << "parsing " << element->name();
   if(element->closing(TAG_MODULE_NODE))

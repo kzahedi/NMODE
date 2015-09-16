@@ -40,7 +40,7 @@ EvolutionEdge::~EvolutionEdge()
   // nothing to be done
 }
 
-void EvolutionEdge::add(DataParseElement *element)
+void EvolutionEdge::add(ParseElement *element)
 {
   VLOG(100) << "parsing: " << element->name();
   if(element->closing(TAG_EVOLUTION_EDGE))

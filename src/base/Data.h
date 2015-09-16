@@ -27,7 +27,7 @@ class Data
   private:
     Data();
     static Data *_me;
-    ENP     *_root;
+    ENP         *_root;
 };
 
 #endif // __DATA_H__

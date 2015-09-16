@@ -20,7 +20,7 @@ Edge::~Edge()
 {
 }
 
-void Edge::add(DataParseElement *element)
+void Edge::add(ParseElement *element)
 {
   VLOG(100) << "parsing " << element->name();
   if(element->closing(TAG_MODULE_EDGE))

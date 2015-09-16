@@ -15,7 +15,7 @@ class EvolutionEdge : public XsdParseNode
 
     ~EvolutionEdge();
 
-    void add(DataParseElement *element);
+    void add(ParseElement *element);
 
     static void createXsd(XsdSpecification *spec);
 

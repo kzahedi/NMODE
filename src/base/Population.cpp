@@ -10,7 +10,7 @@ Population::Population(XsdParseNode *parent)
   _generation = 1;
 }
 
-void Population::add(DataParseElement *element)
+void Population::add(ParseElement *element)
 {
   VLOG(100) << "parsing " << element->name();
   if(element->closing(TAG_POPULATION))
@@ -64,7 +64,7 @@ Individuals Population::individuals()
   return _individuals;
 }
 
-Individual Population::individual(int index)
+Individual* Population::individual(int index)
 {
   return _individuals[index];
 }
@@ -74,3 +74,8 @@ int Population::generation()
   return _generation;
 }
 
+
+void Population::addIndividual(Individual *i)
+{
+  _individuals.push_back(i);
+}

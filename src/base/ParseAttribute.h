@@ -9,18 +9,18 @@ using namespace std;
  * @brief Container for the attributes of an xml element
  * @sa DataParseElement
  */
-class DataParseAttribute
+class ParseAttribute
 {
   public:
     /**
      * @brief Constructor
      */
-    DataParseAttribute();
+    ParseAttribute();
 
     /**
      * @brief Destructor (Does nothing)
      */
-    ~DataParseAttribute();
+    ~ParseAttribute();
 
     /**
      * @brief Set the name of the attribute.
@@ -52,7 +52,7 @@ class DataParseAttribute
     string value();
 
     /**
-     * @brief Returns the value converted by atoi. DataParseAttribute cannot know
+     * @brief Returns the value converted by atoi. ParseAttribute cannot know
      * of which type the value is. Therefore, there is no error handling.
      *
      * @return value (int)
@@ -61,7 +61,7 @@ class DataParseAttribute
 
     /**
      * @brief Returns the value converted from atoi to unsigned long.
-     * DataParseAttribute cannot know of which type the value is. Therefore,
+     * ParseAttribute cannot know of which type the value is. Therefore,
      * there is no error handling.
      *
      * @return value (int)
@@ -69,7 +69,7 @@ class DataParseAttribute
     unsigned long unsignedlongValue();
 
     /**
-     * @brief Returns if value is equal to "true". DataParseAttribute cannot know
+     * @brief Returns if value is equal to "true". ParseAttribute cannot know
      * of which type the value is. Therefore, there is no error handling.
      *
      * @return value (bool)
@@ -77,7 +77,7 @@ class DataParseAttribute
     bool boolValue();
 
     /**
-     * @brief Returns the value converted by atof. DataParseAttribute cannot know
+     * @brief Returns the value converted by atof. ParseAttribute cannot know
      * of which type the value is. Therefore, there is no error handling.
      *
      * @return value (double)

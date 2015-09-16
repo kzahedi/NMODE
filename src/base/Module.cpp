@@ -43,7 +43,7 @@ Module::~Module()
   delete _mirrorAxes;
 }
 
-void Module::add(DataParseElement *element)
+void Module::add(ParseElement *element)
 {
 
   VLOG(100) << "parsing " << element->name();
@@ -489,4 +489,9 @@ void Module::addNode(Node *node)
     _actuator.push_back(node);
   }
 
+}
+
+void Module::setName(string name)
+{
+  _name = name;
 }

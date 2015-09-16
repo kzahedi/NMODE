@@ -1,8 +1,9 @@
 #include "ENP.h"
 #include "XmlChangeLog.h"
 
-#include "base/StringTokeniser.h"
-#include "base/ENPErrorHandler.h"
+#include "StringTokeniser.h"
+#include "ENPErrorHandler.h"
+#include "Individual.h"
 
 #include <iostream>
 #include <glog/logging.h>
@@ -31,7 +32,7 @@ ENP::~ENP()
 }
 
 
-void ENP::add(DataParseElement *element)
+void ENP::add(ParseElement *element)
 {
   if(current == NULL) current = this;
   if(current == this)
@@ -76,7 +77,7 @@ void ENP::createXsd(XsdSpecification *spec)
 }
 
 
-void ENP::__getChild(DataParseElement *element)
+void ENP::__getChild(ParseElement *element)
 {
   VLOG(100) << "parsing: " << element->name();
   if(element->opening(TAG_ENP))
@@ -175,4 +176,24 @@ Simulator* ENP::simulator()
 Population* ENP::population()
 {
   return _population;
+}
+
+void ENP::initialiseFirstPopulationFromConfiguration()
+{
+  if(_population == NULL)
+  {
+    VLOG(100) << "initialising from specification";
+    _population = new Population();
+    Individual *ind = new Individual();
+    _population->addIndividual(ind);
+    for(Modules::iterator m =  _configuration->m_begin();
+                          m != _configuration->m_end(); m++)
+    {
+      ind->addModule(*m);
+    }
+  }
+  else
+  {
+    throw ENPException("Population: Trying to initialise a non empty population.");
+  }
 }

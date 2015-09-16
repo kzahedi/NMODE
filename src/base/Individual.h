@@ -10,13 +10,13 @@
 class Individual : public XsdParseNode
 {
   public:
-    Individual(XsdParseNode *parent);
+    Individual(XsdParseNode *parent = NULL);
     // ~Individual();
 
     //Individual(const Individual);
     //Individual operator=(const Individual);
 
-    void add(DataParseElement *element);
+    void add(ParseElement *element);
     static void createXsd(XsdSpecification *spec);
 
     int    id();
@@ -30,7 +30,8 @@ class Individual : public XsdParseNode
     Modules::iterator m_end();
     int               m_size();
     Modules           modules();
-    Module*           module(int index);
+    Module*           module(int);
+    void              addModule(Module*);
 
   private:
     // void        __linkConnectorNodes();

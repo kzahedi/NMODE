@@ -32,23 +32,24 @@ class ENP : public XsdParseNode
     Version version();
     void setVersion(Version version);
 
-    void add(DataParseElement *element);
+    void add(ParseElement *element);
+    void initialiseFirstPopulationFromConfiguration();
 
     static void createXsd(XsdSpecification *spec);
 
-    Simulator*     simulator();
-    Evolution*     evolution();
+    Simulator*         simulator();
+    Evolution*         evolution();
     DataConfiguration* configuration();
-    Population*    population();
+    Population*        population();
 
   private:
-    void __getChild(DataParseElement *element);
+    void __getChild(ParseElement *element);
 
     Version            _version;
-    Simulator     *_simulator;
-    Evolution     *_evolution;
+    Simulator         *_simulator;
+    Evolution         *_evolution;
     DataConfiguration *_configuration;
-    Population    *_population;
+    Population        *_population;
 
 };
 

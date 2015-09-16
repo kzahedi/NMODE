@@ -24,7 +24,7 @@ class Node : public XsdParseNode
      *
      * @param parent
      */
-    Node(XsdParseNode *parent);
+    Node(XsdParseNode *parent = NULL);
 
     /**
      * @brief Destructor.
@@ -37,7 +37,7 @@ class Node : public XsdParseNode
     bool contains(Edge *e);
     bool contains(Node *n);
 
-    void add(DataParseElement *element);
+    void add(ParseElement *element);
 
     static void createXsd(XsdSpecification *spec);
 
