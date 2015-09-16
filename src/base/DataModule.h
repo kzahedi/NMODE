@@ -60,12 +60,15 @@ class DataModule : public DataNode
     DataModuleEdges::iterator e_begin();
     DataModuleEdges::iterator e_end();
     int                       e_size();
+    DataModuleEdge*           edge(int index);
 
     string                    name();
     string                    ref();
 
     P3D                       translation();
     Quaternion                rotation();
+
+    void                      addNode(DataModuleNode*);
 
     void                      update();
     // could be a copy but not yet linked
@@ -109,10 +112,9 @@ class DataModule : public DataNode
     DataModule     *_target;
 
     DataModuleNodes _nodes;
-    DataModuleNodes _sensors;
-    DataModuleNodes _actuators;
+    DataModuleNodes _sensor;
+    DataModuleNodes _actuator;
     DataModuleNodes _input;
-    DataModuleNodes _output;
     DataModuleNodes _hidden;
     DataModuleEdges _edges;
 

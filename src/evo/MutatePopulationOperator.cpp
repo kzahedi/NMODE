@@ -1,28 +1,21 @@
-#include "MutateIndividualOperator.h"
+#include "MutatePopulationOperator.h"
 
 #include <glog/logging.h>
 
 #include "base/macros.h"
 #include "base/Random.h"
-#include "base/data/Data.h"
+#include "base/Data.h"
 
-#include "MutateModuleOperator.h"
+#include "MutateIndividualOperator.h"
 
 #include <sstream>
 
-void MutateIndividualOperator::mutate(Individual *m)
+void MutatePopulationOperator::mutate(DataPopulation *p)
 {
-  VLOG(50) << ">> start mutate individual";
-  Data *data = Data::instance();
-  DataEvolutionEdge *dee = data->specification()->evolution()->edge();
-  DataEvolutionNode *den = data->specification()->evolution()->node();
-  for(Modules::iterator mod = m->m_begin(); mod != m->m_end(); mod++)
+  VLOG(50) << ">> start mutate population";
+  for(DataIndividuals::iterator ind = p->i_end(); ind != p->i_end(); ind++)
   {
-    if((*mod)->isCopy() == false)
-    {
-      MutateModuleOperator::mutate(*mod, den, dee);
-    }
+      MutateIndividualOperator::mutate(*ind);
   }
-  VLOG(50) << ">> end mutate individual";
+  VLOG(50) << ">> end mutate population";
 }
-

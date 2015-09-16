@@ -373,54 +373,67 @@ DataModuleNode* DataModule::node(int index)
 
 DataModuleNodes::iterator DataModule::s_begin()
 {
-  return _sensors.begin();
+  return _sensor.begin();
 }
 
 DataModuleNodes::iterator DataModule::s_end()
 {
-  return _sensors.end();
+  return _sensor.end();
 }
 
 int DataModule::s_size()
 {
-  return _sensors.size();
+  return _sensor.size();
 }
 
 DataModuleNodes DataModule::sensorNodes()
 {
-  return _sensors;
+  return _sensor;
 }
-
-
 
 DataModuleNodes::iterator DataModule::a_begin()
 {
-  return _actuators.begin();
+  return _actuator.begin();
 }
 
 DataModuleNodes::iterator DataModule::a_end()
 {
-  return _actuators.end();
+  return _actuator.end();
 }
 
 int DataModule::a_size()
 {
-  return _actuators.size();
+  return _actuator.size();
+}
+
+DataModuleNodes::iterator DataModule::h_begin()
+{
+  return _hidden.begin();
+}
+
+DataModuleNodes::iterator DataModule::h_end()
+{
+  return _hidden.end();
+}
+
+int DataModule::h_size()
+{
+  return _hidden.size();
 }
 
 DataModuleNodes DataModule::actuatorNodes()
 {
-  return _actuators;
+  return _actuator;
 }
 
 DataModuleNode* DataModule::sensorNode(int index)
 {
-  return _sensors[index];
+  return _sensor[index];
 }
 
 DataModuleNode* DataModule::actuatorNode(int index)
 {
-  return _actuators[index];
+  return _actuator[index];
 }
 
 DataModuleNode* DataModule::hiddenNode(int index)
@@ -448,4 +461,32 @@ int DataModule::getNewNodeId()
 void DataModule::updateFromLink()
 {
   // TODO
+}
+
+
+DataModuleEdge* DataModule::edge(int index)
+{
+  return _edges[index];
+}
+
+
+void DataModule::addNode(DataModuleNode *node)
+{
+  if(node->type() == TAG_HIDDEN)
+  {
+    _hidden.push_back(node);
+  }
+  else if(node->type() == TAG_INPUT)
+  {
+    _input.push_back(node);
+  }
+  else if(node->type() == TAG_SENSOR)
+  {
+    _sensor.push_back(node);
+  }
+  else if(node->type() == TAG_ACTUATOR)
+  {
+    _actuator.push_back(node);
+  }
+
 }

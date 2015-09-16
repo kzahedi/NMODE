@@ -121,9 +121,19 @@ string DataModuleNode::type()
   return _type;
 }
 
+void DataModuleNode::setType(string t)
+{
+  _type = t;
+}
+
 string DataModuleNode::label()
 {
   return _label;
+}
+
+void DataModuleNode::setLabel(string l)
+{
+  _label = l;
 }
 
 P3D DataModuleNode::position()
@@ -139,6 +149,11 @@ string DataModuleNode::transferfunction()
 double DataModuleNode::bias()
 {
   return _bias;
+}
+
+void DataModuleNode::setBias(double b)
+{
+  _bias = b;
 }
 
 void DataModuleNode::setPosition(P3D p)
@@ -279,5 +294,3 @@ bool DataModuleNode::isDestination()
           _type == TAG_CONNECTOR ||
           _type == TAG_HIDDEN);
 }
-
-
