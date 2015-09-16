@@ -1,19 +1,19 @@
 #ifndef ___DATA_EVOLUTION_EDGE_H__
 #define ___DATA_EVOLUTION_EDGE_H__
 
-#include "DataNode.h"
+#include "XsdParseNode.h"
 #include "Version.h"
 
 # define TAG_EVOLUTION_EDGE            (char*)"edge"
 # define TAG_EVOLUTION_EDGE_DEFINITION (char*)"edge_evolution_definition"
 
-class DataEvolutionEdge : public DataNode
+class EvolutionEdge : public XsdParseNode
 {
   public:
 
-    DataEvolutionEdge(DataNode *parent);
+    EvolutionEdge(XsdParseNode *parent);
 
-    ~DataEvolutionEdge();
+    ~EvolutionEdge();
 
     void add(DataParseElement *element);
 

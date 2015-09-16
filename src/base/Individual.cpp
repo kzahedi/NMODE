@@ -1,4 +1,4 @@
-#include "DataIndividual.h"
+#include "Individual.h"
 
 #include "glog/logging.h"
 
@@ -9,15 +9,15 @@
 #define TAG_OFFSPRING (char*)"offspring"
 #define TAG_CONNECTOR (char*)"connector"
 
-DataIndividual::DataIndividual(DataNode *parent)
-  : DataNode(parent)
+Individual::Individual(XsdParseNode *parent)
+  : XsdParseNode(parent)
 {
   _id        = 1;
   _fitness   = 0.0;
   _offspring = 0;
 }
 
-void DataIndividual::add(DataParseElement *element)
+void Individual::add(DataParseElement *element)
 {
   VLOG(100) << "parsing " << element->name();
 
@@ -38,14 +38,14 @@ void DataIndividual::add(DataParseElement *element)
 
   if(element->opening(TAG_MODULE))
   {
-    DataModule *dpm = new DataModule(this);
+    Module *dpm = new Module(this);
     _modules.push_back(dpm);
     current = dpm;
     current->add(element);
   }
 }
 
-void DataIndividual::createXsd(XsdSpecification *spec)
+void Individual::createXsd(XsdSpecification *spec)
 {
   XsdSequence *_root = new XsdSequence(TAG_INDIVIDUAL_DEFINITION);
   _root->add(NA(TAG_ID,        TAG_POSITIVE_INTEGER,  false));
@@ -54,62 +54,62 @@ void DataIndividual::createXsd(XsdSpecification *spec)
   _root->add(NE(TAG_MODULE,    TAG_MODULE_DEFINITION, 1, TAG_XSD_UNBOUNDED));
   spec->add(_root);
 
-  DataModule::createXsd(spec);
+  Module::createXsd(spec);
 }
 
-int DataIndividual::id()
+int Individual::id()
 {
   return _id;
 }
 
-double DataIndividual::fitness()
+double Individual::fitness()
 {
   return _fitness;
 }
 
-int DataIndividual::offspring()
+int Individual::offspring()
 {
   return _offspring;
 }
 
-DataModules::iterator DataIndividual::m_begin()
+Modules::iterator Individual::m_begin()
 {
   return _modules.begin();
 }
 
-DataModules::iterator DataIndividual::m_end()
+Modules::iterator Individual::m_end()
 {
   return _modules.end();
 }
 
-int DataIndividual::m_size()
+int Individual::m_size()
 {
   return _modules.size();
 }
 
-DataModules DataIndividual::modules()
+Modules Individual::modules()
 {
   return _modules;
 }
 
-void DataIndividual::setFitness(double f)
+void Individual::setFitness(double f)
 {
   _fitness = f;
 }
-void DataIndividual::setId(int id)
+void Individual::setId(int id)
 {
   _id = id;
 }
 
 
 
-// void DataIndividual::__linkConnectorNodes()
+// void Individual::__linkConnectorNodes()
 // {
 //   VLOG(100) << "  __linkConnectorNodes called with " << _modules.size() << " modules";
-//   FORC(DataModules, a, _modules)
+//   FORC(Modules, a, _modules)
 //   {
 //     VLOG(100) << "working on module " << (*a)->name() << " with " << (*a)->n_size() << " nodes";
-//     FORC(DataModuleNodes, an, (*a)->nodes())
+//     FORC(ModuleNodes, an, (*a)->nodes())
 //     {
 //       VLOG(100) << " node " << (*an);
 //       VLOG(100) << " node type is " << (*an)->type() << " vs. " << TAG_CONNECTOR;
@@ -119,11 +119,11 @@ void DataIndividual::setId(int id)
 //         string::size_type pos = label.find('/');
 //         string module_name    = label.substr(0, pos);
 //         string node_name      = label.substr(pos+1, label.size()-1);
-//         FORC(DataModules, b, _modules)
+//         FORC(Modules, b, _modules)
 //         {
 //           if((*b)->name() == module_name)
 //           {
-//             FORC(DataModuleNodes, bn, (*b)->nodes())
+//             FORC(ModuleNodes, bn, (*b)->nodes())
 //             {
 //               if((*bn)->type() != TAG_CONNECTOR && (*bn)->label() == node_name)
 //               {

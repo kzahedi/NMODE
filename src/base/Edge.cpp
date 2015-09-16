@@ -1,4 +1,4 @@
-#include "DataModuleEdge.h"
+#include "Edge.h"
 
 #include <iostream>
 #include <glog/logging.h>
@@ -9,18 +9,18 @@
 
 using namespace std;
 
-DataModuleEdge::DataModuleEdge(DataNode *parent)
-  : DataNode(parent)
+Edge::Edge(XsdParseNode *parent)
+  : XsdParseNode(parent)
 {
   _sourceNode      = NULL;
   _destinationNode = NULL;
 }
 
-DataModuleEdge::~DataModuleEdge()
+Edge::~Edge()
 {
 }
 
-void DataModuleEdge::add(DataParseElement *element)
+void Edge::add(DataParseElement *element)
 {
   VLOG(100) << "parsing " << element->name();
   if(element->closing(TAG_MODULE_EDGE))
@@ -39,7 +39,7 @@ void DataModuleEdge::add(DataParseElement *element)
 
 }
 
-void DataModuleEdge::createXsd(XsdSpecification *spec)
+void Edge::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_MODULE_EDGE_DEFINITION);
   root->add(NA(TAG_SOURCE,      TAG_XSD_STRING,  true));
@@ -48,56 +48,56 @@ void DataModuleEdge::createXsd(XsdSpecification *spec)
   spec->add(root);
 }
 
-string DataModuleEdge::source()
+string Edge::source()
 {
   return _source;
 }
 
-string DataModuleEdge::destination()
+string Edge::destination()
 {
   return _destination;
 }
 
-double DataModuleEdge::weight()
+double Edge::weight()
 {
   return _weight;
 }
 
-bool DataModuleEdge::operator==(const DataModuleEdge o)
+bool Edge::operator==(const Edge o)
 {
   return (_weight      == o._weight &&
           _source      == o._source &&
           _destination == o._destination);
 }
 
-bool DataModuleEdge::operator!=(const DataModuleEdge o)
+bool Edge::operator!=(const Edge o)
 {
   return (_weight      != o._weight ||
           _source      != o._source ||
           _destination != o._destination);
 }
 
-DataModuleNode* DataModuleEdge::sourceNode()
+Node* Edge::sourceNode()
 {
   return _sourceNode;
 }
 
-DataModuleNode* DataModuleEdge::destinationNode()
+Node* Edge::destinationNode()
 {
   return _destinationNode;
 }
 
-void DataModuleEdge::setSourceNode(DataModuleNode* src)
+void Edge::setSourceNode(Node* src)
 {
   _sourceNode = src;
 }
 
-void DataModuleEdge::setDestinationNode(DataModuleNode* dst)
+void Edge::setDestinationNode(Node* dst)
 {
   _destinationNode = dst;
 }
 
-void DataModuleEdge::setWeight(double w)
+void Edge::setWeight(double w)
 {
   _weight = w;
 }

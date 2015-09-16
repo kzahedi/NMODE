@@ -1,12 +1,12 @@
-#include "DataParseElement.h"
+#include "ParseElement.h"
 
-DataParseElement::DataParseElement(int type)
+ParseElement::ParseElement(int type)
 {
   _name = "";
   _type = type;
 }
 
-DataParseElement::~DataParseElement()
+ParseElement::~ParseElement()
 {
   for(unsigned int i = 0; i < size(); i++)
   {
@@ -14,27 +14,27 @@ DataParseElement::~DataParseElement()
   }
 }
 
-void DataParseElement::setName(string name)
+void ParseElement::setName(string name)
 {
   _name = name;
 }
 
-void DataParseElement::setName(char *name)
+void ParseElement::setName(char *name)
 {
   _name = name;
 }
 
-string DataParseElement::name()
+string ParseElement::name()
 {
   return _name;
 }
 
-void DataParseElement::add(DataParseAttribute *attribute)
+void ParseElement::add(DataParseAttribute *attribute)
 {
   push_back(attribute);
 }
 
-DataParseAttribute* DataParseElement::attribute(string name)
+DataParseAttribute* ParseElement::attribute(string name)
 {
   for(std::vector<DataParseAttribute*>::iterator i = begin(); i != end(); i++)
   {
@@ -45,32 +45,32 @@ DataParseAttribute* DataParseElement::attribute(string name)
   }
   return NULL;
 }
-bool DataParseElement::hasAttriute(string name)
+bool ParseElement::hasAttriute(string name)
 {
   return attribute(name) != NULL;
 }
 
-bool DataParseElement::opening(string name)
+bool ParseElement::opening(string name)
 {
   return _name == name && _type == YARS_DATA_PARSE_ELEMENT_TYPE_OPENING;
 }
 
-bool DataParseElement::opening(char *name)
+bool ParseElement::opening(char *name)
 {
   return opening(string(name));
 }
 
-bool DataParseElement::closing(string name)
+bool ParseElement::closing(string name)
 {
   return _name == name && _type == YARS_DATA_PARSE_ELEMENT_TYPE_CLOSING;
 }
 
-bool DataParseElement::closing(char *name)
+bool ParseElement::closing(char *name)
 {
   return closing(string(name));
 }
 
-void DataParseElement::set(string name, double &value)
+void ParseElement::set(string name, double &value)
 {
   if(attribute(name) != NULL)
   {
@@ -78,7 +78,7 @@ void DataParseElement::set(string name, double &value)
   }
 }
 
-void DataParseElement::set(string name, string &value)
+void ParseElement::set(string name, string &value)
 {
   if(attribute(name) != NULL)
   {
@@ -86,7 +86,7 @@ void DataParseElement::set(string name, string &value)
   }
 }
 
-void DataParseElement::set(string name, bool &value)
+void ParseElement::set(string name, bool &value)
 {
   if(attribute(name) != NULL)
   {
@@ -94,7 +94,7 @@ void DataParseElement::set(string name, bool &value)
   }
 }
 
-void DataParseElement::set(string name, int &value)
+void ParseElement::set(string name, int &value)
 {
   if(attribute(name) != NULL)
   {
@@ -102,7 +102,7 @@ void DataParseElement::set(string name, int &value)
   }
 }
 
-void DataParseElement::set(string name, unsigned long &value)
+void ParseElement::set(string name, unsigned long &value)
 {
   if(attribute(name) != NULL)
   {

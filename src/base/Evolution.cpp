@@ -1,22 +1,22 @@
-#include "DataEvolution.h"
+#include "Evolution.h"
 
 #include <iostream>
 #include <glog/logging.h>
 
 using namespace std;
 
-DataEvolution::DataEvolution(DataNode *parent)
-  : DataNode(parent)
+Evolution::Evolution(XsdParseNode *parent)
+  : XsdParseNode(parent)
 { }
 
-DataEvolution::~DataEvolution()
+Evolution::~Evolution()
 {
   delete _node;
   // delete _edge;
 }
 
 
-void DataEvolution::add(DataParseElement *element)
+void Evolution::add(DataParseElement *element)
 {
   VLOG(100) << "parsing: " << element->name();
   if(element->closing(TAG_EVOLUTION))
@@ -32,37 +32,37 @@ void DataEvolution::add(DataParseElement *element)
 
   if(element->opening(TAG_EVOLUTION_NODE))
   {
-    _node = new DataEvolutionNode(this);
+    _node = new EvolutionNode(this);
     current = _node;
     current->add(element);
   }
 
   if(element->opening(TAG_EVOLUTION_EDGE))
   {
-    _edge = new DataEvolutionEdge(this);
+    _edge = new EvolutionEdge(this);
     current  = _edge;
     current->add(element);
   }
 
 }
 
-void DataEvolution::createXsd(XsdSpecification *spec)
+void Evolution::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_EVOLUTION_DEFINITION);
   root->add(NE(TAG_EVOLUTION_NODE,  TAG_EVOLUTION_NODE_DEFINITION,  1, 1));
   root->add(NE(TAG_EVOLUTION_EDGE, TAG_EVOLUTION_EDGE_DEFINITION, 1, 1));
   spec->add(root);
 
-  DataEvolutionNode::createXsd(spec);
-  DataEvolutionEdge::createXsd(spec);
+  EvolutionNode::createXsd(spec);
+  EvolutionEdge::createXsd(spec);
 }
 
-DataEvolutionNode* DataEvolution::node()
+EvolutionNode* Evolution::node()
 {
   return _node;
 }
 
-DataEvolutionEdge* DataEvolution::edge()
+EvolutionEdge* Evolution::edge()
 {
   return _edge;
 }

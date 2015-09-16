@@ -1,12 +1,12 @@
 #ifndef __DATA_SIMULATOR_H__
 #define __DATA_SIMULATOR_H__
 
-#include "DataNode.h"
+#include "XsdParseNode.h"
 
 # define TAG_SIMULATOR            (char*)"simulator"
 # define TAG_SIMULATOR_DEFINITION (char*)"simulator_definition"
 
-class DataSimulator : public DataNode
+class Simulator : public XsdParseNode
 {
   public:
 
@@ -15,14 +15,14 @@ class DataSimulator : public DataNode
      *
      * @param parent
      */
-    DataSimulator(DataNode *parent);
+    Simulator(XsdParseNode *parent);
 
     /**
      * @brief Destructor.
      */
-    virtual ~DataSimulator();
+    virtual ~Simulator();
 
-    void add(DataParseElement *element);
+    void add(ParseElement *element);
 
     static void createXsd(XsdSpecification *spec);
 

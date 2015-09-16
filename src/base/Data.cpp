@@ -18,7 +18,7 @@ Data* Data::instance()
 
 Data::Data()
 {
-  _root = new DataENP(NULL);
+  _root = new ENP(NULL);
 }
 
 Data::~Data()
@@ -26,7 +26,7 @@ Data::~Data()
   delete _root;
 }
 
-DataENP* Data::specification()
+ENP* Data::specification()
 {
   return _root;
 }
@@ -58,7 +58,7 @@ void Data::read(string xmlFile)
 XsdSpecification* Data::xsd()
 {
   XsdSpecification *spec = new XsdSpecification();
-  DataENP::createXsd(spec);
+  ENP::createXsd(spec);
   return spec;
 }
 
@@ -97,7 +97,7 @@ string Data::header()
 
   sst << "  <configuration>" << endl;
 
-  for(DataModules::iterator
+  for(Modules::iterator
       m = _root->configuration()->m_begin();
       m != _root->configuration()->m_end();
       m++)
@@ -105,7 +105,7 @@ string Data::header()
 
     sst << "    <module name=\"" << (*m)->name() << "\">" << endl;
 
-    for(DataModuleNodes::iterator n = (*m)->n_begin(); n != (*m)->n_end(); n++)
+    for(Nodes::iterator n = (*m)->n_begin(); n != (*m)->n_end(); n++)
     {
       sst << "      <node type=\"" << (*n)->type() << "\" label=\"" << (*n)->label() << "\">" << endl;
       sst << "        <position x=\"" << (*n)->position().x

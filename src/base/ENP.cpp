@@ -1,4 +1,4 @@
-#include "DataENP.h"
+#include "ENP.h"
 #include "XmlChangeLog.h"
 
 #include "base/StringTokeniser.h"
@@ -12,8 +12,8 @@ using namespace std;
 # define TAG_VERSION            (char*)"version"
 # define TAG_VERSION_DEFINITION (char*)"version_definition"
 
-DataENP::DataENP(DataNode *parent)
-  : DataNode(parent)
+ENP::ENP(XsdParseNode *parent)
+  : XsdParseNode(parent)
 {
 
 #include "ChangeLog.h" // do not move from here
@@ -25,13 +25,13 @@ DataENP::DataENP(DataNode *parent)
 
 }
 
-DataENP::~DataENP()
+ENP::~ENP()
 {
   // nothing to be done
 }
 
 
-void DataENP::add(DataParseElement *element)
+void ENP::add(DataParseElement *element)
 {
   if(current == NULL) current = this;
   if(current == this)
@@ -45,17 +45,17 @@ void DataENP::add(DataParseElement *element)
 
 }
 
-Version DataENP::version()
+Version ENP::version()
 {
   return _version;
 }
 
-void DataENP::setVersion(Version version)
+void ENP::setVersion(Version version)
 {
   _version = version;
 }
 
-void DataENP::createXsd(XsdSpecification *spec)
+void ENP::createXsd(XsdSpecification *spec)
 {
   XsdSequence *_root = new XsdSequence(TAG_ENP);
   _root->add(NA(TAG_VERSION,       TAG_VERSION_DEFINITION,       true));
@@ -70,13 +70,13 @@ void DataENP::createXsd(XsdSpecification *spec)
         TAG_XSD_STRING, TAG_VERSION_REGULAR_EXPRESSION);
   spec->add(versionDefinition);
 
-  DataEvolution::createXsd(spec);
+  Evolution::createXsd(spec);
   DataConfiguration::createXsd(spec);
-  DataPopulation::createXsd(spec);
+  Population::createXsd(spec);
 }
 
 
-void DataENP::__getChild(DataParseElement *element)
+void ENP::__getChild(DataParseElement *element)
 {
   VLOG(100) << "parsing: " << element->name();
   if(element->opening(TAG_ENP))
@@ -129,7 +129,7 @@ void DataENP::__getChild(DataParseElement *element)
 
   if(element->opening(TAG_EVOLUTION))
   {
-    _evolution = new DataEvolution(this);
+    _evolution = new Evolution(this);
     current = _evolution;
     current->add(element);
   }
@@ -143,36 +143,36 @@ void DataENP::__getChild(DataParseElement *element)
 
   if(element->opening(TAG_SIMULATOR))
   {
-    _simulator = new DataSimulator(this);
+    _simulator = new Simulator(this);
     current = _simulator;
     current->add(element);
   }
 
   if(element->opening(TAG_POPULATION))
   {
-    _population = new DataPopulation(this);
+    _population = new Population(this);
     current = _population;
     current->add(element);
   }
 
 }
 
-DataEvolution* DataENP::evolution()
+Evolution* ENP::evolution()
 {
   return _evolution;
 }
 
-DataConfiguration* DataENP::configuration()
+DataConfiguration* ENP::configuration()
 {
   return _configuration;
 }
 
-DataSimulator* DataENP::simulator()
+Simulator* ENP::simulator()
 {
   return _simulator;
 }
 
-DataPopulation* DataENP::population()
+Population* ENP::population()
 {
   return _population;
 }

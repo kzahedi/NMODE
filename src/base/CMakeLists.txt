@@ -15,26 +15,26 @@ add_library(ENPBase SHARED RNN.cpp
                            Version.cpp
 
                            DataParseAttribute.cpp
-                           DataParseElement.cpp
+                           ParseElement.cpp
 
                            Data.cpp
-                           DataNode.cpp
+                           XsdParseNode.cpp
 
-                           DataENP.cpp
+                           ENP.cpp
 
-                           DataSimulator.cpp
+                           Simulator.cpp
 
                            DataConfiguration.cpp
 
-                           DataEvolution.cpp
-                           DataEvolutionNode.cpp
-                           DataEvolutionEdge.cpp
+                           Evolution.cpp
+                           EvolutionNode.cpp
+                           EvolutionEdge.cpp
 
-                           DataPopulation.cpp
-                           DataIndividual.cpp
-                           DataModule.cpp
-                           DataModuleEdge.cpp
-                           DataModuleNode.cpp
+                           Population.cpp
+                           Individual.cpp
+                           Module.cpp
+                           Edge.cpp
+                           Node.cpp
 
                            YarsXSDGenerator.cpp
                            XSDString.cpp

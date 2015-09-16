@@ -10,10 +10,10 @@
 
 #include <sstream>
 
-void MutatePopulationOperator::mutate(DataPopulation *p)
+void MutatePopulationOperator::mutate(Population *p)
 {
   VLOG(50) << ">> start mutate population";
-  for(DataIndividuals::iterator ind = p->i_end(); ind != p->i_end(); ind++)
+  for(Individuals::iterator ind = p->i_end(); ind != p->i_end(); ind++)
   {
       MutateIndividualOperator::mutate(*ind);
   }

@@ -27,7 +27,7 @@
 
 
 
-#include "DataEvolutionNode.h"
+#include "EvolutionNode.h"
 
 #include <iostream>
 
@@ -46,8 +46,8 @@
 
 using namespace std;
 
-DataEvolutionNode::DataEvolutionNode(DataNode *parent)
-  : DataNode(parent)
+EvolutionNode::EvolutionNode(XsdParseNode *parent)
+  : XsdParseNode(parent)
 {
   _modifyProbability = 0.1;
   _modifyMaxValue    = 4.0;
@@ -58,12 +58,12 @@ DataEvolutionNode::DataEvolutionNode(DataNode *parent)
   _cost              = 0.0;
 }
 
-DataEvolutionNode::~DataEvolutionNode()
+EvolutionNode::~EvolutionNode()
 {
   // nothing to be done
 }
 
-void DataEvolutionNode::add(DataParseElement *element)
+void EvolutionNode::add(DataParseElement *element)
 {
   if(element->closing(TAG_EVOLUTION_NODE))
   {
@@ -95,7 +95,7 @@ void DataEvolutionNode::add(DataParseElement *element)
 
 }
 
-void DataEvolutionNode::createXsd(XsdSpecification *spec)
+void EvolutionNode::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_EVOLUTION_NODE_DEFINITION);
   root->add(NA(TAG_COST,   TAG_POSITIVE_DECIMAL,     false));
@@ -120,37 +120,37 @@ void DataEvolutionNode::createXsd(XsdSpecification *spec)
   spec->add(del);
 }
 
-double DataEvolutionNode::modifyProbability()
+double EvolutionNode::modifyProbability()
 {
   return _modifyProbability;
 }
 
-double DataEvolutionNode::modifyMaxValue()
+double EvolutionNode::modifyMaxValue()
 {
   return _modifyMaxValue;
 }
 
-double DataEvolutionNode::modifyDelta()
+double EvolutionNode::modifyDelta()
 {
   return _modifyDelta;
 }
 
-double DataEvolutionNode::addProbability()
+double EvolutionNode::addProbability()
 {
   return _addProbability;
 }
 
-double DataEvolutionNode::addMaxValue()
+double EvolutionNode::addMaxValue()
 {
   return _addMaxValue;
 }
 
-double DataEvolutionNode::delProbability()
+double EvolutionNode::delProbability()
 {
   return _delProbability;
 }
 
-double DataEvolutionNode::cost()
+double EvolutionNode::cost()
 {
   return _cost;
 }

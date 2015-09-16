@@ -1,13 +1,13 @@
 #ifndef __DATA_EVOLUTION_NODE_H__
 #define __DATA_EVOLUTION_NODE_H__
 
-#include "DataNode.h"
+#include "XsdParseNode.h"
 #include "Version.h"
 
 # define TAG_EVOLUTION_NODE            (char*)"node"
 # define TAG_EVOLUTION_NODE_DEFINITION (char*)"node_evolution_definition"
 
-class DataEvolutionNode : public DataNode
+class EvolutionNode : public XsdParseNode
 {
   public:
 
@@ -16,12 +16,12 @@ class DataEvolutionNode : public DataNode
      *
      * @param parent
      */
-    DataEvolutionNode(DataNode *parent);
+    EvolutionNode(XsdParseNode *parent);
 
     /**
      * @brief Destructor.
      */
-    virtual ~DataEvolutionNode();
+    virtual ~EvolutionNode();
 
     void add(DataParseElement *element);
 

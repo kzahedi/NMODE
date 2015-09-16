@@ -46,7 +46,7 @@ void xmlTest::testXml()
   Data *d = Data::instance();
   d->read(file);
   
-  DataENP              *enp  = d->specification();
+  ENP              *enp  = d->specification();
 
   DataSimulator        *sim = enp->simulator();
 
@@ -56,10 +56,10 @@ void xmlTest::testXml()
   CPPUNIT_ASSERT(42                  == sim->nr());
 
 
-  DataEvolution        *evo  = enp->evolution();
+  Evolution        *evo  = enp->evolution();
 
-  DataEvolutionNode  *evon = evo->node();
-  DataEvolutionEdge *evos = evo->edge();
+  EvolutionNode  *evon = evo->node();
+  EvolutionEdge *evos = evo->edge();
   
   CPPUNIT_ASSERT_DOUBLES_EQUAL(0.10, evon->cost(),              0.000001);
   CPPUNIT_ASSERT_DOUBLES_EQUAL(0.11, evon->modifyProbability(), 0.000001);

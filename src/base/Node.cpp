@@ -1,4 +1,4 @@
-#include "DataModuleNode.h"
+#include "Node.h"
 
 #include "macros.h"
 
@@ -29,15 +29,15 @@
 
 using namespace std;
 
-DataModuleNode::DataModuleNode(DataNode *parent)
-  : DataNode(parent)
+Node::Node(XsdParseNode *parent)
+  : XsdParseNode(parent)
 { }
 
-DataModuleNode::~DataModuleNode()
+Node::~Node()
 { }
 
 
-void DataModuleNode::add(DataParseElement *element)
+void Node::add(DataParseElement *element)
 {
   VLOG(100) << "parsing " << element->name();
   if(element->closing(TAG_MODULE_NODE))
@@ -75,7 +75,7 @@ void DataModuleNode::add(DataParseElement *element)
   }
 }
 
-void DataModuleNode::createXsd(XsdSpecification *spec)
+void Node::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_MODULE_NODE_DEFINITION);
   root->add(NA(TAG_TYPE,             TAG_TYPE_DEFINITION,             true));
@@ -116,79 +116,79 @@ void DataModuleNode::createXsd(XsdSpecification *spec)
 
 }
 
-string DataModuleNode::type()
+string Node::type()
 {
   return _type;
 }
 
-void DataModuleNode::setType(string t)
+void Node::setType(string t)
 {
   _type = t;
 }
 
-string DataModuleNode::label()
+string Node::label()
 {
   return _label;
 }
 
-void DataModuleNode::setLabel(string l)
+void Node::setLabel(string l)
 {
   _label = l;
 }
 
-P3D DataModuleNode::position()
+P3D Node::position()
 {
   return _position;
 }
 
-string DataModuleNode::transferfunction()
+string Node::transferfunction()
 {
   return _transferfunction;
 }
 
-double DataModuleNode::bias()
+double Node::bias()
 {
   return _bias;
 }
 
-void DataModuleNode::setBias(double b)
+void Node::setBias(double b)
 {
   _bias = b;
 }
 
-void DataModuleNode::setPosition(P3D p)
+void Node::setPosition(P3D p)
 {
   _position = p;
 }
 
 
-void DataModuleNode::setTransferfunction(string tf)
+void Node::setTransferfunction(string tf)
 {
   _transferfunction = tf;
 }
 
 
-string DataModuleNode::moduleName()
+string Node::moduleName()
 {
   return _moduleName;
 }
 
-void DataModuleNode::setModuleName(string mn)
+void Node::setModuleName(string mn)
 {
   _moduleName = mn;
 }
 
-string DataModuleNode::nodeName()
+string Node::nodeName()
 {
   return _nodeName;
 }
 
-void DataModuleNode::setNodeName(string nn)
+void Node::setNodeName(string nn)
 {
   _nodeName = nn;
 }
 
-bool DataModuleNode::operator==(const DataModuleNode o)
+bool Node::operator==(const Node o)
 {
   return (_position         == o._position &&
           _label            == o._label    &&
@@ -196,7 +196,7 @@ bool DataModuleNode::operator==(const DataModuleNode o)
           _transferfunction == o._transferfunction);
 }
 
-bool DataModuleNode::operator!=(const DataModuleNode o)
+bool Node::operator!=(const Node o)
 {
   return (_position         != o._position ||
           _label            != o._label    ||
@@ -204,7 +204,7 @@ bool DataModuleNode::operator!=(const DataModuleNode o)
           _transferfunction != o._transferfunction);
 }
 
-bool DataModuleNode::contains(DataModuleEdge *e)
+bool Node::contains(Edge *e)
 {
   if(_in.empty()) return false;
 
@@ -214,43 +214,43 @@ bool DataModuleNode::contains(DataModuleEdge *e)
   return false;
 }
 
-bool DataModuleNode::contains(DataModuleNode *n)
+bool Node::contains(Node *n)
 {
-  FORC(DataModuleEdges, e, _in)
+  FORC(Edges, e, _in)
   {
     if((*e)->sourceNode() == n) return true;
   }
   return false;
 }
 
-DataModuleEdges::iterator DataModuleNode::e_begin()
+Edges::iterator Node::e_begin()
 {
   return _in.begin();
 }
 
-DataModuleEdges::iterator DataModuleNode::e_end()
+Edges::iterator Node::e_end()
 {
   return _in.end();
 }
 
-int DataModuleNode::e_size()
+int Node::e_size()
 {
   return _in.size();
 }
 
-DataModuleEdge* DataModuleNode::edge(int index)
+Edge* Node::edge(int index)
 {
   return _in[index];
 }
 
-void DataModuleNode::addEdge(DataModuleEdge *e)
+void Node::addEdge(Edge *e)
 {
   _in.push_back(e);
 }
 
-void DataModuleNode::removeEdge(DataModuleNode *n)
+void Node::removeEdge(Node *n)
 {
-  FORC(DataModuleEdges, e, _in)
+  FORC(Edges, e, _in)
   {
     if((*e)->sourceNode()->label() == n->label())
     {
@@ -262,9 +262,9 @@ void DataModuleNode::removeEdge(DataModuleNode *n)
   }
 }
 
-bool DataModuleNode::removeEdge(DataModuleEdge *e)
+bool Node::removeEdge(Edge *e)
 {
-  DataModuleEdges::iterator ei = std::find(_in.begin(), _in.end(), e);
+  Edges::iterator ei = std::find(_in.begin(), _in.end(), e);
   if(ei != _in.end())
   {
     _in.erase(ei);
@@ -278,7 +278,7 @@ bool DataModuleNode::removeEdge(DataModuleEdge *e)
   return false;
 }
 
-bool DataModuleNode::isSource()
+bool Node::isSource()
 {
   return (_type == TAG_ACTUATOR  ||
           _type == TAG_SENSOR    ||
@@ -287,7 +287,7 @@ bool DataModuleNode::isSource()
           _type == TAG_HIDDEN);
 }
 
-bool DataModuleNode::isDestination()
+bool Node::isDestination()
 {
   return (_type == TAG_ACTUATOR  ||
           // _type == TAG_OUTPUT    ||

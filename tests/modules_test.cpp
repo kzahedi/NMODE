@@ -31,8 +31,8 @@
 // #include "main/Configuration.h"
 // #include "data/Data.h"
 #include "base/Random.h"
-#include "evo/Node.h"
-#include "evo/Module.h"
+#include "base/DataModuleNode.h"
+#include "base/Module.h"
 
 #include <iostream>
 #include <string>

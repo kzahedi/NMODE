@@ -25,10 +25,10 @@
  *************************************************************************/
 
 
-#ifndef __DATA_NODE_H__
-#define __DATA_NODE_H__
+#ifndef __XSD_PARSE_NODE_H__
+#define __XSD_PARSE_NODE_H__
 
-#include "DataParseElement.h"
+#include "ParseElement.h"
 #include "specification.h"
 
 #include <string>
@@ -40,7 +40,7 @@ using namespace std;
 /**
  * @brief Basic class for all objects that store XML data.
  */
-class DataNode
+class XsdParseNode
 {
   public:
 
@@ -49,27 +49,27 @@ class DataNode
      *
      * @param parent
      */
-    DataNode(DataNode *parent);
+    XsdParseNode(XsdParseNode *parent);
 
     /**
      * @brief Destructor, does nothing
      */
-    ~DataNode();
+    ~XsdParseNode();
 
     /**
      * @brief This function must be implemented by every data storing class. It
-     * takes a DataParseElement and should decide if the contained data is
+     * takes a ParseElement and should decide if the contained data is
      * either stored, passed on to a child, or if the current node is set to the
      * parent.
      *
-     * @param DataParseElement
-     * @sa DataParseElement
+     * @param ParseElement
+     * @sa ParseElement
      */
-    virtual void add(DataParseElement* ) = 0;
+    virtual void add(ParseElement* ) = 0;
 
   protected:
-    DataNode        *parent;
-    static DataNode *current;
+    XsdParseNode        *parent;
+    static XsdParseNode *current;
 };
 
-#endif // __DATA_NODE_H__
+#endif // __XSD_NODE_H__

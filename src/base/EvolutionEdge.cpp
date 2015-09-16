@@ -1,4 +1,4 @@
-#include "DataEvolutionEdge.h"
+#include "EvolutionEdge.h"
 
 #include <iostream>
 #include <glog/logging.h>
@@ -21,8 +21,8 @@
 
 using namespace std;
 
-DataEvolutionEdge::DataEvolutionEdge(DataNode *parent)
-  : DataNode(parent)
+EvolutionEdge::EvolutionEdge(XsdParseNode *parent)
+  : XsdParseNode(parent)
 {
   _modifyProbability = 0.1;
   _modifyMaxValue    = 4.0;
@@ -35,12 +35,12 @@ DataEvolutionEdge::DataEvolutionEdge(DataNode *parent)
   _cost              = 0.0;
 }
 
-DataEvolutionEdge::~DataEvolutionEdge()
+EvolutionEdge::~EvolutionEdge()
 {
   // nothing to be done
 }
 
-void DataEvolutionEdge::add(DataParseElement *element)
+void EvolutionEdge::add(DataParseElement *element)
 {
   VLOG(100) << "parsing: " << element->name();
   if(element->closing(TAG_EVOLUTION_EDGE))
@@ -80,7 +80,7 @@ void DataEvolutionEdge::add(DataParseElement *element)
 
 }
 
-void DataEvolutionEdge::createXsd(XsdSpecification *spec)
+void EvolutionEdge::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_EVOLUTION_EDGE_DEFINITION);
   root->add(NA(TAG_COST,   TAG_POSITIVE_DECIMAL,  false));
@@ -106,37 +106,37 @@ void DataEvolutionEdge::createXsd(XsdSpecification *spec)
 
 }
 
-double DataEvolutionEdge::modifyProbability()
+double EvolutionEdge::modifyProbability()
 {
   return _modifyProbability;
 }
 
-double DataEvolutionEdge::modifyMaxValue()
+double EvolutionEdge::modifyMaxValue()
 {
   return _modifyMaxValue;
 }
 
-double DataEvolutionEdge::modifyDelta()
+double EvolutionEdge::modifyDelta()
 {
   return _modifyDelta;
 }
 
-double DataEvolutionEdge::addProbability()
+double EvolutionEdge::addProbability()
 {
   return _addProbability;
 }
 
-double DataEvolutionEdge::addMaxValue()
+double EvolutionEdge::addMaxValue()
 {
   return _addMaxValue;
 }
 
-double DataEvolutionEdge::delProbability()
+double EvolutionEdge::delProbability()
 {
   return _delProbability;
 }
 
-double DataEvolutionEdge::cost()
+double EvolutionEdge::cost()
 {
   return _cost;
 }

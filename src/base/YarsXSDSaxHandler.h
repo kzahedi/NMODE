@@ -34,7 +34,7 @@
 #include <string>
 #include <vector>
 
-#include "DataENP.h"
+#include "ENP.h"
 
 XERCES_CPP_NAMESPACE_USE
 
@@ -92,7 +92,7 @@ class YarsXSDSaxHandler : public DefaultHandler
     std::vector<std::string> fatals();
 
   private:
-    DataENP *_spec;
+    ENP *_spec;
 
     std::vector<std::string> _errors;
     std::vector<std::string> _warnings;

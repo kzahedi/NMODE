@@ -1,4 +1,4 @@
-#include "DataModule.h"
+#include "Module.h"
 
 #include "macros.h"
 
@@ -28,8 +28,8 @@
 
 using namespace std;
 
-DataModule::DataModule(DataNode *parent)
-  : DataNode(parent)
+Module::Module(XsdParseNode *parent)
+  : XsdParseNode(parent)
 {
   _mirrorAxes   = new bool[3];
   _isCopy   = false;
@@ -38,12 +38,12 @@ DataModule::DataModule(DataNode *parent)
   _modified = false;
 }
 
-DataModule::~DataModule()
+Module::~Module()
 {
   delete _mirrorAxes;
 }
 
-void DataModule::add(DataParseElement *element)
+void Module::add(DataParseElement *element)
 {
 
   VLOG(100) << "parsing " << element->name();
@@ -63,7 +63,7 @@ void DataModule::add(DataParseElement *element)
   if(element->opening(TAG_MODULE_NODE))
   {
     VLOG(100) << "found " << TAG_MODULE_NODE;
-    DataModuleNode *node = new DataModuleNode(this);
+    Node *node = new Node(this);
     _nodes.push_back(node);
     current = node;
     node->add(element);
@@ -72,7 +72,7 @@ void DataModule::add(DataParseElement *element)
   if(element->opening(TAG_MODULE_EDGE))
   {
     VLOG(100) << "found " << TAG_MODULE_EDGE;
-    DataModuleEdge *edge = new DataModuleEdge(this);
+    Edge *edge = new Edge(this);
     _edges.push_back(edge);
     current = edge;
     edge->add(element);
@@ -117,7 +117,7 @@ void DataModule::add(DataParseElement *element)
   }
 }
 
-void DataModule::createXsd(XsdSpecification *spec)
+void Module::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_MODULE_DEFINITION);
   root->add(NA(TAG_NAME,        TAG_XSD_STRING,             true));
@@ -150,62 +150,62 @@ void DataModule::createXsd(XsdSpecification *spec)
   b3d->add(NA(TAG_Z, TAG_TRUE_FALSE_DEFINITION, false));
   spec->add(b3d);
 
-  DataModuleNode::createXsd(spec);
+  Node::createXsd(spec);
 }
 
-string DataModule::name()
+string Module::name()
 {
   return _name;
 }
 
-DataModuleNodes::iterator DataModule::n_begin()
+Nodes::iterator Module::n_begin()
 {
   return _nodes.begin();
 }
 
-DataModuleNodes::iterator DataModule::n_end()
+Nodes::iterator Module::n_end()
 {
   return _nodes.end();
 }
 
-int DataModule::n_size()
+int Module::n_size()
 {
   return _nodes.size();
 }
 
-DataModuleNodes DataModule::nodes()
+Nodes Module::nodes()
 {
   return _nodes;
 }
 
-DataModuleEdges::iterator DataModule::e_begin()
+Edges::iterator Module::e_begin()
 {
   return _edges.begin();
 }
 
-DataModuleEdges::iterator DataModule::e_end()
+Edges::iterator Module::e_end()
 {
   return _edges.end();
 }
 
-int DataModule::e_size()
+int Module::e_size()
 {
   return _edges.size();
 }
 
-DataModuleEdges DataModule::edges()
+Edges Module::edges()
 {
   return _edges;
 }
 
-string DataModule::ref()
+string Module::ref()
 {
   return _ref;
 }
 
-// void DataModule::__linkConnectorNeurons()
+// void Module::__linkConnectorNeurons()
 // {
-  // FORC(DataModuleNodes, n, _nodes)
+  // FORC(Nodes, n, _nodes)
   // {
     // if((*n)->type() == TAG_CONNECTOR)
     // {
@@ -220,70 +220,70 @@ string DataModule::ref()
   // }
 // }
 
-void DataModule::update()
+void Module::update()
 {
   _copiedEdges.clear();
   _copiedNodes.clear();
 
 }
 
-bool DataModule::isCopy()
+bool Module::isCopy()
 {
   return _isCopy;
 }
 
-bool DataModule::isLinked()
+bool Module::isLinked()
 {
   return _isLinked;
 }
 
-void DataModule::linkTo(DataModule* t)
+void Module::linkTo(Module* t)
 {
   _target = t;
 }
 
-bool DataModule::operator==(const DataModule m)
+bool Module::operator==(const Module m)
 {
-  DataModuleNodes mn = m._nodes;
-  FORC(DataModuleNodes, a, _nodes)
+  Nodes mn = m._nodes;
+  FORC(Nodes, a, _nodes)
   {
-    bool foundDataNode = false;
-    FORC(DataModuleNodes, b, mn)
+    bool foundXsdParseNode = false;
+    FORC(Nodes, b, mn)
     {
       if(**a == **b)
       {
-        foundDataNode = true;
+        foundXsdParseNode = true;
         break;
       }
     }
-    if(foundDataNode == false) return false;
+    if(foundXsdParseNode == false) return false;
   }
   return true;
 }
 
-bool DataModule::operator!=(const DataModule m)
+bool Module::operator!=(const Module m)
 {
-  DataModuleNodes mn = m._nodes;
-  FORC(DataModuleNodes, a, _nodes)
+  Nodes mn = m._nodes;
+  FORC(Nodes, a, _nodes)
   {
-    bool foundDataNode = true;
-    FORC(DataModuleNodes, b, mn)
+    bool foundXsdParseNode = true;
+    FORC(Nodes, b, mn)
     {
       if(**a != **b)
       {
-        foundDataNode = false;
+        foundXsdParseNode = false;
         break;
       }
     }
-    if(foundDataNode == false) return true;
+    if(foundXsdParseNode == false) return true;
   }
   return false;
 }
 
-bool DataModule::removeNode(DataModuleNode *n) throw (ENPException)
+bool Module::removeNode(Node *n) throw (ENPException)
 {
   if(n->type() != TAG_HIDDEN) throw ENPException("Attempting to remove non-hidden node");
-  DataModuleNodes::iterator i;
+  Nodes::iterator i;
 
   int neuron_index = -1;
   for(int i = 0; i < (int)_nodes.size(); i++)
@@ -311,8 +311,8 @@ bool DataModule::removeNode(DataModuleNode *n) throw (ENPException)
     VLOG(50) << "   Removed neuron " << (*i)->label() << " from hidden";
   }
 
-  DataModuleEdges toBeRemoved;
-  FORC(DataModuleEdges, e, _edges)
+  Edges toBeRemoved;
+  FORC(Edges, e, _edges)
   {
     if((*e)->source()      == n->label() ||
        (*e)->destination() == n->label())
@@ -320,24 +320,24 @@ bool DataModule::removeNode(DataModuleNode *n) throw (ENPException)
       VLOG(50) << "    Removing edge with "
         << (*e)->source()      << " -> "
         << (*e)->destination() << " with " << (*e)->weight();
-      DataModuleEdges::iterator ei = std::find(_edges.begin(), _edges.end(), *e);
+      Edges::iterator ei = std::find(_edges.begin(), _edges.end(), *e);
       if(ei != _edges.end()) toBeRemoved.push_back(*e);
     }
   }
 
-  for(DataModuleEdges::iterator e = toBeRemoved.begin(); e != toBeRemoved.end(); e++)
+  for(Edges::iterator e = toBeRemoved.begin(); e != toBeRemoved.end(); e++)
   {
-    DataModuleEdges::iterator ei = std::find(_edges.begin(), _edges.end(), *e);
+    Edges::iterator ei = std::find(_edges.begin(), _edges.end(), *e);
     _edges.erase(ei);
   }
 
-  FORC(DataModuleNodes, nn, _nodes) (*nn)->removeEdge(n);
+  FORC(Nodes, nn, _nodes) (*nn)->removeEdge(n);
   return true;
 }
 
-bool DataModule::removeEdge(DataModuleEdge *e)
+bool Module::removeEdge(Edge *e)
 {
-  FORC(DataModuleEdges, i, _edges)
+  FORC(Edges, i, _edges)
   {
     if((**i) == *e)
     {
@@ -349,10 +349,10 @@ bool DataModule::removeEdge(DataModuleEdge *e)
 }
 
 
-DataModuleEdge* DataModule::addEdge(DataModuleNode *src, DataModuleNode *dst, double weight) throw (ENPException)
+Edge* Module::addEdge(Node *src, Node *dst, double weight) throw (ENPException)
 {
   if(dst->contains(src)) throw ENPException("Module::addEdge: The destination node already contains an edge from the source node");
-  DataModuleEdge *e = new DataModuleEdge(NULL);
+  Edge *e = new Edge(NULL);
   e->setSourceNode(src);
   e->setDestinationNode(dst);
   e->setWeight(weight);
@@ -364,113 +364,113 @@ DataModuleEdge* DataModule::addEdge(DataModuleNode *src, DataModuleNode *dst, do
   return e;
 }
 
-DataModuleNode* DataModule::node(int index)
+Node* Module::node(int index)
 {
   return _nodes[index];
 }
 
 
 
-DataModuleNodes::iterator DataModule::s_begin()
+Nodes::iterator Module::s_begin()
 {
   return _sensor.begin();
 }
 
-DataModuleNodes::iterator DataModule::s_end()
+Nodes::iterator Module::s_end()
 {
   return _sensor.end();
 }
 
-int DataModule::s_size()
+int Module::s_size()
 {
   return _sensor.size();
 }
 
-DataModuleNodes DataModule::sensorNodes()
+Nodes Module::sensorNodes()
 {
   return _sensor;
 }
 
-DataModuleNodes::iterator DataModule::a_begin()
+Nodes::iterator Module::a_begin()
 {
   return _actuator.begin();
 }
 
-DataModuleNodes::iterator DataModule::a_end()
+Nodes::iterator Module::a_end()
 {
   return _actuator.end();
 }
 
-int DataModule::a_size()
+int Module::a_size()
 {
   return _actuator.size();
 }
 
-DataModuleNodes::iterator DataModule::h_begin()
+Nodes::iterator Module::h_begin()
 {
   return _hidden.begin();
 }
 
-DataModuleNodes::iterator DataModule::h_end()
+Nodes::iterator Module::h_end()
 {
   return _hidden.end();
 }
 
-int DataModule::h_size()
+int Module::h_size()
 {
   return _hidden.size();
 }
 
-DataModuleNodes DataModule::actuatorNodes()
+Nodes Module::actuatorNodes()
 {
   return _actuator;
 }
 
-DataModuleNode* DataModule::sensorNode(int index)
+Node* Module::sensorNode(int index)
 {
   return _sensor[index];
 }
 
-DataModuleNode* DataModule::actuatorNode(int index)
+Node* Module::actuatorNode(int index)
 {
   return _actuator[index];
 }
 
-DataModuleNode* DataModule::hiddenNode(int index)
+Node* Module::hiddenNode(int index)
 {
   return _hidden[index];
 }
 
-bool DataModule::modified()
+bool Module::modified()
 {
   return _modified;
 }
 
-void DataModule::setModified(bool m)
+void Module::setModified(bool m)
 {
   _modified = m;
 }
 
-int DataModule::getNewNodeId()
+int Module::getNewNodeId()
 {
   int i = _globalId;
   _globalId++;
   return i;
 }
 
-void DataModule::updateFromLink()
+void Module::updateFromLink()
 {
   // TODO
 }
 
 
-DataModuleEdge* DataModule::edge(int index)
+Edge* Module::edge(int index)
 {
   return _edges[index];
 }
 
 
-void DataModule::addNode(DataModuleNode *node)
+void Module::addNode(Node *node)
 {
   if(node->type() == TAG_HIDDEN)
   {

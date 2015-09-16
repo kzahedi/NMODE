@@ -6,7 +6,7 @@
 
 #include "XsdSpecification.h"
 
-#include "DataENP.h"
+#include "ENP.h"
 
 
 using namespace std;
@@ -17,7 +17,7 @@ class Data
     static Data* instance();
     static void close();
     ~Data();
-    DataENP* specification();
+    ENP* specification();
     XsdSpecification* xsd();
     void clear();
     void read(string xmlFile);
@@ -27,7 +27,7 @@ class Data
   private:
     Data();
     static Data *_me;
-    DataENP     *_root;
+    ENP     *_root;
 };
 
 #endif // __DATA_H__

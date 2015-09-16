@@ -1,19 +1,19 @@
 #ifndef ___DATA_ENP_H__
 #define ___DATA_ENP_H__
 
-#include "DataNode.h"
+#include "XsdParseNode.h"
 #include "Version.h"
 
-#include "DataEvolution.h"
+#include "Evolution.h"
 #include "DataConfiguration.h"
-#include "DataSimulator.h"
-#include "DataPopulation.h"
+#include "Simulator.h"
+#include "Population.h"
 
 # define TAG_ENP                        (char*)"enp"
 # define TAG_ENP_DEFINITION             (char*)"enp_definition"
 # define TAG_VERSION_REGULAR_EXPRESSION (char*)"[0-9]+.[0-9]+.[0-9]+"
 
-class DataENP : public DataNode
+class ENP : public XsdParseNode
 {
   public:
 
@@ -22,12 +22,12 @@ class DataENP : public DataNode
      *
      * @param parent
      */
-    DataENP(DataNode *parent);
+    ENP(XsdParseNode *parent);
 
     /**
      * @brief Destructor.
      */
-    virtual ~DataENP();
+    virtual ~ENP();
 
     Version version();
     void setVersion(Version version);
@@ -36,19 +36,19 @@ class DataENP : public DataNode
 
     static void createXsd(XsdSpecification *spec);
 
-    DataSimulator*     simulator();
-    DataEvolution*     evolution();
+    Simulator*     simulator();
+    Evolution*     evolution();
     DataConfiguration* configuration();
-    DataPopulation*    population();
+    Population*    population();
 
   private:
     void __getChild(DataParseElement *element);
 
     Version            _version;
-    DataSimulator     *_simulator;
-    DataEvolution     *_evolution;
+    Simulator     *_simulator;
+    Evolution     *_evolution;
     DataConfiguration *_configuration;
-    DataPopulation    *_population;
+    Population    *_population;
 
 };
 

@@ -29,7 +29,7 @@
 #ifndef __DATA_MODULE_EDGE_H__
 #define __DATA_MODULE_EDGE_H__
 
-#include "DataNode.h"
+#include "XsdParseNode.h"
 #include "base/P3D.h"
 
 #include <vector>
@@ -39,16 +39,16 @@ using namespace std;
 # define TAG_MODULE_EDGE            (char*)"edge"
 # define TAG_MODULE_EDGE_DEFINITION (char*)"module_edge_definition"
 
-class DataModuleNode;
+class Node;
 
-class DataModuleEdge : public DataNode
+class Edge : public XsdParseNode
 {
   public:
-    DataModuleEdge(DataNode *parent);
-    ~DataModuleEdge();
+    Edge(XsdParseNode *parent);
+    ~Edge();
 
-    //DataModuleEdge(const DataModuleEdge);
-    //DataModuleEdge operator=(const DataModuleEdge);
+    //Edge(const Edge);
+    //Edge operator=(const Edge);
 
     void add(DataParseElement *element);
     static void createXsd(XsdSpecification *spec);
@@ -59,22 +59,22 @@ class DataModuleEdge : public DataNode
     double weight();
     void   setWeight(double);
 
-    DataModuleNode* sourceNode();
-    void            setSourceNode(DataModuleNode*);
-    DataModuleNode* destinationNode();
-    void            setDestinationNode(DataModuleNode*);
+    Node* sourceNode();
+    void  setSourceNode(Node*);
+    Node* destinationNode();
+    void  setDestinationNode(Node*);
 
-    bool operator==(const DataModuleEdge o);
-    bool operator!=(const DataModuleEdge o);
+    bool operator==(const Edge o);
+    bool operator!=(const Edge o);
 
   private:
     string          _source;
     string          _destination;
     double          _weight;
-    DataModuleNode *_sourceNode;
-    DataModuleNode *_destinationNode;
+    Node *_sourceNode;
+    Node *_destinationNode;
 };
 
-typedef vector<DataModuleEdge*> DataModuleEdges;
+typedef vector<Edge*> Edges;
 
 #endif // __DATA_MODULE_EDGE_H__

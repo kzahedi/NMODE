@@ -1,36 +1,36 @@
 #ifndef __DATA_POPULATION_H__
 #define __DATA_POPULATION_H__
 
-#include "DataNode.h"
-#include "DataIndividual.h"
+#include "XsdParseNode.h"
+#include "Individual.h"
 
 # define TAG_POPULATION            (char*)"population"
 # define TAG_POPULATION_DEFINITION (char*)"population_definition"
 
-class DataPopulation : public DataNode
+class Population : public XsdParseNode
 {
   public:
-    DataPopulation(DataNode *parent);
-    // ~DataPopulation();
+    Population(XsdParseNode *parent);
+    // ~Population();
 
-    //DataPopulation(const DataPopulation);
-    //DataPopulation operator=(const DataPopulation);
+    //Population(const Population);
+    //Population operator=(const Population);
 
     void add(DataParseElement *element);
     static void createXsd(XsdSpecification *spec);
 
     
-    DataIndividuals::iterator i_begin();
-    DataIndividuals::iterator i_end();
+    Individuals::iterator i_begin();
+    Individuals::iterator i_end();
     int                       i_size();
-    DataIndividuals           individuals();
-    DataIndividual            individual(int index);
+    Individuals           individuals();
+    Individual            individual(int index);
     int                       generation();
 
   private:
 
     int             _generation;
-    DataIndividuals _individuals;
+    Individuals _individuals;
 };
 
 #endif // __DATA_POPULATION_H__

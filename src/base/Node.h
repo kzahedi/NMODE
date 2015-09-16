@@ -1,10 +1,10 @@
 #ifndef __DATA_MODULE_NODE_H__
 #define __DATA_MODULE_NODE_H__
 
-#include "DataNode.h"
-#include "DataModuleEdge.h"
+#include "XsdParseNode.h"
 
-#include "base/P3D.h"
+#include "Edge.h"
+#include "P3D.h"
 
 # define TAG_MODULE_NODE            (char*)"node"
 # define TAG_MODULE_NODE_DEFINITION (char*)"module_node_definition"
@@ -15,7 +15,7 @@
 # define TAG_HIDDEN                 (char*)"hidden"
 # define TAG_CONNECTOR              (char*)"connector"
 
-class DataModuleNode : public DataNode
+class Node : public XsdParseNode
 {
   public:
 
@@ -24,18 +24,18 @@ class DataModuleNode : public DataNode
      *
      * @param parent
      */
-    DataModuleNode(DataNode *parent);
+    Node(XsdParseNode *parent);
 
     /**
      * @brief Destructor.
      */
-    virtual ~DataModuleNode();
+    virtual ~Node();
 
-    bool operator==(const DataModuleNode o);
-    bool operator!=(const DataModuleNode o);
+    bool operator==(const Node o);
+    bool operator!=(const Node o);
 
-    bool contains(DataModuleEdge *e);
-    bool contains(DataModuleNode *n);
+    bool contains(Edge *e);
+    bool contains(Node *n);
 
     void add(DataParseElement *element);
 
@@ -63,19 +63,19 @@ class DataModuleNode : public DataNode
     string nodeName();
     void   setNodeName(string);
 
-    DataModuleEdges::iterator e_begin();
-    DataModuleEdges::iterator e_end();
+    Edges::iterator e_begin();
+    Edges::iterator e_end();
     int                       e_size();
-    DataModuleEdge*           edge(int index);
+    Edge*           edge(int index);
 
-    void addEdge(DataModuleEdge *e);
-    bool removeEdge(DataModuleEdge *e);
-    void removeEdge(DataModuleNode *n);
+    void addEdge(Edge *e);
+    bool removeEdge(Edge *e);
+    void removeEdge(Node *n);
 
     bool isSource();
     bool isDestination();
 
-    friend std::ostream& operator<<(std::ostream& str, const DataModuleNode& n)
+    friend std::ostream& operator<<(std::ostream& str, const Node& n)
     {
       str << "        <node type=\"" << n._type << "\" label=\"" << n._label << "\">" << endl;
       str << "          <position x=\"" << n._position.x
@@ -89,17 +89,17 @@ class DataModuleNode : public DataNode
     };
 
   private:
-    string          _type;
-    string          _label;
-    P3D             _position;
-    string          _transferfunction;
-    string          _nodeName;
-    string          _moduleName;
-    double          _bias;
-    DataModuleEdges _in;
+    string _type;
+    string _label;
+    P3D    _position;
+    string _transferfunction;
+    string _nodeName;
+    string _moduleName;
+    double _bias;
+    Edges  _in;
 };
 
-typedef vector<DataModuleNode*> DataModuleNodes;
+typedef vector<Node*> Nodes;
 
 #endif // ___DATA_MODULE_NODE_H__
 

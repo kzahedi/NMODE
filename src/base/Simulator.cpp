@@ -1,4 +1,4 @@
-#include "DataSimulator.h"
+#include "Simulator.h"
 
 #include <iostream>
 
@@ -9,16 +9,16 @@
 
 using namespace std;
 
-DataSimulator::DataSimulator(DataNode *parent)
-  : DataNode(parent)
+Simulator::Simulator(XsdParseNode *parent)
+  : XsdParseNode(parent)
 { }
 
-DataSimulator::~DataSimulator()
+Simulator::~Simulator()
 {
 }
 
 
-void DataSimulator::add(DataParseElement *element)
+void Simulator::add(ParseElement *element)
 {
   if(element->closing(TAG_SIMULATOR))
   {
@@ -35,7 +35,7 @@ void DataSimulator::add(DataParseElement *element)
   }
 }
 
-void DataSimulator::createXsd(XsdSpecification *spec)
+void Simulator::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_SIMULATOR_DEFINITION);
   root->add(NA(TAG_WD,  TAG_XSD_STRING,                true));
@@ -44,17 +44,17 @@ void DataSimulator::createXsd(XsdSpecification *spec)
   spec->add(root);
 }
 
-string DataSimulator::workingDirectory()
+string Simulator::workingDirectory()
 {
   return _workingDirectory;
 }
 
-string DataSimulator::xml()
+string Simulator::xml()
 {
   return _xml;
 }
 
-int DataSimulator::nr()
+int Simulator::nr()
 {
   return _nr;
 }

@@ -7,13 +7,13 @@
 
 using namespace std;
 
-DataConfiguration::DataConfiguration(DataNode *parent)
-  : DataNode(parent)
+DataConfiguration::DataConfiguration(XsdParseNode *parent)
+  : XsdParseNode(parent)
 { }
 
 DataConfiguration::~DataConfiguration()
 {
-  FORC(DataModules, m, _modules) delete (*m);
+  FORC(Modules, m, _modules) delete (*m);
   _modules.clear();
 }
 
@@ -34,7 +34,7 @@ void DataConfiguration::add(DataParseElement *element)
 
   if(element->opening(TAG_MODULE))
   {
-    DataModule* module = new DataModule(this);
+    Module* module = new Module(this);
     _modules.push_back(module);
     current = module;
     current->add(element);
@@ -47,16 +47,16 @@ void DataConfiguration::createXsd(XsdSpecification *spec)
   root->add(NE(TAG_MODULE,  TAG_MODULE_DEFINITION,  0, TAG_XSD_UNBOUNDED));
   spec->add(root);
 
-  DataModule::createXsd(spec);
+  Module::createXsd(spec);
 }
 
 
-DataModules::iterator DataConfiguration::m_begin()
+Modules::iterator DataConfiguration::m_begin()
 {
   return _modules.begin();
 }
 
-DataModules::iterator DataConfiguration::m_end()
+Modules::iterator DataConfiguration::m_end()
 {
   return _modules.end();
 }
@@ -66,7 +66,7 @@ int DataConfiguration::m_size()
   return _modules.size();
 }
 
-DataModules DataConfiguration::modules()
+Modules DataConfiguration::modules()
 {
   return _modules;
 }

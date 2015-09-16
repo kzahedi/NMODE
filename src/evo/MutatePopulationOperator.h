@@ -1,13 +1,13 @@
 #ifndef __POPULATION_MUTATION_OPERATOR_H__
 #define __POPULATION_MUTATION_OPERATOR_H__
 
-#include "base/DataPopulation.h"
+#include "base/Population.h"
 
 class MutatePopulationOperator
 {
   public:
 
-    static void mutate(DataPopulation*);
+    static void mutate(Population*);
 
   private:
 };

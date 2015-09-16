@@ -17,7 +17,7 @@ using namespace std;
  *
  * @sa DataParseAttribute
  */
-class DataParseElement : public std::vector<DataParseAttribute*>
+class ParseElement : public std::vector<DataParseAttribute*>
 {
   public:
     /**
@@ -29,12 +29,12 @@ class DataParseElement : public std::vector<DataParseAttribute*>
      *
      * @param type
      */
-    DataParseElement(int type);
+    ParseElement(int type);
 
     /**
      * @brief Destructor.
      */
-    ~DataParseElement();
+    ~ParseElement();
 
     /**
      * @brief Returns the name of the tag.
@@ -127,7 +127,7 @@ class DataParseElement : public std::vector<DataParseAttribute*>
     void set(string name, int &value);
     void set(string name, unsigned long &value);
 
-    friend std::ostream& operator<<(std::ostream& str, const DataParseElement& d)
+    friend std::ostream& operator<<(std::ostream& str, const ParseElement& d)
     {
       str << d._name << ": " << d._type;
       return str;

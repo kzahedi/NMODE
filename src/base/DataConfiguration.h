@@ -1,14 +1,14 @@
 #ifndef ___DATA_CONFIGURATION_H__
 #define ___DATA_CONFIGURATION_H__
 
-#include "DataNode.h"
+#include "XsdParseNode.h"
 
-#include "DataModule.h"
+#include "Module.h"
 
 # define TAG_CONFIGURATION            (char*)"configuration"
 # define TAG_CONFIGURATION_DEFINITION (char*)"configuration_definition"
 
-class DataConfiguration : public DataNode
+class DataConfiguration : public XsdParseNode
 {
   public:
 
@@ -17,7 +17,7 @@ class DataConfiguration : public DataNode
      *
      * @param parent
      */
-    DataConfiguration(DataNode *parent);
+    DataConfiguration(XsdParseNode *parent);
 
     /**
      * @brief Destructor.
@@ -26,15 +26,15 @@ class DataConfiguration : public DataNode
 
     void add(DataParseElement *element);
 
-    DataModules::iterator m_begin();
-    DataModules::iterator m_end();
+    Modules::iterator m_begin();
+    Modules::iterator m_end();
     int                   m_size();
-    DataModules           modules();
+    Modules           modules();
 
     static void createXsd(XsdSpecification *spec);
 
   private:
-    DataModules _modules;
+    Modules _modules;
 };
 
 #endif // ___DATA_CONFIGURATION_H__
