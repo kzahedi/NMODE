@@ -115,22 +115,29 @@ Individual* Individual::getRealisation()
 
   FORC(Modules, m, _modules)
   {
+    VLOG(100) << "checking on " << (*m)->name();
     if((*m)->isCopy() == false)
     {
+      VLOG(100) << "  its not a copy";
       mods.push_back(*m);
+      copy->addModule(*m);
     }
   }
 
   FORC(Modules, m, _modules)
   {
+    VLOG(100) << "checking on " << (*m)->name();
     if((*m)->isCopy())
     {
+      VLOG(100) << "  it is a copy";
       FORC(Modules, c, mods)
       {
         if((*m)->ref() == (*c)->name())
         {
-          Module new_module = (*c);
-          copy->addModule(&new_module);
+          VLOG(100) << "  found ref " << (*c)->name() << " for " << (*m)->name();
+          // Module *new_module = new Module(*c);
+          (*m)->copyAndApplyTransition(*c);
+          copy->addModule(*m);
         }
       }
     }

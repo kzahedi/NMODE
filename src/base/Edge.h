@@ -68,11 +68,11 @@ class Edge : public XsdParseNode
     bool operator!=(const Edge o);
 
   private:
-    string          _source;
-    string          _destination;
-    double          _weight;
-    Node *_sourceNode;
-    Node *_destinationNode;
+    string _source;
+    string _destination;
+    double _weight;
+    Node  *_sourceNode;
+    Node  *_destinationNode;
 };
 
 typedef vector<Edge*> Edges;

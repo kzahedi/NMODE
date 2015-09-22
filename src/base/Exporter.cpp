@@ -104,8 +104,8 @@ string Exporter::toX3d(Individual *i)
 
   for(Modules::const_iterator m = ir->m_begin(); m != ir->m_end(); m++)
   {
-    sst << toX3d(*m);
     VLOG(10) << "  exporting module " << (*m)->name();
+    sst << toX3d(*m);
   }
   sst << "      </scene> " << endl;
   sst << __x3dFooter();

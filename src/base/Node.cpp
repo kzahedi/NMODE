@@ -294,3 +294,18 @@ bool Node::isDestination()
           _type == TAG_CONNECTOR ||
           _type == TAG_HIDDEN);
 }
+
+
+Node* Node::copy()
+{
+  Node *copy = new Node(NULL);
+  copy->_type             = _type;
+  copy->_label            = _label;
+  copy->_position         = _position;
+  copy->_transferfunction = _transferfunction;
+  copy->_nodeName         = _nodeName;
+  copy->_moduleName       = _moduleName;
+  copy->_bias             = _bias;
+  // edges must be copied outside of here
+  return copy;
+}

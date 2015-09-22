@@ -415,13 +415,11 @@ void modulesTest::testModuleApplyMirror()
   a->addNode(aa);
   a->addNode(ab);
 
-  // HIER 
-
   CPPUNIT_ASSERT(a->n_size() == 2);
 
   Module *b = new Module();
   b->setMirrorAxes(true, true, true);
-  *b = *a;
+  b->copyAndApplyTransition(a);
 
   CPPUNIT_ASSERT_EQUAL(-1.0, b->node(0)->position().x);
   CPPUNIT_ASSERT_EQUAL(-1.0, b->node(0)->position().y);
@@ -430,7 +428,113 @@ void modulesTest::testModuleApplyMirror()
   CPPUNIT_ASSERT_EQUAL(-2.0, b->node(1)->position().x);
   CPPUNIT_ASSERT_EQUAL(-2.0, b->node(1)->position().y);
   CPPUNIT_ASSERT_EQUAL(-2.0, b->node(1)->position().z);
+}
 
-  HIER HIER
+void modulesTest::testModuleTranslation()
+{
+  Module *a = new Module();
+  a->setName("module 1");
 
+  Node *aa = new Node();
+  aa->setType("sensor");
+  aa->setLabel("sensor 1");
+  aa->setPosition(P3D(1.0,1.0,1.0));
+  aa->setTransferfunction("id");
+
+  Node *ab = new Node();
+  ab->setType("sensor");
+  ab->setLabel("sensor 2");
+  ab->setPosition(P3D(2.0,2.0,2.0));
+  ab->setTransferfunction("id");
+
+  a->addNode(aa);
+  a->addNode(ab);
+
+  CPPUNIT_ASSERT(a->n_size() == 2);
+
+  Module *b = new Module();
+  b->setMirrorAxes(false, false, false);
+  b->setTranslation(P3D(1.0, -1.0, 5.0));
+  b->copyAndApplyTransition(a);
+
+  CPPUNIT_ASSERT_EQUAL( 2.0, b->node(0)->position().x);
+  CPPUNIT_ASSERT_EQUAL( 0.0, b->node(0)->position().y);
+  CPPUNIT_ASSERT_EQUAL( 6.0, b->node(0)->position().z);
+
+  CPPUNIT_ASSERT_EQUAL( 3.0, b->node(1)->position().x);
+  CPPUNIT_ASSERT_EQUAL( 1.0, b->node(1)->position().y);
+  CPPUNIT_ASSERT_EQUAL( 7.0, b->node(1)->position().z);
+}
+
+void modulesTest::testModuleRotation()
+{
+  Module *a = new Module();
+  a->setName("module 1");
+
+  Node *aa = new Node();
+  aa->setType("sensor");
+  aa->setLabel("sensor 1");
+  aa->setPosition(P3D(1.0,1.0,1.0));
+  aa->setTransferfunction("id");
+
+  Node *ab = new Node();
+  ab->setType("sensor");
+  ab->setLabel("sensor 2");
+  ab->setPosition(P3D(2.0,2.0,2.0));
+  ab->setTransferfunction("id");
+
+  a->addNode(aa);
+  a->addNode(ab);
+
+  CPPUNIT_ASSERT(a->n_size() == 2);
+
+  Module *b = new Module();
+  b->setMirrorAxes(false, false, false);
+  b->setRotation(P3D(0.0, M_PI_2, 0.0));
+  b->copyAndApplyTransition(a);
+
+  CPPUNIT_ASSERT_DOUBLES_EQUAL( 1.0, b->node(0)->position().x, 0.000001);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL( 1.0, b->node(0)->position().y, 0.000001);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(-1.0, b->node(0)->position().z, 0.000001);
+
+  CPPUNIT_ASSERT_DOUBLES_EQUAL( 2.0, b->node(1)->position().x, 0.000001);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL( 2.0, b->node(1)->position().y, 0.000001);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(-2.0, b->node(1)->position().z, 0.000001);
+}
+
+void modulesTest::testModuleTransition()
+{
+  Module *a = new Module();
+  a->setName("module 1");
+
+  Node *aa = new Node();
+  aa->setType("sensor");
+  aa->setLabel("sensor 1");
+  aa->setPosition(P3D(1.0,1.0,1.0));
+  aa->setTransferfunction("id");
+
+  Node *ab = new Node();
+  ab->setType("sensor");
+  ab->setLabel("sensor 2");
+  ab->setPosition(P3D(2.0,2.0,2.0));
+  ab->setTransferfunction("id");
+
+  a->addNode(aa);
+  a->addNode(ab);
+
+  CPPUNIT_ASSERT(a->n_size() == 2);
+
+  Module *b = new Module();
+  b->setMirrorAxes(false, false, false);
+  b->setRotation(P3D(0.0, M_PI_2, 0.0));
+  b->setTranslation(P3D(1.0, -1.0, 5.0));
+  b->copyAndApplyTransition(a);
+
+  CPPUNIT_ASSERT_DOUBLES_EQUAL( 2.0, b->node(0)->position().x, 0.000001);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL( 0.0, b->node(0)->position().y, 0.000001);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL( 4.0, b->node(0)->position().z, 0.000001);
+
+  CPPUNIT_ASSERT_DOUBLES_EQUAL( 3.0, b->node(1)->position().x, 0.000001);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL( 1.0, b->node(1)->position().y, 0.000001);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL( 3.0, b->node(1)->position().z, 0.000001);
 }

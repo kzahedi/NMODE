@@ -127,6 +127,8 @@ class Module : public XsdParseNode
     void setTranslation(P3D);
     void setRotation(P3D);
 
+    void copyAndApplyTransition(Module*);
+
   private:
     void        __applyMirror();
     void        __applyTranslation();

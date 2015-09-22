@@ -75,6 +75,8 @@ class Node : public XsdParseNode
     bool isSource();
     bool isDestination();
 
+    Node* copy();
+
     friend std::ostream& operator<<(std::ostream& str, const Node& n)
     {
       str << "        <node type=\"" << n._type << "\" label=\"" << n._label << "\">" << endl;

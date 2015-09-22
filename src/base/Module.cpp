@@ -244,7 +244,6 @@ bool Module::operator!=(const Module m)
 {
   Nodes mn = m._nodes;
   if(m._name != _name) return false;
-  cout << m._name << " " << _name << endl;
   FORC(Nodes, a, _nodes)
   {
     bool foundMissmatch = false;
@@ -501,16 +500,14 @@ void Module::__applyTranslation()
 
 Module& Module::operator=(const Module &m)
 {
+  // copy and apply transformation
   _name        = m._name;
   _ref         = m._ref;
-  _rotation    = m._rotation;
-  _translation = m._translation;
-
   _isCopy      = m._isCopy;
   _modified    = m._modified;
   _globalId    = m._globalId;
-
-  // if(_isCopy == true) _mirrorAxes = m._mirrorAxes;
+  _translation = m._translation;
+  _rotation    = m._rotation;
 
   FORCC(Nodes, n, m._nodes)    _nodes.push_back(*n);
   FORCC(Nodes, n, m._sensor)   _sensor.push_back(*n);
@@ -542,4 +539,45 @@ void Module::setRotation(P3D r)
   _rotation = r;
 }
 
+void Module::copyAndApplyTransition(Module *m)
+{
+  _nodes.clear();
+  _sensor.clear();
+  _actuator.clear();
+  _input.clear();
+  _hidden.clear();
+  _edges.clear();
 
+  FORC(Nodes, n, m->_nodes)    _nodes.push_back((*n)->copy());
+  FORC(Nodes, n, m->_sensor)   _sensor.push_back((*n)->copy());
+  FORC(Nodes, n, m->_actuator) _actuator.push_back((*n)->copy());
+  FORC(Nodes, n, m->_input)    _input.push_back((*n)->copy());
+  FORC(Nodes, n, m->_hidden)   _hidden.push_back((*n)->copy());
+  FORC(Edges, e, m->_edges)
+  {
+    string src = (*e)->source();
+    string dst = (*e)->destination();
+    Node *srcNode = NULL;
+    Node *dstNode = NULL;
+    FORC(Nodes, n, _nodes)
+    {
+      if((*n)->label() == src)
+      {
+        srcNode = (*n);
+        break;
+      }
+    }
+    FORC(Nodes, n, _nodes)
+    {
+      if((*n)->label() == dst)
+      {
+        dstNode = (*n);
+        break;
+      }
+    }
+    addEdge(srcNode, dstNode, (*e)->weight());
+  }
+
+  __applyMirror();
+  __applyTranslation();
+}
