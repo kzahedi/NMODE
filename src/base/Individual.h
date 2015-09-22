@@ -32,6 +32,7 @@ class Individual : public XsdParseNode
     Modules           modules();
     Module*           module(int);
     void              addModule(Module*);
+    Individual*       getRealisation();
 
   private:
     // void        __linkConnectorNodes();

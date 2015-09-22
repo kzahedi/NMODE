@@ -1,8 +1,9 @@
 #include "base/Data.h"
 #include "base/Population.h"
-#include "evo/MutateModuleOperator.h"
-#include "evo/Exporter.h"
+#include "base/Exporter.h"
 #include "base/Random.h"
+
+#include "evo/MutateModuleOperator.h"
 
 #include <glog/logging.h>
 

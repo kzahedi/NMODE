@@ -64,6 +64,8 @@ add_library(ENPBase SHARED RNN.cpp
                            XsdGraphNode.cpp
                            XsdGraphvizGenerator.cpp
                            XsdGraphvizExporter.cpp
+
+                           Exporter.cpp
                            )
 
 target_link_libraries(ENPBase ${Boost_LIBRARIES} xerces-c glog)

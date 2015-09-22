@@ -29,18 +29,25 @@
 using namespace std;
 
 Module::Module(XsdParseNode *parent)
-  : XsdParseNode(parent)
+  : XsdParseNode(parent), _mirrorAxes()
 {
-  _mirrorAxes   = new bool[3];
-  _isCopy   = false;
-  _isLinked = false;
-  _globalId = 0;
-  _modified = false;
+  _globalId   = 0;
+  _isCopy     = false;
+  _modified   = false;
+}
+
+Module::Module(const Module &m)
+  : XsdParseNode(m.parent)
+{
+  *this = m;
 }
 
 Module::~Module()
 {
-  delete _mirrorAxes;
+  // if(_isCopy == false)
+  // {
+    // delete stuff here
+  // }
 }
 
 void Module::add(ParseElement *element)
@@ -49,7 +56,6 @@ void Module::add(ParseElement *element)
   VLOG(100) << "parsing " << element->name();
   if(element->closing(TAG_MODULE))
   {
-    // __linkConnectorNeurons();
     current = parent;
     return;
   }
@@ -93,10 +99,10 @@ void Module::add(ParseElement *element)
   {
     VLOG(100) << "found " << TAG_MODULE_MIRROR;
     P3D r;
-    element->set(TAG_X, _mirrorAxes[0]);
-    element->set(TAG_Y, _mirrorAxes[1]);
-    element->set(TAG_Z, _mirrorAxes[2]);
-    VLOG(100) << "found " << _mirrorAxes[0] << " " << _mirrorAxes[1] << " " << _mirrorAxes[2];
+    element->set(TAG_X, _mirrorAxes.x);
+    element->set(TAG_Y, _mirrorAxes.y);
+    element->set(TAG_Z, _mirrorAxes.z);
+    VLOG(100) << "found " << _mirrorAxes.x << " " << _mirrorAxes.y << " " << _mirrorAxes.z;
   }
 
   if(element->opening(TAG_MODULE_TRANSLATE))
@@ -203,23 +209,6 @@ string Module::ref()
   return _ref;
 }
 
-// void Module::__linkConnectorNeurons()
-// {
-  // FORC(Nodes, n, _nodes)
-  // {
-    // if((*n)->type() == TAG_CONNECTOR)
-    // {
-      // string label          = (*n)->label();
-      // string::size_type pos = label.find('/');
-      // string module_name    = label.substr(0, pos);
-      // string node_name      = label.substr(pos+1, label.size()-1);
-      // VLOG(100) << label << " -> " << module_name << " / " << node_name;
-      // (*n)->setModuleName(module_name);
-      // (*n)->setNodeName(node_name);
-    // }
-  // }
-// }
-
 void Module::update()
 {
   _copiedEdges.clear();
@@ -230,16 +219,6 @@ void Module::update()
 bool Module::isCopy()
 {
   return _isCopy;
-}
-
-bool Module::isLinked()
-{
-  return _isLinked;
-}
-
-void Module::linkTo(Module* t)
-{
-  _target = t;
 }
 
 bool Module::operator==(const Module m)
@@ -264,18 +243,20 @@ bool Module::operator==(const Module m)
 bool Module::operator!=(const Module m)
 {
   Nodes mn = m._nodes;
+  if(m._name != _name) return false;
+  cout << m._name << " " << _name << endl;
   FORC(Nodes, a, _nodes)
   {
-    bool foundXsdParseNode = true;
+    bool foundMissmatch = false;
     FORC(Nodes, b, mn)
     {
       if(**a != **b)
       {
-        foundXsdParseNode = false;
+        foundMissmatch = false;
         break;
       }
     }
-    if(foundXsdParseNode == false) return true;
+    if(foundMissmatch == true) return true;
   }
   return false;
 }
@@ -366,6 +347,12 @@ Edge* Module::addEdge(Node *src, Node *dst, double weight) throw (ENPException)
 
 Node* Module::node(int index)
 {
+  if(index >= (int)_nodes.size())
+  {
+    stringstream oss;
+    oss << "Module::node. Index out of range: " << index << " > " << _nodes.size() << endl;
+    throw ENPException(oss.str());
+  }
   return _nodes[index];
 }
 
@@ -458,20 +445,14 @@ int Module::getNewNodeId()
   return i;
 }
 
-void Module::updateFromLink()
-{
-  // TODO
-}
-
-
 Edge* Module::edge(int index)
 {
   return _edges[index];
 }
 
-
 void Module::addNode(Node *node)
 {
+  _nodes.push_back(node);
   if(node->type() == TAG_HIDDEN)
   {
     _hidden.push_back(node);
@@ -488,10 +469,77 @@ void Module::addNode(Node *node)
   {
     _actuator.push_back(node);
   }
-
 }
 
 void Module::setName(string name)
 {
   _name = name;
 }
+
+void Module::__applyMirror()
+{
+  FORC(Nodes, n, _nodes)
+  {
+    P3D p = (*n)->position();
+    if(_mirrorAxes.x == true) p.x = -p.x;
+    if(_mirrorAxes.y == true) p.y = -p.y;
+    if(_mirrorAxes.z == true) p.z = -p.z;
+    (*n)->setPosition(p);
+  }
+}
+
+void Module::__applyTranslation()
+{
+  FORC(Nodes, n, _nodes)
+  {
+    P3D p = (*n)->position();
+    p *= _rotation;
+    p += _translation;
+    (*n)->setPosition(p);
+  }
+}
+
+Module& Module::operator=(const Module &m)
+{
+  _name        = m._name;
+  _ref         = m._ref;
+  _rotation    = m._rotation;
+  _translation = m._translation;
+
+  _isCopy      = m._isCopy;
+  _modified    = m._modified;
+  _globalId    = m._globalId;
+
+  // if(_isCopy == true) _mirrorAxes = m._mirrorAxes;
+
+  FORCC(Nodes, n, m._nodes)    _nodes.push_back(*n);
+  FORCC(Nodes, n, m._sensor)   _sensor.push_back(*n);
+  FORCC(Nodes, n, m._actuator) _actuator.push_back(*n);
+  FORCC(Nodes, n, m._input)    _input.push_back(*n);
+  FORCC(Nodes, n, m._hidden)   _hidden.push_back(*n);
+  FORCC(Edges, e, m._edges)    _edges.push_back(*e);
+
+  __applyMirror();
+  __applyTranslation();
+
+  return *this;
+}
+
+void Module::setMirrorAxes(bool x, bool y, bool z)
+{
+  _mirrorAxes.x = x;
+  _mirrorAxes.y = y;
+  _mirrorAxes.z = z;
+}
+
+void Module::setTranslation(P3D t)
+{
+  _translation = t;
+}
+
+void Module::setRotation(P3D r)
+{
+  _rotation = r;
+}
+
+

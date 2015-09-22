@@ -12,6 +12,37 @@
 # define TAG_MODULE            (char*)"module"
 # define TAG_MODULE_DEFINITION (char*)"module_definition"
 
+class MirrorAxes
+{
+  public:
+    MirrorAxes()
+    {
+      x = false;
+      y = false;
+      z = false;
+    }
+
+    MirrorAxes(const MirrorAxes& ma)
+    {
+      x = ma.x;
+      y = ma.y;
+      z = ma.z;
+    }
+
+    MirrorAxes& operator=(const MirrorAxes &b)
+    {
+      x = b.x;
+      y = b.y;
+      z = b.z;
+      return *this;
+    }
+
+    bool x;
+    bool y;
+    bool z;
+};
+
+
 class Module : public XsdParseNode
 {
   public:
@@ -22,6 +53,9 @@ class Module : public XsdParseNode
      * @param parent
      */
     Module(XsdParseNode *parent = NULL);
+
+    Module(const Module &m);
+    Module& operator=(const Module &m);
 
     /**
      * @brief Destructor.
@@ -37,46 +71,43 @@ class Module : public XsdParseNode
     Nodes           nodes();
     Nodes::iterator n_begin();
     Nodes::iterator n_end();
-    int                       n_size();
+    int             n_size();
 
     Node*           sensorNode(int index);
     Nodes           sensorNodes();
     Nodes::iterator s_begin();
     Nodes::iterator s_end();
-    int                       s_size();
+    int             s_size();
 
     Node*           actuatorNode(int index);
     Nodes           actuatorNodes();
     Nodes::iterator a_begin();
     Nodes::iterator a_end();
-    int                       a_size();
+    int             a_size();
 
     Node*           hiddenNode(int index);
     Nodes           hiddenNodes();
     Nodes::iterator h_begin();
     Nodes::iterator h_end();
-    int                       h_size();
+    int             h_size();
 
     Edges           edges();
     Edges::iterator e_begin();
     Edges::iterator e_end();
-    int                       e_size();
+    int             e_size();
     Edge*           edge(int index);
 
-    string                    name();
-    string                    ref();
+    string          name();
+    string          ref();
 
-    P3D                       translation();
-    Quaternion                rotation();
+    P3D             translation();
+    Quaternion      rotation();
 
-    void                      addNode(Node*);
+    void            addNode(Node*);
 
-    void                      update();
+    void            update();
     // could be a copy but not yet linked
-    bool                      isCopy();
-    bool                      isLinked();
-
-    void                      linkTo(Module*);
+    bool            isCopy();
 
     bool operator == (const Module m);
     bool operator != (const Module m);
@@ -85,40 +116,40 @@ class Module : public XsdParseNode
     bool removeEdge(Edge *e);
 
     Edge* addEdge(Node *src,
-                            Node *dst,
-                            double weight) throw (ENPException);
+                  Node *dst,
+                  double weight) throw (ENPException);
 
     bool modified();
-    void setModified(bool m);
+    void setModified(bool); // for mutation operator
     int  getNewNodeId();
 
-    void updateFromLink();
+    void setMirrorAxes(bool, bool, bool);
+    void setTranslation(P3D);
+    void setRotation(P3D);
 
   private:
-    // void            __linkConnectorNeurons();
+    void        __applyMirror();
+    void        __applyTranslation();
 
-    string     _name;
-    string     _ref;
+    string      _name;
+    string      _ref;
 
-    Quaternion _rotation;
-    P3D        _translation;
+    Quaternion  _rotation;
+    P3D         _translation;
 
-    bool      *_mirrorAxes;
-    bool       _isCopy;
-    bool       _isLinked;
-    bool       _modified;
-    int        _globalId;
-    Edges      _copiedEdges;
-    Nodes      _copiedNodes;
-    Module    *_target;
+    MirrorAxes  _mirrorAxes;
+    bool        _isCopy;
+    bool        _modified;
+    int         _globalId;
+    Edges       _copiedEdges;
+    Nodes       _copiedNodes;
 
-    Nodes      _nodes;
-    Nodes      _sensor;
-    Nodes      _actuator;
-    Nodes      _input;
-    Nodes      _hidden;
-    Edges      _edges;
-
+    Nodes       _nodes;
+    Nodes       _sensor;
+    Nodes       _actuator;
+    Nodes       _input;
+    Nodes       _hidden;
+    Edges       _edges;
 };
 
 typedef vector<Module*> Modules;

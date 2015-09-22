@@ -46,7 +46,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( modulesTest );
 
 void modulesTest::setUp()
 {
-  cout << "HIER HIER" << endl;
+  // cout << "HIER HIER" << endl;
 }
 
 void modulesTest::testModules()
@@ -220,7 +220,6 @@ void modulesTest::testModuleInequality()
   a->addNode(ad);
   a->addNode(ae);
 
-
   Module *b = new Module();
   b->setName("module 2");
 
@@ -260,7 +259,7 @@ void modulesTest::testModuleInequality()
   b->addNode(bd);
   b->addNode(be);
 
-  CPPUNIT_ASSERT(*a != *b);
+  CPPUNIT_ASSERT((*a != *b) == false);
 }
 
 
@@ -298,4 +297,140 @@ void modulesTest::testModuleAddEdge()
   CPPUNIT_ASSERT(ab->edge(0)->sourceNode() == aa);
 
   CPPUNIT_ASSERT_THROW(a->addEdge(aa, ab, 1.0), ENPException);
+}
+
+
+void modulesTest::testModuleCopyConstructor()
+{
+  Module *a = new Module();
+  a->setName("module 1");
+
+  Node *aa = new Node();
+  aa->setType("sensor");
+  aa->setLabel("sensor 1");
+  aa->setPosition(P3D(0.0,0.0,0.0));
+  aa->setTransferfunction("id");
+
+  Node *ab = new Node();
+  ab->setType("sensor");
+  ab->setLabel("sensor 2");
+  ab->setPosition(P3D(1.0,0.0,0.0));
+  ab->setTransferfunction("id");
+
+  Node *ac = new Node();
+  ac->setType("sensor");
+  ac->setLabel("sensor 3");
+  ac->setPosition(P3D(2.0,0.0,0.0));
+  ac->setTransferfunction("id");
+
+  Node *ad = new Node();
+  ad->setType("actuator");
+  ad->setLabel("actuator 1");
+  ad->setPosition(P3D(0.5,1.0,0.0));
+  ad->setTransferfunction("tanh");
+
+  Node *ae = new Node();
+  ae->setType("actuator");
+  ae->setLabel("actuator 2");
+  ae->setPosition(P3D(1.5,1.0,0.0));
+  ae->setTransferfunction("sigm");
+
+  a->addNode(aa);
+  a->addNode(ab);
+  a->addNode(ac);
+  a->addNode(ad);
+  a->addNode(ae);
+
+  Module b = *a;
+  CPPUNIT_ASSERT(*a == b);
+}
+
+void modulesTest::testModuleCopyOperator()
+{
+  Module *a = new Module();
+  a->setName("module 1");
+
+  Node *aa = new Node();
+  aa->setType("sensor");
+  aa->setLabel("sensor 1");
+  aa->setPosition(P3D(0.0,0.0,0.0));
+  aa->setTransferfunction("id");
+
+  Node *ab = new Node();
+  ab->setType("sensor");
+  ab->setLabel("sensor 2");
+  ab->setPosition(P3D(1.0,0.0,0.0));
+  ab->setTransferfunction("id");
+
+  Node *ac = new Node();
+  ac->setType("sensor");
+  ac->setLabel("sensor 3");
+  ac->setPosition(P3D(2.0,0.0,0.0));
+  ac->setTransferfunction("id");
+
+  Node *ad = new Node();
+  ad->setType("actuator");
+  ad->setLabel("actuator 1");
+  ad->setPosition(P3D(0.5,1.0,0.0));
+  ad->setTransferfunction("tanh");
+
+  Node *ae = new Node();
+  ae->setType("actuator");
+  ae->setLabel("actuator 2");
+  ae->setPosition(P3D(1.5,1.0,0.0));
+  ae->setTransferfunction("sigm");
+
+  a->addNode(aa);
+  a->addNode(ab);
+  a->addNode(ac);
+  a->addNode(ad);
+  a->addNode(ae);
+
+  CPPUNIT_ASSERT_EQUAL(5, a->n_size());
+
+  Module *b = new Module(NULL);
+  (*b) = (*a);
+  CPPUNIT_ASSERT(*a == *b);
+  CPPUNIT_ASSERT_EQUAL(a->n_size(), b->n_size());
+}
+
+
+void modulesTest::testModuleApplyMirror()
+{
+  Module *a = new Module();
+  a->setName("module 1");
+
+  Node *aa = new Node();
+  aa->setType("sensor");
+  aa->setLabel("sensor 1");
+  aa->setPosition(P3D(1.0,1.0,1.0));
+  aa->setTransferfunction("id");
+
+  Node *ab = new Node();
+  ab->setType("sensor");
+  ab->setLabel("sensor 2");
+  ab->setPosition(P3D(2.0,2.0,2.0));
+  ab->setTransferfunction("id");
+
+  a->addNode(aa);
+  a->addNode(ab);
+
+  // HIER 
+
+  CPPUNIT_ASSERT(a->n_size() == 2);
+
+  Module *b = new Module();
+  b->setMirrorAxes(true, true, true);
+  *b = *a;
+
+  CPPUNIT_ASSERT_EQUAL(-1.0, b->node(0)->position().x);
+  CPPUNIT_ASSERT_EQUAL(-1.0, b->node(0)->position().y);
+  CPPUNIT_ASSERT_EQUAL(-1.0, b->node(0)->position().z);
+
+  CPPUNIT_ASSERT_EQUAL(-2.0, b->node(1)->position().x);
+  CPPUNIT_ASSERT_EQUAL(-2.0, b->node(1)->position().y);
+  CPPUNIT_ASSERT_EQUAL(-2.0, b->node(1)->position().z);
+
+  HIER HIER
+
 }

@@ -3,9 +3,7 @@
      Test file for visualisation
 -->
 <enp version="0.0.2">
-  <simulator wd="working directory"
-             xml="xml file"
-             nr="42"/>
+  <simulator wd="working directory" xml="xml file" nr="42"/>
   <evolution>
     <node cost="0.1">
       <modify probability="0.11" maximum="0.12" delta="0.13"/>
@@ -82,4 +80,70 @@
     </module>
 
   </configuration>
+  <population>
+    <individual fitness="0.12" id="12">
+      <module name="module 1">
+        <node type="sensor" label="sensor 1">
+          <position x="0.0" y="0.0" z="0.0"/>
+          <transferfunction name="id"/>
+        </node>
+        <node type="sensor" label="sensor 2">
+          <position x="0.0" y="0.0" z="0.0"/>
+          <transferfunction name="id"/>
+        </node>
+        <node type="actuator" label="actuator 1">
+          <position x="0.0" y="0.0" z="0.0"/>
+          <transferfunction name="id"/>
+        </node>
+        <node type="actuator" label="actuator 2">
+          <position x="0.0" y="0.0" z="0.0"/>
+          <transferfunction name="id"/>
+        </node>
+        <node type="sensor" label="sensor 1">
+          <position x="0.0" y="0.0" z="0.0"/>
+          <transferfunction name="id"/>
+        </node>
+        <node type="sensor" label="sensor 2">
+          <position x="1.0" y="0.0" z="0.0"/>
+          <transferfunction name="id"/>
+        </node>
+        <node type="sensor" label="sensor 3">
+          <position x="2.0" y="0.0" z="0.0"/>
+          <transferfunction name="id"/>
+        </node>
+        <node type="actuator" label="actuator 1">
+          <position x="0.5" y="1.0" z="0.0"/>
+          <transferfunction name="tanh"/>
+        </node>
+        <node type="actuator" label="actuator 2">
+          <position x="1.5" y="1.0" z="0.0"/>
+          <transferfunction name="sigm"/>
+        </node>
+      </module>
+
+      <module name="module 2">
+        <copy name="module 1"/>
+        <mirror    x="false" y="true" z="false"/>
+        <rotate    x="0.0"   y="0.0"  z="0.0"/>
+        <translate x="0.0"   y="0.0"  z="0.0"/>
+      </module>
+
+      <module name="cpg">
+
+        <node type="connector" label="module 1/sensor 1"/>
+        <node type="connector" label="module 1/sensor 2"/>
+
+        <node type="connector" label="module 1/actuator 1"/>
+        <node type="connector" label="module 1/actuator 2"/>
+
+        <node type="connector" label="module 2/sensor 1"/>
+        <node type="connector" label="module 2/sensor 2"/>
+
+        <node type="connector" label="module 2/actuator 1"/>
+        <node type="connector" label="module 2/actuator 2"/>
+
+      </module>
+
+    </individual>
+  </population>
 </enp>

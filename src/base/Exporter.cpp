@@ -4,6 +4,7 @@
 #include <math.h>
 
 #include "base/macros.h"
+#include "base/Individual.h"
 #include "glog/logging.h"
 
 
@@ -99,7 +100,9 @@ string Exporter::toX3d(Individual *i)
   sst << "      <x3d width='900px' height='700px'> " << endl;
   sst << "      <scene> " << endl;
 
-  for(Modules::const_iterator m = i->m_begin(); m != i->m_end(); m++)
+  Individual *ir = i->getRealisation();
+
+  for(Modules::const_iterator m = ir->m_begin(); m != ir->m_end(); m++)
   {
     sst << toX3d(*m);
     VLOG(10) << "  exporting module " << (*m)->name();
@@ -111,8 +114,6 @@ string Exporter::toX3d(Individual *i)
 
 string Exporter::toX3d(Module *m)
 {
-  if(m->isCopy()) m->updateFromLink();
-
   stringstream sst;
   for(Nodes::const_iterator n = m->n_begin(); n != m->n_end(); n++) sst << toX3d(*n);
   for(Edges::const_iterator e = m->e_begin(); e != m->e_end(); e++) sst << toX3d(*e);

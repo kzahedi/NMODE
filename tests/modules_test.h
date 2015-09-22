@@ -40,6 +40,10 @@ class modulesTest : public CppUnit::TestFixture
   CPPUNIT_TEST(testModuleInequality);
   CPPUNIT_TEST(testMutateModuleOperator);
   CPPUNIT_TEST(testModuleAddEdge);
+  CPPUNIT_TEST(testModuleCopyConstructor);
+  CPPUNIT_TEST(testModuleCopyOperator);
+  CPPUNIT_TEST(testModuleApplyMirror);
+  // CPPUNIT_TEST(testModuleApplyTranslation);
   CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -51,6 +55,9 @@ class modulesTest : public CppUnit::TestFixture
   void testModuleInequality();
   void testMutateModuleOperator();
   void testModuleAddEdge();
+  void testModuleCopyConstructor();
+  void testModuleCopyOperator();
+  void testModuleApplyMirror();
 };
 
 #endif // __RNN_H__

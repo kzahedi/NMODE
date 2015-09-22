@@ -4,7 +4,6 @@ link_directories(${PROJECT_BINARY_DIR}/lib)
 add_library(ENPEvo SHARED MutateModuleOperator.cpp
                           MutateIndividualOperator.cpp
                           MutatePopulationOperator.cpp
-                          Exporter.cpp
                           )
 
 #

@@ -96,6 +96,7 @@ void Individual::setFitness(double f)
 {
   _fitness = f;
 }
+
 void Individual::setId(int id)
 {
   _id = id;
@@ -106,44 +107,34 @@ void Individual::addModule(Module *m)
   _modules.push_back(m);
 }
 
+Individual* Individual::getRealisation()
+{
+  Individual *copy = new Individual(NULL);
 
-// void Individual::__linkConnectorNodes()
-// {
-//   VLOG(100) << "  __linkConnectorNodes called with " << _modules.size() << " modules";
-//   FORC(Modules, a, _modules)
-//   {
-//     VLOG(100) << "working on module " << (*a)->name() << " with " << (*a)->n_size() << " nodes";
-//     FORC(ModuleNodes, an, (*a)->nodes())
-//     {
-//       VLOG(100) << " node " << (*an);
-//       VLOG(100) << " node type is " << (*an)->type() << " vs. " << TAG_CONNECTOR;
-//       if((*an)->type() == TAG_CONNECTOR)
-//       {
-//         string label          = (*an)->label();
-//         string::size_type pos = label.find('/');
-//         string module_name    = label.substr(0, pos);
-//         string node_name      = label.substr(pos+1, label.size()-1);
-//         FORC(Modules, b, _modules)
-//         {
-//           if((*b)->name() == module_name)
-//           {
-//             FORC(ModuleNodes, bn, (*b)->nodes())
-//             {
-//               if((*bn)->type() != TAG_CONNECTOR && (*bn)->label() == node_name)
-//               {
-//                 VLOG(100) << "setting position of " << (*an)->label() << " to "
-//                           << (*an)->position() << " from " << (*bn)->label()
-//                           << " which has " << (*bn)->position();
-//                 VLOG(100) << "setting transferfunction of " << (*an)->label()
-//                           << " to " << (*an)->transferfunction() << " from "
-//                           << (*bn)->label() << " which has " << (*bn)->position();
-//                 (*an)->setPosition((*bn)->position());
-//                 (*an)->setTransferfunction((*bn)->transferfunction());
-//               }
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
+  Modules mods;
+
+  FORC(Modules, m, _modules)
+  {
+    if((*m)->isCopy() == false)
+    {
+      mods.push_back(*m);
+    }
+  }
+
+  FORC(Modules, m, _modules)
+  {
+    if((*m)->isCopy())
+    {
+      FORC(Modules, c, mods)
+      {
+        if((*m)->ref() == (*c)->name())
+        {
+          Module new_module = (*c);
+          copy->addModule(&new_module);
+        }
+      }
+    }
+  }
+
+  return copy;
+}

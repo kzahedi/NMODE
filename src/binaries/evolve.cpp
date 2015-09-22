@@ -1,9 +1,10 @@
 #include "base/Configuration.h"
 #include "base/Data.h"
 #include "base/Population.h"
-#include "evo/MutatePopulationOperator.h"
-#include "evo/Exporter.h"
+#include "base/Exporter.h"
 #include "base/Random.h"
+
+#include "evo/MutatePopulationOperator.h"
 
 #include <glog/logging.h>
 
