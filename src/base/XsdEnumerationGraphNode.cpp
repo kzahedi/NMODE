@@ -34,7 +34,7 @@
 XsdEnumerationGraphNode::XsdEnumerationGraphNode(XsdEnumeration *spec)
 {
   _spec = spec;
-  FORF(vector<string>, v, spec, ->v_begin(), ->v_end())
+  FORF(vector<string>, v, spec, v_begin(), v_end())
   {
     _oss << "<tr> <td bgcolor=\"" << SPECIFICATION_BGCOLOR << "\"> " << *v << " </td> </tr>";
   }

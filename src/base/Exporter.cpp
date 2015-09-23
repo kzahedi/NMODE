@@ -167,32 +167,6 @@ string Exporter::toX3d(Node *n)
   sst << "    </shape> " << endl;
   sst << "    </transform> " << endl;
 
-  // sst << "    <transform translation='"
-    // << n->position().x << " "
-    // << n->position().y << " "
-    // << n->position().z << "'>" << endl;
-  // sst << "    <shape> " << endl;
-  // sst << "        <appearance> " << endl;
-  // sst << "          <material diffuseColor='1 0 0'></material> " << endl;
-  // sst << "        </appearance> " << endl;
-  // sst << "      <cylinder radius='0.01' height='0.5'></cylinder> " << endl;
-  // sst << "    </shape> " << endl;
-  // sst << "    </transform> " << endl;
-
-  // sst << "    <transform translation='"
-    // << n->position().x << " "
-    // << n->position().y << " "
-    // << n->position().z << "'>" << endl;
-  // sst << "    <transform rotation='0 0 1 1.5'>" << endl;
-  // sst << "    <shape> " << endl;
-  // sst << "        <appearance> " << endl;
-  // sst << "          <material diffuseColor='1 0 0'></material> " << endl;
-  // sst << "        </appearance> " << endl;
-  // sst << "      <cylinder radius='0.01' height='0.5'></cylinder> " << endl;
-  // sst << "    </shape> " << endl;
-  // sst << "    </transform> " << endl;
-  // sst << "    </transform> " << endl;
-
   return sst.str();
 }
 

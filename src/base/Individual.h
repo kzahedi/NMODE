@@ -31,11 +31,14 @@ class Individual : public XsdParseNode
     int               m_size();
     Modules           modules();
     Module*           module(int);
+    Module*           moduleByName(string);
     void              addModule(Module*);
     Individual*       getRealisation();
 
   private:
-    // void        __linkConnectorNodes();
+    void    __linkConnectorNodes();
+    Node*   __getNonHiddenNode(string module, string label);
+    Node*   __getNonHiddenNodeFromModule(Module *m, string nodeLabel);
 
     int     _id;
     int     _offspring;

@@ -4,6 +4,11 @@
 
 #include "base/macros.h"
 
+#include <boost/algorithm/string.hpp>
+
+using namespace std;
+using namespace boost;
+
 #define TAG_ID        (char*)"id"
 #define TAG_FITNESS   (char*)"fitness"
 #define TAG_OFFSPRING (char*)"offspring"
@@ -23,7 +28,7 @@ void Individual::add(ParseElement *element)
 
   if(element->closing(TAG_INDIVIDUAL))
   {
-    // __linkConnectorNodes();
+    __linkConnectorNodes();
     VLOG(100) << "closing " << element->name();
     current = parent;
   }
@@ -92,6 +97,17 @@ Modules Individual::modules()
   return _modules;
 }
 
+Module* Individual::module(int index)
+{
+  return _modules[index];
+}
+
+Module* Individual::moduleByName(string name)
+{
+  FORC(Modules, m, _modules) if((*m)->name() == name) return (*m);
+  return NULL;
+}
+
 void Individual::setFitness(double f)
 {
   _fitness = f;
@@ -135,7 +151,6 @@ Individual* Individual::getRealisation()
         if((*m)->ref() == (*c)->name())
         {
           VLOG(100) << "  found ref " << (*c)->name() << " for " << (*m)->name();
-          // Module *new_module = new Module(*c);
           (*m)->copyAndApplyTransition(*c);
           copy->addModule(*m);
         }
@@ -144,4 +159,48 @@ Individual* Individual::getRealisation()
   }
 
   return copy;
+}
+
+Node* Individual::__getNonHiddenNodeFromModule(Module *m, string nodeLabel)
+{
+  FORF(Nodes, n, m, s_begin(), s_end()) if((*n)->label() == nodeLabel) return *n;
+  FORF(Nodes, n, m, a_begin(), a_end()) if((*n)->label() == nodeLabel) return *n;
+  FORF(Nodes, n, m, i_begin(), i_end()) if((*n)->label() == nodeLabel) return *n;
+  FORF(Nodes, n, m, o_begin(), o_end()) if((*n)->label() == nodeLabel) return *n;
+  return NULL;
+}
+
+Node* Individual::__getNonHiddenNode(string moduleName, string nodeLabel)
+{
+  Module *module = moduleByName(moduleName);
+  if(module->isCopy())
+  {
+    Module *ref = moduleByName(module->ref());
+    module->copyAndApplyTransition(ref);
+  }
+  return __getNonHiddenNodeFromModule(module, nodeLabel);
+}
+
+void Individual::__linkConnectorNodes()
+{
+  FORC(Modules, m, _modules)
+  {
+    VLOG(100) << "checking on " << (*m)->name();
+    if((*m)->isCopy() == false)
+    {
+      for(Nodes::iterator n = (*m)->n_begin(); n != (*m)->n_end(); n++)
+      {
+        if((*n)->type() == TAG_CONNECTOR)
+        {
+          vector<string> strs;
+          string label = (*n)->label();
+          split(strs, label, is_any_of("/"));
+          string module_name = trim(strs[0]);
+          string node_name   = trim(strs[1]);
+          Node* node = __getNonHiddenNode(module_name, node_name);
+          (*n)->setPosition(node->position());
+        }
+      }
+    }
+  }
 }

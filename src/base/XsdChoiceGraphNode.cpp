@@ -46,7 +46,7 @@ string XsdChoiceGraphNode::customLabel(string label)
   _oss << "<tr><td>";
   _oss << "<table border=\"0\" cellborder=\"1\" cellspacing=\"0\">";
   _oss << "<tr><td colspan=\"2\" bgcolor=\"" << ELEMENT_BGCOLOR << "\">"<< label << "</td></tr>";
-  FORF(vector<XsdAttribute*>, a, _spec, ->a_begin(), ->a_end())
+  FORF(vector<XsdAttribute*>, a, _spec, a_begin(), a_end())
   {
     _oss << "<tr><td rowspan=\"2\" bgcolor=\"" << ATTRIBUTE_BGCOLOR
          << "\">"<< (*a)->name() << "</td>";
@@ -78,18 +78,18 @@ string XsdChoiceGraphNode::customLabel(string label)
   stringstream oss_2;
 
   int index = 0;
-  FORF(vector<XsdAttribute*>, a, _spec, ->a_begin(), ->a_end())
+  FORF(vector<XsdAttribute*>, a, _spec, a_begin(), a_end())
   {
     if(hasDefinition((*a)->type()))
     {
       oss_2 << "<tr><td port=\"" << index++ << "\" bgcolor=\"" << ATTRIBUTE_BGCOLOR << "\"></td></tr>";
     }
   }
-  FORF(vector<XsdElement*>, e, _spec, ->e_begin(), ->e_end())
+  FORF(vector<XsdElement*>, e, _spec, e_begin(), e_end())
   {
     oss_2 << "<tr><td port=\"" << index++ << "\" bgcolor=\"" << ELEMENT_BGCOLOR << "\"></td></tr>";
   }
-  FORF(vector<XsdSequence*>, s, _spec, ->s_begin(), ->s_end())
+  FORF(vector<XsdSequence*>, s, _spec, s_begin(), s_end())
   {
     oss_2 << "<tr><td port=\"" << index++ << "\" bgcolor=\"" << ELEMENT_BGCOLOR << "\"></td></tr>";
   }

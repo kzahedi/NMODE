@@ -85,6 +85,18 @@ class Module : public XsdParseNode
     Nodes::iterator a_end();
     int             a_size();
 
+    Node*           moduleInputNode(int index);
+    Nodes           moduleInputNodes();
+    Nodes::iterator i_begin();
+    Nodes::iterator i_end();
+    int             i_size();
+
+    Node*           moduleOutputNode(int index);
+    Nodes           moduleOutputNodes();
+    Nodes::iterator o_begin();
+    Nodes::iterator o_end();
+    int             o_size();
+
     Node*           hiddenNode(int index);
     Nodes           hiddenNodes();
     Nodes::iterator h_begin();
@@ -149,7 +161,8 @@ class Module : public XsdParseNode
     Nodes       _nodes;
     Nodes       _sensor;
     Nodes       _actuator;
-    Nodes       _input;
+    Nodes       _moduleInput;
+    Nodes       _moduleOutput;
     Nodes       _hidden;
     Edges       _edges;
 };

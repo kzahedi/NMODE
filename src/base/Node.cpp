@@ -105,7 +105,7 @@ void Node::createXsd(XsdSpecification *spec)
   type->add(TAG_SENSOR);
   type->add(TAG_ACTUATOR);
   type->add(TAG_INPUT);
-  // type->add(TAG_OUTPUT);
+  type->add(TAG_OUTPUT);
   type->add(TAG_HIDDEN);
   spec->add(type);
 
@@ -290,7 +290,7 @@ bool Node::isSource()
 bool Node::isDestination()
 {
   return (_type == TAG_ACTUATOR  ||
-          // _type == TAG_OUTPUT    ||
+          _type == TAG_OUTPUT    ||
           _type == TAG_CONNECTOR ||
           _type == TAG_HIDDEN);
 }

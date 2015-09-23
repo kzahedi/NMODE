@@ -12,6 +12,7 @@
 # define TAG_ACTUATOR               (char*)"actuator"
 # define TAG_SENSOR                 (char*)"sensor"
 # define TAG_INPUT                  (char*)"input"
+# define TAG_OUTPUT                 (char*)"output"
 # define TAG_HIDDEN                 (char*)"hidden"
 # define TAG_CONNECTOR              (char*)"connector"
 

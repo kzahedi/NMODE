@@ -51,7 +51,7 @@ string XsdElementGraphNode::customLabel(string label)
     _oss << "<tr><td colspan=\"2\" bgcolor=\"" << ELEMENT_BGCOLOR << "\">"<< _spec->type() << "</td></tr>";
   }
   int attributeDefinitionIndex = 1;
-  FORF(vector<XsdAttribute*>, a, _spec, ->a_begin(), ->a_end())
+  FORF(vector<XsdAttribute*>, a, _spec, a_begin(), a_end())
   {
     _oss << "<tr><td rowspan=\"2\" bgcolor=\"" << ATTRIBUTE_BGCOLOR << "\">"<< (*a)->name() << "</td>";
     if((*a)->required())
@@ -78,7 +78,7 @@ string XsdElementGraphNode::customLabel(string label)
 
   int portIndex = 0;
   stringstream oss_2;
-  FORF(vector<XsdAttribute*>, a, _spec, ->a_begin(), ->a_end())
+  FORF(vector<XsdAttribute*>, a, _spec, a_begin(), a_end())
   {
     if(hasDefinition((*a)->type()))
     {

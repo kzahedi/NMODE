@@ -47,7 +47,7 @@ string XsdSequenceGraphNode::customLabel(string label)
   _oss << "<table border=\"0\" cellborder=\"1\" cellspacing=\"0\">";
   _oss << "<tr><td colspan=\"2\" bgcolor=\"" << ELEMENT_BGCOLOR << "\">"<< label << "</td></tr>";
   int attributeDefinitionIndex = 1;
-  FORF(vector<XsdAttribute*>, a, _spec, ->a_begin(), ->a_end())
+  FORF(vector<XsdAttribute*>, a, _spec, a_begin(), a_end())
   {
     _oss << "<tr><td rowspan=\"2\" bgcolor=\"" << ATTRIBUTE_BGCOLOR << "\">"<< (*a)->name() << "</td>";
     if((*a)->required())
@@ -75,21 +75,21 @@ string XsdSequenceGraphNode::customLabel(string label)
 
   attributeDefinitionIndex = 1;
   int portIndex = 0;
-  FORF(vector<XsdAttribute*>, a, _spec, ->a_begin(), ->a_end())
+  FORF(vector<XsdAttribute*>, a, _spec, a_begin(), a_end())
   {
     if(hasDefinition((*a)->type()))
     {
       oss_2 << "<tr><td port=\"" << portIndex++ << "\" bgcolor=\"" << ATTRIBUTE_BGCOLOR << "\">#" << attributeDefinitionIndex++ << "</td></tr>";
     }
   }
-  FORF(vector<XsdElement*>, e, _spec, ->e_begin(), ->e_end())
+  FORF(vector<XsdElement*>, e, _spec, e_begin(), e_end())
   {
     oss_2 << "<tr><td port=\"" << portIndex++ << "\" bgcolor=\"" << ELEMENT_BGCOLOR << "\"></td></tr>";
   }
 
-  FORF(vector<XsdChoice*>, c, _spec, ->c_begin(), ->c_end())
+  FORF(vector<XsdChoice*>, c, _spec, c_begin(), c_end())
   {
-    FORF(vector<XsdElement*>, e, (*c), ->e_begin(), ->e_end())
+    FORF(vector<XsdElement*>, e, (*c), e_begin(), e_end())
     {
       oss_2 << "<tr><td port=\"" << portIndex++ << "\" bgcolor=\"" << CHOICE_BGCOLOR << "\"></td></tr>";
     }

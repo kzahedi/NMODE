@@ -458,7 +458,11 @@ void Module::addNode(Node *node)
   }
   else if(node->type() == TAG_INPUT)
   {
-    _input.push_back(node);
+    _moduleInput.push_back(node);
+  }
+  else if(node->type() == TAG_OUTPUT)
+  {
+    _moduleOutput.push_back(node);
   }
   else if(node->type() == TAG_SENSOR)
   {
@@ -509,12 +513,13 @@ Module& Module::operator=(const Module &m)
   _translation = m._translation;
   _rotation    = m._rotation;
 
-  FORCC(Nodes, n, m._nodes)    _nodes.push_back(*n);
-  FORCC(Nodes, n, m._sensor)   _sensor.push_back(*n);
-  FORCC(Nodes, n, m._actuator) _actuator.push_back(*n);
-  FORCC(Nodes, n, m._input)    _input.push_back(*n);
-  FORCC(Nodes, n, m._hidden)   _hidden.push_back(*n);
-  FORCC(Edges, e, m._edges)    _edges.push_back(*e);
+  FORCC(Nodes, n, m._nodes)        _nodes.push_back(*n);
+  FORCC(Nodes, n, m._sensor)       _sensor.push_back(*n);
+  FORCC(Nodes, n, m._actuator)     _actuator.push_back(*n);
+  FORCC(Nodes, n, m._moduleInput)  _moduleInput.push_back(*n);
+  FORCC(Nodes, n, m._moduleOutput) _moduleOutput.push_back(*n);
+  FORCC(Nodes, n, m._hidden)       _hidden.push_back(*n);
+  FORCC(Edges, e, m._edges)        _edges.push_back(*e);
 
   __applyMirror();
   __applyTranslation();
@@ -544,15 +549,17 @@ void Module::copyAndApplyTransition(Module *m)
   _nodes.clear();
   _sensor.clear();
   _actuator.clear();
-  _input.clear();
+  _moduleInput.clear();
+  _moduleOutput.clear();
   _hidden.clear();
   _edges.clear();
 
-  FORC(Nodes, n, m->_nodes)    _nodes.push_back((*n)->copy());
-  FORC(Nodes, n, m->_sensor)   _sensor.push_back((*n)->copy());
-  FORC(Nodes, n, m->_actuator) _actuator.push_back((*n)->copy());
-  FORC(Nodes, n, m->_input)    _input.push_back((*n)->copy());
-  FORC(Nodes, n, m->_hidden)   _hidden.push_back((*n)->copy());
+  FORC(Nodes, n, m->_nodes)        _nodes.push_back((*n)->copy());
+  FORC(Nodes, n, m->_sensor)       _sensor.push_back((*n)->copy());
+  FORC(Nodes, n, m->_actuator)     _actuator.push_back((*n)->copy());
+  FORC(Nodes, n, m->_moduleInput)  _moduleInput.push_back((*n)->copy());
+  FORC(Nodes, n, m->_moduleOutput) _moduleOutput.push_back((*n)->copy());
+  FORC(Nodes, n, m->_hidden)       _hidden.push_back((*n)->copy());
   FORC(Edges, e, m->_edges)
   {
     string src = (*e)->source();
@@ -581,3 +588,55 @@ void Module::copyAndApplyTransition(Module *m)
   __applyMirror();
   __applyTranslation();
 }
+
+Node* Module::moduleInputNode(int index)
+{
+  return _moduleInput[index];
+}
+
+Nodes Module::moduleInputNodes()
+{
+  return _moduleInput;
+}
+
+Nodes::iterator Module::i_begin()
+{
+  return _moduleInput.begin();
+}
+
+Nodes::iterator Module::i_end()
+{
+  return _moduleInput.end();
+}
+
+int Module::i_size()
+{
+  return _moduleInput.size();
+}
+
+Node* Module::moduleOutputNode(int index)
+{
+  return _moduleOutput[index];
+}
+
+Nodes Module::moduleOutputNodes()
+{
+  return _moduleOutput;
+}
+
+Nodes::iterator Module::o_begin()
+{
+  return _moduleOutput.begin();
+}
+
+Nodes::iterator Module::o_end()
+{
+  return _moduleOutput.end();
+}
+
+int Module::o_size()
+{
+  return _moduleOutput.size();
+}
+
+
