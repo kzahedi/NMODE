@@ -153,13 +153,17 @@ string Exporter::toX3d(Node *n)
   {
       sst << "        <material diffuseColor='0.98 0.81 0'></material> " << endl;
   }
+  else if(n->type() == TAG_OUTPUT)
+  {
+      sst << "        <material diffuseColor='0.98 0 0.81'></material> " << endl;
+  }
   else if(n->type() == TAG_CONNECTOR)
   {
       sst << "        <material diffuseColor='0.41 0.98 0'></material> " << endl;
   }
   else
   {
-      throw ENPException("unkown node type in Exporter::toX3d(Node *node, ...");
+      throw ENPException("unknown node type in Exporter::toX3d(Node *node, ...");
   }
 
   sst << "        </appearance> " << endl;

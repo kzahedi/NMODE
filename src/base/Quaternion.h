@@ -53,7 +53,7 @@ using namespace std;
     void conjugate();
     void invert();
 
-    friend P3D& operator*=(P3D& p, const Quaternion& q) // rotate vector by Quaternion
+    friend P3D& operator+=(P3D& p, const Quaternion& q) // rotate vector by Quaternion
     {
       Quaternion v(0, p.x, p.y, p.z);
       Quaternion c(q);

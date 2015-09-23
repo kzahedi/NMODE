@@ -20,36 +20,76 @@
   </evolution>
   <configuration>
     <module name="module 1">
+
       <node type="sensor" label="sensor 1">
-        <position x="1.0" y="0.0" z="0.0"/>
+        <position x="2.0" y="1.0" z="0.0"/>
         <transferfunction name="id"/>
       </node>
       <node type="sensor" label="sensor 2">
-        <position x="3.0" y="0.0" z="0.0"/>
+        <position x="4.0" y="1.0" z="0.0"/>
         <transferfunction name="id"/>
       </node>
       <node type="sensor" label="sensor 3">
-        <position x="4.0" y="0.0" z="0.0"/>
+        <position x="6.0" y="1.0" z="0.0"/>
         <transferfunction name="id"/>
       </node>
+      <node type="sensor" label="sensor 4">
+        <position x="8.0" y="1.0" z="0.0"/>
+        <transferfunction name="id"/>
+      </node>
+      <node type="sensor" label="sensor 5">
+        <position x="10.0" y="1.0" z="0.0"/>
+        <transferfunction name="id"/>
+      </node>
+
       <node type="actuator" label="actuator 1">
-        <position x="2.5" y="1.0" z="0.0"/>
+        <position x="2.0" y="-1.0" z="0.0"/>
         <transferfunction name="tanh"/>
       </node>
       <node type="actuator" label="actuator 2">
-        <position x="3.5" y="1.0" z="0.0"/>
-        <transferfunction name="sigm"/>
+        <position x="4.0" y="-1.0" z="0.0"/>
+        <transferfunction name="tanh"/>
       </node>
+      <node type="actuator" label="actuator 3">
+        <position x="6.0" y="-1.0" z="0.0"/>
+        <transferfunction name="tanh"/>
+      </node>
+      <node type="actuator" label="actuator 4">
+        <position x="8.0" y="-1.0" z="0.0"/>
+        <transferfunction name="tanh"/>
+      </node>
+      <node type="actuator" label="actuator 5">
+        <position x="10.0" y="-1.0" z="0.0"/>
+        <transferfunction name="tanh"/>
+      </node>
+
+      <node type="input" label="input 1">
+        <position x="1.0" y="0.0" z="0.5"/>
+        <transferfunction name="tanh"/>
+      </node>
+
+      <node type="output" label="output 1">
+        <position x="1.0" y="0.0" z="-0.5"/>
+        <transferfunction name="tanh"/>
+      </node>
+
       <edge source="sensor 1" destination="actuator 1" weight="1"/>
       <edge source="sensor 2" destination="actuator 2" weight="-1"/>
-      <edge source="sensor 3" destination="actuator 1" weight="1"/>
-      <edge source="sensor 3" destination="actuator 2" weight="-1"/>
+      <edge source="sensor 3" destination="actuator 2" weight="1"/>
+      <edge source="sensor 3" destination="actuator 3" weight="-1"/>
     </module>
 
     <module name="module 2">
       <copy name="module 1"/>
-      <mirror    x="true" y="false" z="false"/>
-      <rotate    x="0.0"   y="0.0"  z="0.0"/>
+      <mirror    x="false" y="false" z="false"/>
+      <rotate    x="0.0"   y="0.0"  z="120.0"/>
+      <translate x="0.0"   y="0.0"  z="0.0"/>
+    </module>
+
+    <module name="module 3">
+      <copy name="module 1"/>
+      <mirror    x="false" y="false" z="false"/>
+      <rotate    x="0.0"   y="0.0"  z="240.0"/>
       <translate x="0.0"   y="0.0"  z="0.0"/>
     </module>
 

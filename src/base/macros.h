@@ -18,6 +18,9 @@
                         (a.y - b.y) * (a.y - b.y) +\
                         (a.z - b.z) * (a.z - b.z))
 
+#define RAD_TO_DEG(x) (( (double)(x) / (M_PI))  * 180.0)
+#define DEG_TO_RAD(x) (( (double)(x) / (180.0)) * M_PI)
+
 // trim from start
 static inline std::string &ltrim(std::string &s) {
         s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
