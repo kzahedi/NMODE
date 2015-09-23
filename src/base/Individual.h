@@ -36,7 +36,7 @@ class Individual : public XsdParseNode
     Individual*       getRealisation();
 
   private:
-    void    __linkConnectorNodes();
+    void    __linkConnectorNodes() throw(ENPException);
     Node*   __getNonHiddenNode(string module, string label);
     Node*   __getNonHiddenNodeFromModule(Module *m, string nodeLabel);
 

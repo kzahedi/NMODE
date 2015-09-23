@@ -56,6 +56,14 @@ void Module::add(ParseElement *element)
   VLOG(100) << "parsing " << element->name();
   if(element->closing(TAG_MODULE))
   {
+    FORC(Nodes, n, _tmpArrayOfNodes) addNode(*n);
+    FORC(Edges, e, _edges)
+    {
+      Node *src = nodeByName((*e)->source());
+      Node *dst = nodeByName((*e)->destination());
+      (*e)->setSourceNode(src);
+      (*e)->setDestinationNode(dst);
+    }
     current = parent;
     return;
   }
@@ -70,7 +78,7 @@ void Module::add(ParseElement *element)
   {
     VLOG(100) << "found " << TAG_MODULE_NODE;
     Node *node = new Node(this);
-    _nodes.push_back(node);
+    _tmpArrayOfNodes.push_back(node);
     current = node;
     node->add(element);
   }
@@ -80,6 +88,7 @@ void Module::add(ParseElement *element)
     VLOG(100) << "found " << TAG_MODULE_EDGE;
     Edge *edge = new Edge(this);
     _edges.push_back(edge);
+    // TODO connect to source and destination node
     current = edge;
     edge->add(element);
   }
@@ -355,7 +364,11 @@ Node* Module::node(int index)
   return _nodes[index];
 }
 
-
+Node* Module::nodeByName(string name)
+{
+  FORC(Nodes, n, _nodes) if((*n)->label() == name) return (*n);
+  return NULL;
+}
 
 Nodes::iterator Module::s_begin()
 {
@@ -451,25 +464,31 @@ Edge* Module::edge(int index)
 
 void Module::addNode(Node *node)
 {
+  cout << "addNode" << endl;
   _nodes.push_back(node);
   if(node->type() == TAG_HIDDEN)
   {
+    cout << "adding hidden node" << endl;
     _hidden.push_back(node);
   }
   else if(node->type() == TAG_INPUT)
   {
+    cout << "adding module input node" << endl;
     _moduleInput.push_back(node);
   }
   else if(node->type() == TAG_OUTPUT)
   {
+    cout << "adding module output node" << endl;
     _moduleOutput.push_back(node);
   }
   else if(node->type() == TAG_SENSOR)
   {
+    cout << "adding sensor node" << endl;
     _sensor.push_back(node);
   }
   else if(node->type() == TAG_ACTUATOR)
   {
+    cout << "adding actuator node" << endl;
     _actuator.push_back(node);
   }
 }
@@ -554,12 +573,17 @@ void Module::copyAndApplyTransition(Module *m)
   _hidden.clear();
   _edges.clear();
 
+  cout << "source number of sensor nodes: " << m->s_size() << endl;
+
   FORC(Nodes, n, m->_nodes)        _nodes.push_back((*n)->copy());
   FORC(Nodes, n, m->_sensor)       _sensor.push_back((*n)->copy());
   FORC(Nodes, n, m->_actuator)     _actuator.push_back((*n)->copy());
   FORC(Nodes, n, m->_moduleInput)  _moduleInput.push_back((*n)->copy());
   FORC(Nodes, n, m->_moduleOutput) _moduleOutput.push_back((*n)->copy());
   FORC(Nodes, n, m->_hidden)       _hidden.push_back((*n)->copy());
+
+  cout << "source number of sensor nodes: " << s_size() << endl;
+
   FORC(Edges, e, m->_edges)
   {
     string src = (*e)->source();

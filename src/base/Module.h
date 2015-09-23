@@ -84,6 +84,7 @@ class Module : public XsdParseNode
     Nodes::iterator a_begin();
     Nodes::iterator a_end();
     int             a_size();
+    Node*           nodeByName(string);
 
     Node*           moduleInputNode(int index);
     Nodes           moduleInputNodes();
@@ -164,6 +165,7 @@ class Module : public XsdParseNode
     Nodes       _moduleInput;
     Nodes       _moduleOutput;
     Nodes       _hidden;
+    Nodes       _tmpArrayOfNodes;
     Edges       _edges;
 };
 

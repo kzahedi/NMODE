@@ -163,7 +163,16 @@ Individual* Individual::getRealisation()
 
 Node* Individual::__getNonHiddenNodeFromModule(Module *m, string nodeLabel)
 {
-  FORF(Nodes, n, m, s_begin(), s_end()) if((*n)->label() == nodeLabel) return *n;
+  cout << "checking on module     " << m->name()   << endl;
+  cout << "number of sensor nodes " << m->s_size() << endl;
+  FORF(Nodes, n, m, s_begin(), s_end())
+  {
+    cout << "label " << (*n)->label() << " vs. " << nodeLabel << endl;
+    if((*n)->label() == nodeLabel)
+    {
+      return *n;
+    }
+  }
   FORF(Nodes, n, m, a_begin(), a_end()) if((*n)->label() == nodeLabel) return *n;
   FORF(Nodes, n, m, i_begin(), i_end()) if((*n)->label() == nodeLabel) return *n;
   FORF(Nodes, n, m, o_begin(), o_end()) if((*n)->label() == nodeLabel) return *n;
@@ -181,7 +190,7 @@ Node* Individual::__getNonHiddenNode(string moduleName, string nodeLabel)
   return __getNonHiddenNodeFromModule(module, nodeLabel);
 }
 
-void Individual::__linkConnectorNodes()
+void Individual::__linkConnectorNodes() throw(ENPException)
 {
   FORC(Modules, m, _modules)
   {
@@ -197,7 +206,9 @@ void Individual::__linkConnectorNodes()
           split(strs, label, is_any_of("/"));
           string module_name = trim(strs[0]);
           string node_name   = trim(strs[1]);
+          cout << "looking for \"" << module_name << "\" \"" << node_name << "\"" << endl;
           Node* node = __getNonHiddenNode(module_name, node_name);
+          if(node == NULL) throw ENPException("node nod found");
           (*n)->setPosition(node->position());
         }
       }
