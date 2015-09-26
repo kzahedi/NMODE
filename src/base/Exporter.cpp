@@ -43,7 +43,9 @@ string Exporter::toXml(Individual *i)
     << " fitness=\"" << i->fitness() << "\""
     << ">" << endl;
 
-  for(Modules::const_iterator m = i->m_begin(); m != i->m_end(); m++)
+  Individual *ri = i->getRealisation();
+
+  for(Modules::const_iterator m = ri->m_begin(); m != ri->m_end(); m++)
   {
     sst << toXml(*m);
   }
@@ -127,49 +129,49 @@ string Exporter::toX3d(Module *m)
   return sst.str();
 }
 
+# define NODE(p, color)\
+  sst << "    <transform translation='" << p.x << " " << p.y << " " << p.z << "'>" << endl;\
+  sst << "      <shape> " << endl;\
+  sst << "        <appearance> " << endl;\
+  sst << "        <material diffuseColor='" << color << "'></material> " << endl;\
+  sst << "        </appearance> " << endl;\
+  sst << "        <sphere radius='0.1'></sphere> " << endl;\
+  sst << "      </shape> " << endl;\
+  sst << "    </transform> " << endl;
+
 string Exporter::toX3d(Node *n)
 {
   stringstream sst;
+  P3D p = n->position();
 
-  sst << "    <transform translation='"
-    << n->position().x << " "
-    << n->position().y << " "
-    << n->position().z << "'>" << endl;
-  sst << "    <shape> " << endl;
-  sst << "        <appearance> " << endl;
   if(n->type() == TAG_SENSOR)
   {
-      sst << "        <material diffuseColor='1 0 0'></material> " << endl;
+    NODE(p, "1 0 0");
   }
   else if(n->type() == TAG_ACTUATOR)
   {
-      sst << "        <material diffuseColor='0 1 0'></material> " << endl;
+    NODE(p, "0 1 0");
   }
   else if(n->type() == TAG_HIDDEN)
   {
-      sst << "        <material diffuseColor='0 0 1'></material> " << endl;
+    NODE(p, "0 0 1");
   }
   else if(n->type() == TAG_INPUT)
   {
-      sst << "        <material diffuseColor='0.98 0.81 0'></material> " << endl;
+    NODE(p, "0.98 0.81 0");
   }
   else if(n->type() == TAG_OUTPUT)
   {
-      sst << "        <material diffuseColor='0.98 0 0.81'></material> " << endl;
+    NODE(p, "0.98 0 0.81");
   }
   else if(n->type() == TAG_CONNECTOR)
   {
-      sst << "        <material diffuseColor='0.41 0.98 0'></material> " << endl;
+    // NODE(p, "0 0 0");
   }
   else
   {
-      throw ENPException("unknown node type in Exporter::toX3d(Node *node, ...");
+    throw ENPException("unknown node type in Exporter::toX3d(Node *node, ...");
   }
-
-  sst << "        </appearance> " << endl;
-  sst << "        <sphere radius='0.1'></sphere> " << endl;
-  sst << "    </shape> " << endl;
-  sst << "    </transform> " << endl;
 
   return sst.str();
 }

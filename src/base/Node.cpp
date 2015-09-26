@@ -31,7 +31,10 @@ using namespace std;
 
 Node::Node(XsdParseNode *parent)
   : XsdParseNode(parent)
-{ }
+{
+  _isSource      = false;
+  _isDestination = false;
+}
 
 Node::~Node()
 { }
@@ -52,6 +55,17 @@ void Node::add(ParseElement *element)
     element->set(TAG_TYPE,  _type);
     element->set(TAG_LABEL, _label);
     VLOG(100) << "setting type = " << _type << " and label = " << _label;
+
+    if(_type == TAG_ACTUATOR || _type == TAG_SENSOR ||
+       _type == TAG_INPUT    || _type == TAG_HIDDEN)
+    {
+      _isSource = true;
+    }
+
+    if(_type == TAG_ACTUATOR || _type == TAG_OUTPUT || _type == TAG_HIDDEN)
+    {
+      _isDestination = true;
+    }
   }
 
   if(element->opening(TAG_POSITION))
@@ -113,7 +127,6 @@ void Node::createXsd(XsdSpecification *spec)
                                                      TAG_XSD_STRING);
   type->add(TAG_CONNECTOR);
   spec->add(connectorType);
-
 }
 
 string Node::type()
@@ -280,19 +293,12 @@ bool Node::removeEdge(Edge *e)
 
 bool Node::isSource()
 {
-  return (_type == TAG_ACTUATOR  ||
-          _type == TAG_SENSOR    ||
-          _type == TAG_INPUT     ||
-          _type == TAG_CONNECTOR ||
-          _type == TAG_HIDDEN);
+  return _isSource;
 }
 
 bool Node::isDestination()
 {
-  return (_type == TAG_ACTUATOR  ||
-          _type == TAG_OUTPUT    ||
-          _type == TAG_CONNECTOR ||
-          _type == TAG_HIDDEN);
+  return _isDestination;
 }
 
 
@@ -309,3 +315,14 @@ Node* Node::copy()
   // edges must be copied outside of here
   return copy;
 }
+
+void Node::setIsSource(bool s)
+{
+  _isSource = s;
+}
+
+void Node::setIsDestination(bool d)
+{
+  _isDestination = d;
+}
+

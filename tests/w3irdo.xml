@@ -93,21 +93,18 @@
       <translate x="0.0"   y="0.0"  z="0.0"/>
     </module>
 
-    <!-- <module name="cpg"> -->
+    <module name="cpg">
 
-      <!-- <node type="connector" label="module 1/sensor 1"/> -->
-      <!-- <node type="connector" label="module 1/sensor 2"/> -->
+      <node type="connector" label="module 1/input 1"/>
+      <node type="connector" label="module 1/output 1"/>
 
-      <!-- <node type="connector" label="module 1/actuator 1"/> -->
-      <!-- <node type="connector" label="module 1/actuator 2"/> -->
+      <node type="connector" label="module 2/input 1"/>
+      <node type="connector" label="module 2/output 1"/>
 
-      <!-- <node type="connector" label="module 2/sensor 1"/> -->
-      <!-- <node type="connector" label="module 2/sensor 2"/> -->
+      <node type="connector" label="module 3/input 1"/>
+      <node type="connector" label="module 3/output 1"/>
 
-      <!-- <node type="connector" label="module 2/actuator 1"/> -->
-      <!-- <node type="connector" label="module 2/actuator 2"/> -->
-
-    <!-- </module> -->
+    </module>
 
   </configuration>
 </enp>

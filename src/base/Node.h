@@ -75,6 +75,8 @@ class Node : public XsdParseNode
 
     bool isSource();
     bool isDestination();
+    void setIsSource(bool);
+    void setIsDestination(bool);
 
     Node* copy();
 
@@ -100,6 +102,8 @@ class Node : public XsdParseNode
     string _moduleName;
     double _bias;
     Edges  _in;
+    bool   _isSource;
+    bool   _isDestination;
 };
 
 typedef vector<Node*> Nodes;

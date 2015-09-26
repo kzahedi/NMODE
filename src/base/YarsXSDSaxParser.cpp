@@ -121,9 +121,34 @@ bool YarsXSDSaxParser::read(string filename)
     XMLString::release(&message);
     return false;
   }
-  catch (...) {
-    cout << "Unexpected Exception \n" ;
+  catch (const SAXException& toCatch) {
+    char* message = XMLString::transcode(toCatch.getMessage());
+    cout << "Exception message is: \n"
+      << message << "\n";
+    XMLString::release(&message);
     return false;
+  }
+  catch (const SAXNotRecognizedException& toCatch) {
+    char* message = XMLString::transcode(toCatch.getMessage());
+    cout << "Exception message is: \n"
+      << message << "\n";
+    XMLString::release(&message);
+    return false;
+  }
+  catch (const SAXNotSupportedException& toCatch) {
+    char* message = XMLString::transcode(toCatch.getMessage());
+    cout << "Exception message is: \n"
+      << message << "\n";
+    XMLString::release(&message);
+    return false;
+  }
+  catch (const ENPException& toCatch) {
+    std::cout << "Exception message is: \n" << toCatch.what() << endl;
+    return false;
+  }
+  catch (...) {
+    cout << "Unexpected Exception\n" ;
+    exit(-1);
   }
   int errorCount = parser->getErrorCount();
 

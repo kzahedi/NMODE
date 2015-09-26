@@ -28,13 +28,14 @@ void Individual::add(ParseElement *element)
 
   if(element->closing(TAG_INDIVIDUAL))
   {
-    __linkConnectorNodes();
-    VLOG(100) << "closing " << element->name();
+    linkConnectorNodes();
+    VLOG(100) << "closing <Individual> " << element->name();
     current = parent;
   }
 
   if(element->opening(TAG_INDIVIDUAL))
   {
+    VLOG(100) << "opening <Individual> " << element->name();
     element->set(TAG_ID,        _id);
     element->set(TAG_FITNESS,   _fitness);
     element->set(TAG_OFFSPRING, _offspring);
@@ -125,6 +126,7 @@ void Individual::addModule(Module *m)
 
 Individual* Individual::getRealisation()
 {
+  VLOG(100) << "Individual::getRealisation";
   Individual *copy = new Individual(NULL);
 
   Modules mods;
@@ -163,19 +165,10 @@ Individual* Individual::getRealisation()
 
 Node* Individual::__getNonHiddenNodeFromModule(Module *m, string nodeLabel)
 {
-  cout << "checking on module     " << m->name()   << endl;
-  cout << "number of sensor nodes " << m->s_size() << endl;
-  FORF(Nodes, n, m, s_begin(), s_end())
-  {
-    cout << "label " << (*n)->label() << " vs. " << nodeLabel << endl;
-    if((*n)->label() == nodeLabel)
-    {
-      return *n;
-    }
-  }
-  FORF(Nodes, n, m, a_begin(), a_end()) if((*n)->label() == nodeLabel) return *n;
-  FORF(Nodes, n, m, i_begin(), i_end()) if((*n)->label() == nodeLabel) return *n;
   FORF(Nodes, n, m, o_begin(), o_end()) if((*n)->label() == nodeLabel) return *n;
+  FORF(Nodes, n, m, i_begin(), i_end()) if((*n)->label() == nodeLabel) return *n;
+  FORF(Nodes, n, m, s_begin(), s_end()) if((*n)->label() == nodeLabel) return *n;
+  FORF(Nodes, n, m, a_begin(), a_end()) if((*n)->label() == nodeLabel) return *n;
   return NULL;
 }
 
@@ -190,8 +183,10 @@ Node* Individual::__getNonHiddenNode(string moduleName, string nodeLabel)
   return __getNonHiddenNodeFromModule(module, nodeLabel);
 }
 
-void Individual::__linkConnectorNodes() throw(ENPException)
+void Individual::linkConnectorNodes() throw(ENPException)
 {
+  VLOG(100) << "Individual::linkConnectorNodes";
+
   FORC(Modules, m, _modules)
   {
     VLOG(100) << "checking on " << (*m)->name();
@@ -199,17 +194,25 @@ void Individual::__linkConnectorNodes() throw(ENPException)
     {
       for(Nodes::iterator n = (*m)->n_begin(); n != (*m)->n_end(); n++)
       {
+        VLOG(100) << "checking if " << (*n)->label() << " is a connector node: " << (*n)->type();
         if((*n)->type() == TAG_CONNECTOR)
         {
+          VLOG(100) << "found connector node " << (*n)->label();
           vector<string> strs;
           string label = (*n)->label();
           split(strs, label, is_any_of("/"));
           string module_name = trim(strs[0]);
           string node_name   = trim(strs[1]);
-          cout << "looking for \"" << module_name << "\" \"" << node_name << "\"" << endl;
           Node* node = __getNonHiddenNode(module_name, node_name);
-          if(node == NULL) throw ENPException("node nod found");
+          if(node == NULL)
+          {
+            stringstream sst;
+            sst << "Node " << node_name << " not found in module " << module_name;
+            throw ENPException(sst.str());
+          }
           (*n)->setPosition(node->position());
+          (*n)->setIsSource(node->isSource());
+          (*n)->setIsDestination(node->isDestination());
         }
       }
     }

@@ -186,8 +186,7 @@ void ENP::initialiseFirstPopulationFromConfiguration()
     _population = new Population();
     Individual *ind = new Individual();
     _population->addIndividual(ind);
-    for(Modules::iterator m =  _configuration->m_begin();
-                          m != _configuration->m_end(); m++)
+    for(Modules::iterator m =  _configuration->m_begin(); m != _configuration->m_end(); m++)
     {
       ind->addModule(*m);
     }

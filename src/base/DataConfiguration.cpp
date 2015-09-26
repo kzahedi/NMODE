@@ -9,12 +9,13 @@ using namespace std;
 
 DataConfiguration::DataConfiguration(XsdParseNode *parent)
   : XsdParseNode(parent)
-{ }
+{
+  _individual = new Individual(NULL);
+}
 
 DataConfiguration::~DataConfiguration()
 {
-  FORC(Modules, m, _modules) delete (*m);
-  _modules.clear();
+  // delete _individual;
 }
 
 
@@ -23,6 +24,7 @@ void DataConfiguration::add(ParseElement *element)
   VLOG(100) << "parsing: " << element->name();
   if(element->closing(TAG_CONFIGURATION))
   {
+    _individual->linkConnectorNodes();
     current = parent;
     return;
   }
@@ -35,7 +37,7 @@ void DataConfiguration::add(ParseElement *element)
   if(element->opening(TAG_MODULE))
   {
     Module* module = new Module(this);
-    _modules.push_back(module);
+    _individual->addModule(module);
     current = module;
     current->add(element);
   }
@@ -53,20 +55,20 @@ void DataConfiguration::createXsd(XsdSpecification *spec)
 
 Modules::iterator DataConfiguration::m_begin()
 {
-  return _modules.begin();
+  return _individual->m_begin();
 }
 
 Modules::iterator DataConfiguration::m_end()
 {
-  return _modules.end();
+  return _individual->m_end();
 }
 
 int DataConfiguration::m_size()
 {
-  return _modules.size();
+  return _individual->m_size();
 }
 
 Modules DataConfiguration::modules()
 {
-  return _modules;
+  return _individual->modules();
 }

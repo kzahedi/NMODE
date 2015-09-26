@@ -105,7 +105,7 @@ void Module::add(ParseElement *element)
     r.x = DEG_TO_RAD(r.x);
     r.y = DEG_TO_RAD(r.y);
     r.z = DEG_TO_RAD(r.z);
-    
+
     _rotation << r;
     VLOG(100) << "  found " << _rotation;
   }
@@ -491,6 +491,10 @@ void Module::addNode(Node *node)
   {
     _actuator.push_back(node);
   }
+  else if(node->type() == TAG_CONNECTOR)
+  {
+    _connector.push_back(node);
+  }
 }
 
 void Module::setName(string name)
@@ -532,13 +536,8 @@ Module& Module::operator=(const Module &m)
   _translation = m._translation;
   _rotation    = m._rotation;
 
-  FORCC(Nodes, n, m._nodes)        _nodes.push_back(*n);
-  FORCC(Nodes, n, m._sensor)       _sensor.push_back(*n);
-  FORCC(Nodes, n, m._actuator)     _actuator.push_back(*n);
-  FORCC(Nodes, n, m._moduleInput)  _moduleInput.push_back(*n);
-  FORCC(Nodes, n, m._moduleOutput) _moduleOutput.push_back(*n);
-  FORCC(Nodes, n, m._hidden)       _hidden.push_back(*n);
-  FORCC(Edges, e, m._edges)        _edges.push_back(*e);
+  FORCC(Nodes, n, m._nodes) addNode((*n)->copy());
+  FORCC(Edges, e, m._edges) _edges.push_back(*e);
 
   __applyMirror();
   __applyTranslation();
@@ -571,15 +570,11 @@ void Module::copyAndApplyTransition(Module *m)
   _moduleInput.clear();
   _moduleOutput.clear();
   _hidden.clear();
+  _connector.clear();
   _edges.clear();
 
-
-  FORC(Nodes, n, m->_nodes)        _nodes.push_back((*n)->copy());
-  FORC(Nodes, n, m->_sensor)       _sensor.push_back((*n)->copy());
-  FORC(Nodes, n, m->_actuator)     _actuator.push_back((*n)->copy());
-  FORC(Nodes, n, m->_moduleInput)  _moduleInput.push_back((*n)->copy());
-  FORC(Nodes, n, m->_moduleOutput) _moduleOutput.push_back((*n)->copy());
-  FORC(Nodes, n, m->_hidden)       _hidden.push_back((*n)->copy());
+  FORCC(Nodes, n, m->_nodes) addNode((*n)->copy());
+  FORCC(Edges, e, m->_edges) _edges.push_back(*e);
 
   FORC(Edges, e, m->_edges)
   {

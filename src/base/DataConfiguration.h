@@ -4,6 +4,7 @@
 #include "XsdParseNode.h"
 
 #include "Module.h"
+#include "Individual.h"
 
 # define TAG_CONFIGURATION            (char*)"configuration"
 # define TAG_CONFIGURATION_DEFINITION (char*)"configuration_definition"
@@ -34,7 +35,7 @@ class DataConfiguration : public XsdParseNode
     static void createXsd(XsdSpecification *spec);
 
   private:
-    Modules _modules;
+    Individual *_individual;
 };
 
 #endif // ___DATA_CONFIGURATION_H__

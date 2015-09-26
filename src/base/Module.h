@@ -162,6 +162,7 @@ class Module : public XsdParseNode
     Nodes       _nodes;
     Nodes       _sensor;
     Nodes       _actuator;
+    Nodes       _connector;
     Nodes       _moduleInput;
     Nodes       _moduleOutput;
     Nodes       _hidden;
