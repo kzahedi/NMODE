@@ -7,29 +7,55 @@
 #include "base/Individual.h"
 #include "glog/logging.h"
 
+#define XML_BOOL(a) (a?"true":"false")
+
 
 string Exporter::toXml(Module *m)
 {
   stringstream sst;
   sst << "      <module name=\"" << m->name() << "\">" << endl;
-  for(Nodes::const_iterator n = m->n_begin(); n != m->n_end(); n++)
+  if(m->isCopy())
   {
-    sst << "        <node type=\"" << (*n)->type()
-      << "\" label=\"" << (*n)->label() << "\">" << endl;
-    sst << "          <position x=\"" << (*n)->position().x
-      << "\" y=\"" << (*n)->position().y
-      << "\" z=\"" << (*n)->position().z
-      << "\"/>" << endl;
-    sst << "          <transferfunction name=\"" << (*n)->transferfunction()
-      << "\"/>" << endl;
-    sst << "          <bias value=\"" << (*n)->bias() << "\"/>" << endl;
-    sst << "        </node>" << endl;
+    sst << "        <copy      name=\"" << m->ref() << "\"/>" << endl;
+    MirrorAxes ma = m->mirrorAxes();
+    Quaternion q = m->rotation();
+    P3D        r;
+    r << q;
+    P3D        p = m->translation();
+    sst << "        <mirror    x=\"" << XML_BOOL(ma.x)
+                     << "\" y=\"" << XML_BOOL(ma.y)
+                     << "\" z=\"" << XML_BOOL(ma.z)
+                     << "\"/>" << endl;
+    sst << "        <rotate    x=\"" << RAD_TO_DEG(r.x)
+                     << "\" y=\"" << RAD_TO_DEG(r.y)
+                     << "\" z=\"" << RAD_TO_DEG(r.z)
+                     << "\"/>" << endl;
+    sst << "        <translate x=\"" << p.x
+                        << "\" y=\"" << p.y
+                        << "\" z=\"" << p.z
+                        << "\"/>" << endl;
   }
-  for(Edges::const_iterator e = m->e_begin(); e != m->e_end(); e++)
+  else
   {
-    sst << "        <edge source=\"" << (*e)->source()
-      << "\" destination=\"" << (*e)->destination() << "\" weight=\""
-      << (*e)->weight()<< "\"/>" << endl;
+    for(Nodes::const_iterator n = m->n_begin(); n != m->n_end(); n++)
+    {
+      sst << "        <node type=\"" << (*n)->type()
+        << "\" label=\"" << (*n)->label() << "\">" << endl;
+      sst << "          <position x=\"" << (*n)->position().x
+        << "\" y=\"" << (*n)->position().y
+        << "\" z=\"" << (*n)->position().z
+        << "\"/>" << endl;
+      sst << "          <transferfunction name=\"" << (*n)->transferfunction()
+        << "\"/>" << endl;
+      sst << "          <bias value=\"" << (*n)->bias() << "\"/>" << endl;
+      sst << "        </node>" << endl;
+    }
+    for(Edges::const_iterator e = m->e_begin(); e != m->e_end(); e++)
+    {
+      sst << "        <edge source=\"" << (*e)->sourceNode()->label()
+        << "\" destination=\"" << (*e)->destinationNode()->label() << "\" weight=\""
+        << (*e)->weight()<< "\"/>" << endl;
+    }
   }
   sst << "      </module>" << endl;
   return sst.str();
@@ -43,9 +69,7 @@ string Exporter::toXml(Individual *i)
     << " fitness=\"" << i->fitness() << "\""
     << ">" << endl;
 
-  Individual *ri = i->getRealisation();
-
-  for(Modules::const_iterator m = ri->m_begin(); m != ri->m_end(); m++)
+  for(Modules::const_iterator m = i->m_begin(); m != i->m_end(); m++)
   {
     sst << toXml(*m);
   }

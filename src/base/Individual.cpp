@@ -137,8 +137,9 @@ Individual* Individual::getRealisation()
     if((*m)->isCopy() == false)
     {
       VLOG(100) << "  its not a copy";
-      mods.push_back(*m);
-      copy->addModule(*m);
+      Module *cm = (*m)->copy();
+      mods.push_back(cm);
+      copy->addModule(cm);
     }
   }
 
@@ -152,9 +153,10 @@ Individual* Individual::getRealisation()
       {
         if((*m)->ref() == (*c)->name())
         {
+          Module *cm = (*m)->copy();
           VLOG(100) << "  found ref " << (*c)->name() << " for " << (*m)->name();
-          (*m)->copyAndApplyTransition(*c);
-          copy->addModule(*m);
+          cm->copyAndApplyTransition(*c);
+          copy->addModule(cm);
         }
       }
     }
@@ -174,13 +176,15 @@ Node* Individual::__getNonHiddenNodeFromModule(Module *m, string nodeLabel)
 
 Node* Individual::__getNonHiddenNode(string moduleName, string nodeLabel)
 {
-  Module *module = moduleByName(moduleName);
+  Module *module = moduleByName(moduleName)->copy();
   if(module->isCopy())
   {
     Module *ref = moduleByName(module->ref());
     module->copyAndApplyTransition(ref);
   }
-  return __getNonHiddenNodeFromModule(module, nodeLabel);
+  Node *n = __getNonHiddenNodeFromModule(module, nodeLabel);
+  delete module;
+  return n;
 }
 
 void Individual::linkConnectorNodes() throw(ENPException)

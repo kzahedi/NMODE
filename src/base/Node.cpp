@@ -304,7 +304,7 @@ bool Node::isDestination()
 
 Node* Node::copy()
 {
-  Node *copy = new Node(NULL);
+  Node *copy              = new Node(NULL);
   copy->_type             = _type;
   copy->_label            = _label;
   copy->_position         = _position;

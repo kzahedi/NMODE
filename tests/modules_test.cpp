@@ -46,7 +46,6 @@ CPPUNIT_TEST_SUITE_REGISTRATION( modulesTest );
 
 void modulesTest::setUp()
 {
-  // cout << "HIER HIER" << endl;
 }
 
 void modulesTest::testModules()
@@ -537,4 +536,63 @@ void modulesTest::testModuleTransition()
   CPPUNIT_ASSERT_DOUBLES_EQUAL( 3.0, b->node(1)->position().x, 0.000001);
   CPPUNIT_ASSERT_DOUBLES_EQUAL( 1.0, b->node(1)->position().y, 0.000001);
   CPPUNIT_ASSERT_DOUBLES_EQUAL( 3.0, b->node(1)->position().z, 0.000001);
+}
+
+void modulesTest::testModuleCopy()
+{
+  Module *a = new Module();
+  a->setName("module 1");
+
+  Node *aa = new Node();
+  aa->setType("sensor");
+  aa->setLabel("sensor 1");
+  aa->setPosition(P3D(0.0,0.0,0.0));
+  aa->setTransferfunction("id");
+
+  Node *ab = new Node();
+  ab->setType("sensor");
+  ab->setLabel("sensor 2");
+  ab->setPosition(P3D(1.0,0.0,0.0));
+  ab->setTransferfunction("id");
+
+  Node *ac = new Node();
+  ac->setType("sensor");
+  ac->setLabel("sensor 3");
+  ac->setPosition(P3D(2.0,0.0,0.0));
+  ac->setTransferfunction("id");
+
+  Node *ad = new Node();
+  ad->setType("actuator");
+  ad->setLabel("actuator 1");
+  ad->setPosition(P3D(0.5,1.0,0.0));
+  ad->setTransferfunction("tanh");
+
+  Node *ae = new Node();
+  ae->setType("actuator");
+  ae->setLabel("actuator 2");
+  ae->setPosition(P3D(1.5,1.0,0.0));
+  ae->setTransferfunction("sigm");
+
+  a->addNode(aa);
+  a->addNode(ab);
+  a->addNode(ac);
+  a->addNode(ad);
+  a->addNode(ae);
+
+  a->addEdge(aa, ab, 1.0);
+  a->addEdge(ab, ac, 2.0);
+  a->addEdge(ac, ad, 3.0);
+  a->addEdge(ad, ae, 4.0);
+  a->addEdge(ae, aa, 5.0);
+  
+  Module *b = a->copy();
+
+  CPPUNIT_ASSERT(b != a);
+  for(int i = 0; i < 5; i++) CPPUNIT_ASSERT(b->node(i)          != a->node(i));
+  for(int i = 0; i < 5; i++) CPPUNIT_ASSERT(b->edge(i)          != a->edge(i));
+  for(int i = 0; i < 5; i++) CPPUNIT_ASSERT(b->node(i)->label() == a->node(i)->label());
+  for(int i = 0; i < 5; i++) CPPUNIT_ASSERT(b->node(i)->bias()  == a->node(i)->bias());
+  for(int i = 0; i < 5; i++) CPPUNIT_ASSERT(b->node(i)->position() == a->node(i)->position());
+  for(int i = 0; i < 5; i++) CPPUNIT_ASSERT(b->node(i)->transferfunction() ==
+                                            a->node(i)->transferfunction());
 }

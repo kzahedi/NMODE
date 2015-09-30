@@ -62,6 +62,8 @@ class Module : public XsdParseNode
      */
     virtual ~Module();
 
+    Module* copy();
+
     void add(ParseElement *element);
     void setName(string name);
 
@@ -139,6 +141,7 @@ class Module : public XsdParseNode
     void setMirrorAxes(bool, bool, bool);
     void setTranslation(P3D);
     void setRotation(P3D);
+    MirrorAxes mirrorAxes();
 
     void copyAndApplyTransition(Module*);
 
@@ -173,5 +176,3 @@ class Module : public XsdParseNode
 typedef vector<Module*> Modules;
 
 #endif // ___DATA_MODULE_H__
-
-

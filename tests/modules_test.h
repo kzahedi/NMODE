@@ -46,6 +46,7 @@ class modulesTest : public CppUnit::TestFixture
   CPPUNIT_TEST(testModuleTranslation);
   CPPUNIT_TEST(testModuleRotation);
   CPPUNIT_TEST(testModuleTransition);
+  CPPUNIT_TEST(testModuleCopy);
   CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -63,6 +64,7 @@ class modulesTest : public CppUnit::TestFixture
   void testModuleTranslation();
   void testModuleRotation();
   void testModuleTransition();
+  void testModuleCopy();
 };
 
 #endif // __RNN_H__

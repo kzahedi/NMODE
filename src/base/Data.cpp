@@ -4,6 +4,7 @@
 #include "XmlChangeLog.h"
 
 #include <glog/logging.h>
+#include "Exporter.h"
 
 Data* Data::_me = NULL;
 
@@ -107,18 +108,7 @@ string Data::header()
       m != _root->configuration()->m_end();
       m++)
   {
-
-    sst << "    <module name=\"" << (*m)->name() << "\">" << endl;
-
-    for(Nodes::iterator n = (*m)->n_begin(); n != (*m)->n_end(); n++)
-    {
-      sst << "      <node type=\"" << (*n)->type() << "\" label=\"" << (*n)->label() << "\">" << endl;
-      sst << "        <position x=\"" << (*n)->position().x
-        << "\" y=\"" << (*n)->position().y << "\" z=\"" << (*n)->position().z << "\"/>" << endl;
-      sst << "        <transferfunction name=\"" << (*n)->transferfunction() << "\"/>" << endl;
-      sst << "      </node>" << endl;
-    }
-    sst << "    </module>" << endl;
+    sst << Exporter::toXml(*m);
   }
   sst << "  </configuration>" << endl;
   return sst.str();

@@ -656,3 +656,49 @@ int Module::o_size()
 }
 
 
+Module* Module::copy()
+{
+  Module *copy = new Module(NULL);
+
+  copy->_globalId    = _globalId;
+  copy->_isCopy      = _isCopy;
+  copy->_modified    = _modified;
+
+  copy->_name        = _name;
+  copy->_ref         = _ref;
+
+  copy->_rotation    = _rotation;
+  copy->_translation = _translation;
+
+  copy->_mirrorAxes  = _mirrorAxes;
+
+  FORC(Nodes, n, _nodes)
+  {
+    copy->addNode((*n)->copy());
+  }
+
+  FORC(Edges, e, _edges)
+  {
+    Node *src = copy->nodeByName((*e)->sourceNode()->label());
+    Node *dst = copy->nodeByName((*e)->destinationNode()->label());
+    copy->addEdge(src, dst, (*e)->weight());
+  }
+
+  return copy;
+}
+
+
+MirrorAxes Module::mirrorAxes()
+{
+  return _mirrorAxes;
+}
+
+P3D Module::translation()
+{
+  return _translation;
+}
+
+Quaternion Module::rotation()
+{
+  return _rotation;
+}
