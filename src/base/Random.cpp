@@ -66,7 +66,7 @@ void Random::initialise(int seed)
   srand(seed);
 }
 
-int Random::rand(int min, int max)
+int Random::randi(int min, int max)
 {
   return min + int(drand48() * (double)(max-min) + 0.5);
 }
@@ -74,5 +74,8 @@ int Random::rand(int min, int max)
 
 double Random::rand(double min, double max)
 {
-  return min + drand48() * (double)(max - min);
+  double d = drand48();
+  cout << d << " " << min << " " << max << " = " << min + d * (double)(max - min) << endl;
+  return min + d * (double)(max - min);
+  // return min + drand48() * (double)(max - min);
 }

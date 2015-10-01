@@ -72,11 +72,6 @@
         <position x="1.0" y="0.0" z="-0.5"/>
         <transferfunction name="tanh"/>
       </node>
-
-      <edge source="sensor 1" destination="actuator 1" weight="1"/>
-      <edge source="sensor 2" destination="actuator 2" weight="-1"/>
-      <edge source="sensor 3" destination="actuator 2" weight="1"/>
-      <edge source="sensor 3" destination="actuator 3" weight="-1"/>
     </module>
 
     <module name="module 2">

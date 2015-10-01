@@ -49,5 +49,5 @@ ADD_TEST(modules "${PROJECT_BINARY_DIR}/bin/modules-tests")
 file(COPY        ${CMAKE_SOURCE_DIR}/tests/test.ini
      DESTINATION ${PROJECT_BINARY_DIR}/bin)
 
-file(COPY        ${CMAKE_SOURCE_DIR}/tests/test.xml
+file(COPY        ${CMAKE_SOURCE_DIR}/tests/w3irdo.xml
      DESTINATION ${PROJECT_BINARY_DIR}/bin)

@@ -26,6 +26,17 @@
 #define TAG_Y                      (char*)"y"
 #define TAG_Z                      (char*)"z"
 
+#define REMOVE_NEURON_FROM_LIST(lst, n, msg) \
+  { \
+    i = std::find(lst.begin(), lst.end(), n); \
+    if(i != lst.end())\
+    { \
+      lst.erase(i); \
+      VLOG(50) << "   Removed neuron " << (*i)->label() << " from " << msg; \
+    } \
+  }
+
+
 using namespace std;
 
 Module::Module(XsdParseNode *parent)
@@ -280,37 +291,21 @@ bool Module::removeNode(Node *n) throw (ENPException)
   if(n->type() != TAG_HIDDEN) throw ENPException("Attempting to remove non-hidden node");
   Nodes::iterator i;
 
-  int neuron_index = -1;
-  for(int i = 0; i < (int)_nodes.size(); i++)
-  {
-    if(_nodes[i] == n)
-    {
-      neuron_index = i;
-      break;
-    }
-  }
+  VLOG(50) << "   Removing neuron \"" << n->label() << "\"";
 
-  VLOG(50) << "   Found neuron index " << neuron_index;
-
-  i = std::find(_nodes.begin(), _nodes.end(), n);
-  if(i != _nodes.end())
-  {
-    _nodes.erase(i);
-    VLOG(50) << "   Removed neuron " << (*i)->label() << " from nodes";
-  }
-
-  i = std::find(_hidden.begin(), _hidden.end(), n);
-  if(i != _hidden.end())
-  {
-    _hidden.erase(i);
-    VLOG(50) << "   Removed neuron " << (*i)->label() << " from hidden";
-  }
+  REMOVE_NEURON_FROM_LIST(_nodes,        n, "nodes");
+  REMOVE_NEURON_FROM_LIST(_hidden,       n, "hidden");
+  REMOVE_NEURON_FROM_LIST(_sensor,       n, "sensors");
+  REMOVE_NEURON_FROM_LIST(_actuator,     n, "actuators");
+  REMOVE_NEURON_FROM_LIST(_connector,    n, "connectors");
+  REMOVE_NEURON_FROM_LIST(_moduleInput,  n, "module input");
+  REMOVE_NEURON_FROM_LIST(_moduleOutput, n, "module output");
 
   Edges toBeRemoved;
   FORC(Edges, e, _edges)
   {
-    if((*e)->source()      == n->label() ||
-       (*e)->destination() == n->label())
+    if((*e)->sourceNode()->label()      == n->label() ||
+       (*e)->destinationNode()->label() == n->label())
     {
       VLOG(50) << "    Removing edge with "
         << (*e)->source()      << " -> "
@@ -578,8 +573,8 @@ void Module::copyAndApplyTransition(Module *m)
 
   FORC(Edges, e, m->_edges)
   {
-    string src = (*e)->source();
-    string dst = (*e)->destination();
+    string src = (*e)->sourceNode()->label();
+    string dst = (*e)->destinationNode()->label();
     Node *srcNode = NULL;
     Node *dstNode = NULL;
     FORC(Nodes, n, _nodes)
@@ -677,12 +672,19 @@ Module* Module::copy()
     copy->addNode((*n)->copy());
   }
 
+  cout << "hier 0" << endl;
+  cout << "module name \"" << _name << "\"" << endl;
   FORC(Edges, e, _edges)
   {
+    cout << "\"" << (*e)->source() << "\"" << endl;
+    cout << "\"" << (*e)->destination() << "\"" << endl;
+    cout << "\"" << (*e)->sourceNode()->label() << "\"" << endl;
+    cout << "\"" << (*e)->destinationNode()->label() << "\"" << endl;
     Node *src = copy->nodeByName((*e)->sourceNode()->label());
     Node *dst = copy->nodeByName((*e)->destinationNode()->label());
     copy->addEdge(src, dst, (*e)->weight());
   }
+  cout << "hier 1" << endl;
 
   return copy;
 }

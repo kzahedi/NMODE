@@ -12,10 +12,10 @@
 
 void MutatePopulationOperator::mutate(Population *p)
 {
-  VLOG(50) << ">> start mutate population";
-  for(Individuals::iterator ind = p->i_end(); ind != p->i_end(); ind++)
+  VLOG(50) << ">> start mutate population: " << p->i_size();
+  for(Individuals::iterator ind = p->i_begin(); ind != p->i_end(); ind++)
   {
-      MutateIndividualOperator::mutate(*ind);
+    MutateIndividualOperator::mutate(*ind);
   }
   VLOG(50) << ">> end mutate population";
 }

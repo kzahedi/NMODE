@@ -33,7 +33,7 @@ class Random
   public:
     static void   initialise();
     static void   initialise(int seed);
-    static int    rand(int min, int max);
+    static int    randi(int min, int max);
     static double rand(double min, double max);
     static double unit();
 };

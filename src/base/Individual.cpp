@@ -217,6 +217,7 @@ void Individual::linkConnectorNodes() throw(ENPException)
           (*n)->setPosition(node->position());
           (*n)->setIsSource(node->isSource());
           (*n)->setIsDestination(node->isDestination());
+          (*n)->setTransferfunction(node->transferfunction());
         }
       }
     }

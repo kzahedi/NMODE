@@ -272,12 +272,12 @@ void MutateModuleOperator::__mutateAddNode(Module *m, double probability, double
 
   for(int i = 0; i < m->e_size(); i++) probabilities[i] /= sum;
 
-  if(VLOG_IS_ON(50))
-  {
-    cout << "probabilities:";
-    for(int i = 0; i < m->e_size(); i++) cout << " " << probabilities[i];
-    cout << endl;
-  }
+  // if(VLOG_IS_ON(50))
+  // {
+    // cout << "probabilities:";
+    // for(int i = 0; i < m->e_size(); i++) cout << " " << probabilities[i];
+    // cout << endl;
+  // }
 
   double p = Random::unit();
   double s = 0.0;

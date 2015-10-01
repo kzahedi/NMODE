@@ -38,3 +38,5 @@ find_package(XercesC)
 IF(XercesC_FOUND)
   include_directories(${XERCESC_INCLUDE_DIR})
 ENDIF(XercesC_FOUND)
+
+link_directories("/usr/local/lib")

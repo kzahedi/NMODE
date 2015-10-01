@@ -161,6 +161,7 @@ string Node::transferfunction()
 
 double Node::bias()
 {
+  cout << "returning bias: " << _bias << endl;
   return _bias;
 }
 

@@ -48,8 +48,8 @@ void Data::read(string xmlFile)
   if(parser->errors() > 0)
   {
     for(std::vector<string>::iterator i = parser->w_begin(); i != parser->w_end(); i++) cout << "WARNING: " << *i << endl;
-    for(std::vector<string>::iterator i = parser->e_begin(); i != parser->e_end(); i++) cout << "ERROR: " << *i << endl;
-    for(std::vector<string>::iterator i = parser->f_begin(); i != parser->f_end(); i++) cout << "FATAL: " << *i << endl;
+    for(std::vector<string>::iterator i = parser->e_begin(); i != parser->e_end(); i++) cout << "ERROR: "   << *i << endl;
+    for(std::vector<string>::iterator i = parser->f_begin(); i != parser->f_end(); i++) cout << "FATAL: "   << *i << endl;
     delete parser;
     exit(-1);
   }
