@@ -8,6 +8,7 @@
 #include "glog/logging.h"
 
 #define XML_BOOL(a) (a?"true":"false")
+#define ZERO(a)     ((fabs(a)<0.0000000000001)?0:a)
 
 
 string Exporter::toXml(Module *m)
@@ -47,7 +48,7 @@ string Exporter::toXml(Module *m)
         << "\"/>" << endl;
       sst << "          <transferfunction name=\"" << (*n)->transferfunction()
         << "\"/>" << endl;
-      sst << "          <bias value=\"" << (*n)->bias() << "\"/>" << endl;
+      sst << "          <bias value=\"" << ZERO((*n)->bias()) << "\"/>" << endl;
       sst << "        </node>" << endl;
     }
     for(Edges::const_iterator e = m->e_begin(); e != m->e_end(); e++)

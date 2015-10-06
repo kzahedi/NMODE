@@ -123,6 +123,8 @@ class Module : public XsdParseNode
     void            update();
     // could be a copy but not yet linked
     bool            isCopy();
+    void            setIsCopy(bool);
+    void            setTarget(string);
 
     bool operator == (const Module m);
     bool operator != (const Module m);

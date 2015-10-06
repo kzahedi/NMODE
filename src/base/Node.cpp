@@ -13,9 +13,6 @@
 #define TAG_TYPE                        (char*)"type"
 // #define TAG_OUTPUT                      (char*)"output"
 #define TAG_NAME                        (char*)"name"
-#define TAG_TANH                        (char*)"tanh"
-#define TAG_SIGM                        (char*)"sigm"
-#define TAG_ID                          (char*)"id"
 #define TAG_TYPE_DEFINITION             (char*)"type_definition"
 #define TAG_TYPE_CONNECTOR_DEFINITION   (char*)"type_connector_definition"
 #define TAG_LABEL                       (char*)"label"
@@ -57,12 +54,14 @@ void Node::add(ParseElement *element)
     VLOG(100) << "setting type = " << _type << " and label = " << _label;
 
     if(_type == TAG_ACTUATOR || _type == TAG_SENSOR ||
-       _type == TAG_INPUT    || _type == TAG_HIDDEN)
+       _type == TAG_INPUT    || _type == TAG_HIDDEN ||
+       _type == TAG_CONNECTOR)
     {
       _isSource = true;
     }
 
-    if(_type == TAG_ACTUATOR || _type == TAG_OUTPUT || _type == TAG_HIDDEN)
+    if(_type == TAG_ACTUATOR || _type == TAG_OUTPUT ||
+       _type == TAG_HIDDEN   || _type == TAG_CONNECTOR)
     {
       _isDestination = true;
     }
@@ -134,9 +133,23 @@ string Node::type()
   return _type;
 }
 
-void Node::setType(string t)
+void Node::setType(string t) throw (ENPException)
 {
-  _type = t;
+  if(t == TAG_ACTUATOR ||
+     t == TAG_SENSOR   ||
+     t == TAG_INPUT    ||
+     t == TAG_OUTPUT   ||
+     t == TAG_HIDDEN   ||
+     t == TAG_CONNECTOR)
+  {
+    _type = t;
+  }
+  else
+  {
+    stringstream sst;
+    sst << "Unknown node type \"" << t << "\" given";
+    throw ENPException(sst.str());
+  }
 }
 
 string Node::label()
@@ -161,7 +174,6 @@ string Node::transferfunction()
 
 double Node::bias()
 {
-  cout << "returning bias: " << _bias << endl;
   return _bias;
 }
 
@@ -313,6 +325,8 @@ Node* Node::copy()
   copy->_nodeName         = _nodeName;
   copy->_moduleName       = _moduleName;
   copy->_bias             = _bias;
+  copy->_isSource         = _isSource;
+  copy->_isDestination    = _isDestination;
   // edges must be copied outside of here
   return copy;
 }

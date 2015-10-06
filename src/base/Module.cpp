@@ -309,7 +309,8 @@ bool Module::removeNode(Node *n) throw (ENPException)
     {
       VLOG(50) << "    Removing edge with "
         << (*e)->source()      << " -> "
-        << (*e)->destination() << " with " << (*e)->weight();
+        << (*e)->destination() << " with "
+        << (*e)->weight();
       Edges::iterator ei = std::find(_edges.begin(), _edges.end(), *e);
       if(ei != _edges.end()) toBeRemoved.push_back(*e);
     }
@@ -532,7 +533,13 @@ Module& Module::operator=(const Module &m)
   _rotation    = m._rotation;
 
   FORCC(Nodes, n, m._nodes) addNode((*n)->copy());
-  FORCC(Edges, e, m._edges) _edges.push_back(*e);
+  FORC(Edges, e, _edges)
+  {
+    Node *src = nodeByName((*e)->sourceNode()->label());
+    Node *dst = nodeByName((*e)->destinationNode()->label());
+    addEdge(src, dst, (*e)->weight());
+  }
+
 
   __applyMirror();
   __applyTranslation();
@@ -569,7 +576,12 @@ void Module::copyAndApplyTransition(Module *m)
   _edges.clear();
 
   FORCC(Nodes, n, m->_nodes) addNode((*n)->copy());
-  FORCC(Edges, e, m->_edges) _edges.push_back(*e);
+  FORC(Edges, e, _edges)
+  {
+    Node *src = nodeByName((*e)->sourceNode()->label());
+    Node *dst = nodeByName((*e)->destinationNode()->label());
+    addEdge(src, dst, (*e)->weight());
+  }
 
   FORC(Edges, e, m->_edges)
   {
@@ -672,19 +684,12 @@ Module* Module::copy()
     copy->addNode((*n)->copy());
   }
 
-  cout << "hier 0" << endl;
-  cout << "module name \"" << _name << "\"" << endl;
   FORC(Edges, e, _edges)
   {
-    cout << "\"" << (*e)->source() << "\"" << endl;
-    cout << "\"" << (*e)->destination() << "\"" << endl;
-    cout << "\"" << (*e)->sourceNode()->label() << "\"" << endl;
-    cout << "\"" << (*e)->destinationNode()->label() << "\"" << endl;
     Node *src = copy->nodeByName((*e)->sourceNode()->label());
     Node *dst = copy->nodeByName((*e)->destinationNode()->label());
     copy->addEdge(src, dst, (*e)->weight());
   }
-  cout << "hier 1" << endl;
 
   return copy;
 }
@@ -703,4 +708,14 @@ P3D Module::translation()
 Quaternion Module::rotation()
 {
   return _rotation;
+}
+
+void Module::setIsCopy(bool c)
+{
+  _isCopy = c;
+}
+
+void Module::setTarget(string t)
+{
+  _ref = t;
 }

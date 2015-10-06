@@ -19,12 +19,14 @@ class Individual : public XsdParseNode
     void add(ParseElement *element);
     static void createXsd(XsdSpecification *spec);
 
-    int    id();
-    int    offspring();
-    double fitness();
+    int               offspring();
+    void              setOffstring(int);
 
-    void setFitness(double);
-    void setId(int id);
+    void              setFitness(double);
+    double            fitness();
+
+    void              setId(int);
+    int               id();
 
     Modules::iterator m_begin();
     Modules::iterator m_end();
@@ -36,6 +38,11 @@ class Individual : public XsdParseNode
     Individual*       getRealisation();
     void              linkConnectorNodes() throw(ENPException);
 
+    double            probability();
+    void              setProbability(double);
+
+    Individual*       copy();
+
   private:
     Node*   __getNonHiddenNode(string module, string label);
     Node*   __getNonHiddenNodeFromModule(Module *m, string nodeLabel);
@@ -44,6 +51,7 @@ class Individual : public XsdParseNode
     int     _offspring;
     double  _fitness;
     Modules _modules;
+    double  _probability;
 };
 
 typedef vector<Individual*> Individuals;

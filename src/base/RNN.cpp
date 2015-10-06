@@ -1,7 +1,11 @@
 #include "RNN.h"
 
-#include "base/macros.h"
-#include "base/ENPException.h"
+#include "macros.h"
+#include "ENPException.h"
+
+#include <math.h>
+
+#include <glog/logging.h>
 
 /***************************************************************************
  *                            Neuron functions                             *
@@ -11,9 +15,9 @@
 
 Neuron::Neuron()
 {
-  _activity = 0.0;
-  _output   = 0.0;
-  _bias     = 0.0;
+  _activity           = 0.0;
+  _output             = 0.0;
+  _bias               = 0.0;
 }
 
 Neuron::~Neuron()
@@ -52,6 +56,11 @@ double Neuron::output()
   return _output;
 }
 
+int Neuron::nrOfSynapses()
+{
+  return _in.size();
+}
+
 void Neuron::setBias(double value)
 {
   _bias = value;
@@ -73,7 +82,10 @@ void Neuron::addSynapse(Synapse *s)
   _in.push_back(s);
 }
 
-
+int Neuron::transferfunction()
+{
+  return _transferfunction;
+}
 
 /***************************************************************************
  *                            Synapse functions                            *
@@ -103,15 +115,89 @@ void Synapse::setWeight(double w)
 
 RNN::RNN()
 {
-}
-
-void RNN::addNeuron(Neuron *n)
-{
-  _neurons.push_back(n);
+  // nothing
 }
 
 void RNN::update()
 {
   FORC(Neurons, n, _neurons) (*n)->updateActivity();
   FORC(Neurons, n, _neurons) (*n)->updateOutput();
+}
+
+void RNN::setInputs(vector<double>& inputs)
+{
+  for(int i = 0; i < (int)MIN(inputs.size(), _sensors.size()); i++)
+  {
+    _sensors[i]->setBias(inputs[i]);
+  }
+}
+
+void RNN::getOutput(vector<double>& outputs)
+{
+  if(outputs.size() != _actuators.size())
+  {
+    outputs.resize(_actuators.size());
+  }
+  for(int i = 0; i < (int)_actuators.size(); i++)
+  {
+    outputs[i] = _actuators[i]->output();
+  }
+}
+
+void RNN::addInputNeuron(Neuron *n)
+{
+  _sensors.push_back(n);
+  _neurons.push_back(n);
+}
+
+void RNN::addOutputNeuron(Neuron *n)
+{
+  _actuators.push_back(n);
+  _neurons.push_back(n);
+}
+
+void RNN::addHiddenNeuron(Neuron *n)
+{
+  _hidden.push_back(n);
+  _neurons.push_back(n);
+}
+
+int RNN::nrOfNeurons()
+{
+  return _neurons.size();
+}
+
+int RNN::nrOfSensors()
+{
+  return _sensors.size();
+}
+
+int RNN::nrOfActuators()
+{
+  return _actuators.size();
+}
+
+int RNN::nrOfHidden()
+{
+  return _hidden.size();
+}
+
+Neuron* RNN::getSensorNeuron(int index)
+{
+  return _sensors[index];
+}
+
+Neuron* RNN::getActuatorNeuron(int index)
+{
+  return _actuators[index];
+}
+
+Neuron* RNN::getNeuron(int index)
+{
+  return _neurons[index];
+}
+
+Neuron* RNN::getHiddenNeuron(int index)
+{
+  return _hidden[index];
 }

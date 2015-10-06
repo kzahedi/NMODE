@@ -141,20 +141,29 @@ void MutateModuleOperator::__mutateAddEdge(Module *m, double probability,
   double d   =  0.0;
   double min = -1.0;
 
+
   for(int s_index = 0; s_index < m->n_size(); s_index++)
+  {
     for(int d_index = 0; d_index < m->n_size(); d_index++)
+    {
       probabilities[s_index][d_index] = 0.0;
+    }
+  }
 
   for(int s_index = 0; s_index < m->n_size(); s_index++)
   {
     Node *src_node = m->node(s_index);
+
     if(src_node->isSource())
     {
+
       for(int d_index = 0; d_index < m->n_size(); d_index++)
       {
         Node *dst_node = m->node(d_index);
+
         if(dst_node->isDestination())
         {
+
           if(dst_node->contains(src_node))
           {
             VLOG(50) << "    edge from "
@@ -164,6 +173,7 @@ void MutateModuleOperator::__mutateAddEdge(Module *m, double probability,
           }
           else
           {
+
             d  = DIST(src_node->position(), dst_node->position());
             d *= d;
             probabilities[s_index][d_index] = d;

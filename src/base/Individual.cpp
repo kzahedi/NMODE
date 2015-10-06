@@ -8,6 +8,7 @@
 
 using namespace std;
 using namespace boost;
+using namespace boost::algorithm;
 
 #define TAG_ID        (char*)"id"
 #define TAG_FITNESS   (char*)"fitness"
@@ -17,9 +18,10 @@ using namespace boost;
 Individual::Individual(XsdParseNode *parent)
   : XsdParseNode(parent)
 {
-  _id        = 1;
-  _fitness   = 0.0;
-  _offspring = 0;
+  _id          = 1;
+  _fitness     = 0.0;
+  _offspring   = 0;
+  _probability = 0.0;
 }
 
 void Individual::add(ParseElement *element)
@@ -76,6 +78,11 @@ double Individual::fitness()
 int Individual::offspring()
 {
   return _offspring;
+}
+
+void Individual::setOffstring(int o)
+{
+  _offspring = o;
 }
 
 Modules::iterator Individual::m_begin()
@@ -207,7 +214,7 @@ void Individual::linkConnectorNodes() throw(ENPException)
           split(strs, label, is_any_of("/"));
           string module_name = trim(strs[0]);
           string node_name   = trim(strs[1]);
-          Node* node = __getNonHiddenNode(module_name, node_name);
+          Node* node         = __getNonHiddenNode(module_name, node_name);
           if(node == NULL)
           {
             stringstream sst;
@@ -218,8 +225,30 @@ void Individual::linkConnectorNodes() throw(ENPException)
           (*n)->setIsSource(node->isSource());
           (*n)->setIsDestination(node->isDestination());
           (*n)->setTransferfunction(node->transferfunction());
+          VLOG(100) << "Connector node " << (*n)->label() << ":";
+          VLOG(100) << "  Position: " << (*n)->position();
         }
       }
     }
   }
+}
+
+double Individual::probability()
+{
+  return _probability;
+}
+
+void Individual::setProbability(double p)
+{
+  _probability = p;
+}
+
+Individual* Individual::copy()
+{
+  Individual *copy = new Individual();
+  copy->_fitness     = _fitness;
+  copy->_probability = _probability;
+  copy->_id          = _id;
+  FORC(Modules, m, _modules) copy->addModule((*m)->copy());
+  return copy;
 }

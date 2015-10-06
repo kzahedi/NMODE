@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Yet Another Robot Simulator (YARS).              *
+ * This file is part of Evolution of Neural Pathways (ENP).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/YARS                                  *
+ * Web: https://github.com/kzahedi/ENP                                   *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -26,54 +26,23 @@
 
 
 
-#include "Random.h"
+#ifndef __RNN_FROM_INDIVIDUAL_TEST_H__
+#define __RNN_FROM_INDIVIDUAL_TEST_H__
 
-#include <stdlib.h>
+#include <cppunit/extensions/HelperMacros.h>
 
-#include <iostream>
-
-using namespace std;
-
-void Random::initialise()
+class rnnFromIndividualTest : public CppUnit::TestFixture
 {
-  time_t t;
-  time(&t);
-  srand48(t);
+  CPPUNIT_TEST_SUITE(rnnFromIndividualTest);
+  CPPUNIT_TEST(testRnnFromIndividual);
+  CPPUNIT_TEST(testRnnFromIndividualWithConnectorNodes);
+  CPPUNIT_TEST_SUITE_END();
 
-  // cout << "random initialised:";
-  // for(int i = 0; i < 10; i++)
-  // {
-    // cout << " " << rand(0, 100);
-  // }
-  // cout << endl;
-  // cout << "random initialised:";
-  // for(int i = 0; i < 10; i++)
-  // {
-    // cout << " " << unit();
-  // }
-  // cout << endl;
+  public:
 
-}
+  void testRnnFromIndividual();
+  void testRnnFromIndividualWithConnectorNodes();
 
-double Random::unit()
-{
-  return drand48();
-}
+};
 
-void Random::initialise(int seed)
-{
-  srand(seed);
-}
-
-int Random::randi(int min, int max)
-{
-  return min + int(drand48() * (double)(max-min) + 0.5);
-}
-
-
-double Random::rand(double min, double max)
-{
-  double d = drand48();
-  return min + d * (double)(max - min);
-  // return min + drand48() * (double)(max - min);
-}
+#endif // __RNN_FROM_INDIVIDUAL_H__

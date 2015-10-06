@@ -20,6 +20,8 @@ add_library(ENPBase SHARED RNN.cpp
                            Data.cpp
                            XsdParseNode.cpp
 
+                           RnnFromIndividual.cpp
+
                            ENP.cpp
 
                            Simulator.cpp

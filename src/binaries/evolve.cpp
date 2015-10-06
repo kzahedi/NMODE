@@ -51,7 +51,7 @@ int main(int argc, char** argv)
 
   cout << "Population: " << pop << endl;
 
-  for(int i = 0; i < 200; i++)
+  for(int i = 0; i < 100; i++)
   {
     VLOG(50) << " generation " << i;
     sst.str("");

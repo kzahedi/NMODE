@@ -1,8 +1,9 @@
 #ifndef __RNN_H__
 #define __RNN_H__
 
-#include "base/P3D.h"
-#include "base/ENPException.h"
+#include "P3D.h"
+#include "ENPException.h"
+#include "Individual.h"
 
 #include <vector>
 
@@ -33,6 +34,8 @@ class Neuron
 
     double bias();
     double output();
+    int    transferfunction();
+    int    nrOfSynapses();
 
   private:
     double           _activity;
@@ -71,16 +74,31 @@ class RNN
 {
   public:
     RNN();
-    // ~rnn();
-
-    //rnn(const rnn);
-    //rnn operator=(const rnn);
-
-    void addNeuron(Neuron *n);
     void update();
+
+    void setInputs(vector<double>&);
+    void getOutput(vector<double>&);
+
+    void addInputNeuron(Neuron*);
+    void addOutputNeuron(Neuron*);
+    void addHiddenNeuron(Neuron*);
+
+    int  nrOfNeurons();
+    int  nrOfSensors();
+    int  nrOfActuators();
+    int  nrOfHidden();
+
+    Neuron* getSensorNeuron(int);
+    Neuron* getActuatorNeuron(int);
+    Neuron* getHiddenNeuron(int);
+    Neuron* getNeuron(int);
+
   private:
 
     Neurons _neurons;
+    Neurons _sensors;
+    Neurons _actuators;
+    Neurons _hidden;
 };
 
 #endif // __RNN_H__

@@ -3,6 +3,8 @@
 
 #include "XsdParseNode.h"
 
+#include "ENPException.h"
+
 #include "Edge.h"
 #include "P3D.h"
 
@@ -15,6 +17,10 @@
 # define TAG_OUTPUT                 (char*)"output"
 # define TAG_HIDDEN                 (char*)"hidden"
 # define TAG_CONNECTOR              (char*)"connector"
+
+# define TAG_TANH                   (char*)"tanh"
+# define TAG_SIGM                   (char*)"sigm"
+# define TAG_ID                     (char*)"id"
 
 class Node : public XsdParseNode
 {
@@ -42,7 +48,7 @@ class Node : public XsdParseNode
 
     static void createXsd(XsdSpecification *spec);
 
-    void   setType(string);
+    void   setType(string) throw (ENPException);
     string type();
 
     void   setLabel(string);
