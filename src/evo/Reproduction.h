@@ -1,4 +1,5 @@
 #include "base/Population.h"
+#include "Mutation.h"
 
 #define PAIRING_METHOD_RANDOM 1001
 
@@ -46,5 +47,6 @@ class Reproduction
     int           _populationSize;
     ListOfParents _parents;
     Population*   _next_generation;
+    Mutation*     _mutation;
 };
 

@@ -3,7 +3,7 @@
 #include "base/Random.h"
 #include "base/macros.h"
 
-#include "MutateIndividualOperator.h"
+#include "Mutation.h"
 
 #include <glog/logging.h>
 
@@ -13,6 +13,7 @@ Reproduction::Reproduction()
   _selectionMethod      = SELECTION_METHOD_RANK;
   _next_generation      = NULL;
   _crossoverProbability = 0.1;
+  _mutation             = new Mutation();
 }
 
 Reproduction::~Reproduction()
@@ -128,7 +129,7 @@ void Reproduction::__createOffspring()
     child = p->mom->copy();
   }
 
-  MutateIndividualOperator::mutate(child);
+  _mutation->mutate(child);
   _next_generation->addIndividual(child);
 }
 

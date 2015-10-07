@@ -8,16 +8,14 @@
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/variables_map.hpp>
 
-using namespace std;
-
-namespace po = boost::program_options;
-
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <string>
+#include <stdlib.h>
 
 using namespace std;
+namespace po = boost::program_options;
 
 void convert(int index, Individual* individual, string filename)
 {
@@ -76,11 +74,11 @@ int main(int argc, char** argv)
 
   string logdir;
   desc.add_options()
-    ("index,i", po::value<int>(&index)->implicit_value(0), "index of the individual [default is 0]")
-    ("xml",     po::value<vector<string> >(&xml), "xml files")
-    ("verbosity,v", po::value<int>(),           "set verbose logging level, defaults to 0")
-    ("logstderr,l",                             "set verbose logging level, defaults to 0")
-    ("logdir,L",    po::value<string>(&logdir), "set verbose logging level, defaults to 0");
+    ("index,i",     po::value<int>(&index)->implicit_value(0), "index of the individual [default is 0]")
+    ("xml",         po::value<vector<string> >(&xml),          "xml files")
+    ("verbosity,v", po::value<int>(),                          "set verbose logging level, defaults to 0")
+    ("logstderr,l",                                            "set verbose logging level, defaults to 0")
+    ("logdir,L",    po::value<string>(&logdir),                "set verbose logging level, defaults to 0");
 
   po::positional_options_description positional;
   positional.add("xml", -1);

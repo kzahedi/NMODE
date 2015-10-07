@@ -9,3 +9,6 @@ target_link_libraries(enp ENPBase)
 
 add_executable(convert convert.cpp)
 target_link_libraries(convert ${Boost_LIBRARIES} ENPEvo)
+
+add_executable(evaluate evaluate.cpp)
+target_link_libraries(evaluate ${Boost_LIBRARIES} ENPEvo)

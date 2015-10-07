@@ -1,12 +1,14 @@
 include_directories("${PROJECT_SOURCE_DIR}/src")
+include_directories(/usr/local/include/yars)
 link_directories(${PROJECT_BINARY_DIR}/lib)
 
-add_library(ENPEvo SHARED MutateModuleOperator.cpp
-                          MutateIndividualOperator.cpp
-                          MutatePopulationOperator.cpp
-
-                          Reproduction.cpp
-                          )
+add_library(ENPEvo
+  Mutation.cpp
+  Reproduction.cpp
+  Evaluate.cpp
+  )
 
 #
-target_link_libraries(ENPEvo ${Boost_LIBRARIES} ENPBase glog)
+target_link_libraries(ENPEvo
+  ${Boost_LIBRARIES}
+  ENPBase glog YarsClientCom)

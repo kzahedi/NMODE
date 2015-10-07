@@ -1,16 +1,12 @@
-#include "MutateModuleOperator.h"
+#include "Mutation.h"
 
 #include <glog/logging.h>
 
 #include "base/macros.h"
 #include "base/Random.h"
-#include "base/Module.h"
+#include "base/Data.h"
 
 #include <sstream>
-
-// MutateModuleOperator::MutateModuleOperator()
-// {
-// }
 
 #define FORALLEDGES for(Edges::iterator e = m->e_begin(); e != m->e_end(); e++)
 #define FORALLNODES for(Nodes::iterator n = m->n_begin(); n != m->n_end(); n++)
@@ -23,9 +19,39 @@
     VLOG(50) << "      Edge: " << (*e)->source() << " -> " <<  (*e)->destination() << " = " << (*e)->weight();
 
 
-void MutateModuleOperator::mutate(Module *m,
-                                  EvolutionNode *den,
-                                  EvolutionEdge *dee)
+
+Mutation::Mutation()
+{
+}
+
+void Mutation::mutate(Population *p)
+{
+  VLOG(50) << ">> start mutate population: " << p->i_size();
+  for(Individuals::iterator ind = p->i_begin(); ind != p->i_end(); ind++)
+  {
+    mutate(*ind);
+  }
+  VLOG(50) << ">> end mutate population";
+}
+
+void Mutation::mutate(Individual *i)
+{
+  VLOG(50) << ">> start mutate population";
+  Data *data = Data::instance();
+  EvolutionEdge *dee = data->specification()->evolution()->edge();
+  EvolutionNode *den = data->specification()->evolution()->node();
+  for(Modules::iterator mod = i->m_begin(); mod != i->m_end(); mod++)
+  {
+    if((*mod)->isCopy() == false)
+    {
+      mutate(*mod, den, dee);
+    }
+  }
+  VLOG(50) << ">> end mutate individual";
+}
+
+
+void Mutation::mutate(Module *m, EvolutionNode *den, EvolutionEdge *dee)
 {
   VLOG(50) << ">> mutate";
   m->setModified(false);
@@ -48,7 +74,7 @@ void MutateModuleOperator::mutate(Module *m,
   }
 }
 
-void MutateModuleOperator::__mutateDelEdge(Module *m, double probability)
+void Mutation::__mutateDelEdge(Module *m, double probability)
 {
   if(m->e_size()    == 0)           return;
   if(Random::unit() >= probability) return;
@@ -104,7 +130,7 @@ void MutateModuleOperator::__mutateDelEdge(Module *m, double probability)
   VLOG(50) << "<<<<< del edge";
 }
 
-void MutateModuleOperator::__mutateModifyEdge(Module *m, double probability,
+void Mutation::__mutateModifyEdge(Module *m, double probability,
                                                            double delta,
                                                            double max)
 {
@@ -129,7 +155,7 @@ void MutateModuleOperator::__mutateModifyEdge(Module *m, double probability,
   VLOG(50) << "<<<<< modify edge";
 }
 
-void MutateModuleOperator::__mutateAddEdge(Module *m, double probability,
+void Mutation::__mutateAddEdge(Module *m, double probability,
                                                         double max)
 {
   if(Random::unit() >= probability) return;
@@ -258,7 +284,7 @@ void MutateModuleOperator::__mutateAddEdge(Module *m, double probability,
   VLOG(50) << "<<<<< add edge";
 }
 
-void MutateModuleOperator::__mutateAddNode(Module *m, double probability, double max)
+void Mutation::__mutateAddNode(Module *m, double probability, double max)
 {
   if(m->e_size() == 0) return;
   if(Random::unit() >= probability) return;
@@ -340,7 +366,7 @@ void MutateModuleOperator::__mutateAddNode(Module *m, double probability, double
   VLOG(50) << "<<<<< add node";
 }
 
-void MutateModuleOperator::__mutateModifyNode(Module *m, double probability,
+void Mutation::__mutateModifyNode(Module *m, double probability,
                                                            double delta,
                                                            double max)
 {
@@ -362,7 +388,7 @@ void MutateModuleOperator::__mutateModifyNode(Module *m, double probability,
 }
 
 
-void MutateModuleOperator::__mutateDelNode(Module *m, double probability)
+void Mutation::__mutateDelNode(Module *m, double probability)
 {
   if(m->h_size() == 0) return; // no hidden node to remove
   if(Random::unit() >= probability) return;
@@ -379,7 +405,7 @@ void MutateModuleOperator::__mutateDelNode(Module *m, double probability)
 }
 
 
-void MutateModuleOperator::__cleanup(Module *m)
+void Mutation::__cleanup(Module *m)
 {
   VLOG(50) << ">>>>> clean up";
   LOG_MODULE;

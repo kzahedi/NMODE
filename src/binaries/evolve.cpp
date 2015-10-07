@@ -4,7 +4,7 @@
 #include "base/Exporter.h"
 #include "base/Random.h"
 
-#include "evo/MutatePopulationOperator.h"
+#include "evo/Mutation.h"
 
 #include <glog/logging.h>
 
@@ -48,6 +48,7 @@ int main(int argc, char** argv)
   VLOG(5) << "reading file " << configuration->cfg();
   data->read(configuration->cfg());
   Population *pop = data->specification()->population();
+  Mutation *mut = new Mutation();
 
   cout << "Population: " << pop << endl;
 
@@ -58,7 +59,7 @@ int main(int argc, char** argv)
     sst << "generation_" << prefix(i) << ".xml";
     cout << "opening " << sst.str() << endl;
 
-    MutatePopulationOperator::mutate(pop);
+    mut->mutate(pop);
 
     std::ofstream ofs;
     ofs.open (sst.str(), std::ofstream::out);
