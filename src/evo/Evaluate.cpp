@@ -8,6 +8,8 @@ Evaluate::Evaluate()
   _com             = NULL;
   _nrOfSensors     = 0;
   _nrOfActuators   = 0;
+  _lifeTime        = 2000;
+  _sensors.resize(2);
 }
 
 double Evaluate::evaluate(RNN *rnn)
@@ -17,7 +19,7 @@ double Evaluate::evaluate(RNN *rnn)
     _com = new YarsClientCom();
     _com->init();
     _nrOfSensors   = _com->numberOfSensors();
-    _nrOfActuators = _com->numberOfJoints();
+    _nrOfActuators = _com->numberOfActuators();
     _sensorValues.resize(_nrOfSensors);
     _actuatorValues.resize(_nrOfActuators);
   }
@@ -29,15 +31,28 @@ double Evaluate::evaluate(RNN *rnn)
     for(int j = 0; j < _nrOfSensors; j++)
     {
       _com->getSensorValue(&_sensorValues[j], j);
+      cout << "sensor value " << j << ": " << _sensorValues[j] << endl;
     }
 
-    rnn->setInputs(_sensorValues);
+    _sensors[0] = 0.0;
+    _sensors[1] = 0.0;
+    for(int j = 0; j < 3; j++)
+    {
+      _sensors[0] += _sensorValues[j];
+      _sensors[1] += _sensorValues[3 + j];
+    }
+
+    _sensors[0] /= 3.0;
+    _sensors[1] /= 3.0;
+
+    rnn->setInputs(_sensors);
     rnn->update();
-    rnn->setInputs(_actuatorValues);
+    rnn->getOutput(_actuatorValues);
 
     for(int j = 0; j < _nrOfActuators; j++)
     {
-      _com->setJointValue(_actuatorValues[j], j);
+      _com->setActuatorValue(_actuatorValues[j], j);
+      cout << "acutator value " << j << ": " << _actuatorValues[j] << endl;
     }
   }
 

@@ -24,4 +24,6 @@ class Evaluate
     vector<double> _sensorValues;
     vector<double> _actuatorValues;
 
+    vector<double> _sensors;
+
 };

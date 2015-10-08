@@ -2,6 +2,9 @@
 #include "base/Population.h"
 #include "base/Exporter.h"
 #include "base/Random.h"
+#include "base/RnnFromIndividual.h"
+
+#include "evo/Evaluate.h"
 
 #include <glog/logging.h>
 
@@ -17,45 +20,20 @@
 using namespace std;
 namespace po = boost::program_options;
 
-void convert(int index, Individual* individual, string filename)
+
+void convert(Individual *ind, string filename)
 {
+
   stringstream sst;
-  sst << "individual_" << index << "_" << filename.substr(0, filename.size()-4) << ".html";
+  sst << filename.substr(0, filename.size()-4) << ".html";
 
   cout << "opening file " << sst.str() << endl;
   std::ofstream ofs;
   ofs.open (sst.str(), std::ofstream::out);
   sst.str("");
-  sst << Exporter::toX3d(individual);
+  sst << Exporter::toX3d(ind);
   ofs << sst.str();
   ofs.close();
-}
-
-void convert(int index, string filename)
-{
-  Data *data = Data::instance();
-  data->read(filename);
-  Population *pop = data->specification()->population();
-
-  if(index >= 0)
-  {
-    if(index > pop->i_size())
-    {
-      cout << "Individual index out of range [0, " << (pop->i_size() - 1) << "]" << endl;
-      exit(-1);
-    }
-
-    Individual *ind = pop->individual(index);
-    convert(index, ind, filename);
-  }
-  else
-  {
-    for(int i = 0; i < pop->i_size(); i++)
-    {
-      Individual *ind = pop->individual(i);
-      convert(i, ind, filename);
-    }
-  }
 }
 
 
@@ -69,13 +47,13 @@ int main(int argc, char** argv)
 
   po::variables_map vm;
 
-  vector<string> xml;
-  int index = 0;
+  string xml;
+  int    index = 0;
 
   string logdir;
   desc.add_options()
     ("index,i",     po::value<int>(&index)->implicit_value(0), "index of the individual [default is 0]")
-    ("xml",         po::value<vector<string> >(&xml),          "xml files")
+    ("xml",         po::value<string>(&xml),                   "xml files")
     ("verbosity,v", po::value<int>(),                          "set verbose logging level, defaults to 0")
     ("logstderr,l",                                            "set verbose logging level, defaults to 0")
     ("logdir,L",    po::value<string>(&logdir),                "set verbose logging level, defaults to 0");
@@ -124,22 +102,21 @@ int main(int argc, char** argv)
     FLAGS_log_dir = ".";
   }
 
-  if(vm.count("xml") > 0)
-  {
-    cout << "will work on the following xml files:";
-    for(vector<string>::iterator s = xml.begin(); s != xml.end(); s++)
-    {
-      cout << " " << *s;
-    }
-    cout << endl;
-  };
+  cout << "XML file: " << xml << endl;
+  Data *data = Data::instance();
+  data->read(xml);
+  Population *pop = data->specification()->population();
+  Individual *ind = pop->individual(0);
 
+  convert(ind, xml);
 
-  for(vector<string>::iterator s = xml.begin(); s != xml.end(); s++)
-  {
-    cout << "XML file: " << *s << endl;
-    convert(index, *s);
-  }
+  Evaluate *evo = new Evaluate();
+
+  RNN *rnn = RnnFromIndividual::create(ind);
+
+  evo->evaluate(rnn);
+
+  cout << "done" << endl;
 
   return 0;
 }

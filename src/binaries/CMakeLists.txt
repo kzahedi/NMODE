@@ -1,4 +1,5 @@
 include_directories("${PROJECT_SOURCE_DIR}/src")
+include_directories(/usr/local/include/yars)
 link_directories(${PROJECT_BINARY_DIR}/lib)
 
 add_executable(evolve evolve.cpp)
@@ -11,4 +12,4 @@ add_executable(convert convert.cpp)
 target_link_libraries(convert ${Boost_LIBRARIES} ENPEvo)
 
 add_executable(evaluate evaluate.cpp)
-target_link_libraries(evaluate ${Boost_LIBRARIES} ENPEvo)
+target_link_libraries(evaluate ${Boost_LIBRARIES} ENPEvo YarsUtil YarsClientCom)

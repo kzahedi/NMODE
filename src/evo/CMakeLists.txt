@@ -8,7 +8,4 @@ add_library(ENPEvo
   Evaluate.cpp
   )
 
-#
-target_link_libraries(ENPEvo
-  ${Boost_LIBRARIES}
-  ENPBase glog YarsClientCom)
+target_link_libraries(ENPEvo ${Boost_LIBRARIES} ENPBase glog)
