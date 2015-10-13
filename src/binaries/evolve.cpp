@@ -1,77 +1,139 @@
-#include "base/Configuration.h"
 #include "base/Data.h"
 #include "base/Population.h"
 #include "base/Exporter.h"
 #include "base/Random.h"
+#include "base/RnnFromIndividual.h"
 
-#include "evo/Mutation.h"
+#include "evo/Evaluate.h"
 
 #include <glog/logging.h>
 
+#include <boost/program_options/parsers.hpp>
+#include <boost/program_options/variables_map.hpp>
+
 #include <iostream>
 #include <fstream>
+#include <vector>
+#include <string>
+#include <stdlib.h>
+
+#include <boost/thread.hpp>
+
 
 using namespace std;
+namespace po = boost::program_options;
+using namespace boost;
 
-string prefix(int i)
+
+void convert(Individual *ind, string filename)
 {
-  stringstream sst;
-  sst << i;
-  string s = sst.str();
 
-  while(s.length() < 4)
-  {
-    s = "0" + s;
-  }
-  return s;
+  stringstream sst;
+  sst << filename.substr(0, filename.size()-4) << ".html";
+
+  cout << "opening file " << sst.str() << endl;
+  std::ofstream ofs;
+  ofs.open (sst.str(), std::ofstream::out);
+  sst.str("");
+  sst << Exporter::toX3d(ind);
+  ofs << sst.str();
+  ofs.close();
 }
+
 
 int main(int argc, char** argv)
 {
   google::InitGoogleLogging(argv[0]);
-  Configuration *configuration = new Configuration(argc, argv, true);
-  Random::initialise();
-  stringstream sst;
-  sst << "Random:";
-  for(int i = 0; i < 10; i++)
+
+  po::options_description desc("Options");
+  po::options_description ioo("Input/Output Options");
+  po::options_description cmdline_options;
+
+  po::variables_map vm;
+
+  string xml;
+  int    index = 0;
+
+  string logdir;
+  desc.add_options()
+    ("index,i",
+     po::value<int>(&index)->implicit_value(0),
+     "index of the individual [default is 0]")
+    ("xml",
+     po::value<string>(&xml),
+     "xml files")
+    ("verbosity,v",
+     po::value<int>(),
+     "set verbose logging level, defaults to 0")
+    ("logstderr,l",
+     "set verbose logging level, defaults to 0")
+    ("logdir,L",
+     po::value<string>(&logdir),
+     "set verbose logging level, defaults to 0");
+
+  po::positional_options_description positional;
+  positional.add("xml", -1);
+
+  cmdline_options.add(desc);
+
+  po::store(po::command_line_parser(argc, argv).
+            options(cmdline_options).
+            positional(positional).
+            allow_unregistered().
+            run(), vm);
+  po::notify(vm);
+
+  if(vm.count("index") > 0)
   {
-    sst << " " << Random::rand(0, 100);
+    cout << "Individual index: " << index << endl;
   }
-  VLOG(10) << sst.str();
-  sst.str("");
+
+  if (vm.count("verbosity"))
+  {
+    FLAGS_v = vm["verbosity"].as<int>();
+  }
+  else
+  {
+    FLAGS_v = 0;
+  }
+
+  if (vm.count("logstderr"))
+  {
+    FLAGS_alsologtostderr = 1;
+  }
+  else
+  {
+    FLAGS_alsologtostderr = 0;
+  }
+
+  if (vm.count("logdir"))
+  {
+    FLAGS_log_dir = logdir.c_str();
+  }
+  else
+  {
+    FLAGS_log_dir = ".";
+  }
+
+  cout << "XML file: " << xml << endl;
   Data *data = Data::instance();
-
-  LOG_IF(INFO, configuration->input().size()  > 0) << "Input file given "    << configuration->input();
-  LOG_IF(INFO, configuration->output().size() > 0) << "Output file given "   << configuration->output();
-  LOG_IF(INFO, configuration->cfg().size()    > 0) << "Configuration given " << configuration->cfg();
-
-  VLOG(5) << "reading file " << configuration->cfg();
-  data->read(configuration->cfg());
+  data->read(xml);
   Population *pop = data->specification()->population();
-  Mutation *mut = new Mutation();
+  Individual *ind = pop->individual(0);
 
-  cout << "Population: " << pop << endl;
+  convert(ind, xml);
 
-  for(int i = 0; i < 100; i++)
-  {
-    VLOG(50) << " generation " << i;
-    sst.str("");
-    sst << "generation_" << prefix(i) << ".xml";
-    cout << "opening " << sst.str() << endl;
+  Evaluate *evo = new Evaluate("/Users/zahedi/projects/builds/yars-build","xml/braitenberg_tcpip.xml");
 
-    mut->mutate(pop);
+  PopulationContainer* pc = new PopulationContainer();
+  pc->update(pop);
 
-    std::ofstream ofs;
-    ofs.open (sst.str(), std::ofstream::out);
-    sst.str("");
-    sst << data->header();
-    sst << Exporter::toXml(pop);
-    sst << data->footer();
-    ofs << sst.str();
-    ofs.close();
-  }
+  evo->setPopulationContainer(pc);
 
-  VLOG(5) << "done.";
+  boost::thread* pThread = new boost::thread(&Evaluate::run, evo);
+  pThread->join();
+
+  cout << "done" << endl;
 
   return 0;
 }

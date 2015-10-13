@@ -1,6 +1,10 @@
 #include "Population.h"
+#include "Observable.h"
 
-class PopulationContainer
+#include <pthread.h>
+
+
+class PopulationContainer : public Observable
 {
   public:
     PopulationContainer();
@@ -10,7 +14,10 @@ class PopulationContainer
     Individual* getNextIndividual();
 
   private:
-    Population *_population;
+    pthread_mutex_t _mutex;
+    Population*     _population;
+    int             _nextIndividual;
+  
 };
 
 

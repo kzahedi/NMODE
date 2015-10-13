@@ -34,6 +34,7 @@ add_library(ENPBase
   EvolutionEdge.cpp
 
   Population.cpp
+  PopulationContainer.cpp
   Individual.cpp
   Module.cpp
   Edge.cpp

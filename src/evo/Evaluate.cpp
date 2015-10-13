@@ -22,8 +22,10 @@ void Evaluate::setPopulationContainer(PopulationContainer *pc)
 
 void Evaluate::run()
 {
+  cout << "hier 0" << endl;
   while(true)
   {
+    cout << "hier 1" << endl;
     Individual *i = _pc->getNextIndividual();
     RNN *rnn = RnnFromIndividual::create(i);
     __evaluate(rnn);

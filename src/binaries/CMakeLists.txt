@@ -3,13 +3,10 @@ include_directories(/usr/local/include/yars)
 link_directories(${PROJECT_BINARY_DIR}/lib)
 
 add_executable(evolve evolve.cpp)
-target_link_libraries(evolve ENPBase glog ENPEvo)
+target_link_libraries(evolve ENPBase glog ENPEvo YarsClientCom boost_thread-mt)
 
 add_executable(enp main.cpp)
 target_link_libraries(enp ENPBase)
 
 add_executable(convert convert.cpp)
 target_link_libraries(convert ${Boost_LIBRARIES} ENPEvo)
-
-add_executable(evaluate evaluate.cpp)
-target_link_libraries(evaluate ${Boost_LIBRARIES} ENPEvo YarsClientCom)

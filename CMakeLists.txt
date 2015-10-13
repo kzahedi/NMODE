@@ -17,6 +17,11 @@ set(LIBRARY_OUTPUT_PATH    ${PROJECT_BINARY_DIR}/lib)
 set(CMAKE_CXX_FLAGS_DEBUG   "-g -W -Wall -arch x86_64")
 set(CMAKE_CXX_FLAGS_RELEASE "-g -W -Wall -arch x86_64")
 
+find_package(Boost REQUIRED program_options system thread)
+IF(Boost_FOUND)
+  include_directories(${Boost_INCLUDE_DIRS})
+ENDIF(Boost_FOUND)
+
 if(USE_MAKE_MATRIX_VIDEO)
   add_definitions(-DUSE_MATRIX_VIDEO)
 endif(USE_MAKE_MATRIX_VIDEO)
