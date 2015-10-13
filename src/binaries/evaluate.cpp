@@ -52,11 +52,20 @@ int main(int argc, char** argv)
 
   string logdir;
   desc.add_options()
-    ("index,i",     po::value<int>(&index)->implicit_value(0), "index of the individual [default is 0]")
-    ("xml",         po::value<string>(&xml),                   "xml files")
-    ("verbosity,v", po::value<int>(),                          "set verbose logging level, defaults to 0")
-    ("logstderr,l",                                            "set verbose logging level, defaults to 0")
-    ("logdir,L",    po::value<string>(&logdir),                "set verbose logging level, defaults to 0");
+    ("index,i",
+     po::value<int>(&index)->implicit_value(0),
+     "index of the individual [default is 0]")
+    ("xml",
+     po::value<string>(&xml),
+     "xml files")
+    ("verbosity,v",
+     po::value<int>(),
+     "set verbose logging level, defaults to 0")
+    ("logstderr,l",
+     "set verbose logging level, defaults to 0")
+    ("logdir,L",
+     po::value<string>(&logdir),
+     "set verbose logging level, defaults to 0");
 
   po::positional_options_description positional;
   positional.add("xml", -1);
@@ -110,11 +119,9 @@ int main(int argc, char** argv)
 
   convert(ind, xml);
 
-  Evaluate *evo = new Evaluate();
+  Evaluate *evo = new Evaluate("/Users/zahedi/projects/builds/yars-build","xml/braitenberg_tcpip.xml");
 
-  RNN *rnn = RnnFromIndividual::create(ind);
-
-  evo->evaluate(rnn);
+  // evo->evaluate(rnn);
 
   cout << "done" << endl;
 

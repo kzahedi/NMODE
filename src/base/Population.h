@@ -38,6 +38,5 @@ class Population : public XsdParseNode
     Individuals _individuals;
 };
 
+
 #endif // __DATA_POPULATION_H__
-
-
