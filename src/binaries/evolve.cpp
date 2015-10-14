@@ -4,7 +4,8 @@
 #include "base/Random.h"
 #include "base/RnnFromIndividual.h"
 
-#include "evo/Evaluate.h"
+// #include "evo/Evaluate.h"
+#include "evo/Evolve.h"
 
 #include <glog/logging.h>
 
@@ -116,22 +117,9 @@ int main(int argc, char** argv)
   }
 
   cout << "XML file: " << xml << endl;
-  Data *data = Data::instance();
-  data->read(xml);
-  Population *pop = data->specification()->population();
-  Individual *ind = pop->individual(0);
 
-  convert(ind, xml);
-
-  Evaluate *evo = new Evaluate("/Users/zahedi/projects/builds/yars-build","xml/braitenberg_tcpip.xml");
-
-  PopulationContainer* pc = new PopulationContainer();
-  pc->update(pop);
-
-  evo->setPopulationContainer(pc);
-
-  boost::thread* pThread = new boost::thread(&Evaluate::run, evo);
-  pThread->join();
+  Evolve *evo = new Evolve();
+  evo->init(xml);
 
   cout << "done" << endl;
 

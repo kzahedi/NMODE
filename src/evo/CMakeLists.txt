@@ -6,6 +6,7 @@ add_library(ENPEvo
   Mutation.cpp
   Reproduction.cpp
   Evaluate.cpp
+  Evolve.cpp
   )
 
 target_link_libraries(ENPEvo ${Boost_LIBRARIES} ENPBase glog)

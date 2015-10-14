@@ -1,3 +1,5 @@
+#ifndef __POPULATION_CONTAINER_H__
+#define __POPULATION_CONTAINER_H__
 #include "Population.h"
 #include "Observable.h"
 
@@ -10,6 +12,7 @@ class PopulationContainer : public Observable
     PopulationContainer();
 
     void update(Population *p);
+    void evaluationCompleted();
 
     Individual* getNextIndividual();
 
@@ -17,7 +20,8 @@ class PopulationContainer : public Observable
     pthread_mutex_t _mutex;
     Population*     _population;
     int             _nextIndividual;
+    int             _openEvaluations;
   
 };
 
-
+#endif // __POPULATION_CONTAINER_H__

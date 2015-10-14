@@ -22,14 +22,15 @@ void Evaluate::setPopulationContainer(PopulationContainer *pc)
 
 void Evaluate::run()
 {
-  cout << "hier 0" << endl;
   while(true)
   {
-    cout << "hier 1" << endl;
     Individual *i = _pc->getNextIndividual();
     RNN *rnn = RnnFromIndividual::create(i);
     __evaluate(rnn);
     i->setFitness(_fitness);
+    cout << "1. evaluation done" << endl;
+    _pc->evaluationCompleted();
+    cout << "2. evaluation done" << endl;
   }
 }
 
@@ -77,7 +78,9 @@ void Evaluate::__evaluate(RNN *rnn)
     }
   }
 
-  _com->reset();
+  cout << "sending reset" << endl;
+  _com->sendReset();
+  cout << "done" << endl;
 }
 
 void Evaluate::setFitnessFunction(int ff)
