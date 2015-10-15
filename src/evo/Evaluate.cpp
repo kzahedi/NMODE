@@ -1,18 +1,22 @@
 #include "Evaluate.h"
 #include "base/RnnFromIndividual.h"
+#include "base/Data.h"
 
-Evaluate::Evaluate(string workingDirectory, string options)
+#include <sstream>
+
+Evaluate::Evaluate()
 {
   _fitness          = 0.0;
   _fitnessFunction  = -1;
   _com              = NULL;
   _nrOfSensors      = 0;
   _nrOfActuators    = 0;
-  _lifeTime         = 2000;
-  _workingDirectory = workingDirectory;
-  _options          = options;
+  _lifeTime         = Data::instance()->specification()->evaluation()->lifeTime();
+  _workingDirectory = Data::instance()->specification()->simulator()->workingDirectory();
+  _xml              = Data::instance()->specification()->simulator()->xml();
+  _options          = Data::instance()->specification()->simulator()->options();
   _pc               = NULL;
-  _sensors.resize(2);
+  _networkInput.resize(2);
 }
 
 void Evaluate::setPopulationContainer(PopulationContainer *pc)
@@ -28,22 +32,27 @@ void Evaluate::run()
     RNN *rnn = RnnFromIndividual::create(i);
     __evaluate(rnn);
     i->setFitness(_fitness);
-    cout << "1. evaluation done" << endl;
     _pc->evaluationCompleted();
-    cout << "2. evaluation done" << endl;
+    _fitness = 0.0;
   }
 }
 
 void Evaluate::__evaluate(RNN *rnn)
 {
+  _lifeTime = Data::instance()->specification()->evaluation()->lifeTime();
+
   if(_com == NULL)
   {
     _com = new YarsClientCom();
-    _com->init(_workingDirectory, _options);
+    stringstream sst;
+    sst << _options << " " << _xml;
+    _com->init(_workingDirectory, sst.str());
     _nrOfSensors   = _com->numberOfSensors();
     _nrOfActuators = _com->numberOfActuators();
     _sensorValues.resize(_nrOfSensors);
     _actuatorValues.resize(_nrOfActuators);
+    // cout << "Nr of sensors:   " << _nrOfSensors   << endl;
+    // cout << "Nr of actuators: " << _nrOfActuators << endl;
   }
 
   for(int i = 0; i < _lifeTime; i++)
@@ -56,20 +65,30 @@ void Evaluate::__evaluate(RNN *rnn)
       // cout << "sensor value " << j << ": " << _sensorValues[j] << endl;
     }
 
-    _sensors[0] = 0.0;
-    _sensors[1] = 0.0;
+    // cout << "Sensors: " << endl;
+    // for(int i = 0; i < _nrOfSensors; i++)
+    // {
+      // cout << " " << _sensorValues[i];
+    // }
+    // cout << endl;
+
+
+    _networkInput[0] = 0.0;
+    _networkInput[1] = 0.0;
     for(int j = 0; j < 3; j++)
     {
-      _sensors[0] += _sensorValues[j];
-      _sensors[1] += _sensorValues[3 + j];
+      _networkInput[0] += _sensorValues[j];
+      _networkInput[1] += _sensorValues[3 + j];
     }
 
-    _sensors[0] /= 3.0;
-    _sensors[1] /= 3.0;
+    _networkInput[0]  /= 3.0;
+    _networkInput[1] /= 3.0;
 
-    rnn->setInputs(_sensors);
+    rnn->setInputs(_networkInput);
     rnn->update();
     rnn->getOutput(_actuatorValues);
+
+    _fitness += _sensorValues[6] + _sensorValues[7];
 
     for(int j = 0; j < _nrOfActuators; j++)
     {
@@ -78,9 +97,9 @@ void Evaluate::__evaluate(RNN *rnn)
     }
   }
 
-  cout << "sending reset" << endl;
+  cout << "Fitness " << _fitness << endl;
+
   _com->sendReset();
-  cout << "done" << endl;
 }
 
 void Evaluate::setFitnessFunction(int ff)

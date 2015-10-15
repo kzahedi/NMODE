@@ -30,6 +30,8 @@ add_library(ENPBase
   DataConfiguration.cpp
 
   Evolution.cpp
+  CfgReproduction.cpp
+  Evaluation.cpp
   EvolutionNode.cpp
   EvolutionEdge.cpp
 

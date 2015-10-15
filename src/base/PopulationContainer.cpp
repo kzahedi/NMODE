@@ -28,9 +28,9 @@ void PopulationContainer::evaluationCompleted()
 
 Individual* PopulationContainer::getNextIndividual()
 {
-  ENP_LOCK;
-
   while(_population == NULL) usleep(500); // wait for the first update
+
+  ENP_LOCK;
 
   if(_nextIndividual >= _population->i_size())
   {

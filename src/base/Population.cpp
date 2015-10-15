@@ -5,11 +5,14 @@
 
 #define TAG_GENERATION (char*)"generation"
 
+Population* Population::_me = NULL;
+
 Population::Population(XsdParseNode *parent)
   : XsdParseNode(parent)
 {
   _generation   = 1;
   _individualId = 0;
+  _me = this;
 }
 
 void Population::add(ParseElement *element)
@@ -108,3 +111,14 @@ void Population::calculateSelectionProbabilities()
   FORI(0, fitness.size(), i)      sum += fitness[i];
   FORI(0, fitness.size(), i)      _individuals[i]->setProbability(fitness[i] / sum);
 }
+
+Population* Population::instance()
+{
+  return _me;
+}
+
+void Population::resize(int size)
+{
+  _individuals.resize(size);
+}
+

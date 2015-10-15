@@ -3,9 +3,17 @@
      Test file for visualisation
 -->
 <enp version="0.0.2">
-  <simulator wd="working directory"
-             xml="xml file"
-             nr="42"/>
+  <simulator
+    wd="/Users/zahedi/projects/builds/yars-build"
+    xml="xml/braitenberg_tcpip.xml"
+    nr="2"/>
+  <evaluation>
+    <lifetime iterations="500"/>
+  </evaluation>
+  <reproduction>
+    <population size="30"/>
+    <selection  pressure="0.1"/>
+  </reproduction>
   <evolution>
     <node cost="0.1">
       <modify probability="0.11" maximum="0.12" delta="0.13"/>
@@ -19,36 +27,33 @@
     </edge>
   </evolution>
   <configuration>
+    <module name="controller">
 
+      <node type="sensor" label="left sensors">
+        <position x="0.5" y="0" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="sensor" label="right sensors">
+        <position x="-0.5" y="0" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+
+      <node type="actuator" label="left actuator">
+        <position x="0.5" y="-1" z="0"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="actuator" label="right actuator">
+        <position x="-0.5" y="-1" z="0"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+
+      <!-- <edge source="left sensors"  destination="right actuator" weight="-3.0"/> -->
+      <!-- <edge source="right sensors" destination="left actuator"  weight="-3.0"/> -->
+
+    </module>
   </configuration>
-  <population generation="1">
-    <individual id="0" fitness="0">
-      <module name="controller">
-        <node type="sensor" label="left sensors">
-          <position x="0.5" y="0" z="0"/>
-          <transferfunction name="id"/>
-          <bias value="0"/>
-        </node>
-        <node type="sensor" label="right sensors">
-          <position x="-0.5" y="0" z="0"/>
-          <transferfunction name="id"/>
-          <bias value="0"/>
-        </node>
-
-        <node type="actuator" label="left actuator">
-          <position x="0.5" y="-1" z="0"/>
-          <transferfunction name="tanh"/>
-          <bias value="0"/>
-        </node>
-        <node type="actuator" label="right actuator">
-          <position x="-0.5" y="-1" z="0"/>
-          <transferfunction name="tanh"/>
-          <bias value="0"/>
-        </node>
-
-        <edge source="left sensors"  destination="right actuator" weight="-3.0"/>
-        <edge source="right sensors" destination="left actuator"  weight="-3.0"/>
-      </module>
-    </individual>
-  </population>
 </enp>

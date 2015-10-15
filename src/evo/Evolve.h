@@ -29,6 +29,7 @@ class Evolve : public Observer
     PopulationContainer*   _pc;
     Data*                  _data;
     Population*            _pop;
+    Reproduction*          _reproduction;
     vector<Evaluate*>      _evaluators;
     vector<boost::thread*> _threads;
 };

@@ -27,7 +27,6 @@ void Evolution::add(ParseElement *element)
 
   if(element->opening(TAG_EVOLUTION))
   {
-    return;
   }
 
   if(element->opening(TAG_EVOLUTION_NODE))
@@ -49,7 +48,7 @@ void Evolution::add(ParseElement *element)
 void Evolution::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_EVOLUTION_DEFINITION);
-  root->add(NE(TAG_EVOLUTION_NODE,  TAG_EVOLUTION_NODE_DEFINITION,  1, 1));
+  root->add(NE(TAG_EVOLUTION_NODE, TAG_EVOLUTION_NODE_DEFINITION, 1, 1));
   root->add(NE(TAG_EVOLUTION_EDGE, TAG_EVOLUTION_EDGE_DEFINITION, 1, 1));
   spec->add(root);
 

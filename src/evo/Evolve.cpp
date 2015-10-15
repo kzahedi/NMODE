@@ -1,4 +1,5 @@
 #include "Evolve.h"
+#include "base/Data.h"
 
 Evolve::Evolve()
 {
@@ -9,26 +10,33 @@ void Evolve::init(string xml)
   _data = Data::instance();
   _data->read(xml);
   _pop = _data->specification()->population();
-
+  _reproduction = new Reproduction();
 
   _pc = new PopulationContainer();
   _pc->update(_pop);
   _pc->addObserver(this);
 
-  Evaluate *e1 = new Evaluate("/Users/zahedi/projects/builds/yars-build","xml/braitenberg_tcpip.xml");
-  Evaluate *e2 = new Evaluate("/Users/zahedi/projects/builds/yars-build","xml/braitenberg_tcpip.xml");
+  int nr = Data::instance()->specification()->simulator()->nr();
+  cout << "nr: " << nr << endl;
+  for(int i = 0; i < nr; i++)
+  {
+    Evaluate *e = new Evaluate();
+    e->setPopulationContainer(_pc);
+    _evaluators.push_back(e);
+  }
 
-  e1->setPopulationContainer(_pc);
-  e2->setPopulationContainer(_pc);
+  for(int i = 0; i < nr; i++)
+  {
+    boost::thread* p = new boost::thread(&Evaluate::run, _evaluators[i]);
+    _threads.push_back(p);
+  }
 
-  boost::thread* p1 = new boost::thread(&Evaluate::run, e1);
-  boost::thread* p2 = new boost::thread(&Evaluate::run, e2);
-
-  p1->join();
-  p2->join();
+  for(int i = 0; i < nr; i++)
+  {
+    _threads[i]->join();
+  }
 
   // _reproduction
-
 }
 
 void Evolve::notify(ObservableMessage *message)
@@ -36,6 +44,7 @@ void Evolve::notify(ObservableMessage *message)
   switch(message->type())
   {
     case __M_NEXT_GENERATION:
+       _reproduction->reproduce();
       _pc->update(_pop);
       break;
   }

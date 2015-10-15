@@ -15,16 +15,17 @@
 #define FORI(s, e, i)       for(int i = s; i < (int)e; i++)
 #define FORI(s, e, i)       for(int i = s; i < (int)e; i++)
 
-#define SIGN(a) ((a<0.0)?-1.0:1.0)
+#define SIGN(a)             ((a<0.0)?-1.0:1.0)
 
-#define DIST(a, b) sqrt((a.x - b.x) * (a.x - b.x) + \
-                        (a.y - b.y) * (a.y - b.y) + \
-                        (a.z - b.z) * (a.z - b.z))
+#define DIST(a, b)          sqrt((a.x - b.x) * (a.x - b.x) + \
+                                 (a.y - b.y) * (a.y - b.y) + \
+                                 (a.z - b.z) * (a.z - b.z))
 
-#define RAD_TO_DEG(x) (( (double)(x) / (M_PI))  * 180.0)
-#define DEG_TO_RAD(x) (( (double)(x) / (180.0)) * M_PI)
+#define RAD_TO_DEG(x)       (( (double)(x) / (M_PI))  * 180.0)
+#define DEG_TO_RAD(x)       (( (double)(x) / (180.0)) * M_PI)
 
-#define MIN(a,b)      ((a<b)?a:b)
+#define MIN(a,b)            ((a<b)?a:b)
+#define MAX(a,b)            ((a>b)?a:b)
 
 // trim from start
 static inline std::string &ltrim(std::string &s) {

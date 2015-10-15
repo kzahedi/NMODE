@@ -2,6 +2,7 @@
 
 #include "base/Random.h"
 #include "base/macros.h"
+#include "base/Data.h"
 
 #include "Mutation.h"
 
@@ -11,9 +12,11 @@ Reproduction::Reproduction()
 {
   _pairingMethod        = PAIRING_METHOD_RANDOM;
   _selectionMethod      = SELECTION_METHOD_RANK;
-  _next_generation      = NULL;
-  _crossoverProbability = 0.1;
+  _population           = Population::instance();
+  _crossoverProbability = 0.0;
   _mutation             = new Mutation();
+  _populationSize       = Data::instance()->specification()->reproduction()->populationSize();
+  _selectionPressure    = Data::instance()->specification()->reproduction()->selectionPressure();
 }
 
 Reproduction::~Reproduction()
@@ -26,18 +29,18 @@ void Reproduction::setCrossoverProbability(double p)
   _crossoverProbability = p;
 }
 
-Population* Reproduction::reproduce(Population *p)
+void Reproduction::reproduce()
 {
   switch(_selectionMethod)
   {
     case SELECTION_METHOD_RANK:
       VLOG(100) << "using rank based selection";
-      __select(p);
+      __select();
       break;
   }
 
-  _next_generation->incGeneration();
-  _next_generation->calculateSelectionProbabilities();
+  _population->incGeneration();
+  _population->calculateSelectionProbabilities();
 
   _parents.clear();
 
@@ -49,39 +52,33 @@ Population* Reproduction::reproduce(Population *p)
       break;
   }
 
-  while(_next_generation->i_size() < _populationSize)
+  while(_population->i_size() < _populationSize)
   {
     __createOffspring();
   }
-
-  return _next_generation;
+  cout << "Population size after generation of offspring: " << _population->i_size() << endl;
 }
 
-void Reproduction::__select(Population *p)
+void Reproduction::__select()
 {
-  if(_next_generation != NULL)
-  {
-    _next_generation = new Population();
-  }
+  int nrOfParents = int(_population->i_size() * _selectionPressure + 0.5);
+  nrOfParents = MAX(1, nrOfParents);
+  nrOfParents = MIN(nrOfParents, _population->i_size());
 
-  int nrOfParents = int(p->i_size() * _selectionPressure + 0.5);
   VLOG(100) << "number of parents: " << nrOfParents;
 
-  p->sortByFitness();
-
-  for(int i = 0; i < nrOfParents; i++)
-  {
-    _next_generation->addIndividual(p->individual(i));
-  }
+  _population->sortByFitness();
+  _population->resize(nrOfParents);
+  cout << "Population size after selection: " << _population->i_size() << endl;
 }
 
 void Reproduction::__randomPairing()
 {
-  FORF(Individuals, i, _next_generation, i_begin(), i_end())
+  FORF(Individuals, i, _population, i_begin(), i_end())
   {
     Individual *dad = *i;
     Individual *mom = NULL;
-    if(_next_generation->i_size() > 0)
+    if(_population->i_size() > 1)
     {
       do { mom = __getRandomMate(); } while (mom == dad);
     }
@@ -98,7 +95,7 @@ Individual* Reproduction::__getRandomMate()
 {
   double dice = Random::unit();
   double s = 0.0;
-  FORF(Individuals, i, _next_generation, i_begin(), i_end())
+  FORF(Individuals, i, _population, i_begin(), i_end())
   {
     s += (*i)->probability();
     if(s > dice)
@@ -130,7 +127,7 @@ void Reproduction::__createOffspring()
   }
 
   _mutation->mutate(child);
-  _next_generation->addIndividual(child);
+  _population->addIndividual(child);
 }
 
 Individual* Reproduction::__cross(Individual *mom, Individual *dad)

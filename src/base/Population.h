@@ -30,12 +30,17 @@ class Population : public XsdParseNode
     void                  sortByFitness();
     void                  incGeneration();
     void                  calculateSelectionProbabilities();
+    void                  resize(int);
+
+    static Population*    instance();
 
   private:
 
     int         _generation;
     int         _individualId;
     Individuals _individuals;
+
+    static Population* _me;
 };
 
 

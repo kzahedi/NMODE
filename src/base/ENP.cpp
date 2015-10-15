@@ -61,6 +61,8 @@ void ENP::createXsd(XsdSpecification *spec)
   XsdSequence *_root = new XsdSequence(TAG_ENP);
   _root->add(NA(TAG_VERSION,       TAG_VERSION_DEFINITION,       true));
   _root->add(NE(TAG_SIMULATOR,     TAG_SIMULATOR_DEFINITION,     1, 1));
+  _root->add(NE(TAG_EVALUATION,    TAG_EVALUATION_DEFINITION,    1, 1));
+  _root->add(NE(TAG_REPRODUCTION,  TAG_REPRODUCTION_DEFINITION,  1, 1));
   _root->add(NE(TAG_EVOLUTION,     TAG_EVOLUTION_DEFINITION,     1, 1));
   _root->add(NE(TAG_CONFIGURATION, TAG_CONFIGURATION_DEFINITION, 1, 1));
   _root->add(NE(TAG_POPULATION,    TAG_POPULATION_DEFINITION   , 0, 1));
@@ -72,8 +74,10 @@ void ENP::createXsd(XsdSpecification *spec)
   spec->add(versionDefinition);
 
   Evolution::createXsd(spec);
+  Evaluation::createXsd(spec);
   DataConfiguration::createXsd(spec);
   Population::createXsd(spec);
+  CfgReproduction::createXsd(spec);
 }
 
 
@@ -149,10 +153,25 @@ void ENP::__getChild(ParseElement *element)
     current->add(element);
   }
 
+  if(element->opening(TAG_EVALUATION))
+  {
+    cout << "found " << TAG_EVALUATION << endl;
+    _evaluation = new Evaluation(this);
+    current = _evaluation;
+    current->add(element);
+  }
+
   if(element->opening(TAG_POPULATION))
   {
     _population = new Population(this);
     current = _population;
+    current->add(element);
+  }
+
+  if(element->opening(TAG_REPRODUCTION))
+  {
+    _reproduction = new CfgReproduction(this);
+    current = _reproduction;
     current->add(element);
   }
 
@@ -195,4 +214,16 @@ void ENP::initialiseFirstPopulationFromConfiguration()
   {
     throw ENPException("Population: Trying to initialise a non empty population.");
   }
+}
+
+
+Evaluation* ENP::evaluation()
+{
+  return _evaluation;
+}
+
+
+CfgReproduction* ENP::reproduction()
+{
+  return _reproduction;
 }

@@ -159,6 +159,7 @@ void Module::createXsd(XsdSpecification *spec)
   root->add(options);
 
   XsdSequence *optionA = new XsdSequence(OPTION_A);
+
   optionA->add(NE(TAG_MODULE_NODE, TAG_MODULE_NODE_DEFINITION, 1, TAG_XSD_UNBOUNDED));
   optionA->add(NE(TAG_MODULE_EDGE, TAG_MODULE_EDGE_DEFINITION, 0, TAG_XSD_UNBOUNDED));
   options->add(optionA);

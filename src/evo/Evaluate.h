@@ -8,7 +8,7 @@
 class Evaluate
 {
   public:
-    Evaluate(string workingDirectory, string options);
+    Evaluate();
 
     void setPopulationContainer(PopulationContainer *p);
 
@@ -28,7 +28,8 @@ class Evaluate
     int                  _nrOfSensors;
     string               _options;
     string               _workingDirectory;
+    string               _xml;
     vector<double>       _actuatorValues;
     vector<double>       _sensorValues;
-    vector<double>       _sensors;
+    vector<double>       _networkInput;
 };

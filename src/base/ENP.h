@@ -4,7 +4,9 @@
 #include "XsdParseNode.h"
 #include "Version.h"
 
+#include "CfgReproduction.h"
 #include "Evolution.h"
+#include "Evaluation.h"
 #include "DataConfiguration.h"
 #include "Simulator.h"
 #include "Population.h"
@@ -39,17 +41,21 @@ class ENP : public XsdParseNode
 
     Simulator*         simulator();
     Evolution*         evolution();
+    Evaluation*        evaluation();
     DataConfiguration* configuration();
     Population*        population();
+    CfgReproduction*   reproduction();
 
   private:
     void __getChild(ParseElement *element);
 
     Version            _version;
-    Simulator         *_simulator;
-    Evolution         *_evolution;
-    DataConfiguration *_configuration;
-    Population        *_population;
+    Simulator*         _simulator;
+    Evolution*         _evolution;
+    DataConfiguration* _configuration;
+    Population*        _population;
+    Evaluation*        _evaluation;
+    CfgReproduction*   _reproduction;
 
 };
 

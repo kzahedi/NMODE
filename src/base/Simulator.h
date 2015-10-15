@@ -28,12 +28,14 @@ class Simulator : public XsdParseNode
 
     string workingDirectory();
     string xml();
+    string options();
     int    nr();
 
   private:
 
     string _workingDirectory;
     string _xml;
+    string _options;
     int    _nr;
 
 };

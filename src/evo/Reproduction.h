@@ -28,12 +28,12 @@ class Reproduction
     Reproduction();
     ~Reproduction();
 
-    Population* reproduce(Population *p);
+    void reproduce();
     void setCrossoverProbability(double p);
 
   private:
 
-    void        __select(Population *p);
+    void        __select();
     void        __randomPairing();
     void        __createOffspring();
     Individual* __getRandomMate();
@@ -46,7 +46,7 @@ class Reproduction
     int           _selectionMethod;
     int           _populationSize;
     ListOfParents _parents;
-    Population*   _next_generation;
+    Population*   _population;
     Mutation*     _mutation;
 };
 
