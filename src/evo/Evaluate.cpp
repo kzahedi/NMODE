@@ -15,31 +15,26 @@ Evaluate::Evaluate()
   _workingDirectory = Data::instance()->specification()->simulator()->workingDirectory();
   _xml              = Data::instance()->specification()->simulator()->xml();
   _options          = Data::instance()->specification()->simulator()->options();
-  _pc               = NULL;
+  _population       = Population::instance();
   _networkInput.resize(2);
-}
-
-void Evaluate::setPopulationContainer(PopulationContainer *pc)
-{
-  _pc = pc;
 }
 
 void Evaluate::run()
 {
   while(true)
   {
-    Individual *i = _pc->getNextIndividual();
+    Individual *i = _population->getNextIndividual();
     RNN *rnn = RnnFromIndividual::create(i);
     __evaluate(rnn);
     i->setFitness(_fitness);
-    _pc->evaluationCompleted();
-    _fitness = 0.0;
+    _population->evaluationCompleted();
   }
 }
 
 void Evaluate::__evaluate(RNN *rnn)
 {
   _lifeTime = Data::instance()->specification()->evaluation()->lifeTime();
+  _fitness  = 0.0;
 
   if(_com == NULL)
   {

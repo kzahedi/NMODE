@@ -1,5 +1,6 @@
 #include "Population.h"
 #include "macros.h"
+#include "mutex.h"
 
 #include <glog/logging.h>
 
@@ -10,9 +11,11 @@ Population* Population::_me = NULL;
 Population::Population(XsdParseNode *parent)
   : XsdParseNode(parent)
 {
-  _generation   = 1;
-  _individualId = 0;
-  _me = this;
+  _generation      = 1;
+  _nextIndividual  = 0;
+  _individualId    = 0;
+  _openEvaluations = 0;
+  _me              = this;
 }
 
 void Population::add(ParseElement *element)
@@ -120,5 +123,33 @@ Population* Population::instance()
 void Population::resize(int size)
 {
   _individuals.resize(size);
+}
+
+Individual* Population::getNextIndividual()
+{
+  ENP_LOCK;
+
+  if(_nextIndividual >= _individuals.size())
+  {
+    while(_openEvaluations > 0) usleep(500); // wait for the others to complete
+    notifyObservers(_m_next_generation);
+  }
+
+  Individual *i = _individuals[_nextIndividual];
+  _nextIndividual++;
+  _openEvaluations++;
+
+  ENP_UNLOCK;
+  return i;
+}
+
+void Population::evaluationCompleted()
+{
+  _openEvaluations--;
+}
+
+void Population::reproductionCompleted()
+{
+  _nextIndividual = 0;
 }
 

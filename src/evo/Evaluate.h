@@ -1,5 +1,5 @@
 #include "base/RNN.h"
-#include "base/PopulationContainer.h"
+#include "base/Population.h"
 
 #include <yars/cppClientCom/YarsClientCom.h>
 
@@ -10,8 +10,6 @@ class Evaluate
   public:
     Evaluate();
 
-    void setPopulationContainer(PopulationContainer *p);
-
     void run();
 
     void setFitnessFunction(int);
@@ -19,17 +17,17 @@ class Evaluate
   private:
     void __evaluate(RNN*);
 
-    PopulationContainer* _pc;
-    YarsClientCom*       _com;
-    double               _fitness;
-    int                  _fitnessFunction;
-    int                  _lifeTime;
-    int                  _nrOfActuators;
-    int                  _nrOfSensors;
-    string               _options;
-    string               _workingDirectory;
-    string               _xml;
-    vector<double>       _actuatorValues;
-    vector<double>       _sensorValues;
-    vector<double>       _networkInput;
+    Population*    _population;
+    YarsClientCom* _com;
+    double         _fitness;
+    int            _fitnessFunction;
+    int            _lifeTime;
+    int            _nrOfActuators;
+    int            _nrOfSensors;
+    string         _options;
+    string         _workingDirectory;
+    string         _xml;
+    vector<double> _actuatorValues;
+    vector<double> _sensorValues;
+    vector<double> _networkInput;
 };

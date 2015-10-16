@@ -6,7 +6,7 @@
   <simulator
     wd="/Users/zahedi/projects/builds/yars-build"
     xml="xml/braitenberg_tcpip.xml"
-    nr="2"/>
+    nr="4"/>
   <evaluation>
     <lifetime iterations="500"/>
   </evaluation>

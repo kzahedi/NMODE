@@ -57,6 +57,7 @@ void Reproduction::reproduce()
     __createOffspring();
   }
   cout << "Population size after generation of offspring: " << _population->i_size() << endl;
+  _population->reproductionCompleted();
 }
 
 void Reproduction::__select()

@@ -1,7 +1,6 @@
 #ifndef __EVOLVE_H__
 #define __EVOLVE_H__
 
-#include "base/PopulationContainer.h"
 #include "base/Observer.h"
 #include "base/Data.h"
 #include "Reproduction.h"
@@ -26,7 +25,7 @@ class Evolve : public Observer
   private:
 
     // Reproduction*        _reproduction;
-    PopulationContainer*   _pc;
+    Population*            _population;
     Data*                  _data;
     Population*            _pop;
     Reproduction*          _reproduction;

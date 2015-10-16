@@ -9,19 +9,18 @@ void Evolve::init(string xml)
 {
   _data = Data::instance();
   _data->read(xml);
-  _pop = _data->specification()->population();
+
+  _pop          = Population::instance();
   _reproduction = new Reproduction();
 
-  _pc = new PopulationContainer();
-  _pc->update(_pop);
-  _pc->addObserver(this);
+  _pop->addObserver(this);
 
   int nr = Data::instance()->specification()->simulator()->nr();
   cout << "nr: " << nr << endl;
   for(int i = 0; i < nr; i++)
   {
     Evaluate *e = new Evaluate();
-    e->setPopulationContainer(_pc);
+    // e->setPopulationContainer(_pc);
     _evaluators.push_back(e);
   }
 
@@ -45,7 +44,6 @@ void Evolve::notify(ObservableMessage *message)
   {
     case __M_NEXT_GENERATION:
        _reproduction->reproduce();
-      _pc->update(_pop);
       break;
   }
 }
