@@ -195,13 +195,28 @@ void Population::__getUniqueDirectoryName()
 
 void Population::serialise()
 {
-  string s = Exporter::toXml(this);
   stringstream sst;
   sst << _logDirectory << "/" << "generation-" << _generation << ".xml";
   cout << "Logging " << sst.str() << endl;
   _output.open(sst.str());
-  _output << Data::instance()->header();
-  _output << Exporter::toXml(this);
-  _output << Data::instance()->footer();
+  _output << Data::instance()->xml();
   _output.close();
+
+  sst.str("");
+  sst << _logDirectory << "/" << "stats-" << _generation << ".csv";
+  cout << "Logging " << sst.str() << endl;
+  _output.open(sst.str());
+  FORC(Individuals, i, _individuals)
+  {
+    _output
+      << (*i)->id()         << "," << (*i)->fitness()  << "," << (*i)->age() << ","
+      << (*i)->rawFitness() << "," << (*i)->nodeCost() << "," << (*i)->edgeCost()
+      << endl;
+  }
+  _output.close();
+}
+
+void Population::incAge()
+{
+  FORC(Individuals, i, _individuals) (*i)->incAge();
 }

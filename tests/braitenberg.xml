@@ -8,19 +8,20 @@
     xml="xml/braitenberg_tcpip.xml"
     nr="4"/>
   <evaluation>
-    <lifetime iterations="500"/>
+    <lifetime iterations="400"/>
+    <cost     node="0.0" edge="0.0"/>
   </evaluation>
   <reproduction>
-    <population size="30"/>
-    <selection  pressure="0.1"/>
+    <population size="100"/>
+    <selection  pressure="0.2"/>
   </reproduction>
   <evolution>
-    <node cost="0.1">
+    <node>
       <modify probability="0.11" maximum="0.12" delta="0.13"/>
       <add    probability="0.14" maximum="0.15"/>
       <delete probability="0.16"/>
     </node>
-    <edge cost="0.2">
+    <edge>
       <modify probability="0.21" maximum="0.22" delta="0.23"/>
       <add    probability="0.24" maximum="0.25"/>
       <delete probability="0.26"/>

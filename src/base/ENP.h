@@ -56,6 +56,7 @@ class ENP : public XsdParseNode
     Population*        _population;
     Evaluation*        _evaluation;
     CfgReproduction*   _reproduction;
+    bool               _initialisationCompleted;
 
 };
 

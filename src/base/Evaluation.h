@@ -15,10 +15,14 @@ class Evaluation : public XsdParseNode
 
     static void createXsd(XsdSpecification *spec);
 
-    int lifeTime();
+    int    lifeTime();
+    double nodeCost();
+    double edgeCost();
 
   private:
     int _lifeTime;
+    double _nodeCost;
+    double _edgeCost;
 };
 
 

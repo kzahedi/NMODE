@@ -41,7 +41,6 @@
 #define TAG_PROBABILITY          (char*)"probability"
 #define TAG_MAX                  (char*)"maximum"
 #define TAG_DELTA                (char*)"delta"
-#define TAG_COST                 (char*)"cost"
 
 
 using namespace std;
@@ -55,7 +54,6 @@ EvolutionNode::EvolutionNode(XsdParseNode *parent)
   _addProbability    = 0.01;
   _addMaxValue       = 1.0;
   _delProbability    = 0.1;
-  _cost              = 0.0;
 }
 
 EvolutionNode::~EvolutionNode()
@@ -72,7 +70,6 @@ void EvolutionNode::add(ParseElement *element)
 
   if(element->opening(TAG_EVOLUTION_NODE))
   {
-    element->set(TAG_COST, _cost);
   }
 
   if(element->opening(TAG_MODIFY))
@@ -98,7 +95,6 @@ void EvolutionNode::add(ParseElement *element)
 void EvolutionNode::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_EVOLUTION_NODE_DEFINITION);
-  root->add(NA(TAG_COST,   TAG_POSITIVE_DECIMAL,     false));
   root->add(NE(TAG_MODIFY, TAG_MODIFY_DEFINITION,    1, 1));
   root->add(NE(TAG_ADD,    TAG_ADD_DEFINITION,       1, 1));
   root->add(NE(TAG_DEL,    TAG_DEL_DEFINITION,       1, 1));
@@ -150,7 +146,4 @@ double EvolutionNode::delProbability()
   return _delProbability;
 }
 
-double EvolutionNode::cost()
-{
-  return _cost;
-}
+

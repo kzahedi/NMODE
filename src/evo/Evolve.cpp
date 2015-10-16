@@ -14,6 +14,8 @@ void Evolve::init(string xml)
   _reproduction = new Reproduction();
 
   _pop->addObserver(this);
+  char buf[1024];
+  getcwd(buf, 1024);
 
   int nr = Data::instance()->specification()->simulator()->nr();
   cout << "nr: " << nr << endl;
@@ -29,6 +31,10 @@ void Evolve::init(string xml)
     boost::thread* p = new boost::thread(&Evaluate::run, _evaluators[i]);
     _threads.push_back(p);
   }
+
+  sleep(1);
+
+  chdir(buf);
 
   for(int i = 0; i < nr; i++)
   {

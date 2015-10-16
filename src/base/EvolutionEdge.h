@@ -28,8 +28,6 @@ class EvolutionEdge : public XsdParseNode
 
     double delProbability();
 
-    double cost();
-
   private:
 
     double _modifyProbability;
@@ -40,9 +38,6 @@ class EvolutionEdge : public XsdParseNode
     double _addMaxValue;
 
     double _delProbability;
-
-    double _cost;
-
 
 };
 

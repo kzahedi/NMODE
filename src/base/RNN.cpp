@@ -201,3 +201,11 @@ Neuron* RNN::getHiddenNeuron(int index)
 {
   return _hidden[index];
 }
+
+int RNN::nrOfSynapses()
+{
+  int s = 0;
+  FORC(Neurons, n, _neurons) s += (*n)->nrOfSynapses();
+  return s;
+}
+

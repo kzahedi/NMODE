@@ -87,6 +87,7 @@ class RNN
     int  nrOfSensors();
     int  nrOfActuators();
     int  nrOfHidden();
+    int  nrOfSynapses();
 
     Neuron* getSensorNeuron(int);
     Neuron* getActuatorNeuron(int);

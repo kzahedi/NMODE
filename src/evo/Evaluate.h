@@ -5,6 +5,8 @@
 
 # define FF_DISTANCE 3001
 
+#include <sstream>
+
 class Evaluate
 {
   public:
@@ -30,4 +32,5 @@ class Evaluate
     vector<double> _actuatorValues;
     vector<double> _sensorValues;
     vector<double> _networkInput;
+    stringstream   _message;
 };

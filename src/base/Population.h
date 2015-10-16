@@ -12,7 +12,7 @@
 # define TAG_POPULATION            (char*)"population"
 # define TAG_POPULATION_DEFINITION (char*)"population_definition"
 
-class Population : public XsdParseNode, public Observable
+class Population : public Observable, public XsdParseNode
 {
   public:
     Population(XsdParseNode *parent = NULL);
@@ -40,6 +40,7 @@ class Population : public XsdParseNode, public Observable
     void                  evaluationCompleted();
     void                  reproductionCompleted();
     void                  serialise();
+    void                  incAge();
 
     static Population*    instance();
 

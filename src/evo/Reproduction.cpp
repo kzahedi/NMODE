@@ -52,6 +52,7 @@ void Reproduction::reproduce()
       break;
   }
 
+  _populationSize = Data::instance()->specification()->reproduction()->populationSize();
   while(_population->i_size() < _populationSize)
   {
     __createOffspring();
@@ -62,6 +63,7 @@ void Reproduction::reproduce()
 
 void Reproduction::__select()
 {
+  _selectionPressure = REP->selectionPressure();
   int nrOfParents = int(_population->i_size() * _selectionPressure + 0.5);
   nrOfParents = MAX(1, nrOfParents);
   nrOfParents = MIN(nrOfParents, _population->i_size());
@@ -70,6 +72,7 @@ void Reproduction::__select()
 
   _population->sortByFitness();
   _population->resize(nrOfParents);
+  _population->incAge();
   _population->serialise();
   cout << "Population size after selection: " << _population->i_size() << endl;
 }
@@ -126,6 +129,7 @@ void Reproduction::__createOffspring()
   else
   {
     child = p->mom->copy();
+    child->resetAge();
   }
 
   _mutation->mutate(child);

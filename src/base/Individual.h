@@ -25,8 +25,21 @@ class Individual : public XsdParseNode
     void              setFitness(double);
     double            fitness();
 
+    double            rawFitness();
+    void              setRawFitness(double);
+
+    double            nodeCost();
+    void              setNodeCost(double);
+
+    double            edgeCost();
+    void              setEdgeCost(double);
+
     void              setId(int);
     int               id();
+
+    void              incAge();
+    void              resetAge();
+    int               age();
 
     Modules::iterator m_begin();
     Modules::iterator m_end();
@@ -48,10 +61,14 @@ class Individual : public XsdParseNode
     Node*   __getNonHiddenNodeFromModule(Module *m, string nodeLabel);
 
     int     _id;
+    int     _age;
     int     _offspring;
     double  _fitness;
     Modules _modules;
     double  _probability;
+    double  _rawFitness;
+    double  _edgeCost;
+    double  _nodeCost;
 };
 
 typedef vector<Individual*> Individuals;

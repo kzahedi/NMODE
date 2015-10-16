@@ -26,7 +26,18 @@ void Evaluate::run()
     Individual *i = _population->getNextIndividual();
     RNN *rnn = RnnFromIndividual::create(i);
     __evaluate(rnn);
+    i->setRawFitness(_fitness);
+
+    double nc = EVA->nodeCost() * rnn->nrOfNeurons();
+    double ec = EVA->edgeCost() * rnn->nrOfSynapses();
+
+    i->setNodeCost(nc);
+    i->setEdgeCost(ec);
+
+    _fitness -= nc + ec;
+
     i->setFitness(_fitness);
+
     _population->evaluationCompleted();
   }
 }
@@ -46,8 +57,6 @@ void Evaluate::__evaluate(RNN *rnn)
     _nrOfActuators = _com->numberOfActuators();
     _sensorValues.resize(_nrOfSensors);
     _actuatorValues.resize(_nrOfActuators);
-    // cout << "Nr of sensors:   " << _nrOfSensors   << endl;
-    // cout << "Nr of actuators: " << _nrOfActuators << endl;
   }
 
   for(int i = 0; i < _lifeTime; i++)
@@ -57,26 +66,18 @@ void Evaluate::__evaluate(RNN *rnn)
     for(int j = 0; j < _nrOfSensors; j++)
     {
       _com->getSensorValue(&_sensorValues[j], j);
-      // cout << "sensor value " << j << ": " << _sensorValues[j] << endl;
     }
-
-    // cout << "Sensors: " << endl;
-    // for(int i = 0; i < _nrOfSensors; i++)
-    // {
-      // cout << " " << _sensorValues[i];
-    // }
-    // cout << endl;
-
 
     _networkInput[0] = 0.0;
     _networkInput[1] = 0.0;
+
     for(int j = 0; j < 3; j++)
     {
       _networkInput[0] += _sensorValues[j];
       _networkInput[1] += _sensorValues[3 + j];
     }
 
-    _networkInput[0]  /= 3.0;
+    _networkInput[0] /= 3.0;
     _networkInput[1] /= 3.0;
 
     rnn->setInputs(_networkInput);
@@ -84,15 +85,18 @@ void Evaluate::__evaluate(RNN *rnn)
     rnn->getOutput(_actuatorValues);
 
     _fitness += _sensorValues[6] + _sensorValues[7];
+    _message.str("");
+    _message << "Fitness " << _fitness;
+    if(i % 100 == 0)
+    {
+      _com->sendMessage(_message.str());
+    }
 
     for(int j = 0; j < _nrOfActuators; j++)
     {
       _com->setActuatorValue(_actuatorValues[j], j);
-      // cout << "acutator value " << j << ": " << _actuatorValues[j] << endl;
     }
   }
-
-  cout << "Fitness " << _fitness << endl;
 
   _com->sendReset();
 }
@@ -101,4 +105,3 @@ void Evaluate::setFitnessFunction(int ff)
 {
   _fitnessFunction = ff;
 }
-

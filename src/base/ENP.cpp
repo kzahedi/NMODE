@@ -19,18 +19,17 @@ ENP::ENP(XsdParseNode *parent)
 
 #include "ChangeLog.h" // do not move from here
   
-  _evolution     = NULL;
-  _configuration = NULL;
-  _simulator     = NULL;
-  _population    = NULL;
-
+  _evolution               = NULL;
+  _configuration           = NULL;
+  _simulator               = NULL;
+  _population              = NULL;
+  _initialisationCompleted = false;
 }
 
 ENP::~ENP()
 {
   // nothing to be done
 }
-
 
 void ENP::add(ParseElement *element)
 {
@@ -161,11 +160,12 @@ void ENP::__getChild(ParseElement *element)
     current->add(element);
   }
 
-  if(element->opening(TAG_POPULATION))
+  if(element->opening(TAG_POPULATION) && _initialisationCompleted == false)
   {
     _population = new Population(this);
     current = _population;
     current->add(element);
+    _initialisationCompleted = true;
   }
 
   if(element->opening(TAG_REPRODUCTION))

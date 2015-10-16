@@ -22,6 +22,7 @@ Individual::Individual(XsdParseNode *parent)
   _fitness     = 0.0;
   _offspring   = 0;
   _probability = 0.0;
+  _age         = 0;
 }
 
 void Individual::add(ParseElement *element)
@@ -245,10 +246,58 @@ void Individual::setProbability(double p)
 
 Individual* Individual::copy()
 {
-  Individual *copy = new Individual();
+  Individual *copy   = new Individual();
   copy->_fitness     = _fitness;
   copy->_probability = _probability;
   copy->_id          = _id;
+  copy->_age         = _age;
+
   FORC(Modules, m, _modules) copy->addModule((*m)->copy());
   return copy;
 }
+
+void Individual::incAge()
+{
+  _age++;
+}
+
+void Individual::resetAge()
+{
+  _age = 0;
+}
+
+int Individual::age()
+{
+  return _age;
+}
+
+double Individual::rawFitness()
+{
+  return _rawFitness;
+}
+
+void Individual::setRawFitness(double f)
+{
+  _rawFitness = f;
+}
+
+double Individual::nodeCost()
+{
+  return _nodeCost;
+}
+
+void Individual::setNodeCost(double c)
+{
+  _nodeCost = c;
+}
+
+double Individual::edgeCost()
+{
+  return _edgeCost;
+}
+
+void Individual::setEdgeCost(double c)
+{
+  _edgeCost = c;
+}
+

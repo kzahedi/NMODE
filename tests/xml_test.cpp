@@ -61,12 +61,10 @@ void xmlTest::testXml()
   EvolutionNode  *evon = evo->node();
   EvolutionEdge *evos = evo->edge();
   
-  CPPUNIT_ASSERT_DOUBLES_EQUAL(0.10, evon->cost(),              0.000001);
   CPPUNIT_ASSERT_DOUBLES_EQUAL(0.11, evon->modifyProbability(), 0.000001);
   CPPUNIT_ASSERT_DOUBLES_EQUAL(0.12, evon->modifyMaxValue(),    0.000001);
   CPPUNIT_ASSERT_DOUBLES_EQUAL(0.13, evon->modifyDelta(),       0.000001);
 
-  CPPUNIT_ASSERT_DOUBLES_EQUAL(0.20, evos->cost(),              0.000001);
   CPPUNIT_ASSERT_DOUBLES_EQUAL(0.21, evos->modifyProbability(), 0.000001);
   CPPUNIT_ASSERT_DOUBLES_EQUAL(0.22, evos->modifyMaxValue(),    0.000001);
   CPPUNIT_ASSERT_DOUBLES_EQUAL(0.23, evos->modifyDelta(),       0.000001);

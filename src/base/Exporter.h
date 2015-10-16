@@ -11,9 +11,6 @@ class Exporter
 {
   public:
 
-    static string toXml(Population *population);
-    static string toXml(Individual *individual);
-    static string toXml(Module *module);
 
     static string toX3d(Individual *individual);
     static string toX3d(Module     *module);

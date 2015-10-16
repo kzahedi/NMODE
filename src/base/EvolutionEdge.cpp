@@ -16,8 +16,6 @@
 #define TAG_PROBABILITY       (char*)"probability"
 #define TAG_MAX               (char*)"maximum"
 #define TAG_DELTA             (char*)"delta"
-#define TAG_COST              (char*)"cost"
-
 
 using namespace std;
 
@@ -32,7 +30,6 @@ EvolutionEdge::EvolutionEdge(XsdParseNode *parent)
   _addMaxValue       = 1.0;
 
   _delProbability    = 0.1;
-  _cost              = 0.0;
 }
 
 EvolutionEdge::~EvolutionEdge()
@@ -50,8 +47,6 @@ void EvolutionEdge::add(ParseElement *element)
 
   if(element->opening(TAG_EVOLUTION_EDGE))
   {
-    element->set(TAG_COST, _cost);
-    VLOG(100) << "set cost to: " << _cost;
   }
 
   if(element->opening(TAG_MODIFY))
@@ -83,7 +78,6 @@ void EvolutionEdge::add(ParseElement *element)
 void EvolutionEdge::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_EVOLUTION_EDGE_DEFINITION);
-  root->add(NA(TAG_COST,   TAG_POSITIVE_DECIMAL,  false));
   root->add(NE(TAG_MODIFY, TAG_MODIFY_DEFINITION, 1, 1));
   root->add(NE(TAG_ADD,    TAG_ADD_DEFINITION,    1, 1));
   root->add(NE(TAG_DEL,    TAG_DEL_DEFINITION,    1, 1));
@@ -135,10 +129,3 @@ double EvolutionEdge::delProbability()
 {
   return _delProbability;
 }
-
-double EvolutionEdge::cost()
-{
-  return _cost;
-}
-
-

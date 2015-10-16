@@ -33,7 +33,6 @@ class EvolutionNode : public XsdParseNode
     double addProbability();
     double addMaxValue();
     double delProbability();
-    double cost();
 
   private:
 
@@ -43,7 +42,6 @@ class EvolutionNode : public XsdParseNode
     double _addProbability;
     double _addMaxValue;
     double _delProbability;
-    double _cost;
 
 
 };

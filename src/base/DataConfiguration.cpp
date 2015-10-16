@@ -18,7 +18,6 @@ DataConfiguration::~DataConfiguration()
   // delete _individual;
 }
 
-
 void DataConfiguration::add(ParseElement *element)
 {
   VLOG(100) << "parsing: " << element->name();
@@ -51,7 +50,6 @@ void DataConfiguration::createXsd(XsdSpecification *spec)
 
   Module::createXsd(spec);
 }
-
 
 Modules::iterator DataConfiguration::m_begin()
 {
