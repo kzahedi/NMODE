@@ -29,7 +29,7 @@
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost REQUIRED program_options filesystem system)
+find_package(Boost REQUIRED program_options filesystem system date_time)
 IF(Boost_FOUND)
   include_directories(${Boost_INCLUDE_DIRS})
 ENDIF(Boost_FOUND)

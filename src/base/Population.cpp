@@ -1,8 +1,20 @@
 #include "Population.h"
 #include "macros.h"
 #include "mutex.h"
+#include "Exporter.h"
+#include "Data.h"
 
 #include <glog/logging.h>
+#include <unistd.h>
+
+#include <boost/date_time/gregorian/gregorian.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/format.hpp>
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
+
+using namespace boost::gregorian;
+namespace fs = boost::filesystem;
 
 #define TAG_GENERATION (char*)"generation"
 
@@ -16,6 +28,8 @@ Population::Population(XsdParseNode *parent)
   _individualId    = 0;
   _openEvaluations = 0;
   _me              = this;
+  __getUniqueDirectoryName();
+  ENP_INIT;
 }
 
 void Population::add(ParseElement *element)
@@ -129,7 +143,7 @@ Individual* Population::getNextIndividual()
 {
   ENP_LOCK;
 
-  if(_nextIndividual >= _individuals.size())
+  if(_nextIndividual >= (int)_individuals.size())
   {
     while(_openEvaluations > 0) usleep(500); // wait for the others to complete
     notifyObservers(_m_next_generation);
@@ -153,3 +167,41 @@ void Population::reproductionCompleted()
   _nextIndividual = 0;
 }
 
+void Population::__getUniqueDirectoryName()
+{
+  stringstream sst;
+  char buf[1024];
+  getcwd(buf,1024);
+  sst << buf << "/log";
+  _logDirectory = sst.str();
+  int index = 1;
+  string dateString;
+  string dirTmp;
+  date d(day_clock::local_day());
+  dateString = to_iso_extended_string(d);
+  stringstream oss;
+  oss << _logDirectory << "-" << dateString;
+  dirTmp = oss.str();
+  _logDirectory = oss.str();
+  while(fs::exists(_logDirectory))
+  {
+    stringstream newOss;
+    newOss << dirTmp << "-" << index;
+    index++;
+    _logDirectory = newOss.str();
+  }
+  fs::create_directory(_logDirectory);
+}
+
+void Population::serialise()
+{
+  string s = Exporter::toXml(this);
+  stringstream sst;
+  sst << _logDirectory << "/" << "generation-" << _generation << ".xml";
+  cout << "Logging " << sst.str() << endl;
+  _output.open(sst.str());
+  _output << Data::instance()->header();
+  _output << Exporter::toXml(this);
+  _output << Data::instance()->footer();
+  _output.close();
+}

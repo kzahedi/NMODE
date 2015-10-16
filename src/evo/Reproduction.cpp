@@ -70,6 +70,7 @@ void Reproduction::__select()
 
   _population->sortByFitness();
   _population->resize(nrOfParents);
+  _population->serialise();
   cout << "Population size after selection: " << _population->i_size() << endl;
 }
 

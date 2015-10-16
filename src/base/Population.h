@@ -6,6 +6,8 @@
 #include "Observable.h"
 
 #include <pthread.h>
+#include <iostream>
+#include <fstream>
 
 # define TAG_POPULATION            (char*)"population"
 # define TAG_POPULATION_DEFINITION (char*)"population_definition"
@@ -37,17 +39,21 @@ class Population : public XsdParseNode, public Observable
     void                  resize(int);
     void                  evaluationCompleted();
     void                  reproductionCompleted();
+    void                  serialise();
 
     static Population*    instance();
 
   private:
+    void            __getUniqueDirectoryName();
 
     int             _generation;
     int             _individualId;
     int             _nextIndividual;
     int             _openEvaluations;
+    string          _logDirectory;
     Individuals     _individuals;
     pthread_mutex_t _mutex;
+    ofstream        _output;
 
     static Population* _me;
 };
