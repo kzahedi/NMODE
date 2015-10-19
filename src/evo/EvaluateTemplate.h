@@ -7,31 +7,37 @@
 
 #include <sstream>
 
-class Evaluate
+class EvaluateTemplate
 {
   public:
-    Evaluate();
+    EvaluateTemplate();
 
     void run();
 
     void setFitnessFunction(int);
+    virtual void updateController()      = 0;
+    virtual void updateFitnessFunction() = 0;
 
-  private:
-    void __evaluate(RNN*);
-
-    Population*    _population;
-    YarsClientCom* _com;
+  protected:
     double         _fitness;
     int            _fitnessFunction;
-    int            _lifeTime;
     int            _nrOfActuators;
     int            _nrOfSensors;
-    string         _options;
-    string         _workingDirectory;
-    string         _xml;
     vector<double> _actuatorValues;
     vector<double> _sensorValues;
     vector<double> _networkInput;
+
+  private:
+    void __evaluate();
+
+    Population*    _population;
+    YarsClientCom* _com;
+    int            _lifeTime;
+    string         _options;
+    string         _workingDirectory;
+    string         _xml;
     stringstream   _message;
     bool           _successfulEvaluation;
+    RNN*           _rnn;
+
 };

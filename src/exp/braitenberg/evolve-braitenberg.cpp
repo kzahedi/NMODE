@@ -5,7 +5,7 @@
 #include "base/RnnFromIndividual.h"
 
 // #include "evo/Evaluate.h"
-#include "evo/Evolve.h"
+#include "exp/braitenberg/Evolve.h"
 
 #include <glog/logging.h>
 

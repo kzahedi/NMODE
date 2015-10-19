@@ -1,10 +1,10 @@
-#include "Evaluate.h"
+#include "EvaluateTemplate.h"
 #include "base/RnnFromIndividual.h"
 #include "base/Data.h"
 
 #include <sstream>
 
-Evaluate::Evaluate()
+EvaluateTemplate::EvaluateTemplate()
 {
   _fitness              = 0.0;
   _fitnessFunction      = -1;
@@ -17,20 +17,19 @@ Evaluate::Evaluate()
   _options              = Data::instance()->specification()->simulator()->options();
   _population           = Population::instance();
   _successfulEvaluation = false;
-  _networkInput.resize(2);
 }
 
-void Evaluate::run()
+void EvaluateTemplate::run()
 {
   while(true)
   {
     Individual *i = _population->getNextIndividual();
-    RNN *rnn = RnnFromIndividual::create(i);
-    __evaluate(rnn);
+    _rnn = RnnFromIndividual::create(i);
+    __evaluate();
     i->setRawFitness(_fitness);
 
-    double nc = EVA->nodeCost() * rnn->nrOfNeurons();
-    double ec = EVA->edgeCost() * rnn->nrOfSynapses();
+    double nc = EVA->nodeCost() * _rnn->nrOfNeurons();
+    double ec = EVA->edgeCost() * _rnn->nrOfSynapses();
 
     i->setNodeCost(nc);
     i->setEdgeCost(ec);
@@ -43,9 +42,8 @@ void Evaluate::run()
   }
 }
 
-void Evaluate::__evaluate(RNN *rnn)
+void EvaluateTemplate::__evaluate()
 {
-
   _successfulEvaluation = false;
   while(_successfulEvaluation == false)
   {
@@ -74,26 +72,16 @@ void Evaluate::__evaluate(RNN *rnn)
           _com->getSensorValue(&_sensorValues[j], j);
         }
 
-        _networkInput[0] = 0.0;
-        _networkInput[1] = 0.0;
+        updateController();
 
-        for(int j = 0; j < 3; j++)
-        {
-          _networkInput[0] += _sensorValues[j];
-          _networkInput[1] += _sensorValues[3 + j];
-        }
-
-        _networkInput[0] /= 3.0;
-        _networkInput[1] /= 3.0;
-
-        rnn->setInputs(_networkInput);
-        rnn->update();
-        rnn->getOutput(_actuatorValues);
-
-        _fitness += _sensorValues[6] + _sensorValues[7];
+        _rnn->setInputs(_networkInput);
+        _rnn->update();
+        _rnn->getOutput(_actuatorValues);
 
         _message.str("");
         _message << "Fitness " << _fitness;
+
+        updateFitnessFunction();
 
         if(i % 10 == 0)
         {
@@ -119,7 +107,27 @@ void Evaluate::__evaluate(RNN *rnn)
   }
 }
 
-void Evaluate::setFitnessFunction(int ff)
+void EvaluateTemplate::setFitnessFunction(int ff)
 {
   _fitnessFunction = ff;
 }
+
+// void EvaluateTemplate::updateController()
+// {
+  // _networkInput[0] = 0.0;
+  // _networkInput[1] = 0.0;
+
+  // for(int j = 0; j < 3; j++)
+  // {
+    // _networkInput[0] += _sensorValues[j];
+    // _networkInput[1] += _sensorValues[3 + j];
+  // }
+
+  // _networkInput[0] /= 3.0;
+  // _networkInput[1] /= 3.0;
+// }
+
+// void EvaluateTemplate::updateFitnessFunction()
+// {
+  // _fitness += _sensorValues[6] + _sensorValues[7];
+// }

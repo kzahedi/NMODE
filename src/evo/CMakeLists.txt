@@ -5,8 +5,7 @@ link_directories(${PROJECT_BINARY_DIR}/lib)
 add_library(ENPEvo
   Mutation.cpp
   Reproduction.cpp
-  Evaluate.cpp
-  Evolve.cpp
+  EvaluateTemplate.cpp
   )
 
 target_link_libraries(ENPEvo ${Boost_LIBRARIES} ENPBase glog)
