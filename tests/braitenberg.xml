@@ -6,25 +6,25 @@
   <simulator
     wd="/Users/zahedi/projects/builds/yars-build"
     xml="xml/braitenberg_tcpip.xml"
-    nr="4"/>
+    nr="1"/>
   <evaluation>
-    <lifetime iterations="400"/>
+    <lifetime iterations="100"/>
     <cost     node="0.0" edge="0.0"/>
   </evaluation>
   <reproduction>
     <population size="100"/>
-    <selection  pressure="0.2"/>
+    <selection  pressure="0.1"/>
   </reproduction>
   <evolution>
     <node>
-      <modify probability="0.11" maximum="0.12" delta="0.13"/>
-      <add    probability="0.14" maximum="0.15"/>
-      <delete probability="0.16"/>
+      <modify probability="0.01" maximum="1.0" delta="0.1"/>
+      <add    probability="0.01" maximum="0.1"/>
+      <delete probability="0.05"/>
     </node>
     <edge>
-      <modify probability="0.21" maximum="0.22" delta="0.23"/>
-      <add    probability="0.24" maximum="0.25"/>
-      <delete probability="0.26"/>
+      <modify probability="0.20" maximum="5.0" delta="0.5"/>
+      <add    probability="0.10" maximum="1.0"/>
+      <delete probability="0.11"/>
     </edge>
   </evolution>
   <configuration>

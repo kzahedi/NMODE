@@ -33,4 +33,5 @@ class Evaluate
     vector<double> _sensorValues;
     vector<double> _networkInput;
     stringstream   _message;
+    bool           _successfulEvaluation;
 };

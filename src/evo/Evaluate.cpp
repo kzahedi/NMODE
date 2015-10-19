@@ -6,16 +6,17 @@
 
 Evaluate::Evaluate()
 {
-  _fitness          = 0.0;
-  _fitnessFunction  = -1;
-  _com              = NULL;
-  _nrOfSensors      = 0;
-  _nrOfActuators    = 0;
-  _lifeTime         = Data::instance()->specification()->evaluation()->lifeTime();
-  _workingDirectory = Data::instance()->specification()->simulator()->workingDirectory();
-  _xml              = Data::instance()->specification()->simulator()->xml();
-  _options          = Data::instance()->specification()->simulator()->options();
-  _population       = Population::instance();
+  _fitness              = 0.0;
+  _fitnessFunction      = -1;
+  _com                  = NULL;
+  _nrOfSensors          = 0;
+  _nrOfActuators        = 0;
+  _lifeTime             = Data::instance()->specification()->evaluation()->lifeTime();
+  _workingDirectory     = Data::instance()->specification()->simulator()->workingDirectory();
+  _xml                  = Data::instance()->specification()->simulator()->xml();
+  _options              = Data::instance()->specification()->simulator()->options();
+  _population           = Population::instance();
+  _successfulEvaluation = false;
   _networkInput.resize(2);
 }
 
@@ -44,61 +45,78 @@ void Evaluate::run()
 
 void Evaluate::__evaluate(RNN *rnn)
 {
-  _lifeTime = Data::instance()->specification()->evaluation()->lifeTime();
-  _fitness  = 0.0;
 
-  if(_com == NULL)
+  _successfulEvaluation = false;
+  while(_successfulEvaluation == false)
   {
-    _com = new YarsClientCom();
-    stringstream sst;
-    sst << _options << " " << _xml;
-    _com->init(_workingDirectory, sst.str());
-    _nrOfSensors   = _com->numberOfSensors();
-    _nrOfActuators = _com->numberOfActuators();
-    _sensorValues.resize(_nrOfSensors);
-    _actuatorValues.resize(_nrOfActuators);
+    _lifeTime = Data::instance()->specification()->evaluation()->lifeTime();
+    _fitness  = 0.0;
+    try
+    {
+      if(_com == NULL)
+      {
+        _com = new YarsClientCom();
+        stringstream sst;
+        sst << _options << " " << _xml;
+        _com->init(_workingDirectory, sst.str());
+        _nrOfSensors   = _com->numberOfSensors();
+        _nrOfActuators = _com->numberOfActuators();
+        _sensorValues.resize(_nrOfSensors);
+        _actuatorValues.resize(_nrOfActuators);
+      }
+
+      for(int i = 0; i < _lifeTime; i++)
+      {
+        _com->update();
+
+        for(int j = 0; j < _nrOfSensors; j++)
+        {
+          _com->getSensorValue(&_sensorValues[j], j);
+        }
+
+        _networkInput[0] = 0.0;
+        _networkInput[1] = 0.0;
+
+        for(int j = 0; j < 3; j++)
+        {
+          _networkInput[0] += _sensorValues[j];
+          _networkInput[1] += _sensorValues[3 + j];
+        }
+
+        _networkInput[0] /= 3.0;
+        _networkInput[1] /= 3.0;
+
+        rnn->setInputs(_networkInput);
+        rnn->update();
+        rnn->getOutput(_actuatorValues);
+
+        _fitness += _sensorValues[6] + _sensorValues[7];
+
+        _message.str("");
+        _message << "Fitness " << _fitness;
+
+        if(i % 10 == 0)
+        {
+          _com->sendMessage(_message.str());
+        }
+
+        for(int j = 0; j < _nrOfActuators; j++)
+        {
+          _com->setActuatorValue(_actuatorValues[j], j);
+        }
+      }
+
+      _com->sendReset();
+      _successfulEvaluation = true;
+    }
+    catch(YarsClientComException &e)
+    {
+      _successfulEvaluation = false;
+      stringstream sst;
+      sst << _options << " " << _xml;
+      _com->init(_workingDirectory, sst.str());
+}
   }
-
-  for(int i = 0; i < _lifeTime; i++)
-  {
-    _com->update();
-
-    for(int j = 0; j < _nrOfSensors; j++)
-    {
-      _com->getSensorValue(&_sensorValues[j], j);
-    }
-
-    _networkInput[0] = 0.0;
-    _networkInput[1] = 0.0;
-
-    for(int j = 0; j < 3; j++)
-    {
-      _networkInput[0] += _sensorValues[j];
-      _networkInput[1] += _sensorValues[3 + j];
-    }
-
-    _networkInput[0] /= 3.0;
-    _networkInput[1] /= 3.0;
-
-    rnn->setInputs(_networkInput);
-    rnn->update();
-    rnn->getOutput(_actuatorValues);
-
-    _fitness += _sensorValues[6] + _sensorValues[7];
-    _message.str("");
-    _message << "Fitness " << _fitness;
-    if(i % 100 == 0)
-    {
-      _com->sendMessage(_message.str());
-    }
-
-    for(int j = 0; j < _nrOfActuators; j++)
-    {
-      _com->setActuatorValue(_actuatorValues[j], j);
-    }
-  }
-
-  _com->sendReset();
 }
 
 void Evaluate::setFitnessFunction(int ff)
