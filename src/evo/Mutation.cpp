@@ -14,10 +14,9 @@
 #define LOG_MODULE \
   VLOG(50) << "     Module: " << m->name();\
   for(Nodes::iterator n = m->n_begin(); n != m->n_end(); n++) \
-    VLOG(50) << "      Node: " << (*n)->label(); \
+    VLOG(50) << "      Node: " << (*n)->label() << " " << (*n)->bias(); \
   for(Edges::iterator e = m->e_begin(); e != m->e_end(); e++) \
     VLOG(50) << "      Edge: " << (*e)->source() << " -> " <<  (*e)->destination() << " = " << (*e)->weight();
-
 
 
 Mutation::Mutation()
@@ -57,6 +56,8 @@ void Mutation::mutate(Module *m, EvolutionNode *den, EvolutionEdge *dee)
   m->setModified(false);
   while(m->modified() == false)
   {
+    VLOG(50) << "### BEFORE MUTATION";
+    LOG_MODULE;
     __mutateDelEdge(m,    dee->delProbability());
     __mutateModifyEdge(m, dee->modifyProbability(),
                           dee->modifyDelta(),
@@ -70,7 +71,10 @@ void Mutation::mutate(Module *m, EvolutionNode *den, EvolutionEdge *dee)
     __mutateAddNode(m,    den->addProbability(),
                           den->addMaxValue());
     __cleanup(m);
-  VLOG(50) << "<< mutate";
+    VLOG(50) << "<< mutate";
+    VLOG(50) << "### AFTER MUTATION";
+    LOG_MODULE;
+    VLOG(50) << "### AFTER MUTATION";
   }
 }
 
@@ -130,9 +134,10 @@ void Mutation::__mutateDelEdge(Module *m, double probability)
   VLOG(50) << "<<<<< del edge";
 }
 
-void Mutation::__mutateModifyEdge(Module *m, double probability,
-                                                           double delta,
-                                                           double max)
+void Mutation::__mutateModifyEdge(Module *m,
+                                  double probability,
+                                  double delta,
+                                  double max)
 {
   VLOG(50) << ">>>>> modify edge";
   LOG_MODULE;
@@ -366,9 +371,10 @@ void Mutation::__mutateAddNode(Module *m, double probability, double max)
   VLOG(50) << "<<<<< add node";
 }
 
-void Mutation::__mutateModifyNode(Module *m, double probability,
-                                                           double delta,
-                                                           double max)
+void Mutation::__mutateModifyNode(Module *m,
+                                  double probability,
+                                  double delta,
+                                  double max)
 {
   if(Random::unit() >= probability) return;
   VLOG(50) << ">>>>> modify node";
@@ -383,6 +389,7 @@ void Mutation::__mutateModifyNode(Module *m, double probability,
   if(value >  max) value =  max;
   if(value < -max) value = -max;
   n->setBias(value);
+  VLOG(50) << "  ****** node bias set to " << n->bias();
   LOG_MODULE;
   VLOG(50) << "<<<<< modify node";
 }

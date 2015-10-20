@@ -83,7 +83,7 @@ void Node::add(ParseElement *element)
 
   if(element->opening(TAG_BIAS))
   {
-    element->set(TAG_BIAS, _bias);
+    element->set(TAG_VALUE, _bias);
     VLOG(100) << "setting bias to " << _bias;
   }
 }
@@ -327,6 +327,7 @@ Node* Node::copy()
   copy->_bias             = _bias;
   copy->_isSource         = _isSource;
   copy->_isDestination    = _isDestination;
+
   // edges must be copied outside of here
   return copy;
 }

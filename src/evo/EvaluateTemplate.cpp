@@ -57,8 +57,8 @@ void EvaluateTemplate::__evaluate()
         stringstream sst;
         sst << _options << " " << _xml;
         _com->init(_workingDirectory, sst.str());
-        _nrOfSensors   = _com->numberOfSensors();
-        _nrOfActuators = _com->numberOfActuators();
+        _nrOfSensors   = _com->numberOfSensorsValues();
+        _nrOfActuators = _com->numberOfActuatorsValues();
         _sensorValues.resize(_nrOfSensors);
         _actuatorValues.resize(_nrOfActuators);
       }
@@ -69,7 +69,7 @@ void EvaluateTemplate::__evaluate()
 
         for(int j = 0; j < _nrOfSensors; j++)
         {
-          _com->getSensorValue(&_sensorValues[j], j);
+           _sensorValues[j] = _com->getSensorValue(j);
         }
 
         updateController();
@@ -90,7 +90,8 @@ void EvaluateTemplate::__evaluate()
 
         for(int j = 0; j < _nrOfActuators; j++)
         {
-          _com->setActuatorValue(_actuatorValues[j], j);
+          // cout << "Set actuator " << j << " " << _actuatorValues[j] << endl;
+          _com->setActuatorValue(j, _actuatorValues[j]);
         }
       }
 

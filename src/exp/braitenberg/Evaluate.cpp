@@ -28,5 +28,5 @@ void Evaluate::updateController()
 
 void Evaluate::updateFitnessFunction()
 {
-  _fitness += _sensorValues[6] + _sensorValues[7];
+  _fitness += _sensorValues[6] + _sensorValues[7] - _networkInput[0] - _networkInput[1];
 }

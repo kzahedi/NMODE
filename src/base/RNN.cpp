@@ -66,6 +66,11 @@ void Neuron::setBias(double value)
   _bias = value;
 }
 
+double Neuron::bias()
+{
+  return _bias;
+}
+
 void Neuron::setTransferfunction(int transferfunction) throw(ENPException)
 {
   if(transferfunction != NEURON_TRANSFER_FUNCTION_ID &&
@@ -120,15 +125,19 @@ RNN::RNN()
 
 void RNN::update()
 {
-  FORC(Neurons, n, _neurons) (*n)->updateActivity();
-  FORC(Neurons, n, _neurons) (*n)->updateOutput();
+  FORC(Neurons, s, _sensors)   (*s)->updateActivity();
+  FORC(Neurons, h, _hidden)    (*h)->updateActivity();
+  FORC(Neurons, a, _actuators) (*a)->updateActivity();
+  FORC(Neurons, n, _neurons)   (*n)->updateOutput();
 }
 
 void RNN::setInputs(vector<double>& inputs)
 {
+  // cout << ">>> start" << endl;
   for(int i = 0; i < (int)MIN(inputs.size(), _sensors.size()); i++)
   {
     _sensors[i]->setBias(inputs[i]);
+    // cout << "sensor neuron " << i << " set to " << inputs[i] << " = " << _sensors[i]->bias() << endl;
   }
 }
 
