@@ -12,6 +12,8 @@ void Evolve::init(string xml)
 
   _pop          = Population::instance();
   _reproduction = new Reproduction();
+  // the initial population is always open to reproduction
+  _reproduction->reproduce();
 
   _pop->addObserver(this);
   char buf[1024];

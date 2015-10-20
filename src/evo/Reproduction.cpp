@@ -44,6 +44,8 @@ void Reproduction::reproduce()
 
   _parents.clear();
 
+  FORF(Individuals, i, _population, i_begin(), i_end()) (*i)->resetNrOfOffspring();
+
   switch(_pairingMethod)
   {
     case PAIRING_METHOD_RANDOM:
@@ -53,11 +55,12 @@ void Reproduction::reproduce()
   }
 
   _populationSize = Data::instance()->specification()->reproduction()->populationSize();
+
   while(_population->i_size() < _populationSize)
   {
     __createOffspring();
   }
-  cout << "Population size after generation of offspring: " << _population->i_size() << endl;
+
   _population->reproductionCompleted();
 }
 
@@ -74,24 +77,23 @@ void Reproduction::__select()
   _population->resize(nrOfParents);
   _population->incAge();
   _population->serialise();
-  cout << "Population size after selection: " << _population->i_size() << endl;
 }
 
 void Reproduction::__randomPairing()
 {
   FORF(Individuals, i, _population, i_begin(), i_end())
   {
-    Individual *dad = *i;
-    Individual *mom = NULL;
+    Individual *mom = *i;
+    Individual *dad = NULL;
     if(_population->i_size() > 1)
     {
-      do { mom = __getRandomMate(); } while (mom == dad);
+      do { dad = __getRandomMate(); } while (dad == mom);
     }
     else
     {
-      mom = dad;
+      dad = mom;
     }
-    Parents *parents = new Parents(dad, mom);
+    Parents *parents = new Parents(mom, dad);
     _parents.push_back(parents);
   }
 }
@@ -114,7 +116,8 @@ Individual* Reproduction::__getRandomMate()
 
 Parents* Reproduction::__randomlySelectParent()
 {
-  return _parents[0];
+  int parentIndex = Random::randi(0, _parents.size() -1);
+  return _parents[parentIndex];
 }
 
 void Reproduction::__createOffspring()
@@ -131,6 +134,8 @@ void Reproduction::__createOffspring()
     child = p->mom->copy();
     child->resetAge();
   }
+
+  p->mom->incOfOffspring();
 
   _mutation->mutate(child);
   _population->addIndividual(child);

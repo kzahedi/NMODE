@@ -19,9 +19,6 @@ class Individual : public XsdParseNode
     void add(ParseElement *element);
     static void createXsd(XsdSpecification *spec);
 
-    int               offspring();
-    void              setOffstring(int);
-
     void              setFitness(double);
     double            fitness();
 
@@ -40,6 +37,16 @@ class Individual : public XsdParseNode
     void              incAge();
     void              resetAge();
     int               age();
+
+    int               nrOfOffspring();
+    void              incOfOffspring();
+    void              resetNrOfOffspring();
+
+    int               nrOfSynapses();
+    void              setNrOfSynapses(int);
+
+    int               nrOfNeurons();
+    void              setNrOfNeurons(int);
 
     Modules::iterator m_begin();
     Modules::iterator m_end();
@@ -62,13 +69,15 @@ class Individual : public XsdParseNode
 
     int     _id;
     int     _age;
-    int     _offspring;
     double  _fitness;
     Modules _modules;
     double  _probability;
     double  _rawFitness;
     double  _edgeCost;
     double  _nodeCost;
+    int     _nrOfOffspring;
+    int     _nrOfSynapses;
+    int     _nrOfNeurons;
 };
 
 typedef vector<Individual*> Individuals;

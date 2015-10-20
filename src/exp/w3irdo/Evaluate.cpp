@@ -36,6 +36,8 @@ void Evaluate::updateFitnessFunction()
   _x = _sensorValues[31];
   _y = _sensorValues[32];
 
+  _dist =  sqrt(_x * _x + _y * _y);
+
   // cout << "output:";
   // for(int i = 0; i < (int)_actuatorValues.size(); i++)
   // {
@@ -43,5 +45,6 @@ void Evaluate::updateFitnessFunction()
   // }
   // cout << endl;
 
-  _fitness += _x + _y;
+  _fitness += _dist;
+
 }

@@ -33,6 +33,8 @@ void EvaluateTemplate::run()
 
     i->setNodeCost(nc);
     i->setEdgeCost(ec);
+    i->setNrOfSynapses(_rnn->nrOfSynapses());
+    i->setNrOfNeurons(_rnn->nrOfNeurons());
 
     _fitness -= nc + ec;
 
@@ -79,6 +81,7 @@ void EvaluateTemplate::__evaluate()
         _rnn->getOutput(_actuatorValues);
 
         _message.str("");
+        _message << "Generation " << _population->generation() << "\n";
         _message << "Fitness " << _fitness;
 
         updateFitnessFunction();

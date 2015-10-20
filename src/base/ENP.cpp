@@ -154,7 +154,6 @@ void ENP::__getChild(ParseElement *element)
 
   if(element->opening(TAG_EVALUATION))
   {
-    cout << "found " << TAG_EVALUATION << endl;
     _evaluation = new Evaluation(this);
     current = _evaluation;
     current->add(element);

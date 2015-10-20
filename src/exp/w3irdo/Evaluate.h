@@ -22,4 +22,5 @@ class Evaluate : public EvaluateTemplate
     double _y;
     double _lastX;
     double _lastY;
+    double _dist;
 };

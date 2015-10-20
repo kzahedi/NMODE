@@ -166,12 +166,10 @@ void Mutation::__mutateAddEdge(Module *m, double probability,
   if(Random::unit() >= probability) return;
   VLOG(50) << ">>>>> add edge";
   LOG_MODULE;
-  m->setModified(true);
 
   double probabilities[m->n_size()][m->n_size()];
   double d   =  0.0;
   double min = -1.0;
-
 
   for(int s_index = 0; s_index < m->n_size(); s_index++)
   {
@@ -184,10 +182,8 @@ void Mutation::__mutateAddEdge(Module *m, double probability,
   for(int s_index = 0; s_index < m->n_size(); s_index++)
   {
     Node *src_node = m->node(s_index);
-
     if(src_node->isSource())
     {
-
       for(int d_index = 0; d_index < m->n_size(); d_index++)
       {
         Node *dst_node = m->node(d_index);
@@ -204,11 +200,9 @@ void Mutation::__mutateAddEdge(Module *m, double probability,
           }
           else
           {
-
             d  = DIST(src_node->position(), dst_node->position());
-            d *= d;
             probabilities[s_index][d_index] = d;
-            if(min < 0.0) min = d;
+            if(min < 0.0) min = d; // first iteration
             if(min < d)   min = d;
             VLOG(50) << "    edge from "
               << src_node->label() << " to "
@@ -232,58 +226,62 @@ void Mutation::__mutateAddEdge(Module *m, double probability,
     }
   }
 
-  for(int s_index = 0; s_index < m->n_size(); s_index++)
+  if(sum > 0.0)
   {
-    for(int d_index = 0; d_index < m->n_size(); d_index++)
-    {
-      probabilities[s_index][d_index] = probabilities[s_index][d_index] / sum;
-    }
-  }
-
-  if(VLOG_IS_ON(50))
-  {
-    stringstream sst;
-    sst << "    probabilities " << m->n_size() << "x" << m->n_size();
-    sst.precision(3);
-    sst.setf(ios::fixed,ios::floatfield);
-    sst << "[ ";
     for(int s_index = 0; s_index < m->n_size(); s_index++)
     {
-      sst << " [ " << probabilities[s_index][0];
       for(int d_index = 0; d_index < m->n_size(); d_index++)
       {
-        sst << ", " << probabilities[s_index][d_index];
+        probabilities[s_index][d_index] = probabilities[s_index][d_index] / sum;
+      }
+    }
+
+    if(VLOG_IS_ON(50))
+    {
+      stringstream sst;
+      sst << "    probabilities " << m->n_size() << "x" << m->n_size();
+      sst.precision(3);
+      sst.setf(ios::fixed,ios::floatfield);
+      sst << "[ ";
+      for(int s_index = 0; s_index < m->n_size(); s_index++)
+      {
+        sst << " [ " << probabilities[s_index][0];
+        for(int d_index = 0; d_index < m->n_size(); d_index++)
+        {
+          sst << ", " << probabilities[s_index][d_index];
+        }
+        sst << " ]";
       }
       sst << " ]";
+      VLOG(50) << sst.str();
     }
-    sst << " ]";
-    VLOG(50) << sst.str();
-  }
 
-  double p  = Random::unit();
-  double s  = 0.0;
-  VLOG(50) << "    p = " << p;
-  for(int s_index = 0; s_index < m->n_size(); s_index++)
-  {
-    for(int d_index = 0; d_index < m->n_size(); d_index++)
+    double p  = Random::unit();
+    double s  = 0.0;
+    VLOG(50) << "    p = " << p;
+    for(int s_index = 0; s_index < m->n_size(); s_index++)
     {
-      s += probabilities[s_index][d_index];
-      VLOG(50) << "    s = " << s;
-      if(p <= s)
+      for(int d_index = 0; d_index < m->n_size(); d_index++)
       {
-        Node *src = m->node(s_index);
-        Node *dst = m->node(d_index);
-        VLOG(50) << "    adding edge from " << src->label() << " -> " << dst->label();
-        VLOG(50) << "    before number of edges: " << m->e_size();
-        Edge *e   = m->addEdge(src, dst, Random::rand(-max, max));
-        VLOG(50) << "    adding edge from "
-                 << m->node(s_index)->label() << " to "
-                 << m->node(d_index)->label() << " with "
-                 << e->weight();
-        VLOG(50) << "    after number of edges: " << m->e_size();
-        return;
+        s += probabilities[s_index][d_index];
+        VLOG(50) << "    s = " << s;
+        if(p <= s)
+        {
+          Node *src = m->node(s_index);
+          Node *dst = m->node(d_index);
+          VLOG(50) << "    adding edge from " << src->label() << " -> " << dst->label();
+          VLOG(50) << "    before number of edges: " << m->e_size();
+          Edge *e   = m->addEdge(src, dst, Random::rand(-max, max));
+          VLOG(50) << "    adding edge from "
+            << m->node(s_index)->label() << " to "
+            << m->node(d_index)->label() << " with "
+            << e->weight();
+          VLOG(50) << "    after number of edges: " << m->e_size();
+          return;
+        }
       }
     }
+    m->setModified(true);
   }
   LOG_MODULE;
   VLOG(50) << "<<<<< add edge";
@@ -380,12 +378,14 @@ void Mutation::__mutateModifyNode(Module *m,
   VLOG(50) << ">>>>> modify node";
   LOG_MODULE;
   VLOG(50) << "    will modify one node";
-  m->setModified(true);
 
   int ni        = int(Random::unit() * m->n_size());
   Node *n       = m->node(ni);
+  if(n->type() == TAG_CONNECTOR) return;
+  m->setModified(true);
   double value  = n->bias();
-  value        += Random::rand(-delta, delta);
+  double d  = Random::rand(-delta, delta);
+  value        += d;
   if(value >  max) value =  max;
   if(value < -max) value = -max;
   n->setBias(value);

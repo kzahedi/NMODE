@@ -18,11 +18,11 @@ using namespace boost::algorithm;
 Individual::Individual(XsdParseNode *parent)
   : XsdParseNode(parent)
 {
-  _id          = 1;
-  _fitness     = 0.0;
-  _offspring   = 0;
-  _probability = 0.0;
-  _age         = 0;
+  _id            = 1;
+  _fitness       = 0.0;
+  _probability   = 0.0;
+  _age           = 0;
+  _nrOfOffspring = 0;
 }
 
 void Individual::add(ParseElement *element)
@@ -41,8 +41,8 @@ void Individual::add(ParseElement *element)
     VLOG(100) << "opening <Individual> " << element->name();
     element->set(TAG_ID,        _id);
     element->set(TAG_FITNESS,   _fitness);
-    element->set(TAG_OFFSPRING, _offspring);
-    VLOG(100) << "setting id = " << _id << " fitness = " << _fitness << " offspring = " << _offspring;
+    element->set(TAG_OFFSPRING, _nrOfOffspring);
+    VLOG(100) << "setting id = " << _id << " fitness = " << _fitness << " offspring = " << _nrOfOffspring;
   }
 
   if(element->opening(TAG_MODULE))
@@ -74,16 +74,6 @@ int Individual::id()
 double Individual::fitness()
 {
   return _fitness;
-}
-
-int Individual::offspring()
-{
-  return _offspring;
-}
-
-void Individual::setOffstring(int o)
-{
-  _offspring = o;
 }
 
 Modules::iterator Individual::m_begin()
@@ -246,11 +236,15 @@ void Individual::setProbability(double p)
 
 Individual* Individual::copy()
 {
-  Individual *copy   = new Individual();
-  copy->_fitness     = _fitness;
-  copy->_probability = _probability;
-  copy->_id          = _id;
-  copy->_age         = _age;
+  Individual *copy     = new Individual();
+  copy->_fitness       = _fitness;
+  copy->_probability   = _probability;
+  copy->_id            = _id;
+  copy->_age           = _age;
+  copy->_nrOfOffspring = _nrOfOffspring;
+  copy->_rawFitness    = _rawFitness;
+  copy->_edgeCost      = _edgeCost;
+  copy->_nodeCost      = _nodeCost;
 
   FORC(Modules, m, _modules) copy->addModule((*m)->copy());
   return copy;
@@ -299,5 +293,40 @@ double Individual::edgeCost()
 void Individual::setEdgeCost(double c)
 {
   _edgeCost = c;
+}
+
+int Individual::nrOfOffspring()
+{
+  return _nrOfOffspring;
+}
+
+void Individual::incOfOffspring()
+{
+  _nrOfOffspring = _nrOfOffspring + 1;
+}
+
+void Individual::resetNrOfOffspring()
+{
+  _nrOfOffspring = 0;
+}
+
+int  Individual::nrOfSynapses()
+{
+  return _nrOfSynapses;
+}
+
+void Individual::setNrOfSynapses(int nr)
+{
+  _nrOfSynapses = nr;
+}
+
+int Individual::nrOfNeurons()
+{
+  return _nrOfNeurons;
+}
+
+void Individual::setNrOfNeurons(int nr)
+{
+  _nrOfNeurons = nr;
 }
 

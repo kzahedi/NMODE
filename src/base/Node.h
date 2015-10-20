@@ -100,16 +100,16 @@ class Node : public XsdParseNode
     };
 
   private:
-    string _type;
-    string _label;
-    P3D    _position;
-    string _transferfunction;
-    string _nodeName;
-    string _moduleName;
-    double _bias;
     Edges  _in;
-    bool   _isSource;
+    P3D    _position;
     bool   _isDestination;
+    bool   _isSource;
+    double _bias;
+    string _label;
+    string _moduleName;
+    string _nodeName;
+    string _transferfunction;
+    string _type;
 };
 
 typedef vector<Node*> Nodes;

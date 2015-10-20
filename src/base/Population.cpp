@@ -23,7 +23,7 @@ Population* Population::_me = NULL;
 Population::Population(XsdParseNode *parent)
   : XsdParseNode(parent)
 {
-  _generation      = 1;
+  _generation      = 0;
   _nextIndividual  = 0;
   _individualId    = 0;
   _openEvaluations = 0;
@@ -203,14 +203,24 @@ void Population::serialise()
   _output.close();
 
   sst.str("");
+  sst << _logDirectory << "/" << "last_generation.xml";
+  cout << "Logging " << sst.str() << endl;
+  _output.open(sst.str());
+  _output << Data::instance()->xml();
+  _output.close();
+
+  sst.str("");
   sst << _logDirectory << "/" << "stats-" << _generation << ".csv";
   cout << "Logging " << sst.str() << endl;
   _output.open(sst.str());
+  _output << "# ID, Fitness, Age, Raw Fitness, Node Cost, Edge Cost, Nr. of Neurones, Nr. of Syanspes, Nr. of offspring" << endl;
   FORC(Individuals, i, _individuals)
   {
     _output
-      << (*i)->id()         << "," << (*i)->fitness()  << "," << (*i)->age() << ","
-      << (*i)->rawFitness() << "," << (*i)->nodeCost() << "," << (*i)->edgeCost()
+      << (*i)->id()          << "," << (*i)->fitness()      << "," << (*i)->age() << ","
+      << (*i)->rawFitness()  << "," << (*i)->nodeCost()     << "," << (*i)->edgeCost() << ","
+      << (*i)->nrOfNeurons() << "," << (*i)->nrOfSynapses() << ","
+      << (*i)->nrOfOffspring()
       << endl;
   }
   _output.close();

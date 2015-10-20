@@ -31,6 +31,7 @@ Node::Node(XsdParseNode *parent)
 {
   _isSource      = false;
   _isDestination = false;
+  _bias          = 0.0;
 }
 
 Node::~Node()
@@ -186,7 +187,6 @@ void Node::setPosition(P3D p)
 {
   _position = p;
 }
-
 
 void Node::setTransferfunction(string tf)
 {
