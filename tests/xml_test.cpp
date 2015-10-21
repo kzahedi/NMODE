@@ -28,8 +28,8 @@
 
 #include "xml_test.h"
 
-#include "base/Data.h"
-#include "base/macros.h"
+#include "enp/Data.h"
+#include "enp/macros.h"
 
 #include <iostream>
 #include <string>

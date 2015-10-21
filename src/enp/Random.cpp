@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Yet Another Robot Simulator (YARS).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/YARS                                  *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -26,55 +26,54 @@
 
 
 
-#ifndef __DATA_MODULE_EDGE_H__
-#define __DATA_MODULE_EDGE_H__
+#include "Random.h"
 
-#include "XsdParseNode.h"
-#include "base/P3D.h"
+#include <stdlib.h>
 
-#include <vector>
+#include <iostream>
 
 using namespace std;
 
-# define TAG_MODULE_EDGE            (char*)"edge"
-# define TAG_MODULE_EDGE_DEFINITION (char*)"module_edge_definition"
-
-class Node;
-
-class Edge : public XsdParseNode
+void Random::initialise()
 {
-  public:
-    Edge(XsdParseNode *parent);
-    ~Edge();
+  time_t t;
+  time(&t);
+  srand48(t);
 
-    //Edge(const Edge);
-    //Edge operator=(const Edge);
+  cout << "random initialised:";
+  for(int i = 0; i < 10; i++)
+  {
+    cout << " " << rand(0, 100);
+  }
+  // cout << endl;
+  // cout << "random initialised:";
+  // for(int i = 0; i < 10; i++)
+  // {
+    // cout << " " << unit();
+  // }
+  // cout << endl;
 
-    void add(ParseElement *element);
-    static void createXsd(XsdSpecification *spec);
+}
 
-    string source();
-    string destination();
+double Random::unit()
+{
+  return drand48();
+}
 
-    double weight();
-    void   setWeight(double);
+void Random::initialise(int seed)
+{
+  srand(seed);
+}
 
-    Node* sourceNode();
-    void  setSourceNode(Node*);
-    Node* destinationNode();
-    void  setDestinationNode(Node*);
+int Random::randi(int min, int max)
+{
+  return min + int(drand48() * (double)(max-min) + 0.5);
+}
 
-    bool operator==(const Edge o);
-    bool operator!=(const Edge o);
 
-  private:
-    string _source;
-    string _destination;
-    double _weight;
-    Node  *_sourceNode;
-    Node  *_destinationNode;
-};
-
-typedef vector<Edge*> Edges;
-
-#endif // __DATA_MODULE_EDGE_H__
+double Random::rand(double min, double max)
+{
+  double d = drand48();
+  return min + d * (double)(max - min);
+  // return min + drand48() * (double)(max - min);
+}

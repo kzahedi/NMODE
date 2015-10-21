@@ -1,7 +1,7 @@
 include_directories("${PROJECT_SOURCE_DIR}/src")
 link_directories(${PROJECT_BINARY_DIR}/lib)
 
-add_library(ENPBase 
+add_library(ENP SHARED
   RNN.cpp
   P3D.cpp
   Quaternion.cpp
@@ -71,6 +71,11 @@ add_library(ENPBase
   XsdGraphvizExporter.cpp
 
   Exporter.cpp
+
+  Mutation.cpp
+  Reproduction.cpp
+  EvaluateTemplate.cpp
   )
 
-target_link_libraries(ENPBase ${Boost_LIBRARIES} xerces-c glog)
+target_link_libraries(ENP ${Boost_LIBRARIES} xerces-c glog YarsClientCom)
+install(TARGETS ENP LIBRARY DESTINATION lib)

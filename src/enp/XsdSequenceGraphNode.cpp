@@ -27,7 +27,7 @@
 
 #include "XsdSequenceGraphNode.h"
 
-#include "base/macros.h"
+#include "enp/macros.h"
 
 #include <iostream>
 

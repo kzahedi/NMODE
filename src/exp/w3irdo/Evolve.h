@@ -1,9 +1,9 @@
 #ifndef __EVOLVE_H__
 #define __EVOLVE_H__
 
-#include "base/Observer.h"
-#include "base/Data.h"
-#include "evo/Reproduction.h"
+#include "enp/Observer.h"
+#include "enp/Data.h"
+#include "enp/Reproduction.h"
 #include "Evaluate.h"
 
 #include <string>

@@ -28,10 +28,10 @@
 
 #include "rnn_from_individual_test.h"
 
-#include "base/RNN.h"
-#include "base/ENPException.h"
-#include "base/Individual.h"
-#include "base/RnnFromIndividual.h"
+#include "enp/RNN.h"
+#include "enp/ENPException.h"
+#include "enp/Individual.h"
+#include "enp/RnnFromIndividual.h"
 
 #include <iostream>
 

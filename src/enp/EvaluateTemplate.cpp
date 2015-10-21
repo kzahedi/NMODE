@@ -1,6 +1,6 @@
 #include "EvaluateTemplate.h"
-#include "base/RnnFromIndividual.h"
-#include "base/Data.h"
+#include "RnnFromIndividual.h"
+#include "Data.h"
 
 #include <sstream>
 

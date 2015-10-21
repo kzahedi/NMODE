@@ -28,8 +28,8 @@
 
 #include "rnn_test.h"
 
-#include "base/RNN.h"
-#include "base/ENPException.h"
+#include "enp/RNN.h"
+#include "enp/ENPException.h"
 
 #include <iostream>
 

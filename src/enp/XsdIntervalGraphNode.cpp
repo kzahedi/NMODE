@@ -25,42 +25,39 @@
  *************************************************************************/
 
 
-#include "XsdEnumerationGraphNode.h"
+#include "XsdIntervalGraphNode.h"
 
-#include "base/macros.h"
+#include "enp/macros.h"
 
-// #include "configuration/data/Data.h"
-
-XsdEnumerationGraphNode::XsdEnumerationGraphNode(XsdEnumeration *spec)
+XsdIntervalGraphNode::XsdIntervalGraphNode(XsdInterval *spec)
 {
   _spec = spec;
-  FORF(vector<string>, v, spec, v_begin(), v_end())
-  {
-    _oss << "<tr> <td bgcolor=\"" << SPECIFICATION_BGCOLOR << "\"> " << *v << " </td> </tr>";
-  }
-  _type = "enum";
+
+  _type = "interval";
+  _oss << "<tr> <td bgcolor=\"" << SPECIFICATION_BGCOLOR << "\"> min:  " << spec->minimum() << " </td> </tr>";
+  _oss << "<tr> <td bgcolor=\"" << SPECIFICATION_BGCOLOR << "\"> max:  " << spec->maximum() << " </td> </tr>";
+  _oss << "<tr> <td bgcolor=\"" << SPECIFICATION_BGCOLOR << "\"> type: " << spec->type() << " </td> </tr>";
   _specification = _oss.str();
 }
 
-string XsdEnumerationGraphNode::customLabel(string label)
+string XsdIntervalGraphNode::customLabel(string label)
 {
   _oss.str("");
   _oss << " [label=<";
-  _oss << "<table bgcolor=\"" << ENUM_BGCOLOR << "\" border=\"0\" cellborder=\"1\" cellspacing=\"0\" cellpadding=\"0\">";
-  _oss << "<tr><td> " << label  << "</td></tr>";// << "&nbsp;:&nbsp;" << _type << "</td></tr>";
+  _oss << "<table bgcolor=\"" << INTERVAL_BGCOLOR << "\" border=\"0\" cellborder=\"1\" cellspacing=\"0\" cellpadding=\"0\">";
+  _oss << "<tr><td> " << label  << "</td></tr>"; //<< "&nbsp;:&nbsp;" << _type << "</td></tr>";
   _oss << _specification;
   _oss << "</table>";
   _oss << ">];";
   return _oss.str();
 }
 
-
-string XsdEnumerationGraphNode::name()
+string XsdIntervalGraphNode::name()
 {
   return _spec->name();
 }
 
-XsdEnumeration* XsdEnumerationGraphNode::spec()
+XsdInterval* XsdIntervalGraphNode::spec()
 {
   return _spec;
 }

@@ -116,17 +116,26 @@ void Population::incGeneration()
 }
 
 
-void Population::calculateSelectionProbabilities()
+void Population::__calculateSelectionProbabilities()
 {
   double sum = 0.0;
   double min = _individuals[0]->fitness();
   vector<double> fitness(_individuals.size());
 
-  FORI(0, _individuals.size(), i) fitness[i] = _individuals[i]->fitness();
-  FORI(0, fitness.size(), i)      if(min > fitness[i]) min = fitness[i];
-  FORI(0, fitness.size(), i)      fitness[i] += min;
-  FORI(0, fitness.size(), i)      sum += fitness[i];
-  FORI(0, fitness.size(), i)      _individuals[i]->setProbability(fitness[i] / sum);
+  FORI(0, _individuals.size(), i) fitness[i] = (_individuals[i]->fitness())
+                                             * (_individuals[i]->fitness());
+  FORI(0, fitness.size(),      i) if(min > fitness[i]) min = fitness[i];
+  FORI(0, fitness.size(),      i) fitness[i] -= min;
+  FORI(0, fitness.size(),      i) sum += fitness[i];
+  if(sum > 0.0)
+  {
+    FORI(0, fitness.size(),    i) _individuals[i]->setProbability(fitness[i] / sum);
+  }
+  else
+  {
+    double f = 1.0/((double)_individuals.size());
+    FORI(0, fitness.size(),    i) _individuals[i]->setProbability(f);
+  }
 }
 
 Population* Population::instance()
@@ -195,6 +204,7 @@ void Population::__getUniqueDirectoryName()
 
 void Population::serialise()
 {
+  cout << "Generation " << _generation << " completed." << endl;
   stringstream sst;
   sst << _logDirectory << "/" << "generation-" << _generation << ".xml";
   cout << "Logging " << sst.str() << endl;
@@ -204,23 +214,23 @@ void Population::serialise()
 
   sst.str("");
   sst << _logDirectory << "/" << "last_generation.xml";
-  cout << "Logging " << sst.str() << endl;
+  // cout << "Logging " << sst.str() << endl;
   _output.open(sst.str());
   _output << Data::instance()->xml();
   _output.close();
 
   sst.str("");
   sst << _logDirectory << "/" << "stats-" << _generation << ".csv";
-  cout << "Logging " << sst.str() << endl;
+  // cout << "Logging " << sst.str() << endl;
   _output.open(sst.str());
-  _output << "# ID, Fitness, Age, Raw Fitness, Node Cost, Edge Cost, Nr. of Neurones, Nr. of Syanspes, Nr. of offspring" << endl;
+  _output << "# ID, Fitness, Age, Raw Fitness, Node Cost, Edge Cost, Nr. of Neurones, Nr. of Syanspes, Nr. of offspring, Probability" << endl;
   FORC(Individuals, i, _individuals)
   {
     _output
       << (*i)->id()          << "," << (*i)->fitness()      << "," << (*i)->age() << ","
       << (*i)->rawFitness()  << "," << (*i)->nodeCost()     << "," << (*i)->edgeCost() << ","
       << (*i)->nrOfNeurons() << "," << (*i)->nrOfSynapses() << ","
-      << (*i)->nrOfOffspring()
+      << (*i)->nrOfOffspring() << "," << (*i)->probability()
       << endl;
   }
   _output.close();
@@ -229,4 +239,21 @@ void Population::serialise()
 void Population::incAge()
 {
   FORC(Individuals, i, _individuals) (*i)->incAge();
+}
+
+void Population::calculateNrOfOffspring()
+{
+  __calculateSelectionProbabilities();
+  int populationSize = REP->populationSize() - _individuals.size();
+  if(populationSize <= 0)
+  {
+    cout << "No offspring will be generated!" << endl;
+    return;
+  }
+  FORC(Individuals, i, _individuals)
+  {
+    int offspring = (int)((*i)->probability() * populationSize + 1.5);
+    (*i)->setNrOfOffspring(offspring);
+  }
+
 }

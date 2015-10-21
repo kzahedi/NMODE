@@ -1,6 +1,6 @@
 #include "DataConfiguration.h"
 
-#include "base/macros.h"
+#include "enp/macros.h"
 
 #include <iostream>
 #include <glog/logging.h>

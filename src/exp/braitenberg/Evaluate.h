@@ -1,7 +1,7 @@
-#include "evo/EvaluateTemplate.h"
+#include "enp/EvaluateTemplate.h"
 
-#include "base/RNN.h"
-#include "base/Population.h"
+#include "enp/RNN.h"
+#include "enp/Population.h"
 
 #include <yars/cppClientCom/YarsClientCom.h>
 

@@ -32,14 +32,10 @@ ELSE(USE_DEBUG_MODE)
   set(CMAKE_BUILD_TYPE Release) 
 ENDIF(USE_DEBUG_MODE)
 
-INSTALL(DIRECTORY ${PROJECT_BINARY_DIR}/lib
-  DESTINATION ${CMAKE_INSTALL_PREFIX}
-  PATTERN "*.dylib" 
-  )
-
 include_directories(${CMAKE_SRC})
 
 include(cmake/IncludePackages.cmake)
 
 add_subdirectory(src)
 add_subdirectory(tests)
+

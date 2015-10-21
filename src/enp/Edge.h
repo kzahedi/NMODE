@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Yet Another Robot Simulator (YARS).              *
+ * This file is part of Evolution of Neural Pathways (ENP).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/YARS                                  *
+ * Web: https://github.com/kzahedi/ENP                                   *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -25,39 +25,56 @@
  *************************************************************************/
 
 
-#include "XsdIntervalGraphNode.h"
 
-#include "base/macros.h"
+#ifndef __DATA_MODULE_EDGE_H__
+#define __DATA_MODULE_EDGE_H__
 
-XsdIntervalGraphNode::XsdIntervalGraphNode(XsdInterval *spec)
+#include "XsdParseNode.h"
+#include "enp/P3D.h"
+
+#include <vector>
+
+using namespace std;
+
+# define TAG_MODULE_EDGE            (char*)"edge"
+# define TAG_MODULE_EDGE_DEFINITION (char*)"module_edge_definition"
+
+class Node;
+
+class Edge : public XsdParseNode
 {
-  _spec = spec;
+  public:
+    Edge(XsdParseNode *parent);
+    ~Edge();
 
-  _type = "interval";
-  _oss << "<tr> <td bgcolor=\"" << SPECIFICATION_BGCOLOR << "\"> min:  " << spec->minimum() << " </td> </tr>";
-  _oss << "<tr> <td bgcolor=\"" << SPECIFICATION_BGCOLOR << "\"> max:  " << spec->maximum() << " </td> </tr>";
-  _oss << "<tr> <td bgcolor=\"" << SPECIFICATION_BGCOLOR << "\"> type: " << spec->type() << " </td> </tr>";
-  _specification = _oss.str();
-}
+    //Edge(const Edge);
+    //Edge operator=(const Edge);
 
-string XsdIntervalGraphNode::customLabel(string label)
-{
-  _oss.str("");
-  _oss << " [label=<";
-  _oss << "<table bgcolor=\"" << INTERVAL_BGCOLOR << "\" border=\"0\" cellborder=\"1\" cellspacing=\"0\" cellpadding=\"0\">";
-  _oss << "<tr><td> " << label  << "</td></tr>"; //<< "&nbsp;:&nbsp;" << _type << "</td></tr>";
-  _oss << _specification;
-  _oss << "</table>";
-  _oss << ">];";
-  return _oss.str();
-}
+    void add(ParseElement *element);
+    static void createXsd(XsdSpecification *spec);
 
-string XsdIntervalGraphNode::name()
-{
-  return _spec->name();
-}
+    string source();
+    string destination();
 
-XsdInterval* XsdIntervalGraphNode::spec()
-{
-  return _spec;
-}
+    double weight();
+    void   setWeight(double);
+
+    Node* sourceNode();
+    void  setSourceNode(Node*);
+    Node* destinationNode();
+    void  setDestinationNode(Node*);
+
+    bool operator==(const Edge o);
+    bool operator!=(const Edge o);
+
+  private:
+    string _source;
+    string _destination;
+    double _weight;
+    Node  *_sourceNode;
+    Node  *_destinationNode;
+};
+
+typedef vector<Edge*> Edges;
+
+#endif // __DATA_MODULE_EDGE_H__

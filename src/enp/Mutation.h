@@ -1,10 +1,10 @@
 #ifndef __MUTATION_H__
 #define __MUTATION_H__
-#include "base/Population.h"
-#include "base/Individual.h"
-#include "base/Module.h"
-#include "base/EvolutionEdge.h"
-#include "base/EvolutionNode.h"
+#include "Population.h"
+#include "Individual.h"
+#include "Module.h"
+#include "EvolutionEdge.h"
+#include "EvolutionNode.h"
 
 class Mutation
 {

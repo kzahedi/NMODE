@@ -2,9 +2,9 @@
 
 #include <glog/logging.h>
 
-#include "base/macros.h"
-#include "base/Random.h"
-#include "base/Data.h"
+#include "enp/macros.h"
+#include "enp/Random.h"
+#include "enp/Data.h"
 
 #include <sstream>
 

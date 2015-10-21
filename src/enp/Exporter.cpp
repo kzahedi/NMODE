@@ -3,8 +3,8 @@
 #include <sstream>
 #include <math.h>
 
-#include "base/macros.h"
-#include "base/Individual.h"
+#include "enp/macros.h"
+#include "enp/Individual.h"
 #include "glog/logging.h"
 
 #define XML_BOOL(a) (a?"true":"false")

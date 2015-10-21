@@ -25,55 +25,40 @@
  *************************************************************************/
 
 
+#include "XsdRegularExpressionGraphNode.h"
 
-#include "Random.h"
+#include "enp/macros.h"
 
-#include <stdlib.h>
+// #include "configuration/data/Data.h"
 
-#include <iostream>
-
-using namespace std;
-
-void Random::initialise()
+XsdRegularExpressionGraphNode::XsdRegularExpressionGraphNode(XsdRegularExpression *spec)
 {
-  time_t t;
-  time(&t);
-  srand48(t);
+  _spec = spec;
 
-  // cout << "random initialised:";
-  // for(int i = 0; i < 10; i++)
-  // {
-    // cout << " " << rand(0, 100);
-  // }
-  // cout << endl;
-  // cout << "random initialised:";
-  // for(int i = 0; i < 10; i++)
-  // {
-    // cout << " " << unit();
-  // }
-  // cout << endl;
-
+  _oss << "<tr> <td bgcolor=\"" << SPECIFICATION_BGCOLOR << "\"> "       << spec->regExp() << " </td> </tr>";
+  _oss << "<tr> <td bgcolor=\"" << SPECIFICATION_BGCOLOR << "\"> type: " << spec->type()   << " </td> </tr>";
+  _type = "reg. exp.";
+  _specification = _oss.str();
 }
 
-double Random::unit()
+string XsdRegularExpressionGraphNode::customLabel(string label)
 {
-  return drand48();
+  _oss.str("");
+  _oss << " [label=<";
+  _oss << "<table bgcolor=\"" << REGEXP_BGCOLOR << "\" border=\"0\" cellborder=\"1\" cellspacing=\"0\" cellpadding=\"0\">";
+  _oss << "<tr><td> " << label  << "</td></tr>"; // << "&nbsp;:&nbsp;" << _type << "</td></tr>";
+  _oss << _specification;
+  _oss << "</table>";
+  _oss << ">];";
+  return _oss.str();
 }
 
-void Random::initialise(int seed)
+string XsdRegularExpressionGraphNode::name()
 {
-  srand(seed);
+  return _spec->name();
 }
 
-int Random::randi(int min, int max)
+XsdRegularExpression* XsdRegularExpressionGraphNode::spec()
 {
-  return min + int(drand48() * (double)(max-min) + 0.5);
-}
-
-
-double Random::rand(double min, double max)
-{
-  double d = drand48();
-  return min + d * (double)(max - min);
-  // return min + drand48() * (double)(max - min);
+  return _spec;
 }

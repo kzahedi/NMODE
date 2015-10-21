@@ -28,7 +28,7 @@
 
 #include "XmlChangeLog.h"
 
-#include "base/macros.h"
+#include "enp/macros.h"
 
 #include <sstream>
 

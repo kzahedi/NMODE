@@ -35,17 +35,18 @@ class Population : public Observable, public XsdParseNode
     void                  addIndividual(Individual*);
     void                  sortByFitness();
     void                  incGeneration();
-    void                  calculateSelectionProbabilities();
     void                  resize(int);
     void                  evaluationCompleted();
     void                  reproductionCompleted();
     void                  serialise();
     void                  incAge();
+    void                  calculateNrOfOffspring();
 
     static Population*    instance();
 
   private:
     void            __getUniqueDirectoryName();
+    void            __calculateSelectionProbabilities();
 
     int             _generation;
     int             _individualId;

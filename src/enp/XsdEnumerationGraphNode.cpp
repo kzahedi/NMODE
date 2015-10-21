@@ -25,46 +25,42 @@
  *************************************************************************/
 
 
+#include "XsdEnumerationGraphNode.h"
 
-#ifndef __YARS_FILESYSTEM_OPERATIONS_H__
-#define __YARS_FILESYSTEM_OPERATIONS_H__
+#include "enp/macros.h"
 
-#include <boost/filesystem/path.hpp>
-#include <boost/filesystem/operations.hpp>
-#include <vector>
-#include <iostream>
+// #include "configuration/data/Data.h"
 
-#include "base/ENPException.h"
-
-namespace fs = boost::filesystem;
-using namespace std;
-
-class FileSystemOperations
+XsdEnumerationGraphNode::XsdEnumerationGraphNode(XsdEnumeration *spec)
 {
-  public:
-  static bool doesDirExist(fs::path dirPath);
-  static bool doesFileExist(fs::path filePath);
-  static bool doesDirExist(string *dirName);
-  static bool doesFileExist(string *fileName);
-  static bool doesExecutableExist(string exe) throw (ENPException);
-  static void createDir(string dirName)       throw (ENPException);
+  _spec = spec;
+  FORF(vector<string>, v, spec, v_begin(), v_end())
+  {
+    _oss << "<tr> <td bgcolor=\"" << SPECIFICATION_BGCOLOR << "\"> " << *v << " </td> </tr>";
+  }
+  _type = "enum";
+  _specification = _oss.str();
+}
 
-  static string* getFirstExistingDirContainingDir(std::vector<string> dirs,
-      string *containedDirName);
-  static string* getFirstExistingDirContainingFile(std::vector<string> dirs,
-      string *containedFileName);
-  static string* getFirstExistingDir(std::vector<string> dirs);
-  static string* getFirstExistingFile(std::vector<string> files);
+string XsdEnumerationGraphNode::customLabel(string label)
+{
+  _oss.str("");
+  _oss << " [label=<";
+  _oss << "<table bgcolor=\"" << ENUM_BGCOLOR << "\" border=\"0\" cellborder=\"1\" cellspacing=\"0\" cellpadding=\"0\">";
+  _oss << "<tr><td> " << label  << "</td></tr>";// << "&nbsp;:&nbsp;" << _type << "</td></tr>";
+  _oss << _specification;
+  _oss << "</table>";
+  _oss << ">];";
+  return _oss.str();
+}
 
-  static void checkValidPath(string *name, bool isDir, bool fatal);
-      // description);
-  static void checkValidPathFromAlternatives(string *name, string *pathName,
-      std::vector<string> *pathCandidates, bool fatal);
-  // string description);
 
-  protected:
-    FileSystemOperations();
-    ~FileSystemOperations();
-};
+string XsdEnumerationGraphNode::name()
+{
+  return _spec->name();
+}
 
-#endif
+XsdEnumeration* XsdEnumerationGraphNode::spec()
+{
+  return _spec;
+}

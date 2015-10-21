@@ -1,5 +1,5 @@
-#include "base/Population.h"
-#include "Mutation.h"
+#include "enp/Population.h"
+#include "enp/Mutation.h"
 
 #define PAIRING_METHOD_RANDOM 1001
 

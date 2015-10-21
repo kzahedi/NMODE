@@ -2,7 +2,7 @@
 
 #include "glog/logging.h"
 
-#include "base/macros.h"
+#include "enp/macros.h"
 
 #include <boost/algorithm/string.hpp>
 
@@ -23,6 +23,11 @@ Individual::Individual(XsdParseNode *parent)
   _probability   = 0.0;
   _age           = 0;
   _nrOfOffspring = 0;
+  _rawFitness    = 0.0;
+  _edgeCost      = 0.0;
+  _nodeCost      = 0.0;
+  _nrOfSynapses  = 0;
+  _nrOfNeurons   = 0;
 }
 
 void Individual::add(ParseElement *element)
@@ -234,17 +239,31 @@ void Individual::setProbability(double p)
   _probability = p;
 }
 
-Individual* Individual::copy()
+Individual* Individual::copy(bool reset)
 {
   Individual *copy     = new Individual();
-  copy->_fitness       = _fitness;
-  copy->_probability   = _probability;
-  copy->_id            = _id;
-  copy->_age           = _age;
-  copy->_nrOfOffspring = _nrOfOffspring;
-  copy->_rawFitness    = _rawFitness;
-  copy->_edgeCost      = _edgeCost;
-  copy->_nodeCost      = _nodeCost;
+  if(reset)
+  {
+    copy->_fitness       = 0.0;
+    copy->_probability   = 0.0;
+    copy->_id            = -1;
+    copy->_age           = 0;
+    copy->_nrOfOffspring = 0;
+    copy->_rawFitness    = 0.0;
+    copy->_edgeCost      = 0.0;
+    copy->_nodeCost      = 0.0;
+  }
+  else
+  {
+    copy->_fitness       = _fitness;
+    copy->_probability   = _probability;
+    copy->_id            = _id;
+    copy->_age           = _age;
+    copy->_nrOfOffspring = _nrOfOffspring;
+    copy->_rawFitness    = _rawFitness;
+    copy->_edgeCost      = _edgeCost;
+    copy->_nodeCost      = _nodeCost;
+  }
 
   FORC(Modules, m, _modules) copy->addModule((*m)->copy());
   return copy;
@@ -300,16 +319,6 @@ int Individual::nrOfOffspring()
   return _nrOfOffspring;
 }
 
-void Individual::incOfOffspring()
-{
-  _nrOfOffspring = _nrOfOffspring + 1;
-}
-
-void Individual::resetNrOfOffspring()
-{
-  _nrOfOffspring = 0;
-}
-
 int  Individual::nrOfSynapses()
 {
   return _nrOfSynapses;
@@ -330,3 +339,7 @@ void Individual::setNrOfNeurons(int nr)
   _nrOfNeurons = nr;
 }
 
+void Individual::setNrOfOffspring(int o)
+{
+  _nrOfOffspring = o;
+}

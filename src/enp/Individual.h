@@ -39,8 +39,7 @@ class Individual : public XsdParseNode
     int               age();
 
     int               nrOfOffspring();
-    void              incOfOffspring();
-    void              resetNrOfOffspring();
+    void              setNrOfOffspring(int);
 
     int               nrOfSynapses();
     void              setNrOfSynapses(int);
@@ -61,7 +60,7 @@ class Individual : public XsdParseNode
     double            probability();
     void              setProbability(double);
 
-    Individual*       copy();
+    Individual*       copy(bool reset=false);
 
   private:
     Node*   __getNonHiddenNode(string module, string label);

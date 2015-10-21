@@ -27,7 +27,7 @@
 
 #include "XsdGraphvizExporter.h"
 
-#include "base/FileSystemOperations.h"
+#include "enp/FileSystemOperations.h"
 
 class Pair
 {

@@ -1,7 +1,7 @@
-#include "base/Data.h"
-#include "base/Population.h"
-#include "base/Exporter.h"
-#include "base/Random.h"
+#include "enp/Data.h"
+#include "enp/Population.h"
+#include "enp/Exporter.h"
+#include "enp/Random.h"
 
 #include <glog/logging.h>
 

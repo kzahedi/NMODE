@@ -1,8 +1,11 @@
 #include "Evolve.h"
-#include "base/Data.h"
+
+#include "enp/Data.h"
+#include "enp/Random.h"
 
 Evolve::Evolve()
 {
+  Random::initialise();
 }
 
 void Evolve::init(string xml)

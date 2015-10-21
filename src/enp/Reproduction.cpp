@@ -1,8 +1,8 @@
 #include "Reproduction.h"
 
-#include "base/Random.h"
-#include "base/macros.h"
-#include "base/Data.h"
+#include "Random.h"
+#include "macros.h"
+#include "Data.h"
 
 #include "Mutation.h"
 
@@ -40,11 +40,10 @@ void Reproduction::reproduce()
   }
 
   _population->incGeneration();
-  _population->calculateSelectionProbabilities();
+  _population->calculateNrOfOffspring();
+  _population->serialise();
 
   _parents.clear();
-
-  FORF(Individuals, i, _population, i_begin(), i_end()) (*i)->resetNrOfOffspring();
 
   switch(_pairingMethod)
   {
@@ -76,25 +75,27 @@ void Reproduction::__select()
   _population->sortByFitness();
   _population->resize(nrOfParents);
   _population->incAge();
-  _population->serialise();
 }
 
 void Reproduction::__randomPairing()
 {
   FORF(Individuals, i, _population, i_begin(), i_end())
   {
-    Individual *mom = *i;
-    Individual *dad = NULL;
-    if(_population->i_size() > 1)
+    for(int j = 0; j < (*i)->nrOfOffspring(); j++)
     {
-      do { dad = __getRandomMate(); } while (dad == mom);
+      Individual *mom = *i;
+      Individual *dad = NULL;
+      if(_population->i_size() > 1)
+      {
+        do { dad = __getRandomMate(); } while (dad == mom);
+      }
+      else
+      {
+        dad = mom;
+      }
+      Parents *parents = new Parents(mom, dad);
+      _parents.push_back(parents);
     }
-    else
-    {
-      dad = mom;
-    }
-    Parents *parents = new Parents(mom, dad);
-    _parents.push_back(parents);
   }
 }
 
@@ -105,7 +106,7 @@ Individual* Reproduction::__getRandomMate()
   FORF(Individuals, i, _population, i_begin(), i_end())
   {
     s += (*i)->probability();
-    if(s > dice)
+    if(dice < s)
     {
       return *i;
     }
@@ -131,11 +132,9 @@ void Reproduction::__createOffspring()
   }
   else
   {
-    child = p->mom->copy();
+    child = p->mom->copy(true);
     child->resetAge();
   }
-
-  p->mom->incOfOffspring();
 
   _mutation->mutate(child);
   _population->addIndividual(child);
