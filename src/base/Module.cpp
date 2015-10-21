@@ -75,6 +75,10 @@ void Module::add(ParseElement *element)
       (*e)->setSourceNode(src);
       (*e)->setDestinationNode(dst);
     }
+    if(_isCopy == false)
+    {
+      __applyTranslation();
+    }
     current = parent;
     return;
   }
@@ -159,7 +163,8 @@ void Module::createXsd(XsdSpecification *spec)
   root->add(options);
 
   XsdSequence *optionA = new XsdSequence(OPTION_A);
-
+  optionA->add(NE(TAG_MODULE_ROTATE,    TAG_MODULE_P3D_DEFINITION,  0,1));
+  optionA->add(NE(TAG_MODULE_TRANSLATE, TAG_MODULE_P3D_DEFINITION,  0,1));
   optionA->add(NE(TAG_MODULE_NODE, TAG_MODULE_NODE_DEFINITION, 1, TAG_XSD_UNBOUNDED));
   optionA->add(NE(TAG_MODULE_EDGE, TAG_MODULE_EDGE_DEFINITION, 0, TAG_XSD_UNBOUNDED));
   options->add(optionA);
@@ -541,9 +546,11 @@ Module& Module::operator=(const Module &m)
     addEdge(src, dst, (*e)->weight());
   }
 
-
   __applyMirror();
-  __applyTranslation();
+  if(_isCopy == false)
+  {
+    __applyTranslation();
+  }
 
   return *this;
 }

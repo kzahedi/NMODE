@@ -187,18 +187,13 @@ void Mutation::__mutateAddEdge(Module *m, double probability,
       for(int d_index = 0; d_index < m->n_size(); d_index++)
       {
         Node *dst_node = m->node(d_index);
-
+        // if(src_node->type() == TAG_CONNECTOR && dst_node->type() == TAG_CONNECTOR)
+        // {
+          // continue;
+        // }
         if(dst_node->isDestination())
         {
-
-          if(dst_node->contains(src_node))
-          {
-            VLOG(50) << "    edge from "
-              << src_node->label() << " to "
-              << dst_node->label() << " already exists";
-            probabilities[s_index][d_index] = 0.0;
-          }
-          else
+          if(dst_node->contains(src_node) == false)
           {
             d  = DIST(src_node->position(), dst_node->position());
             probabilities[s_index][d_index] = d;

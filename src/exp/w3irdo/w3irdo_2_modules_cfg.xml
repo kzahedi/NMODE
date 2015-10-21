@@ -96,6 +96,8 @@
     </module>
 
     <module name="leg 3">
+      <rotate    x="0.0"   y="0.0"  z="240.0"/>
+      <translate x="0.0"   y="0.0"  z="0.0"/>
 
       <node type="sensor" label="sensor 1">
         <position x="2.0" y="1.0" z="1.0"/>
