@@ -34,7 +34,7 @@ void EvaluateTemplate::run()
     i->setNodeCost(nc);
     i->setEdgeCost(ec);
     i->setNrOfSynapses(_rnn->nrOfSynapses());
-    i->setNrOfNeurons(_rnn->nrOfNeurons());
+    i->setNrOfNeurons(_rnn->nrOfHidden());
 
     _fitness -= nc + ec;
 
