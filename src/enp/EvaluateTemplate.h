@@ -17,6 +17,7 @@ class EvaluateTemplate
     void setFitnessFunction(int);
     virtual void updateController()      = 0;
     virtual void updateFitnessFunction() = 0;
+    virtual bool abort() = 0;
 
   protected:
     double         _fitness;

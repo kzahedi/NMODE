@@ -16,6 +16,7 @@ class Evaluate : public EvaluateTemplate
 
     void updateController();
     void updateFitnessFunction();
+    bool abort();
 
   private:
     double _x;

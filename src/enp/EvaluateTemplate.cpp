@@ -71,10 +71,19 @@ void EvaluateTemplate::__evaluate()
 
         for(int j = 0; j < _nrOfSensors; j++)
         {
-           _sensorValues[j] = _com->getSensorValue(j);
+          _sensorValues[j] = _com->getSensorValue(j);
         }
 
+        if(abort())
+        {
+          _com->sendReset();
+          _successfulEvaluation = true;
+          return;
+        }
+
+
         updateController();
+
 
         _rnn->setInputs(_networkInput);
         _rnn->update();
@@ -107,7 +116,7 @@ void EvaluateTemplate::__evaluate()
       stringstream sst;
       sst << _options << " " << _xml;
       _com->init(_workingDirectory, sst.str());
-}
+    }
   }
 }
 

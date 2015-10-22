@@ -48,3 +48,8 @@ void Evaluate::updateFitnessFunction()
   _fitness += _dist;
 
 }
+
+bool Evaluate::abort()
+{
+  return false;
+}
