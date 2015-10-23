@@ -1,5 +1,3 @@
-# ENP
-Evolution of Neural Pathways
+# NMODE
+Neuro-MODule Evolution
 
-## TODO
-* Efficient algorithm to add a synapse
