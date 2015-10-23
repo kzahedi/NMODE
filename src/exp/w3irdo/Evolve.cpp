@@ -1,7 +1,7 @@
 #include "Evolve.h"
 
-#include "enp/Data.h"
-#include "enp/Random.h"
+#include "nmode/Data.h"
+#include "nmode/Random.h"
 
 Evolve::Evolve()
 {

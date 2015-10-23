@@ -28,7 +28,7 @@
 
 #include "cfg_test.h"
 
-#include "enp/Configuration.h"
+#include "nmode/Configuration.h"
 
 #include <iostream>
 #include <string>

@@ -39,3 +39,18 @@ include(cmake/IncludePackages.cmake)
 add_subdirectory(src)
 add_subdirectory(tests)
 
+CONFIGURE_FILE(
+  "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+  IMMEDIATE @ONLY)
+
+ADD_CUSTOM_TARGET(uninstall
+  "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
+
+INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/src/nmode/
+  DESTINATION ${CMAKE_INSTALL_PREFIX}/include/nmode
+  CONFIGURATIONS Release Debug
+  PATTERN "*.cpp" EXCLUDE 
+  PATTERN "*.txt" EXCLUDE 
+  )
+

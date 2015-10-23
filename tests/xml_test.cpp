@@ -28,8 +28,8 @@
 
 #include "xml_test.h"
 
-#include "enp/Data.h"
-#include "enp/macros.h"
+#include "nmode/Data.h"
+#include "nmode/macros.h"
 
 #include <iostream>
 #include <string>
@@ -46,9 +46,9 @@ void xmlTest::testXml()
   Data *d = Data::instance();
   d->read(file);
   
-  ENP              *enp  = d->specification();
+  ENP              *nmode  = d->specification();
 
-  Simulator        *sim = enp->simulator();
+  Simulator        *sim = nmode->simulator();
 
 
   CPPUNIT_ASSERT("working directory" == sim->workingDirectory());
@@ -56,7 +56,7 @@ void xmlTest::testXml()
   CPPUNIT_ASSERT(42                  == sim->nr());
 
 
-  Evolution        *evo  = enp->evolution();
+  Evolution        *evo  = nmode->evolution();
 
   EvolutionNode  *evon = evo->node();
   EvolutionEdge *evos = evo->edge();
@@ -69,7 +69,7 @@ void xmlTest::testXml()
   CPPUNIT_ASSERT_DOUBLES_EQUAL(0.22, evos->modifyMaxValue(),    0.000001);
   CPPUNIT_ASSERT_DOUBLES_EQUAL(0.23, evos->modifyDelta(),       0.000001);
 
-  DataConfiguration *conf = enp->configuration();
+  DataConfiguration *conf = nmode->configuration();
   Modules            mods = conf->modules();
 
   CPPUNIT_ASSERT(3 == mods.size());

@@ -1,7 +1,7 @@
-#include "enp/EvaluateTemplate.h"
+#include "nmode/EvaluateTemplate.h"
 
-#include "enp/RNN.h"
-#include "enp/Population.h"
+#include "nmode/RNN.h"
+#include "nmode/Population.h"
 
 #include <yars/cppClientCom/YarsClientCom.h>
 

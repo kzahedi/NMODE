@@ -1,4 +1,4 @@
-#include "enp/Configuration.h"
+#include "nmode/Configuration.h"
 
 #include <iostream>
 

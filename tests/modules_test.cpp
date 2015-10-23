@@ -30,9 +30,9 @@
 
 // #include "main/Configuration.h"
 // #include "data/Data.h"
-#include "enp/Random.h"
-#include "enp/Node.h"
-#include "enp/Module.h"
+#include "nmode/Random.h"
+#include "nmode/Node.h"
+#include "nmode/Module.h"
 
 #include <iostream>
 #include <string>

@@ -2,18 +2,20 @@
 <!--
      Test file for visualisation
 -->
-<enp version="0.0.2">
+<nmode version="0.0.2">
   <simulator
     wd="/Users/zahedi/projects/builds/yars-build"
     xml="xml/braitenberg_tcpip.xml"
     nr="3"/>
   <evaluation>
     <lifetime iterations="100"/>
+    <generations iterations="3"/>
     <cost     node="0.0" edge="0.0"/>
   </evaluation>
   <reproduction>
     <population size="100"/>
     <selection  pressure="0.1"/>
+    <reproduction  pressure="1.1"/>
   </reproduction>
   <evolution>
     <node>
@@ -57,4 +59,4 @@
 
     </module>
   </configuration>
-</enp>
+</nmode>

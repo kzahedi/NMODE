@@ -1,8 +1,8 @@
-#include "enp/Data.h"
-#include "enp/Population.h"
-#include "enp/Exporter.h"
-#include "enp/Random.h"
-#include "enp/RnnFromIndividual.h"
+#include "nmode/Data.h"
+#include "nmode/Population.h"
+#include "nmode/Exporter.h"
+#include "nmode/Random.h"
+#include "nmode/RnnFromIndividual.h"
 
 // #include "evo/Evaluate.h"
 #include "exp/braitenberg/Evolve.h"

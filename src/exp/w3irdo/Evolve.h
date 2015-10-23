@@ -1,9 +1,9 @@
 #ifndef __EVOLVE_H__
 #define __EVOLVE_H__
 
-#include "enp/Observer.h"
-#include "enp/Data.h"
-#include "enp/Reproduction.h"
+#include "nmode/Observer.h"
+#include "nmode/Data.h"
+#include "nmode/Reproduction.h"
 #include "Evaluate.h"
 
 #include <string>

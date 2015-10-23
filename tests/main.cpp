@@ -31,9 +31,6 @@
 #include <cppunit/ui/text/TestRunner.h>
 #include <iostream>
 
-#include <mis/utils/Randomiser.h>
-
-
 // int main(int argc, char* argv[])
 int main(int, char**)
 {
