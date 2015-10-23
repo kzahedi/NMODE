@@ -1,7 +1,7 @@
 include_directories("${PROJECT_SOURCE_DIR}/src")
 link_directories(${PROJECT_BINARY_DIR}/lib)
 
-add_library(ENP SHARED
+add_library(NMODE SHARED
   RNN.cpp
   P3D.cpp
   Quaternion.cpp
@@ -77,5 +77,5 @@ add_library(ENP SHARED
   EvaluateTemplate.cpp
   )
 
-target_link_libraries(ENP ${Boost_LIBRARIES} xerces-c glog YarsClientCom)
-install(TARGETS ENP LIBRARY DESTINATION lib)
+target_link_libraries(NMODE ${Boost_LIBRARIES} xerces-c glog YarsClientCom)
+install(TARGETS NMODE LIBRARY DESTINATION lib)

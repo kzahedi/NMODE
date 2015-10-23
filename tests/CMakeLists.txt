@@ -2,19 +2,19 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 link_directories(${PROJECT_BINARY_DIR}/lib)
 
 add_executable(rnn-tests main.cpp rnn_test.cpp)
-target_link_libraries(rnn-tests ENP cppunit)
+target_link_libraries(rnn-tests NMODE cppunit)
 
 add_executable(rnn-from-individual-tests main.cpp rnn_from_individual_test.cpp)
-target_link_libraries(rnn-from-individual-tests ENP cppunit)
+target_link_libraries(rnn-from-individual-tests NMODE cppunit)
 
 add_executable(cfg-tests main.cpp cfg_test.cpp)
-target_link_libraries(cfg-tests ENP cppunit)
+target_link_libraries(cfg-tests NMODE cppunit)
 
 add_executable(xml-tests main.cpp xml_test.cpp)
-target_link_libraries(xml-tests ENP cppunit)
+target_link_libraries(xml-tests NMODE cppunit)
 
 add_executable(modules-tests main.cpp modules_test.cpp)
-target_link_libraries(modules-tests ENP cppunit)
+target_link_libraries(modules-tests NMODE cppunit)
 
 ADD_TEST(rnn                 "${PROJECT_BINARY_DIR}/bin/rnn-tests")
 ADD_TEST(cfg                 "${PROJECT_BINARY_DIR}/bin/cfg-tests")
