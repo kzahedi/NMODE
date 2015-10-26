@@ -12,6 +12,9 @@
     <generations iterations="3"/>
     <cost     node="0.0" edge="0.0"/>
   </evaluation>
+  <fitness name="wheel speed" module="WheelSpeed">
+    <parameter name="p 1" value="0.1"/>
+  </fitness>
   <reproduction>
     <population size="100"/>
     <selection  pressure="0.1"/>

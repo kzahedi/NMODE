@@ -1,10 +1,10 @@
 /*************************************************************************
  *                                                                       *
- * This file is part of Evolution of Neural Pathways (ENP).              *
+ * This file is part of Evolution of Neural Pathways (NMODE).              *
  * Copyright (C) 2003-2015 Keyan Ghazi-Zahedi.                           *
  * All rights reserved.                                                  *
  * Email: keyan.zahedi@googlemail.com                                    *
- * Web: https://github.com/kzahedi/ENP                                   *
+ * Web: https://github.com/kzahedi/NMODE                                   *
  *                                                                       *
  * For a list of contributors see the file AUTHORS.                      *
  *                                                                       *
@@ -295,7 +295,7 @@ void modulesTest::testModuleAddEdge()
   CPPUNIT_ASSERT(aa->e_size()              == 0);
   CPPUNIT_ASSERT(ab->edge(0)->sourceNode() == aa);
 
-  CPPUNIT_ASSERT_THROW(a->addEdge(aa, ab, 1.0), ENPException);
+  CPPUNIT_ASSERT_THROW(a->addEdge(aa, ab, 1.0), NMODEException);
 }
 
 

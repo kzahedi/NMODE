@@ -14,7 +14,7 @@ class RnnFromIndividual
 
   private:
 
-    static Neuron* __createNeuron(Node *n) throw (ENPException);
+    static Neuron* __createNeuron(Node *n) throw (NMODEException);
     static Node*   __getNonHiddenNode(Individual* ind, Node *node);
 };
 

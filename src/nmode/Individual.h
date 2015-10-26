@@ -55,7 +55,7 @@ class Individual : public XsdParseNode
     Module*           moduleByName(string);
     void              addModule(Module*);
     Individual*       getRealisation();
-    void              linkConnectorNodes() throw(ENPException);
+    void              linkConnectorNodes() throw(NMODEException);
 
     double            reproductionFactor();
     void              setReproductionFactor(double);

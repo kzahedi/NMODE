@@ -7,7 +7,7 @@
 #include "Edge.h"
 
 #include "Quaternion.h"
-#include "ENPException.h"
+#include "NMODEException.h"
 
 # define TAG_MODULE            (char*)"module"
 # define TAG_MODULE_DEFINITION (char*)"module_definition"
@@ -129,12 +129,12 @@ class Module : public XsdParseNode
     bool operator == (const Module m);
     bool operator != (const Module m);
 
-    bool removeNode(Node *n) throw (ENPException);
+    bool removeNode(Node *n) throw (NMODEException);
     bool removeEdge(Edge *e);
 
     Edge* addEdge(Node *src,
                   Node *dst,
-                  double weight) throw (ENPException);
+                  double weight) throw (NMODEException);
 
     bool modified();
     void setModified(bool); // for mutation operator

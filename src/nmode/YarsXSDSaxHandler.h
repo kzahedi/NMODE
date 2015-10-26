@@ -34,7 +34,7 @@
 #include <string>
 #include <vector>
 
-#include "ENP.h"
+#include "NMODE.h"
 
 XERCES_CPP_NAMESPACE_USE
 
@@ -92,7 +92,7 @@ class YarsXSDSaxHandler : public DefaultHandler
     std::vector<std::string> fatals();
 
   private:
-    ENP *_spec;
+    NMODE *_spec;
 
     std::vector<std::string> _errors;
     std::vector<std::string> _warnings;

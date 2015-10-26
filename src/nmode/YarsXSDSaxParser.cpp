@@ -142,7 +142,7 @@ bool YarsXSDSaxParser::read(string filename)
     XMLString::release(&message);
     return false;
   }
-  catch (const ENPException& toCatch) {
+  catch (const NMODEException& toCatch) {
     std::cout << "Exception message is: \n" << toCatch.what() << endl;
     return false;
   }

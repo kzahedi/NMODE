@@ -33,7 +33,7 @@ Data* Data::instance()
 
 Data::Data()
 {
-  _root = new ENP(NULL);
+  _root = new NMODE(NULL);
   _initialisationCompleted = false;
 }
 
@@ -42,7 +42,7 @@ Data::~Data()
   delete _root;
 }
 
-ENP* Data::specification()
+NMODE* Data::specification()
 {
   return _root;
 }
@@ -97,7 +97,7 @@ void Data::read(string xmlFile)
 XsdSpecification* Data::xsd()
 {
   XsdSpecification *spec = new XsdSpecification();
-  ENP::createXsd(spec);
+  NMODE::createXsd(spec);
   return spec;
 }
 

@@ -3,7 +3,7 @@
 
 #include "XsdParseNode.h"
 
-#include "ENPException.h"
+#include "NMODEException.h"
 
 #include "Edge.h"
 #include "P3D.h"
@@ -48,7 +48,7 @@ class Node : public XsdParseNode
 
     static void createXsd(XsdSpecification *spec);
 
-    void   setType(string) throw (ENPException);
+    void   setType(string) throw (NMODEException);
     string type();
 
     void   setLabel(string);

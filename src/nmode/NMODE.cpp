@@ -1,8 +1,8 @@
-#include "ENP.h"
+#include "NMODE.h"
 #include "XmlChangeLog.h"
 
 #include "StringTokeniser.h"
-#include "ENPErrorHandler.h"
+#include "NMODEErrorHandler.h"
 #include "Individual.h"
 
 #include <iostream>
@@ -13,7 +13,7 @@ using namespace std;
 # define TAG_VERSION            (char*)"version"
 # define TAG_VERSION_DEFINITION (char*)"version_definition"
 
-ENP::ENP(XsdParseNode *parent)
+NMODE::NMODE(XsdParseNode *parent)
   : XsdParseNode(parent)
 {
 
@@ -26,12 +26,12 @@ ENP::ENP(XsdParseNode *parent)
   _initialisationCompleted = false;
 }
 
-ENP::~ENP()
+NMODE::~NMODE()
 {
   // nothing to be done
 }
 
-void ENP::add(ParseElement *element)
+void NMODE::add(ParseElement *element)
 {
   if(current == NULL) current = this;
   if(current == this)
@@ -45,26 +45,27 @@ void ENP::add(ParseElement *element)
 
 }
 
-Version ENP::version()
+Version NMODE::version()
 {
   return _version;
 }
 
-void ENP::setVersion(Version version)
+void NMODE::setVersion(Version version)
 {
   _version = version;
 }
 
-void ENP::createXsd(XsdSpecification *spec)
+void NMODE::createXsd(XsdSpecification *spec)
 {
-  XsdSequence *_root = new XsdSequence(TAG_ENP);
+  XsdSequence *_root = new XsdSequence(TAG_NMODE);
   _root->add(NA(TAG_VERSION,       TAG_VERSION_DEFINITION,       true));
   _root->add(NE(TAG_SIMULATOR,     TAG_SIMULATOR_DEFINITION,     1, 1));
   _root->add(NE(TAG_EVALUATION,    TAG_EVALUATION_DEFINITION,    1, 1));
+  _root->add(NE(TAG_FITNESS,       TAG_FITNESS_DEFINITION,       1, 1));
   _root->add(NE(TAG_REPRODUCTION,  TAG_REPRODUCTION_DEFINITION,  1, 1));
   _root->add(NE(TAG_EVOLUTION,     TAG_EVOLUTION_DEFINITION,     1, 1));
   _root->add(NE(TAG_CONFIGURATION, TAG_CONFIGURATION_DEFINITION, 1, 1));
-  _root->add(NE(TAG_POPULATION,    TAG_POPULATION_DEFINITION   , 0, 1));
+  _root->add(NE(TAG_POPULATION,    TAG_POPULATION_DEFINITION,    0, 1));
   spec->setRoot(_root);
 
   XsdRegularExpression *versionDefinition =
@@ -77,13 +78,14 @@ void ENP::createXsd(XsdSpecification *spec)
   DataConfiguration::createXsd(spec);
   Population::createXsd(spec);
   CfgReproduction::createXsd(spec);
+  Fitness::createXsd(spec);
 }
 
 
-void ENP::__getChild(ParseElement *element)
+void NMODE::__getChild(ParseElement *element)
 {
   VLOG(100) << "parsing: " << element->name();
-  if(element->opening(TAG_ENP))
+  if(element->opening(TAG_NMODE))
   {
     string v;
     element->set(TAG_VERSION, v);
@@ -93,19 +95,19 @@ void ENP::__getChild(ParseElement *element)
     _version.patch = atoi(vs[2].c_str());
     if(_version > XmlChangeLog::version())
     {
-      ENPErrorHandler *e = ENPErrorHandler::instance();
+      NMODEErrorHandler *e = NMODEErrorHandler::instance();
       (*e).precision(1);
       (*e).setf(ios::fixed,ios::floatfield);
       (*e) << "XML version mismatch. The given XML is of version ";
       (*e) << _version << " but this nmode binary only supports XML version ";
       (*e) << XmlChangeLog::version() << endl;
       (*e).unsetf(ios::floatfield);
-      ENPErrorHandler::push();
+      NMODEErrorHandler::push();
       exit(-1);
     }
     if(_version < XmlChangeLog::version() && _version < XmlChangeLog::last_crucial_change())
     {
-      ENPErrorHandler *e = ENPErrorHandler::instance();
+      NMODEErrorHandler *e = NMODEErrorHandler::instance();
       (*e).precision(1);
       (*e).setf(ios::fixed,ios::floatfield);
       (*e) << "XML version mismatch" << endl;
@@ -114,7 +116,7 @@ void ENP::__getChild(ParseElement *element)
       (*e) << XmlChangeLog::version() << ":" << endl;
       (*e) << XmlChangeLog::changes(_version);
       (*e).unsetf(ios::floatfield);
-      ENPErrorHandler::push();
+      NMODEErrorHandler::push();
       exit(-1);
     }
     else if(_version < XmlChangeLog::version())
@@ -159,6 +161,13 @@ void ENP::__getChild(ParseElement *element)
     current->add(element);
   }
 
+  if(element->opening(TAG_FITNESS))
+  {
+    _fitness = new Fitness(this);
+    current = _fitness;
+    current->add(element);
+  }
+
   if(element->opening(TAG_POPULATION) && _initialisationCompleted == false)
   {
     _population = new Population(this);
@@ -176,27 +185,27 @@ void ENP::__getChild(ParseElement *element)
 
 }
 
-Evolution* ENP::evolution()
+Evolution* NMODE::evolution()
 {
   return _evolution;
 }
 
-DataConfiguration* ENP::configuration()
+DataConfiguration* NMODE::configuration()
 {
   return _configuration;
 }
 
-Simulator* ENP::simulator()
+Simulator* NMODE::simulator()
 {
   return _simulator;
 }
 
-Population* ENP::population()
+Population* NMODE::population()
 {
   return _population;
 }
 
-void ENP::initialiseFirstPopulationFromConfiguration()
+void NMODE::initialiseFirstPopulationFromConfiguration()
 {
   if(_population == NULL)
   {
@@ -211,18 +220,18 @@ void ENP::initialiseFirstPopulationFromConfiguration()
   }
   else
   {
-    throw ENPException("Population: Trying to initialise a non empty population.");
+    throw NMODEException("Population: Trying to initialise a non empty population.");
   }
 }
 
 
-Evaluation* ENP::evaluation()
+Evaluation* NMODE::evaluation()
 {
   return _evaluation;
 }
 
 
-CfgReproduction* ENP::reproduction()
+CfgReproduction* NMODE::reproduction()
 {
   return _reproduction;
 }

@@ -134,7 +134,7 @@ string Node::type()
   return _type;
 }
 
-void Node::setType(string t) throw (ENPException)
+void Node::setType(string t) throw (NMODEException)
 {
   if(t == TAG_ACTUATOR ||
      t == TAG_SENSOR   ||
@@ -149,7 +149,7 @@ void Node::setType(string t) throw (ENPException)
   {
     stringstream sst;
     sst << "Unknown node type \"" << t << "\" given";
-    throw ENPException(sst.str());
+    throw NMODEException(sst.str());
   }
 }
 

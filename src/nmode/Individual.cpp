@@ -190,7 +190,7 @@ Node* Individual::__getNonHiddenNode(string moduleName, string nodeLabel)
   return n;
 }
 
-void Individual::linkConnectorNodes() throw(ENPException)
+void Individual::linkConnectorNodes() throw(NMODEException)
 {
   VLOG(100) << "Individual::linkConnectorNodes";
 
@@ -215,7 +215,7 @@ void Individual::linkConnectorNodes() throw(ENPException)
           {
             stringstream sst;
             sst << "Node " << node_name << " not found in module " << module_name;
-            throw ENPException(sst.str());
+            throw NMODEException(sst.str());
           }
           (*n)->setPosition(node->position());
           (*n)->setIsSource(node->isSource());

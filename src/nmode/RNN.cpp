@@ -1,7 +1,7 @@
 #include "RNN.h"
 
 #include "macros.h"
-#include "ENPException.h"
+#include "NMODEException.h"
 
 #include <math.h>
 
@@ -46,7 +46,7 @@ void Neuron::updateOutput()
       _output = tanh(_activity);
       break;
     default:
-      throw ENPException("Neuron::updateOutput: unknown transferfunction");
+      throw NMODEException("Neuron::updateOutput: unknown transferfunction");
       break;
   }
 }
@@ -71,13 +71,13 @@ double Neuron::bias()
   return _bias;
 }
 
-void Neuron::setTransferfunction(int transferfunction) throw(ENPException)
+void Neuron::setTransferfunction(int transferfunction) throw(NMODEException)
 {
   if(transferfunction != NEURON_TRANSFER_FUNCTION_ID &&
      transferfunction != NEURON_TRANSFER_FUNCTION_SIGM &&
      transferfunction != NEURON_TRANSFER_FUNCTION_TANH)
   {
-    throw ENPException("Neuron::setTransferfunction: unknown transferfunction");
+    throw NMODEException("Neuron::setTransferfunction: unknown transferfunction");
   }
   _transferfunction = transferfunction;
 }

@@ -67,7 +67,7 @@ RNN* RnnFromIndividual::create(Individual *i)
   return rnn;
 }
 
-Neuron* RnnFromIndividual::__createNeuron(Node *n) throw (ENPException)
+Neuron* RnnFromIndividual::__createNeuron(Node *n) throw (NMODEException)
 {
   Neuron *neuron = new Neuron();
   neuron->setBias(n->bias());
@@ -85,7 +85,7 @@ Neuron* RnnFromIndividual::__createNeuron(Node *n) throw (ENPException)
   }
   else
   {
-    throw ENPException("RnnFromIndividual: unknown transfer function");
+    throw NMODEException("RnnFromIndividual: unknown transfer function");
   }
   return neuron;
 }

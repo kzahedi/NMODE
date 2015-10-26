@@ -1,4 +1,4 @@
-#include "ENPErrorHandler.h"
+#include "NMODEErrorHandler.h"
 
 #include "StringTokeniser.h"
 
@@ -11,28 +11,28 @@
 #include <string.h>
 #endif // __APPLE__
 
-ENPErrorHandler* ENPErrorHandler::_me = NULL;
+NMODEErrorHandler* NMODEErrorHandler::_me = NULL;
 
-ENPErrorHandler::ENPErrorHandler()
+NMODEErrorHandler::NMODEErrorHandler()
 {
 
 }
 
-ENPErrorHandler* ENPErrorHandler::instance()
+NMODEErrorHandler* NMODEErrorHandler::instance()
 {
   if(_me == NULL)
   {
-    _me = new ENPErrorHandler();
+    _me = new NMODEErrorHandler();
   }
   return _me;
 }
 
-string ENPErrorHandler::message()
+string NMODEErrorHandler::message()
 {
   return str();
 }
 
-void ENPErrorHandler::push()
+void NMODEErrorHandler::push()
 {
   // if(_me->observers.size() > 0) // is part of yars
   // {
@@ -45,13 +45,13 @@ void ENPErrorHandler::push()
   // }
 }
 
-void ENPErrorHandler::push(string message)
+void NMODEErrorHandler::push(string message)
 {
   (*_me) << message;
   _me->push();
 }
 
-void ENPErrorHandler::push(const char *message, ...)
+void NMODEErrorHandler::push(const char *message, ...)
 {
   va_list ap;
   va_start (ap, message);

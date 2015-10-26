@@ -6,7 +6,7 @@
 
 #include "XsdSpecification.h"
 
-#include "ENP.h"
+#include "NMODE.h"
 #include "Observer.h"
 
 #define REP Data::instance()->specification()->reproduction()
@@ -21,7 +21,7 @@ class Data : public Observer
     static Data* instance();
     static void close();
     ~Data();
-    ENP* specification();
+    NMODE* specification();
     XsdSpecification* xsd();
     void clear();
     void read(string xmlFile);
@@ -43,7 +43,7 @@ class Data : public Observer
     string __population();
 
     static Data *_me;
-    ENP         *_root;
+    NMODE         *_root;
     string       _xml;
     bool         _initialisationCompleted;
 };

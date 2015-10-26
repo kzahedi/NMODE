@@ -292,9 +292,9 @@ bool Module::operator!=(const Module m)
   return false;
 }
 
-bool Module::removeNode(Node *n) throw (ENPException)
+bool Module::removeNode(Node *n) throw (NMODEException)
 {
-  if(n->type() != TAG_HIDDEN) throw ENPException("Attempting to remove non-hidden node");
+  if(n->type() != TAG_HIDDEN) throw NMODEException("Attempting to remove non-hidden node");
   Nodes::iterator i;
 
   VLOG(50) << "   Removing neuron \"" << n->label() << "\"";
@@ -346,9 +346,9 @@ bool Module::removeEdge(Edge *e)
 }
 
 
-Edge* Module::addEdge(Node *src, Node *dst, double weight) throw (ENPException)
+Edge* Module::addEdge(Node *src, Node *dst, double weight) throw (NMODEException)
 {
-  if(dst->contains(src)) throw ENPException("Module::addEdge: The destination node already contains an edge from the source node");
+  if(dst->contains(src)) throw NMODEException("Module::addEdge: The destination node already contains an edge from the source node");
   Edge *e = new Edge(NULL);
   e->setSourceNode(src);
   e->setDestinationNode(dst);
@@ -367,7 +367,7 @@ Node* Module::node(int index)
   {
     stringstream oss;
     oss << "Module::node. Index out of range: " << index << " > " << _nodes.size() << endl;
-    throw ENPException(oss.str());
+    throw NMODEException(oss.str());
   }
   return _nodes[index];
 }

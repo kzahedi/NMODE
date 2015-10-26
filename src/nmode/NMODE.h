@@ -1,5 +1,5 @@
-#ifndef ___DATA_ENP_H__
-#define ___DATA_ENP_H__
+#ifndef ___DATA_NMODE_H__
+#define ___DATA_NMODE_H__
 
 #include "XsdParseNode.h"
 #include "Version.h"
@@ -10,12 +10,13 @@
 #include "DataConfiguration.h"
 #include "Simulator.h"
 #include "Population.h"
+#include "Fitness.h"
 
-# define TAG_ENP                        (char*)"nmode"
-# define TAG_ENP_DEFINITION             (char*)"enp_definition"
+# define TAG_NMODE                        (char*)"nmode"
+# define TAG_NMODE_DEFINITION             (char*)"enp_definition"
 # define TAG_VERSION_REGULAR_EXPRESSION (char*)"[0-9]+.[0-9]+.[0-9]+"
 
-class ENP : public XsdParseNode
+class NMODE : public XsdParseNode
 {
   public:
 
@@ -24,12 +25,12 @@ class ENP : public XsdParseNode
      *
      * @param parent
      */
-    ENP(XsdParseNode *parent);
+    NMODE(XsdParseNode *parent);
 
     /**
      * @brief Destructor.
      */
-    virtual ~ENP();
+    virtual ~NMODE();
 
     Version version();
     void setVersion(Version version);
@@ -55,9 +56,10 @@ class ENP : public XsdParseNode
     DataConfiguration* _configuration;
     Population*        _population;
     Evaluation*        _evaluation;
+    Fitness*           _fitness;
     CfgReproduction*   _reproduction;
     bool               _initialisationCompleted;
 
 };
 
-#endif // ___DATA_ENP_H__
+#endif // ___DATA_NMODE_H__

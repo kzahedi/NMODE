@@ -2,7 +2,7 @@
 #define __RNN_H__
 
 #include "P3D.h"
-#include "ENPException.h"
+#include "NMODEException.h"
 #include "Individual.h"
 
 #include <vector>
@@ -30,7 +30,7 @@ class Neuron
     void addSynapse(Synapse *s);
 
     void setBias(double bias);
-    void setTransferfunction(int transferfunction) throw(ENPException);
+    void setTransferfunction(int transferfunction) throw(NMODEException);
 
     double bias();
     double output();

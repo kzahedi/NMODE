@@ -8,7 +8,7 @@ add_library(NMODE SHARED
   Configuration.cpp
   Random.cpp
   StringTokeniser.cpp
-  ENPErrorHandler.cpp
+  NMODEErrorHandler.cpp
   FileSystemOperations.cpp
 
   XmlChangeLog.cpp
@@ -23,9 +23,12 @@ add_library(NMODE SHARED
 
   RnnFromIndividual.cpp
 
-  ENP.cpp
+  NMODE.cpp
 
   Simulator.cpp
+
+  Fitness.cpp
+  FitnessParameter.cpp
 
   DataConfiguration.cpp
 

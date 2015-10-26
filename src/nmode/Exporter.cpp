@@ -115,7 +115,7 @@ string Exporter::toX3d(Node *n)
   }
   else
   {
-    throw ENPException("unknown node type in Exporter::toX3d(Node *node, ...");
+    throw NMODEException("unknown node type in Exporter::toX3d(Node *node, ...");
   }
 
   return sst.str();
