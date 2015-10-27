@@ -15,6 +15,7 @@ DataConfiguration::DataConfiguration(XsdParseNode *parent)
 
 DataConfiguration::~DataConfiguration()
 {
+  cout << "DataConfiguration deconstructor" << endl;
   // delete _individual;
 }
 

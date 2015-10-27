@@ -11,7 +11,7 @@ class Individual : public XsdParseNode
 {
   public:
     Individual(XsdParseNode *parent = NULL);
-    // ~Individual();
+    ~Individual();
 
     //Individual(const Individual);
     //Individual operator=(const Individual);

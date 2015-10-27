@@ -16,6 +16,7 @@ class Evaluation : public XsdParseNode, public EvaluationParameterMap
 {
   public:
     Evaluation(XsdParseNode *parent);
+    ~Evaluation();
 
     void add(ParseElement *element);
 

@@ -7,14 +7,16 @@ using namespace std;
 
 Evolution::Evolution(XsdParseNode *parent)
   : XsdParseNode(parent)
-{ }
+{
+  _node = NULL;
+  _edge = NULL;
+}
 
 Evolution::~Evolution()
 {
-  delete _node;
-  // delete _edge;
+  if(_node != NULL) delete _node;
+  if(_edge != NULL) delete _edge;
 }
-
 
 void Evolution::add(ParseElement *element)
 {
@@ -27,6 +29,8 @@ void Evolution::add(ParseElement *element)
 
   if(element->opening(TAG_EVOLUTION))
   {
+    if(_node != NULL) delete _node;
+    if(_edge != NULL) delete _edge;
   }
 
   if(element->opening(TAG_EVOLUTION_NODE))
@@ -42,7 +46,6 @@ void Evolution::add(ParseElement *element)
     current  = _edge;
     current->add(element);
   }
-
 }
 
 void Evolution::createXsd(XsdSpecification *spec)

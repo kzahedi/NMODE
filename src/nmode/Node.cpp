@@ -35,8 +35,9 @@ Node::Node(XsdParseNode *parent)
 }
 
 Node::~Node()
-{ }
-
+{
+  _in.resize(0);
+}
 
 void Node::add(ParseElement *element)
 {

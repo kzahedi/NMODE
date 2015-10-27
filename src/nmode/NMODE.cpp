@@ -19,10 +19,13 @@ NMODE::NMODE(XsdParseNode *parent)
 
 #include "ChangeLog.h" // do not move from here
   
-  _evolution               = NULL;
-  _configuration           = NULL;
-  _simulator               = NULL;
-  _population              = NULL;
+  _simulator     = NULL;
+  _evolution     = NULL;
+  _configuration = NULL;
+  _population    = NULL;
+  _evaluation    = NULL;
+  _reproduction  = NULL;
+
   _initialisationCompleted = false;
 }
 
@@ -133,6 +136,7 @@ void NMODE::__getChild(ParseElement *element)
 
   if(element->opening(TAG_EVOLUTION))
   {
+    if(_evolution != NULL) delete _evolution;
     _evolution = new Evolution(this);
     current = _evolution;
     current->add(element);
@@ -140,6 +144,7 @@ void NMODE::__getChild(ParseElement *element)
 
   if(element->opening(TAG_CONFIGURATION))
   {
+    if(_configuration != NULL) delete _configuration;
     _configuration = new DataConfiguration(this);
     current = _configuration;
     current->add(element);
@@ -147,6 +152,7 @@ void NMODE::__getChild(ParseElement *element)
 
   if(element->opening(TAG_SIMULATOR))
   {
+    if(_simulator != NULL) delete _simulator;
     _simulator = new Simulator(this);
     current = _simulator;
     current->add(element);
@@ -154,6 +160,7 @@ void NMODE::__getChild(ParseElement *element)
 
   if(element->opening(TAG_EVALUATION))
   {
+    if(_evaluation != NULL) delete _evaluation;
     _evaluation = new Evaluation(this);
     current = _evaluation;
     current->add(element);
@@ -161,7 +168,7 @@ void NMODE::__getChild(ParseElement *element)
 
   if(element->opening(TAG_POPULATION) && _initialisationCompleted == false)
   {
-    _population = new Population(this);
+    _population = Population::instance();
     current = _population;
     current->add(element);
     _initialisationCompleted = true;
@@ -169,11 +176,11 @@ void NMODE::__getChild(ParseElement *element)
 
   if(element->opening(TAG_REPRODUCTION))
   {
+    if(_reproduction != NULL) delete _reproduction;
     _reproduction = new CfgReproduction(this);
     current = _reproduction;
     current->add(element);
   }
-
 }
 
 Evolution* NMODE::evolution()

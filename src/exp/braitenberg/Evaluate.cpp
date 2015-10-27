@@ -35,3 +35,7 @@ bool Evaluate::abort()
 {
   return false;
 }
+
+void Evaluate::newIndividual()
+{
+}

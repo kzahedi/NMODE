@@ -41,6 +41,8 @@ void EvaluateTemplate::run()
     i->setFitness(_fitness);
 
     _population->evaluationCompleted();
+
+    delete _rnn;
   }
 }
 
@@ -56,6 +58,7 @@ void EvaluateTemplate::__evaluate()
       if(_com == NULL)
       {
         _com = new YarsClientCom();
+        _com->throwException(true);
         stringstream sst;
         sst << _options << " " << _xml;
         _com->init(_workingDirectory, sst.str());

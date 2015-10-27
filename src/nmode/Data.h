@@ -42,8 +42,8 @@ class Data : public Observer
     string __configuration();
     string __population();
 
-    static Data *_me;
-    NMODE         *_root;
+    static Data* _me;
+    NMODE*       _root;
     string       _xml;
     bool         _initialisationCompleted;
 };

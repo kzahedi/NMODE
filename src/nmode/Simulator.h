@@ -41,5 +41,3 @@ class Simulator : public XsdParseNode
 };
 
 #endif // ___DATA_SIMULATOR_H__
-
-

@@ -12,7 +12,6 @@ class EvolutionEdge : public XsdParseNode
   public:
 
     EvolutionEdge(XsdParseNode *parent);
-
     ~EvolutionEdge();
 
     void add(ParseElement *element);

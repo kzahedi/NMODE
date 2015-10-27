@@ -29,8 +29,11 @@ Evaluation::Evaluation(XsdParseNode *parent)
   _generations = -1;
 }
 
-// Evaluation::~Evaluation()
-// { }
+Evaluation::~Evaluation()
+{
+  FORC(EvaluationParameters, p, _parameters) delete (*p);
+  _parameters.clear();
+}
 
 
 void Evaluation::add(ParseElement *element)
@@ -50,6 +53,10 @@ void Evaluation::add(ParseElement *element)
   if(element->opening(TAG_LIFE_TIME))
   {
     element->set(TAG_ITERATIONS, _lifeTime);
+    FORC(EvaluationParameters, p, _parameters)
+    {
+      delete *p;
+    }
     _parameters.clear();
     EvaluationParameterMap::clear();
   }

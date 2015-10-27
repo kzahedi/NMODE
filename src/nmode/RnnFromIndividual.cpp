@@ -64,6 +64,8 @@ RNN* RnnFromIndividual::create(Individual *i)
     }
   }
 
+  delete ind;
+
   return rnn;
 }
 

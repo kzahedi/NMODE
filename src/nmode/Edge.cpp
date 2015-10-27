@@ -18,6 +18,7 @@ Edge::Edge(XsdParseNode *parent)
 
 Edge::~Edge()
 {
+  // nothing to do
 }
 
 void Edge::add(ParseElement *element)

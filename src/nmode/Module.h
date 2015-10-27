@@ -53,14 +53,11 @@ class Module : public XsdParseNode
      * @param parent
      */
     Module(XsdParseNode *parent = NULL);
+    ~Module();
+
 
     Module(const Module &m);
     Module& operator=(const Module &m);
-
-    /**
-     * @brief Destructor.
-     */
-    virtual ~Module();
 
     Module* copy();
 

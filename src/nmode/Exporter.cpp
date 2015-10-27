@@ -56,6 +56,8 @@ string Exporter::toX3d(Individual *i)
   }
   sst << "      </scene> " << endl;
   sst << __x3dFooter();
+
+  delete ir;
   return sst.str();
 }
 

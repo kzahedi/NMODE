@@ -130,16 +130,15 @@ void Population::__calculateSelectionProbabilities()
   vector<double> fitness(_individuals.size());
 
   FORI(0, _individuals.size(), i) fitness[i] = _individuals[i]->fitness();
-  FORI(0, fitness.size(), i) if(min > fitness[i]) min = fitness[i];
-  FORI(0, fitness.size(), i) fitness[i] -= min;
-  FORI(0, fitness.size(), i) if(fitness[i] > max) max = fitness[i];
+  FORI(0, fitness.size(), i)      if(min > fitness[i]) min = fitness[i];
+  FORI(0, fitness.size(), i)      fitness[i] -= min;
+  FORI(0, fitness.size(), i)      if(fitness[i] > max) max = fitness[i];
   if(max > 0.0)
   {
-    FORI(0, fitness.size(), i) fitness[i] = fitness[i] / max;
-    FORI(0, fitness.size(), i) fitness[i] = pow(fitness[i], rp);
-    FORI(0, fitness.size(), i) sum += fitness[i];
-    FORI(0, fitness.size(), i) _individuals[i]->setReproductionFactor(fitness[i] / sum);
-    cout << sum << endl;
+    FORI(0, fitness.size(), i)    fitness[i] = fitness[i] / max;
+    FORI(0, fitness.size(), i)    fitness[i] = pow(fitness[i], rp);
+    FORI(0, fitness.size(), i)    sum += fitness[i];
+    FORI(0, fitness.size(), i)    _individuals[i]->setReproductionFactor(fitness[i] / sum);
   }
   else
   {
@@ -155,6 +154,11 @@ Population* Population::instance()
 
 void Population::resize(int size)
 {
+  for(int i = size; i < (int)_individuals.size(); i++)
+  {
+    delete _individuals[i];
+  }
+
   _individuals.resize(size);
 }
 
@@ -237,9 +241,9 @@ void Population::serialise()
   FORC(Individuals, i, _individuals)
   {
     _output
-      << (*i)->id()          << "," << (*i)->fitness()      << "," << (*i)->age() << ","
-      << (*i)->rawFitness()  << "," << (*i)->nodeCost()     << "," << (*i)->edgeCost() << ","
-      << (*i)->nrOfNeurons() << "," << (*i)->nrOfSynapses() << ","
+      << (*i)->id()            << "," << (*i)->fitness()      << "," << (*i)->age()      << ","
+      << (*i)->rawFitness()    << "," << (*i)->nodeCost()     << "," << (*i)->edgeCost() << ","
+      << (*i)->nrOfNeurons()   << "," << (*i)->nrOfSynapses() << ","
       << (*i)->nrOfOffspring() << "," << (*i)->reproductionFactor()
       << endl;
   }

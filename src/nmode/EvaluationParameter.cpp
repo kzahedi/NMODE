@@ -8,9 +8,10 @@
 
 EvaluationParameter::EvaluationParameter(XsdParseNode *parent)
   : XsdParseNode(parent)
-{
+{ }
 
-}
+EvaluationParameter::~EvaluationParameter()
+{ }
 
 void EvaluationParameter::add(ParseElement *element)
 {

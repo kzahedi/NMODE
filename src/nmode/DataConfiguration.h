@@ -19,11 +19,7 @@ class DataConfiguration : public XsdParseNode
      * @param parent
      */
     DataConfiguration(XsdParseNode *parent);
-
-    /**
-     * @brief Destructor.
-     */
-    virtual ~DataConfiguration();
+    ~DataConfiguration();
 
     void add(ParseElement *element);
 

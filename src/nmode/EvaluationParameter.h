@@ -16,7 +16,7 @@ class EvaluationParameter : public XsdParseNode
 {
   public:
     EvaluationParameter(XsdParseNode *parent);
-    virtual ~EvaluationParameter() { };
+    ~EvaluationParameter();
 
     void add(ParseElement *element);
 

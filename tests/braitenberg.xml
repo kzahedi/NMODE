@@ -6,15 +6,13 @@
   <simulator
     wd="/Users/zahedi/projects/builds/yars-build"
     xml="xml/braitenberg_tcpip.xml"
-    nr="3"/>
+    nr="1"/>
   <evaluation>
     <lifetime iterations="100"/>
-    <generations iterations="3"/>
+    <generations iterations="1000"/>
     <cost     node="0.0" edge="0.0"/>
+    <parameter name="p1" value="1.0"/>
   </evaluation>
-  <fitness name="wheel speed" module="WheelSpeed">
-    <parameter name="p 1" value="0.1"/>
-  </fitness>
   <reproduction>
     <population size="100"/>
     <selection  pressure="0.1"/>

@@ -21,7 +21,7 @@ class EvolutionNode : public XsdParseNode
     /**
      * @brief Destructor.
      */
-    virtual ~EvolutionNode();
+    ~EvolutionNode();
 
     void add(ParseElement *element);
 

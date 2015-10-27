@@ -30,6 +30,15 @@ Individual::Individual(XsdParseNode *parent)
   _nrOfNeurons        = 0;
 }
 
+Individual::~Individual()
+{
+  FORC(Modules, m, _modules)
+  {
+    delete *m;
+  }
+  _modules.clear();
+}
+
 void Individual::add(ParseElement *element)
 {
   VLOG(100) << "parsing " << element->name();

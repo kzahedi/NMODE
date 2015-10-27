@@ -55,10 +55,24 @@ Module::Module(const Module &m)
 
 Module::~Module()
 {
-  // if(_isCopy == false)
-  // {
-    // delete stuff here
-  // }
+  if(_isCopy == false)
+  {
+    FORC(Nodes, n, _nodes) delete (*n);
+    FORC(Edges, e, _edges) delete (*e);
+
+    _copiedEdges.resize(0);
+    _copiedNodes.resize(0);
+    _nodes.resize(0);
+    _sensor.resize(0);
+    _actuator.resize(0);
+    _connector.resize(0);
+    _moduleInput.resize(0);
+    _moduleOutput.resize(0);
+    _hidden.resize(0);
+    _tmpArrayOfNodes.resize(0);
+    _edges.resize(0);
+
+  }
 }
 
 void Module::add(ParseElement *element)

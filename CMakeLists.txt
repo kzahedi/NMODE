@@ -33,6 +33,7 @@ ELSE(USE_DEBUG_MODE)
 ENDIF(USE_DEBUG_MODE)
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(/usr/local/include/yars)
 
 include(cmake/IncludePackages.cmake)
 
