@@ -23,7 +23,7 @@ void Evolve::init(string xml)
   getcwd(buf, 1024);
 
   int nr = Data::instance()->specification()->simulator()->nr();
-  cout << "nr: " << nr << endl;
+
   for(int i = 0; i < nr; i++)
   {
     Evaluate *e = new Evaluate();

@@ -13,9 +13,6 @@ class Individual : public XsdParseNode
     Individual(XsdParseNode *parent = NULL);
     ~Individual();
 
-    //Individual(const Individual);
-    //Individual operator=(const Individual);
-
     void add(ParseElement *element);
     static void createXsd(XsdSpecification *spec);
 

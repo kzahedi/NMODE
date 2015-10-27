@@ -237,7 +237,12 @@ void Population::serialise()
   sst << _logDirectory << "/" << "stats-" << _generation << ".csv";
   // cout << "Logging " << sst.str() << endl;
   _output.open(sst.str());
-  _output << "# ID, Fitness, Age, Raw Fitness, Node Cost, Edge Cost, Nr. of Neurones, Nr. of Syanspes, Nr. of offspring, Probability" << endl;
+
+  _output << "# ID, Fitness, Age, Raw Fitness, "
+    << "Node Cost, Edge Cost, Nr. of Neurones, "
+    << "Nr. of Syanspes, Nr. of offspring, "
+    << "Probability" << endl;
+
   FORC(Individuals, i, _individuals)
   {
     _output
@@ -269,4 +274,10 @@ void Population::calculateNrOfOffspring()
     int offspring = (int)((*i)->reproductionFactor() * populationSize + 0.5);
     (*i)->setNrOfOffspring(offspring);
   }
+}
+
+void Population::cleanup()
+{
+  FORC(Individuals, i, _individuals) delete (*i);
+  _individuals.clear();
 }

@@ -169,6 +169,7 @@ void NMODE::__getChild(ParseElement *element)
   if(element->opening(TAG_POPULATION) && _initialisationCompleted == false)
   {
     _population = Population::instance();
+    // _population->cleanup();
     current = _population;
     current->add(element);
     _initialisationCompleted = true;

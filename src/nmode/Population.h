@@ -41,6 +41,7 @@ class Population : public Observable, public XsdParseNode
     void                  serialise();
     void                  incAge();
     void                  calculateNrOfOffspring();
+    void                  cleanup();
 
     static Population*    instance();
 

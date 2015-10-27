@@ -27,11 +27,11 @@ add_library(NMODE SHARED
 
   Simulator.cpp
 
-
   DataConfiguration.cpp
 
   Evolution.cpp
   CfgReproduction.cpp
+
   Evaluation.cpp
   EvaluationParameter.cpp
   EvolutionNode.cpp
