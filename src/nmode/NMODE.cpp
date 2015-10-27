@@ -20,7 +20,7 @@ NMODE::NMODE(XsdParseNode *parent)
 #include "ChangeLog.h" // do not move from here
   
   _simulator     = NULL;
-  _evolution     = NULL;
+  _mutation      = NULL;
   _configuration = NULL;
   _population    = NULL;
   _evaluation    = NULL;
@@ -65,7 +65,7 @@ void NMODE::createXsd(XsdSpecification *spec)
   _root->add(NE(TAG_SIMULATOR,     TAG_SIMULATOR_DEFINITION,     1, 1));
   _root->add(NE(TAG_EVALUATION,    TAG_EVALUATION_DEFINITION,    1, 1));
   _root->add(NE(TAG_REPRODUCTION,  TAG_REPRODUCTION_DEFINITION,  1, 1));
-  _root->add(NE(TAG_EVOLUTION,     TAG_EVOLUTION_DEFINITION,     1, 1));
+  _root->add(NE(TAG_MUTATION,      TAG_MUTATION_DEFINITION,      1, 1));
   _root->add(NE(TAG_CONFIGURATION, TAG_CONFIGURATION_DEFINITION, 1, 1));
   _root->add(NE(TAG_POPULATION,    TAG_POPULATION_DEFINITION,    0, 1));
   spec->setRoot(_root);
@@ -75,7 +75,7 @@ void NMODE::createXsd(XsdSpecification *spec)
         TAG_XSD_STRING, TAG_VERSION_REGULAR_EXPRESSION);
   spec->add(versionDefinition);
 
-  Evolution::createXsd(spec);
+  CfgMutation::createXsd(spec);
   Evaluation::createXsd(spec);
   DataConfiguration::createXsd(spec);
   Population::createXsd(spec);
@@ -134,11 +134,11 @@ void NMODE::__getChild(ParseElement *element)
     return;
   }
 
-  if(element->opening(TAG_EVOLUTION))
+  if(element->opening(TAG_MUTATION))
   {
-    if(_evolution != NULL) delete _evolution;
-    _evolution = new Evolution(this);
-    current = _evolution;
+    if(_mutation != NULL) delete _mutation;
+    _mutation = new CfgMutation(this);
+    current = _mutation;
     current->add(element);
   }
 
@@ -168,8 +168,9 @@ void NMODE::__getChild(ParseElement *element)
 
   if(element->opening(TAG_POPULATION) && _initialisationCompleted == false)
   {
-    _population = Population::instance();
+    // _population = Population::instance();
     // _population->cleanup();
+    _population = new Population(this);
     current = _population;
     current->add(element);
     _initialisationCompleted = true;
@@ -184,9 +185,9 @@ void NMODE::__getChild(ParseElement *element)
   }
 }
 
-Evolution* NMODE::evolution()
+CfgMutation* NMODE::mutation()
 {
-  return _evolution;
+  return _mutation;
 }
 
 DataConfiguration* NMODE::configuration()

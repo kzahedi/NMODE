@@ -1,18 +1,27 @@
-#ifndef ___DATA_EVOLUTION_EDGE_H__
-#define ___DATA_EVOLUTION_EDGE_H__
+#ifndef __DATA_EVOLUTION_NODE_H__
+#define __DATA_EVOLUTION_NODE_H__
 
 #include "XsdParseNode.h"
 #include "Version.h"
 
-# define TAG_EVOLUTION_EDGE            (char*)"edge"
-# define TAG_EVOLUTION_EDGE_DEFINITION (char*)"edge_evolution_definition"
+# define TAG_MUTATION_NODE            (char*)"node"
+# define TAG_MUTATION_NODE_DEFINITION (char*)"node_evolution_definition"
 
-class EvolutionEdge : public XsdParseNode
+class CfgMutationNode : public XsdParseNode
 {
   public:
 
-    EvolutionEdge(XsdParseNode *parent);
-    ~EvolutionEdge();
+    /**
+     * @brief Constructor.
+     *
+     * @param parent
+     */
+    CfgMutationNode(XsdParseNode *parent);
+
+    /**
+     * @brief Destructor.
+     */
+    ~CfgMutationNode();
 
     void add(ParseElement *element);
 
@@ -21,10 +30,8 @@ class EvolutionEdge : public XsdParseNode
     double modifyProbability();
     double modifyMaxValue();
     double modifyDelta();
-
     double addProbability();
     double addMaxValue();
-
     double delProbability();
 
   private:
@@ -32,12 +39,13 @@ class EvolutionEdge : public XsdParseNode
     double _modifyProbability;
     double _modifyMaxValue;
     double _modifyDelta;
-
     double _addProbability;
     double _addMaxValue;
-
     double _delProbability;
+
 
 };
 
-#endif // ___DATA_EVOLUTION_EDGE_H__
+#endif // ___DATA_EVOLUTION_NODE_H__
+
+

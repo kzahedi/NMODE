@@ -29,13 +29,13 @@ add_library(NMODE SHARED
 
   DataConfiguration.cpp
 
-  Evolution.cpp
+  CfgMutation.cpp
   CfgReproduction.cpp
+  CfgMutationNode.cpp
+  CfgMutationEdge.cpp
 
   Evaluation.cpp
   EvaluationParameter.cpp
-  EvolutionNode.cpp
-  EvolutionEdge.cpp
 
   Population.cpp
   Individual.cpp

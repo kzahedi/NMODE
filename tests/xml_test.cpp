@@ -28,18 +28,18 @@ void xmlTest::testXml()
   CPPUNIT_ASSERT(42                  == sim->nr());
 
 
-  Evolution        *evo  = nmode->evolution();
+  CfgMutation     *mutation  = nmode->mutation();
 
-  EvolutionNode  *evon = evo->node();
-  EvolutionEdge *evos = evo->edge();
+  CfgMutationNode *mn = mutation->node();
+  CfgMutationEdge *me = mutation->edge();
   
-  CPPUNIT_ASSERT_DOUBLES_EQUAL(0.11, evon->modifyProbability(), 0.000001);
-  CPPUNIT_ASSERT_DOUBLES_EQUAL(0.12, evon->modifyMaxValue(),    0.000001);
-  CPPUNIT_ASSERT_DOUBLES_EQUAL(0.13, evon->modifyDelta(),       0.000001);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(0.11, mn->modifyProbability(), 0.000001);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(0.12, mn->modifyMaxValue(),    0.000001);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(0.13, mn->modifyDelta(),       0.000001);
 
-  CPPUNIT_ASSERT_DOUBLES_EQUAL(0.21, evos->modifyProbability(), 0.000001);
-  CPPUNIT_ASSERT_DOUBLES_EQUAL(0.22, evos->modifyMaxValue(),    0.000001);
-  CPPUNIT_ASSERT_DOUBLES_EQUAL(0.23, evos->modifyDelta(),       0.000001);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(0.21, me->modifyProbability(), 0.000001);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(0.22, me->modifyMaxValue(),    0.000001);
+  CPPUNIT_ASSERT_DOUBLES_EQUAL(0.23, me->modifyDelta(),       0.000001);
 
   DataConfiguration *conf = nmode->configuration();
   Modules            mods = conf->modules();

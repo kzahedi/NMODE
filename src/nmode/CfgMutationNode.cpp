@@ -27,7 +27,7 @@
 
 
 
-#include "EvolutionNode.h"
+#include "CfgMutationNode.h"
 
 #include <iostream>
 
@@ -45,7 +45,7 @@
 
 using namespace std;
 
-EvolutionNode::EvolutionNode(XsdParseNode *parent)
+CfgMutationNode::CfgMutationNode(XsdParseNode *parent)
   : XsdParseNode(parent)
 {
   _modifyProbability = 0.1;
@@ -56,19 +56,19 @@ EvolutionNode::EvolutionNode(XsdParseNode *parent)
   _delProbability    = 0.1;
 }
 
-EvolutionNode::~EvolutionNode()
+CfgMutationNode::~CfgMutationNode()
 {
   // nothing to be done
 }
 
-void EvolutionNode::add(ParseElement *element)
+void CfgMutationNode::add(ParseElement *element)
 {
-  if(element->closing(TAG_EVOLUTION_NODE))
+  if(element->closing(TAG_MUTATION_NODE))
   {
     current = parent;
   }
 
-  if(element->opening(TAG_EVOLUTION_NODE))
+  if(element->opening(TAG_MUTATION_NODE))
   {
   }
 
@@ -92,9 +92,9 @@ void EvolutionNode::add(ParseElement *element)
 
 }
 
-void EvolutionNode::createXsd(XsdSpecification *spec)
+void CfgMutationNode::createXsd(XsdSpecification *spec)
 {
-  XsdSequence *root = new XsdSequence(TAG_EVOLUTION_NODE_DEFINITION);
+  XsdSequence *root = new XsdSequence(TAG_MUTATION_NODE_DEFINITION);
   root->add(NE(TAG_MODIFY, TAG_MODIFY_DEFINITION,    1, 1));
   root->add(NE(TAG_ADD,    TAG_ADD_DEFINITION,       1, 1));
   root->add(NE(TAG_DEL,    TAG_DEL_DEFINITION,       1, 1));
@@ -116,32 +116,32 @@ void EvolutionNode::createXsd(XsdSpecification *spec)
   spec->add(del);
 }
 
-double EvolutionNode::modifyProbability()
+double CfgMutationNode::modifyProbability()
 {
   return _modifyProbability;
 }
 
-double EvolutionNode::modifyMaxValue()
+double CfgMutationNode::modifyMaxValue()
 {
   return _modifyMaxValue;
 }
 
-double EvolutionNode::modifyDelta()
+double CfgMutationNode::modifyDelta()
 {
   return _modifyDelta;
 }
 
-double EvolutionNode::addProbability()
+double CfgMutationNode::addProbability()
 {
   return _addProbability;
 }
 
-double EvolutionNode::addMaxValue()
+double CfgMutationNode::addMaxValue()
 {
   return _addMaxValue;
 }
 
-double EvolutionNode::delProbability()
+double CfgMutationNode::delProbability()
 {
   return _delProbability;
 }

@@ -3,8 +3,8 @@
 #include "Population.h"
 #include "Individual.h"
 #include "Module.h"
-#include "EvolutionEdge.h"
-#include "EvolutionNode.h"
+#include "CfgMutationEdge.h"
+#include "CfgMutationNode.h"
 
 class Mutation
 {
@@ -17,7 +17,7 @@ class Mutation
 
     void mutate(Population*);
     void mutate(Individual*);
-    void mutate(Module*, EvolutionNode*, EvolutionEdge*);
+    void mutate(Module*, CfgMutationNode*, CfgMutationEdge*);
 
   private:
     void __mutateDelEdge(Module*,    double);

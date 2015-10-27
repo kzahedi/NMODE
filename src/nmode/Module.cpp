@@ -1,6 +1,6 @@
-#include "Module.h"
+#include <nmode/Module.h>
 
-#include "macros.h"
+#include <nmode/macros.h>
 
 #include <iostream>
 #include <string>
@@ -42,9 +42,10 @@ using namespace std;
 Module::Module(XsdParseNode *parent)
   : XsdParseNode(parent), _mirrorAxes()
 {
-  _globalId   = 0;
-  _isCopy     = false;
-  _modified   = false;
+  _globalId = 0;
+  _isCopy   = false;
+  _modified = false;
+  _mutation = NULL;
 }
 
 Module::Module(const Module &m)
@@ -59,6 +60,8 @@ Module::~Module()
   {
     FORC(Nodes, n, _nodes) delete (*n);
     FORC(Edges, e, _edges) delete (*e);
+
+    // if(_mutation != NULL) delete _mutation;
 
     _copiedEdges.resize(0);
     _copiedNodes.resize(0);
@@ -149,6 +152,14 @@ void Module::add(ParseElement *element)
     VLOG(100) << "found " << _mirrorAxes.x << " " << _mirrorAxes.y << " " << _mirrorAxes.z;
   }
 
+  if(element->opening(TAG_MUTATION))
+  {
+    if(_mutation != NULL) delete _mutation;
+    _mutation = new CfgMutation(this);
+    current = _mutation;
+    current->add(element);
+  }
+
   if(element->opening(TAG_MODULE_TRANSLATE))
   {
     VLOG(100) << "found " << TAG_MODULE_TRANSLATE;
@@ -177,10 +188,11 @@ void Module::createXsd(XsdSpecification *spec)
   root->add(options);
 
   XsdSequence *optionA = new XsdSequence(OPTION_A);
-  optionA->add(NE(TAG_MODULE_ROTATE,    TAG_MODULE_P3D_DEFINITION,  0,1));
-  optionA->add(NE(TAG_MODULE_TRANSLATE, TAG_MODULE_P3D_DEFINITION,  0,1));
-  optionA->add(NE(TAG_MODULE_NODE, TAG_MODULE_NODE_DEFINITION, 1, TAG_XSD_UNBOUNDED));
-  optionA->add(NE(TAG_MODULE_EDGE, TAG_MODULE_EDGE_DEFINITION, 0, TAG_XSD_UNBOUNDED));
+  optionA->add(NE(TAG_MUTATION,         TAG_MUTATION_DEFINITION,    0, 1));
+  optionA->add(NE(TAG_MODULE_ROTATE,    TAG_MODULE_P3D_DEFINITION,  0, 1));
+  optionA->add(NE(TAG_MODULE_TRANSLATE, TAG_MODULE_P3D_DEFINITION,  0, 1));
+  optionA->add(NE(TAG_MODULE_NODE,      TAG_MODULE_NODE_DEFINITION, 1, TAG_XSD_UNBOUNDED));
+  optionA->add(NE(TAG_MODULE_EDGE,      TAG_MODULE_EDGE_DEFINITION, 0, TAG_XSD_UNBOUNDED));
   options->add(optionA);
 
   XsdSequence *optionB = new XsdSequence(OPTION_B);
@@ -203,6 +215,7 @@ void Module::createXsd(XsdSpecification *spec)
   spec->add(b3d);
 
   Node::createXsd(spec);
+  CfgMutation::createXsd(spec);
 }
 
 string Module::name()
@@ -551,6 +564,7 @@ Module& Module::operator=(const Module &m)
   _globalId    = m._globalId;
   _translation = m._translation;
   _rotation    = m._rotation;
+  _mutation    = NULL;
 
   FORCC(Nodes, n, m._nodes) addNode((*n)->copy());
   FORC(Edges, e, _edges)
@@ -564,6 +578,7 @@ Module& Module::operator=(const Module &m)
   if(_isCopy == false)
   {
     __applyTranslation();
+    _mutation = m._mutation;
   }
 
   return *this;
@@ -700,6 +715,12 @@ Module* Module::copy()
   copy->_translation = _translation;
 
   copy->_mirrorAxes  = _mirrorAxes;
+  copy->_mutation    = NULL;
+
+  if(_isCopy == false)
+  {
+    copy->_mutation = _mutation;
+  }
 
   FORC(Nodes, n, _nodes)
   {
@@ -740,4 +761,9 @@ void Module::setIsCopy(bool c)
 void Module::setTarget(string t)
 {
   _ref = t;
+}
+
+CfgMutation* Module::mutation()
+{
+  return _mutation;
 }

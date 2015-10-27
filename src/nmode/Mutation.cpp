@@ -37,8 +37,8 @@ void Mutation::mutate(Individual *i)
 {
   VLOG(50) << ">> start mutate population";
   Data *data = Data::instance();
-  EvolutionEdge *dee = data->specification()->evolution()->edge();
-  EvolutionNode *den = data->specification()->evolution()->node();
+  CfgMutationEdge *dee = data->specification()->mutation()->edge();
+  CfgMutationNode *den = data->specification()->mutation()->node();
   for(Modules::iterator mod = i->m_begin(); mod != i->m_end(); mod++)
   {
     if((*mod)->isCopy() == false)
@@ -50,32 +50,44 @@ void Mutation::mutate(Individual *i)
 }
 
 
-void Mutation::mutate(Module *m, EvolutionNode *den, EvolutionEdge *dee)
+void Mutation::mutate(Module *m, CfgMutationNode *den, CfgMutationEdge *dee)
 {
   VLOG(50) << ">> mutate";
   m->setModified(false);
-  while(m->modified() == false)
+
+  CfgMutationEdge *e = dee;
+  CfgMutationNode *n = den;
+
+  if(m->mutation() != NULL)
   {
+    e = m->mutation()->edge();
+    n = m->mutation()->node();
+  }
+
+  int attemps = 0;
+  while(m->modified() == false && attemps < 100)
+  {
+    attemps++;
     VLOG(50) << "### BEFORE MUTATION";
     LOG_MODULE;
-    __mutateDelEdge(m,    dee->delProbability());
-    __mutateModifyEdge(m, dee->modifyProbability(),
-                          dee->modifyDelta(),
-                          dee->modifyMaxValue());
-    __mutateAddEdge(m,    dee->addProbability(),
-                          dee->addMaxValue());
-    __mutateModifyNode(m, den->modifyProbability(),
-                          den->modifyDelta(),
-                          den->modifyMaxValue());
-    __mutateDelNode(m,    den->delProbability());
-    __mutateAddNode(m,    den->addProbability(),
-                          den->addMaxValue());
+    __mutateDelEdge(m,    e->delProbability());
+    __mutateModifyEdge(m, e->modifyProbability(),
+                          e->modifyDelta(),
+                          e->modifyMaxValue());
+    __mutateAddEdge(m,    e->addProbability(),
+                          e->addMaxValue());
+    __mutateModifyNode(m, n->modifyProbability(),
+                          n->modifyDelta(),
+                          n->modifyMaxValue());
+    __mutateDelNode(m,    n->delProbability());
+    __mutateAddNode(m,    n->addProbability(),
+                          n->addMaxValue());
     __cleanup(m);
-    VLOG(50) << "<< mutate";
-    VLOG(50) << "### AFTER MUTATION";
-    LOG_MODULE;
-    VLOG(50) << "### AFTER MUTATION";
   }
+  VLOG(50) << "<< mutate";
+  VLOG(50) << "### AFTER MUTATION";
+  LOG_MODULE;
+  VLOG(50) << "### AFTER MUTATION";
 }
 
 void Mutation::__mutateDelEdge(Module *m, double probability)

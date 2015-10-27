@@ -1,13 +1,14 @@
-#ifndef __DATA_MODULE_H__
-#define __DATA_MODULE_H__
+#ifndef __MODULE_H__
+#define __MODULE_H__
 
-#include "XsdParseNode.h"
+#include <nmode/XsdParseNode.h>
 
-#include "Node.h"
-#include "Edge.h"
+#include <nmode/Node.h>
+#include <nmode/Edge.h>
+#include <nmode/CfgMutation.h>
 
-#include "Quaternion.h"
-#include "NMODEException.h"
+#include <nmode/Quaternion.h>
+#include <nmode/NMODEException.h>
 
 # define TAG_MODULE            (char*)"module"
 # define TAG_MODULE_DEFINITION (char*)"module_definition"
@@ -144,34 +145,37 @@ class Module : public XsdParseNode
 
     void copyAndApplyTransition(Module*);
 
+    CfgMutation* mutation();
+
   private:
-    void        __applyMirror();
-    void        __applyTranslation();
+    void         __applyMirror();
+    void         __applyTranslation();
 
-    string      _name;
-    string      _ref;
+    string       _name;
+    string       _ref;
 
-    Quaternion  _rotation;
-    P3D         _translation;
+    Quaternion   _rotation;
+    P3D          _translation;
 
-    MirrorAxes  _mirrorAxes;
-    bool        _isCopy;
-    bool        _modified;
-    int         _globalId;
-    Edges       _copiedEdges;
-    Nodes       _copiedNodes;
+    MirrorAxes   _mirrorAxes;
+    bool         _isCopy;
+    bool         _modified;
+    int          _globalId;
+    Edges        _copiedEdges;
+    Nodes        _copiedNodes;
 
-    Nodes       _nodes;
-    Nodes       _sensor;
-    Nodes       _actuator;
-    Nodes       _connector;
-    Nodes       _moduleInput;
-    Nodes       _moduleOutput;
-    Nodes       _hidden;
-    Nodes       _tmpArrayOfNodes;
-    Edges       _edges;
+    Nodes        _nodes;
+    Nodes        _sensor;
+    Nodes        _actuator;
+    Nodes        _connector;
+    Nodes        _moduleInput;
+    Nodes        _moduleOutput;
+    Nodes        _hidden;
+    Nodes        _tmpArrayOfNodes;
+    Edges        _edges;
+    CfgMutation* _mutation;
 };
 
 typedef vector<Module*> Modules;
 
-#endif // ___DATA_MODULE_H__
+#endif // __MODULE_H__

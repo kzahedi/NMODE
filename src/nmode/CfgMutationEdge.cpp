@@ -1,4 +1,4 @@
-#include "EvolutionEdge.h"
+#include "CfgMutationEdge.h"
 
 #include <iostream>
 #include <glog/logging.h>
@@ -19,7 +19,7 @@
 
 using namespace std;
 
-EvolutionEdge::EvolutionEdge(XsdParseNode *parent)
+CfgMutationEdge::CfgMutationEdge(XsdParseNode *parent)
   : XsdParseNode(parent)
 {
   _modifyProbability = 0.1;
@@ -32,20 +32,20 @@ EvolutionEdge::EvolutionEdge(XsdParseNode *parent)
   _delProbability    = 0.1;
 }
 
-EvolutionEdge::~EvolutionEdge()
+CfgMutationEdge::~CfgMutationEdge()
 {
   // nothing to be done
 }
 
-void EvolutionEdge::add(ParseElement *element)
+void CfgMutationEdge::add(ParseElement *element)
 {
   VLOG(100) << "parsing: " << element->name();
-  if(element->closing(TAG_EVOLUTION_EDGE))
+  if(element->closing(TAG_MUTATION_EDGE))
   {
     current = parent;
   }
 
-  if(element->opening(TAG_EVOLUTION_EDGE))
+  if(element->opening(TAG_MUTATION_EDGE))
   {
   }
 
@@ -75,9 +75,9 @@ void EvolutionEdge::add(ParseElement *element)
 
 }
 
-void EvolutionEdge::createXsd(XsdSpecification *spec)
+void CfgMutationEdge::createXsd(XsdSpecification *spec)
 {
-  XsdSequence *root = new XsdSequence(TAG_EVOLUTION_EDGE_DEFINITION);
+  XsdSequence *root = new XsdSequence(TAG_MUTATION_EDGE_DEFINITION);
   root->add(NE(TAG_MODIFY, TAG_MODIFY_DEFINITION, 1, 1));
   root->add(NE(TAG_ADD,    TAG_ADD_DEFINITION,    1, 1));
   root->add(NE(TAG_DEL,    TAG_DEL_DEFINITION,    1, 1));
@@ -100,32 +100,32 @@ void EvolutionEdge::createXsd(XsdSpecification *spec)
 
 }
 
-double EvolutionEdge::modifyProbability()
+double CfgMutationEdge::modifyProbability()
 {
   return _modifyProbability;
 }
 
-double EvolutionEdge::modifyMaxValue()
+double CfgMutationEdge::modifyMaxValue()
 {
   return _modifyMaxValue;
 }
 
-double EvolutionEdge::modifyDelta()
+double CfgMutationEdge::modifyDelta()
 {
   return _modifyDelta;
 }
 
-double EvolutionEdge::addProbability()
+double CfgMutationEdge::addProbability()
 {
   return _addProbability;
 }
 
-double EvolutionEdge::addMaxValue()
+double CfgMutationEdge::addMaxValue()
 {
   return _addMaxValue;
 }
 
-double EvolutionEdge::delProbability()
+double CfgMutationEdge::delProbability()
 {
   return _delProbability;
 }

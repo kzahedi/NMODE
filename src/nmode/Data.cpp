@@ -16,8 +16,8 @@
 #define _SIM  _root->simulator()
 #define _EVA  _root->evaluation()
 #define _REP  _root->reproduction()
-#define _EVON _root->evolution()->node()
-#define _EVOE _root->evolution()->edge()
+#define _MUTN _root->mutation()->node()
+#define _MUTE _root->mutation()->edge()
 
 
 Data* Data::_me = NULL;
@@ -136,20 +136,20 @@ string Data::__evolution()
   stringstream sst; 
   sst << "  <evolution>" << endl;
   sst << "    <node>" << endl;
-  sst << "      <modify probability=\"" << _EVON->modifyProbability() << "\" "
-    << "maximum=\"" << _EVON->modifyMaxValue() << "\" "
-    << "delta=\""   << _EVON->modifyDelta() << "\"/>" << endl;
-  sst << "      <add    probability=\"" << _EVON->addProbability() << "\" "
-    << "maximum=\"" << _EVON->addMaxValue() << "\"/>" << endl;
-  sst << "      <delete probability=\"" << _EVON->delProbability() << "\"/>" << endl;
+  sst << "      <modify probability=\"" << _MUTN->modifyProbability() << "\" "
+    << "maximum=\"" << _MUTN->modifyMaxValue() << "\" "
+    << "delta=\""   << _MUTN->modifyDelta() << "\"/>" << endl;
+  sst << "      <add    probability=\"" << _MUTN->addProbability() << "\" "
+    << "maximum=\"" << _MUTN->addMaxValue() << "\"/>" << endl;
+  sst << "      <delete probability=\"" << _MUTN->delProbability() << "\"/>" << endl;
   sst << "    </node>" << endl;
   sst << "    <edge>" << endl;
-  sst << "      <modify probability=\"" << _EVON->modifyProbability() << "\" "
-    << "maximum=\"" << _EVOE->modifyMaxValue() << "\" "
-    << "delta=\""   << _EVOE->modifyDelta() << "\"/>" << endl;
-  sst << "      <add    probability=\"" << _EVOE->addProbability() << "\" "
-    << "maximum=\"" << _EVOE->addMaxValue() << "\"/>" << endl;
-  sst << "      <delete probability=\"" << _EVOE->delProbability() << "\"/>" << endl;
+  sst << "      <modify probability=\"" << _MUTN->modifyProbability() << "\" "
+    << "maximum=\"" << _MUTE->modifyMaxValue() << "\" "
+    << "delta=\""   << _MUTE->modifyDelta() << "\"/>" << endl;
+  sst << "      <add    probability=\"" << _MUTE->addProbability() << "\" "
+    << "maximum=\"" << _MUTE->addMaxValue() << "\"/>" << endl;
+  sst << "      <delete probability=\"" << _MUTE->delProbability() << "\"/>" << endl;
   sst << "    </edge>" << endl;
   sst << "  </evolution>" << endl;
   return sst.str();
