@@ -10,7 +10,6 @@
 #include "DataConfiguration.h"
 #include "Simulator.h"
 #include "Population.h"
-#include "Fitness.h"
 
 # define TAG_NMODE                        (char*)"nmode"
 # define TAG_NMODE_DEFINITION             (char*)"enp_definition"
@@ -56,7 +55,6 @@ class NMODE : public XsdParseNode
     DataConfiguration* _configuration;
     Population*        _population;
     Evaluation*        _evaluation;
-    Fitness*           _fitness;
     CfgReproduction*   _reproduction;
     bool               _initialisationCompleted;
 

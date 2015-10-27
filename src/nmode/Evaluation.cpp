@@ -1,5 +1,7 @@
 #include "Evaluation.h"
 
+#include <nmode/macros.h>
+
 #include <iostream>
 #include <glog/logging.h>
 
@@ -37,6 +39,10 @@ void Evaluation::add(ParseElement *element)
 
   if(element->closing(TAG_EVALUATION))
   {
+    FORC(EvaluationParameters, p, _parameters)
+    {
+      EvaluationParameterMap::add((*p)->name(), (*p)->value());
+    }
     current = parent;
     return;
   }
@@ -44,6 +50,8 @@ void Evaluation::add(ParseElement *element)
   if(element->opening(TAG_LIFE_TIME))
   {
     element->set(TAG_ITERATIONS, _lifeTime);
+    _parameters.clear();
+    EvaluationParameterMap::clear();
   }
 
   if(element->opening(TAG_GENERATIONS))
@@ -57,14 +65,22 @@ void Evaluation::add(ParseElement *element)
     element->set(TAG_EDGE, _edgeCost);
   }
 
+  if(element->opening(TAG_EVALUATION_PARAMETER))
+  {
+    EvaluationParameter *parameter = new EvaluationParameter(this);
+    parameter->add(element);
+    current = parameter;
+    _parameters.push_back(parameter);
+  }
 }
 
 void Evaluation::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_EVALUATION_DEFINITION);
-  root->add(NE(TAG_LIFE_TIME,   TAG_LIFE_TIME_DEFINITION,   1, 1));
-  root->add(NE(TAG_GENERATIONS, TAG_GENERATIONS_DEFINITION, 0, 1));
-  root->add(NE(TAG_COST,        TAG_COST_DEFINITION,        1, 1));
+  root->add(NE(TAG_LIFE_TIME,            TAG_LIFE_TIME_DEFINITION,            1, 1));
+  root->add(NE(TAG_GENERATIONS,          TAG_GENERATIONS_DEFINITION,          0, 1));
+  root->add(NE(TAG_COST,                 TAG_COST_DEFINITION,                 1, 1));
+  root->add(NE(TAG_EVALUATION_PARAMETER, TAG_EVALUATION_PARAMETER_DEFINITION, 0));
   spec->add(root);
 
   XsdSequence *lifeTime = new XsdSequence(TAG_LIFE_TIME_DEFINITION);

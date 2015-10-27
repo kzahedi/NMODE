@@ -61,7 +61,6 @@ void NMODE::createXsd(XsdSpecification *spec)
   _root->add(NA(TAG_VERSION,       TAG_VERSION_DEFINITION,       true));
   _root->add(NE(TAG_SIMULATOR,     TAG_SIMULATOR_DEFINITION,     1, 1));
   _root->add(NE(TAG_EVALUATION,    TAG_EVALUATION_DEFINITION,    1, 1));
-  _root->add(NE(TAG_FITNESS,       TAG_FITNESS_DEFINITION,       1, 1));
   _root->add(NE(TAG_REPRODUCTION,  TAG_REPRODUCTION_DEFINITION,  1, 1));
   _root->add(NE(TAG_EVOLUTION,     TAG_EVOLUTION_DEFINITION,     1, 1));
   _root->add(NE(TAG_CONFIGURATION, TAG_CONFIGURATION_DEFINITION, 1, 1));
@@ -78,7 +77,6 @@ void NMODE::createXsd(XsdSpecification *spec)
   DataConfiguration::createXsd(spec);
   Population::createXsd(spec);
   CfgReproduction::createXsd(spec);
-  Fitness::createXsd(spec);
 }
 
 
@@ -158,13 +156,6 @@ void NMODE::__getChild(ParseElement *element)
   {
     _evaluation = new Evaluation(this);
     current = _evaluation;
-    current->add(element);
-  }
-
-  if(element->opening(TAG_FITNESS))
-  {
-    _fitness = new Fitness(this);
-    current = _fitness;
     current->add(element);
   }
 

@@ -66,6 +66,8 @@ void EvaluateTemplate::__evaluate()
         _actuatorValues.resize(_nrOfActuators);
       }
 
+      newIndividual();
+
       for(int i = 0; i < _lifeTime; i++)
       {
         _com->update();

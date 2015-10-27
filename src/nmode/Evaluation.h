@@ -1,12 +1,18 @@
 #ifndef __EVALUATION_H__
 #define __EVALUATION_H__
 
-#include "XsdParseNode.h"
+#include <nmode/XsdParseNode.h>
+#include <nmode/EvaluationParameter.h>
+#include <nmode/EvaluationParameterMap.hpp>
+
+#include <string>
+
+using namespace std;
 
 # define TAG_EVALUATION            (char*)"evaluation"
 # define TAG_EVALUATION_DEFINITION (char*)"evaluation_definition"
 
-class Evaluation : public XsdParseNode
+class Evaluation : public XsdParseNode, public EvaluationParameterMap
 {
   public:
     Evaluation(XsdParseNode *parent);
@@ -19,12 +25,15 @@ class Evaluation : public XsdParseNode
     int    generations();
     double nodeCost();
     double edgeCost();
+    string module();
 
   private:
-    int    _lifeTime;
-    int    _generations;
-    double _nodeCost;
-    double _edgeCost;
+    int                  _lifeTime;
+    int                  _generations;
+    double               _nodeCost;
+    double               _edgeCost;
+    string               _module;
+    EvaluationParameters _parameters;
 };
 
 

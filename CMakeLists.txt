@@ -32,7 +32,7 @@ ELSE(USE_DEBUG_MODE)
   set(CMAKE_BUILD_TYPE Release) 
 ENDIF(USE_DEBUG_MODE)
 
-include_directories(${CMAKE_SRC})
+include_directories(${CMAKE_SOURCE_DIR}/src)
 
 include(cmake/IncludePackages.cmake)
 
