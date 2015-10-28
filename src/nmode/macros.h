@@ -13,7 +13,6 @@
 #define FORP(t, i, c)       for(t::iterator i = c->begin(); i != c->end(); i++)
 #define FORF(t, i, c, b, e) for(t::iterator i = (c)->b; i != (c)->e; i++)
 #define FORI(s, e, i)       for(int i = s; i < (int)e; i++)
-#define FORI(s, e, i)       for(int i = s; i < (int)e; i++)
 
 #define SIGN(a)             ((a<0.0)?-1.0:1.0)
 

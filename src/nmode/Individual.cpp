@@ -141,8 +141,6 @@ Individual* Individual::getRealisation()
   VLOG(100) << "Individual::getRealisation";
   Individual *copy = new Individual(NULL);
 
-  Modules mods;
-
   FORC(Modules, m, _modules)
   {
     VLOG(100) << "checking on " << (*m)->name();
@@ -150,18 +148,12 @@ Individual* Individual::getRealisation()
     {
       VLOG(100) << "  its not a copy";
       Module *cm = (*m)->copy();
-      mods.push_back(cm);
       copy->addModule(cm);
     }
-  }
-
-  FORC(Modules, m, _modules)
-  {
-    VLOG(100) << "checking on " << (*m)->name();
-    if((*m)->isCopy())
+    else
     {
       VLOG(100) << "  it is a copy";
-      FORC(Modules, c, mods)
+      FORC(Modules, c, _modules)
       {
         if((*m)->ref() == (*c)->name())
         {
