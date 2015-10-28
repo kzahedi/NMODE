@@ -62,15 +62,15 @@ void Mutation::mutate(Module *m, CfgMutationNode *den, CfgMutationEdge *dee)
   {
     e = m->mutation()->edge();
     n = m->mutation()->node();
-    cout << "** Found module specific mutation parameters:" << m->name() << endl;
-    cout << *n << endl;
-    cout << *e << endl;
+    VLOG(50) << "** Found module specific mutation parameters:" << m->name();
+    VLOG(50) << *n;
+    VLOG(50) << *e;
   }
   else
   {
-    cout << "## Did not find module specific mutation parameters:" << m->name() << endl;
-    cout << *n << endl;
-    cout << *e << endl;
+    VLOG(50) << "## Did not find module specific mutation parameters:" << m->name();
+    VLOG(50) << *n;
+    VLOG(50) << *e;
   }
 
   int attemps = 0;
