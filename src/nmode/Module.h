@@ -146,6 +146,8 @@ class Module : public XsdParseNode
     void copyAndApplyTransition(Module*);
 
     CfgMutation* mutation();
+    void         setMutation(CfgMutation*);
+    void         removeMutation();
 
   private:
     void         __applyMirror();

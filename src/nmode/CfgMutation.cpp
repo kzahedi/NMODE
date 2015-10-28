@@ -69,3 +69,21 @@ CfgMutationEdge* CfgMutation::edge()
   return _edge;
 }
 
+CfgMutation* CfgMutation::copy()
+{
+  CfgMutation *copy = new CfgMutation(NULL);
+  if(_node != NULL) copy->setNode(_node->copy());
+  if(_edge != NULL) copy->setEdge(_edge->copy());
+  return copy;
+}
+
+void CfgMutation::setNode(CfgMutationNode* n)
+{
+  _node = n;
+}
+
+void CfgMutation::setEdge(CfgMutationEdge* e)
+{
+  _edge = e;
+}
+

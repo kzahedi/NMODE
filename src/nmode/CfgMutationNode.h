@@ -16,7 +16,7 @@ class CfgMutationNode : public XsdParseNode
      *
      * @param parent
      */
-    CfgMutationNode(XsdParseNode *parent);
+    CfgMutationNode(XsdParseNode *parent = NULL);
 
     /**
      * @brief Destructor.
@@ -33,6 +33,20 @@ class CfgMutationNode : public XsdParseNode
     double addProbability();
     double addMaxValue();
     double delProbability();
+
+    CfgMutationNode* copy();
+
+    friend std::ostream& operator<<(std::ostream& str, const CfgMutationNode& n)
+    {
+      str << "Node mutation parameters: " << endl;
+      str << "  Mod probability " << n._modifyProbability << endl;
+      str << "  Mod max value:  " << n._modifyMaxValue    << endl;
+      str << "  Mod delta:      " << n._modifyDelta       << endl;
+      str << "  Add prob:       " << n._addProbability    << endl;
+      str << "  Add max value:  " << n._addProbability    << endl;
+      str << "  Del prob:       " << n._delProbability    << endl;
+      return str;
+    };
 
   private:
 

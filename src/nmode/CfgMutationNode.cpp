@@ -146,4 +146,16 @@ double CfgMutationNode::delProbability()
   return _delProbability;
 }
 
+CfgMutationNode* CfgMutationNode::copy()
+{
+  CfgMutationNode *copy = new CfgMutationNode();
 
+  copy->_modifyProbability = _modifyProbability;
+  copy->_modifyMaxValue    = _modifyMaxValue;
+  copy->_modifyDelta       = _modifyDelta;
+  copy->_addProbability    = _addProbability;
+  copy->_addMaxValue       = _addMaxValue;
+  copy->_delProbability    = _delProbability;
+
+  return copy;
+}

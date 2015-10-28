@@ -1,9 +1,11 @@
-#include "NMODE.h"
-#include "XmlChangeLog.h"
+#include <nmode/NMODE.h>
+#include <nmode/XmlChangeLog.h>
 
-#include "StringTokeniser.h"
-#include "NMODEErrorHandler.h"
-#include "Individual.h"
+#include <nmode/StringTokeniser.h>
+#include <nmode/NMODEErrorHandler.h>
+#include <nmode/Individual.h>
+#include <nmode/Module.h>
+#include <nmode/macros.h>
 
 #include <iostream>
 #include <glog/logging.h>
@@ -182,6 +184,36 @@ void NMODE::__getChild(ParseElement *element)
     _reproduction = new CfgReproduction(this);
     current = _reproduction;
     current->add(element);
+  }
+
+  if(element->closing(TAG_NMODE))
+  {
+    __applyConfigurationToModules();
+  }
+}
+
+void NMODE::__applyConfigurationToModules()
+{
+  if(_population == NULL) return;
+  FORF(Modules, m, _configuration, m_begin(), m_end())
+  {
+    FORF(Individuals, i, _population, i_begin(), i_end())
+    {
+      FORF(Modules, n, (*i), m_begin(), m_end())
+      {
+        if((*m)->name() == (*n)->name())
+        {
+          if((*m)->mutation() == NULL)
+          {
+            (*n)->removeMutation();
+          }
+          else
+          {
+            (*n)->setMutation((*m)->mutation()->copy());
+          }
+        }
+      }
+    }
   }
 }
 

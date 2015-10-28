@@ -767,3 +767,15 @@ CfgMutation* Module::mutation()
 {
   return _mutation;
 }
+
+void Module::setMutation(CfgMutation* cfg)
+{
+  _mutation = cfg;
+}
+
+void Module::removeMutation()
+{
+  if(_mutation != NULL) delete _mutation;
+  _mutation = NULL;
+}
+

@@ -62,6 +62,15 @@ void Mutation::mutate(Module *m, CfgMutationNode *den, CfgMutationEdge *dee)
   {
     e = m->mutation()->edge();
     n = m->mutation()->node();
+    cout << "** Found module specific mutation parameters:" << m->name() << endl;
+    cout << *n << endl;
+    cout << *e << endl;
+  }
+  else
+  {
+    cout << "## Did not find module specific mutation parameters:" << m->name() << endl;
+    cout << *n << endl;
+    cout << *e << endl;
   }
 
   int attemps = 0;
@@ -325,9 +334,10 @@ void Mutation::__mutateAddNode(Module *m, double probability, double max)
     // cout << endl;
   // }
 
-  double p = Random::unit();
-  double s = 0.0;
-  int ei = -1;
+  double p  = Random::unit();
+  double s  = 0.0;
+  int    ei = -1;
+
   for(int i = 0; i < m->e_size(); i++)
   {
     s += probabilities[i];

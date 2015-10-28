@@ -32,6 +32,11 @@ class CfgMutation : public XsdParseNode
     CfgMutationNode* node();
     CfgMutationEdge* edge();
 
+    void setNode(CfgMutationNode*);
+    void setEdge(CfgMutationEdge*);
+
+    CfgMutation* copy();
+
   private:
     CfgMutationNode *_node;
     CfgMutationEdge *_edge;

@@ -48,6 +48,7 @@ class NMODE : public XsdParseNode
 
   private:
     void __getChild(ParseElement *element);
+    void __applyConfigurationToModules();
 
     Version            _version;
     Simulator*         _simulator;
