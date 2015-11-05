@@ -78,7 +78,7 @@ void NMODE::createXsd(XsdSpecification *spec)
   spec->add(versionDefinition);
 
   CfgMutation::createXsd(spec);
-  Evaluation::createXsd(spec);
+  CfgEvaluation::createXsd(spec);
   DataConfiguration::createXsd(spec);
   Population::createXsd(spec);
   CfgReproduction::createXsd(spec);
@@ -163,7 +163,7 @@ void NMODE::__getChild(ParseElement *element)
   if(element->opening(TAG_EVALUATION))
   {
     if(_evaluation != NULL) delete _evaluation;
-    _evaluation = new Evaluation(this);
+    _evaluation = new CfgEvaluation(this);
     current = _evaluation;
     current->add(element);
   }
@@ -257,7 +257,7 @@ void NMODE::initialiseFirstPopulationFromConfiguration()
 }
 
 
-Evaluation* NMODE::evaluation()
+CfgEvaluation* NMODE::evaluation()
 {
   return _evaluation;
 }

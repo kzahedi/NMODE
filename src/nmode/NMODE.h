@@ -6,7 +6,7 @@
 
 #include "CfgReproduction.h"
 #include "CfgMutation.h"
-#include "Evaluation.h"
+#include "CfgEvaluation.h"
 #include "DataConfiguration.h"
 #include "Simulator.h"
 #include "Population.h"
@@ -41,7 +41,7 @@ class NMODE : public XsdParseNode
 
     Simulator*         simulator();
     CfgMutation*       mutation();
-    Evaluation*        evaluation();
+    CfgEvaluation*        evaluation();
     DataConfiguration* configuration();
     Population*        population();
     CfgReproduction*   reproduction();
@@ -55,7 +55,7 @@ class NMODE : public XsdParseNode
     CfgMutation*       _mutation;
     DataConfiguration* _configuration;
     Population*        _population;
-    Evaluation*        _evaluation;
+    CfgEvaluation*     _evaluation;
     CfgReproduction*   _reproduction;
     bool               _initialisationCompleted;
 

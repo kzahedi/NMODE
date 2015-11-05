@@ -5,10 +5,10 @@
 
 #include <sstream>
 
-class EvaluateTemplate
+class Evaluate
 {
   public:
-    EvaluateTemplate();
+    Evaluate();
 
     void run();
 
@@ -41,3 +41,5 @@ class EvaluateTemplate
     RNN*           _rnn;
 
 };
+
+typedef Evaluate* create_e();

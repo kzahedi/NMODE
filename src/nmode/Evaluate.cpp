@@ -1,10 +1,10 @@
-#include "EvaluateTemplate.h"
+#include "Evaluate.h"
 #include "RnnFromIndividual.h"
 #include "Data.h"
 
 #include <sstream>
 
-EvaluateTemplate::EvaluateTemplate()
+Evaluate::Evaluate()
 {
   _fitness              = 0.0;
   _com                  = NULL;
@@ -18,7 +18,7 @@ EvaluateTemplate::EvaluateTemplate()
   _successfulEvaluation = false;
 }
 
-void EvaluateTemplate::run()
+void Evaluate::run()
 {
   while(true)
   {
@@ -45,7 +45,7 @@ void EvaluateTemplate::run()
   }
 }
 
-void EvaluateTemplate::__evaluate()
+void Evaluate::__evaluate()
 {
   _successfulEvaluation = false;
   while(_successfulEvaluation == false)
@@ -124,27 +124,7 @@ void EvaluateTemplate::__evaluate()
   }
 }
 
-void EvaluateTemplate::quit()
+void Evaluate::quit()
 {
   _com->sendQuit();
 }
-
-// void EvaluateTemplate::updateController()
-// {
-  // _networkInput[0] = 0.0;
-  // _networkInput[1] = 0.0;
-
-  // for(int j = 0; j < 3; j++)
-  // {
-    // _networkInput[0] += _sensorValues[j];
-    // _networkInput[1] += _sensorValues[3 + j];
-  // }
-
-  // _networkInput[0] /= 3.0;
-  // _networkInput[1] /= 3.0;
-// }
-
-// void EvaluateTemplate::updateFitnessFunction()
-// {
-  // _fitness += _sensorValues[6] + _sensorValues[7];
-// }

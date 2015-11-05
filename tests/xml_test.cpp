@@ -1,7 +1,7 @@
 #include "xml_test.h"
 
-#include "nmode/Data.h"
-#include "nmode/macros.h"
+#include <nmode/Data.h>
+#include <nmode/macros.h>
 
 #include <iostream>
 #include <string>

@@ -1,4 +1,4 @@
-#include "Evaluation.h"
+#include "CfgEvaluation.h"
 
 #include <nmode/macros.h>
 
@@ -6,6 +6,8 @@
 #include <glog/logging.h>
 
 using namespace std;
+
+# define TAG_MODULE                 (char*)"module"
 
 # define TAG_LIFE_TIME              (char*)"lifetime"
 # define TAG_LIFE_TIME_DEFINITION   (char*)"lifetime_evaluation_definition"
@@ -20,23 +22,24 @@ using namespace std;
 # define TAG_EDGE                   (char*)"edge"
 # define TAG_NODE                   (char*)"node"
 
-Evaluation::Evaluation(XsdParseNode *parent)
+CfgEvaluation::CfgEvaluation(XsdParseNode *parent)
   : XsdParseNode(parent)
 {
   _lifeTime    = -1;
   _nodeCost    = 0.0;
   _edgeCost    = 0.0;
   _generations = -1;
+  _module      = "unknown";
 }
 
-Evaluation::~Evaluation()
+CfgEvaluation::~CfgEvaluation()
 {
   FORC(EvaluationParameters, p, _parameters) delete (*p);
   _parameters.clear();
 }
 
 
-void Evaluation::add(ParseElement *element)
+void CfgEvaluation::add(ParseElement *element)
 {
   VLOG(100) << "parsing: " << element->name();
 
@@ -48,6 +51,11 @@ void Evaluation::add(ParseElement *element)
     }
     current = parent;
     return;
+  }
+
+  if(element->opening(TAG_EVALUATION))
+  {
+    element->set(TAG_MODULE, _module);
   }
 
   if(element->opening(TAG_LIFE_TIME))
@@ -81,9 +89,10 @@ void Evaluation::add(ParseElement *element)
   }
 }
 
-void Evaluation::createXsd(XsdSpecification *spec)
+void CfgEvaluation::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_EVALUATION_DEFINITION);
+  root->add(NA(TAG_MODULE,               TAG_XSD_STRING,                      true));
   root->add(NE(TAG_LIFE_TIME,            TAG_LIFE_TIME_DEFINITION,            1, 1));
   root->add(NE(TAG_GENERATIONS,          TAG_GENERATIONS_DEFINITION,          0, 1));
   root->add(NE(TAG_COST,                 TAG_COST_DEFINITION,                 1, 1));
@@ -102,26 +111,30 @@ void Evaluation::createXsd(XsdSpecification *spec)
   cost->add(NA(TAG_NODE, TAG_POSITIVE_DECIMAL, false));
   cost->add(NA(TAG_EDGE, TAG_POSITIVE_DECIMAL, false));
   spec->add(cost);
-
 }
 
-int Evaluation::lifeTime()
+int CfgEvaluation::lifeTime()
 {
   return _lifeTime;
 }
 
-int Evaluation::generations()
+int CfgEvaluation::generations()
 {
   return _generations;
 }
 
-double Evaluation::nodeCost()
+double CfgEvaluation::nodeCost()
 {
   return _nodeCost;
 }
 
-double Evaluation::edgeCost()
+double CfgEvaluation::edgeCost()
 {
   return _edgeCost;
+}
+
+string CfgEvaluation::module()
+{
+  return _module;
 }
 

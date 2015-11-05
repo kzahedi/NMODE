@@ -12,11 +12,11 @@ using namespace std;
 # define TAG_EVALUATION            (char*)"evaluation"
 # define TAG_EVALUATION_DEFINITION (char*)"evaluation_definition"
 
-class Evaluation : public XsdParseNode, public EvaluationParameterMap
+class CfgEvaluation : public XsdParseNode, public EvaluationParameterMap
 {
   public:
-    Evaluation(XsdParseNode *parent);
-    ~Evaluation();
+    CfgEvaluation(XsdParseNode *parent);
+    ~CfgEvaluation();
 
     void add(ParseElement *element);
 

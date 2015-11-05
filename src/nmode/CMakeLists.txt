@@ -1,7 +1,7 @@
 include_directories("${PROJECT_SOURCE_DIR}/src")
 link_directories(${PROJECT_BINARY_DIR}/lib)
 
-add_library(NMODE SHARED
+set(SRC
   RNN.cpp
   P3D.cpp
   Quaternion.cpp
@@ -33,8 +33,9 @@ add_library(NMODE SHARED
   CfgReproduction.cpp
   CfgMutationNode.cpp
   CfgMutationEdge.cpp
+  CfgEvaluation.cpp
 
-  Evaluation.cpp
+  Evolve.cpp
   EvaluationParameter.cpp
 
   Population.cpp
@@ -77,7 +78,14 @@ add_library(NMODE SHARED
   Mutation.cpp
   Reproduction.cpp
   EvaluateTemplate.cpp
-  )
+  Evaluate.cpp
+)
 
-target_link_libraries(NMODE ${Boost_LIBRARIES} xerces-c glog YarsClientCom)
-install(TARGETS NMODE LIBRARY DESTINATION lib)
+add_library(NMODEe SHARED ${SRC})
+target_link_libraries(NMODEe ${Boost_LIBRARIES} xerces-c glog YarsClientCom dl)
+
+add_executable(nmode main.cpp)
+target_link_libraries(nmode NMODEe xerces-c ${Boost_LIBRARIES} glog YarsClientCom dl)
+
+install(TARGETS NMODEe LIBRARY DESTINATION lib)
+install(TARGETS nmode  RUNTIME DESTINATION bin)
