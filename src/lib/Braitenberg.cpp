@@ -29,7 +29,7 @@ void Braitenberg::updateController()
 
 void Braitenberg::updateFitnessFunction()
 {
-  _fitness += _sensorValues[6] + _sensorValues[7] - _networkInput[0] - _networkInput[1];
+  _fitness += _sensorValues[8] - _sensorValues[9];
 }
 
 bool Braitenberg::abort()

@@ -6,17 +6,17 @@
   <simulator
     wd="/Users/zahedi/projects/builds/yars-build"
     xml="xml/braitenberg_tcpip.xml"
-    nr="1"/>
+    nr="2"/>
 
   <evaluation module="Braitenberg">
-    <lifetime    iterations="100"/>
-    <generations iterations="1000"/>
+    <lifetime    iterations="1000"/>
+    <generations iterations="100000"/>
     <cost        node="0.0" edge="0.0"/>
     <parameter   name="p1"  value="1.0"/>
   </evaluation>
 
   <reproduction>
-    <population size="100"/>
+    <population size="30"/>
     <selection  pressure="0.1"/>
     <reproduction  pressure="1.1"/>
   </reproduction>
