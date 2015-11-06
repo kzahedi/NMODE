@@ -5,7 +5,6 @@ set(SRC
   RNN.cpp
   P3D.cpp
   Quaternion.cpp
-  Configuration.cpp
   Random.cpp
   StringTokeniser.cpp
   NMODEErrorHandler.cpp
@@ -27,8 +26,7 @@ set(SRC
 
   Simulator.cpp
 
-  DataConfiguration.cpp
-
+  Configuration.cpp
   CfgMutation.cpp
   CfgReproduction.cpp
   CfgMutationNode.cpp

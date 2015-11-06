@@ -79,7 +79,7 @@ void NMODE::createXsd(XsdSpecification *spec)
 
   CfgMutation::createXsd(spec);
   CfgEvaluation::createXsd(spec);
-  DataConfiguration::createXsd(spec);
+  Configuration::createXsd(spec);
   Population::createXsd(spec);
   CfgReproduction::createXsd(spec);
 }
@@ -147,7 +147,7 @@ void NMODE::__getChild(ParseElement *element)
   if(element->opening(TAG_CONFIGURATION))
   {
     if(_configuration != NULL) delete _configuration;
-    _configuration = new DataConfiguration(this);
+    _configuration = new Configuration(this);
     current = _configuration;
     current->add(element);
   }
@@ -222,7 +222,7 @@ CfgMutation* NMODE::mutation()
   return _mutation;
 }
 
-DataConfiguration* NMODE::configuration()
+Configuration* NMODE::configuration()
 {
   return _configuration;
 }

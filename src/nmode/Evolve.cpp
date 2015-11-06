@@ -10,10 +10,28 @@ Evolve::Evolve()
   Random::initialise();
 }
 
-void Evolve::init(string xml)
+void Evolve::initFromDir(string dir)
 {
+  stringstream sst;
+  sst << dir << "/" << "last_generation.xml";
+
   _data = Data::instance();
-  _data->read(xml);
+  _data->read(sst.str());
+
+  _pop = Population::instance();
+  _pop->removeCurrentLogDir();
+  _pop->setCurrentLogDir(dir);
+
+  this->init(sst.str(), false);
+}
+
+void Evolve::init(string xml, bool read)
+{
+  if(read == true)
+  {
+    _data = Data::instance();
+    _data->read(xml);
+  }
 
   _pop          = Population::instance();
   _reproduction = new Reproduction();

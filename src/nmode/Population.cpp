@@ -281,3 +281,14 @@ void Population::cleanup()
   FORC(Individuals, i, _individuals) delete (*i);
   _individuals.clear();
 }
+
+void Population::removeCurrentLogDir()
+{
+  fs::remove_all(_logDirectory);
+}
+
+void Population::setCurrentLogDir(string dir)
+{
+  _logDirectory = dir;
+}
+

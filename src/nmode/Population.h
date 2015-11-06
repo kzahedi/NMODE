@@ -43,6 +43,9 @@ class Population : public Observable, public XsdParseNode
     void                  calculateNrOfOffspring();
     void                  cleanup();
 
+    void                  removeCurrentLogDir();
+    void                  setCurrentLogDir(string);
+
     static Population*    instance();
 
   private:

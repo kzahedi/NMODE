@@ -51,13 +51,10 @@ int main(int argc, char** argv)
   po::variables_map vm;
 
   string xml;
-  int    index = 0;
+  string continueDir;
 
   string logdir;
   desc.add_options()
-    ("index,i",
-     po::value<int>(&index)->implicit_value(0),
-     "index of the individual [default is 0]")
     ("xml",
      po::value<string>(&xml),
      "xml files")
@@ -66,6 +63,9 @@ int main(int argc, char** argv)
      "set verbose logging level, defaults to 0")
     ("logstderr,l",
      "set verbose logging level, defaults to 0")
+    ("continue",
+     po::value<string>(&continueDir),
+     "read and continue from directory")
     ("logdir,L",
      po::value<string>(&logdir),
      "set verbose logging level, defaults to 0");
@@ -81,11 +81,6 @@ int main(int argc, char** argv)
             allow_unregistered().
             run(), vm);
   po::notify(vm);
-
-  if(vm.count("index") > 0)
-  {
-    cout << "Individual index: " << index << endl;
-  }
 
   if (vm.count("verbosity"))
   {
@@ -114,10 +109,18 @@ int main(int argc, char** argv)
     FLAGS_log_dir = ".";
   }
 
-  cout << "XML file: " << xml << endl;
-
   Evolve *evo = new Evolve();
-  evo->init(xml);
+
+  if(xml != "")
+  {
+    cout << endl << "XML file: " << xml << endl;
+    evo->init(xml, true);
+  }
+  if(continueDir != "") 
+  {
+    cout << endl << "Configuration directory: " << continueDir << endl;
+    evo->initFromDir(continueDir);
+  }
 
   cout << "done" << endl;
 

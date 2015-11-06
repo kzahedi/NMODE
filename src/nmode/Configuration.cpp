@@ -1,122 +1,72 @@
 #include "Configuration.h"
-#include "YarsXSDGenerator.h"
 
-#include <string>
+#include "nmode/macros.h"
+
 #include <iostream>
-#include <fstream>
-
-#include <boost/program_options/parsers.hpp>
-#include <boost/program_options/variables_map.hpp>
-
 #include <glog/logging.h>
 
 using namespace std;
 
-namespace po = boost::program_options;
-
-Configuration::Configuration(int argc, char* argv[], bool io)
+Configuration::Configuration(XsdParseNode *parent)
+  : XsdParseNode(parent)
 {
-  po::options_description desc("Options");
-  po::options_description ioo("Input/Output Options");
-  po::options_description cmdline_options;
-  
-  po::variables_map vm;
+  _individual = new Individual(NULL);
+}
 
-  string logdir;
-  desc.add_options()
-    ("help",                                    "print help message")
-    ("verbosity,v", po::value<int>(),           "set verbose logging level, defaults to 0")
-    ("logstderr,l",                             "set verbose logging level, defaults to 0")
-    ("logdir,L",    po::value<string>(&logdir), "set verbose logging level, defaults to 0")
-    ("xsd",                                     "export the XSD and quit.")
-    ("cfg",         po::value<string>(&_cfg),   "cfg file");
+Configuration::~Configuration()
+{
+  // delete _individual;
+}
 
-  ioo.add_options()
-    ("input",  po::value<string>(&_input),  "input module")
-    ("output", po::value<string>(&_output), "output module");
-
-  po::positional_options_description positional;
-  positional.add("cfg", -1);
-
-  cmdline_options.add(desc);
-  if(io == true) cmdline_options.add(ioo);
-
-  po::store(po::command_line_parser(argc, argv).
-            options(cmdline_options).
-            positional(positional).
-            allow_unregistered().
-            run(), vm);
-  po::notify(vm);
-
-  if (vm.count("help"))
+void Configuration::add(ParseElement *element)
+{
+  VLOG(100) << "parsing: " << element->name();
+  if(element->closing(TAG_CONFIGURATION))
   {
-    cout << desc << "\n";
-    if(io) cout << ioo << "\n";
-    exit(0);
+    _individual->linkConnectorNodes();
+    current = parent;
+    return;
   }
 
-  if(vm.count("xsd"))
+  if(element->opening(TAG_CONFIGURATION))
   {
-    YarsXSDGenerator *xsd = new YarsXSDGenerator();
-    // cout << (*xsd) << endl;
-    ofstream myfile;
-    stringstream filename;
-    filename << "nmode.xsd";
-    myfile.open(filename.str().c_str());
-    myfile << (*xsd) << endl;
-    myfile.close();
-    cout << filename.str() << " written to current directory." << endl;
-    delete xsd;
-    exit(0);
+    return;
   }
 
-  if(vm.count("cfg") == 0)
+  if(element->opening(TAG_MODULE))
   {
-    cerr << "Please give a configuration file. See "
-         << argv[0]
-         << " --help for more information." << endl;
-    exit(-1);
-  };
-
-  if (vm.count("verbosity"))
-  {
-    FLAGS_v = vm["verbosity"].as<int>();
-  }
-  else
-  {
-    FLAGS_v = 0;
-  }
-
-  if (vm.count("logstderr"))
-  {
-    FLAGS_alsologtostderr = 1;
-  }
-  else
-  {
-    FLAGS_alsologtostderr = 0;
-  }
-
-  if (vm.count("logdir"))
-  {
-    FLAGS_log_dir = logdir.c_str();
-  }
-  else
-  {
-    FLAGS_log_dir = ".";
+    Module* module = new Module(this);
+    _individual->addModule(module);
+    current = module;
+    current->add(element);
   }
 }
 
-string Configuration::input()
+void Configuration::createXsd(XsdSpecification *spec)
 {
-  return _input;
+  XsdSequence *root = new XsdSequence(TAG_CONFIGURATION_DEFINITION);
+  root->add(NE(TAG_MODULE,  TAG_MODULE_DEFINITION,  0, TAG_XSD_UNBOUNDED));
+  spec->add(root);
+
+  Module::createXsd(spec);
 }
 
-string Configuration::output()
+Modules::iterator Configuration::m_begin()
 {
-  return _output;
+  return _individual->m_begin();
 }
 
-string Configuration::cfg()
+Modules::iterator Configuration::m_end()
 {
-  return _cfg;
+  return _individual->m_end();
+}
+
+int Configuration::m_size()
+{
+  return _individual->m_size();
+}
+
+Modules Configuration::modules()
+{
+  return _individual->modules();
 }

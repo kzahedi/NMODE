@@ -1,28 +1,37 @@
-#ifndef __CONFIGURATION_H__
-#define __CONFIGURATION_H__
+#ifndef ___DATA_CONFIGURATION_H__
+#define ___DATA_CONFIGURATION_H__
 
-#include <string>
+#include "XsdParseNode.h"
 
-using namespace std;
+#include "Module.h"
+#include "Individual.h"
 
-class Configuration
+# define TAG_CONFIGURATION            (char*)"configuration"
+# define TAG_CONFIGURATION_DEFINITION (char*)"configuration_definition"
+
+class Configuration : public XsdParseNode
 {
   public:
-    Configuration(int argc, char* argv[], bool io = false);
-    // ~Configuration();
 
-    //Configuration(const Configuration);
-    //Configuration operator=(const Configuration);
+    /**
+     * @brief Constructor.
+     *
+     * @param parent
+     */
+    Configuration(XsdParseNode *parent);
+    ~Configuration();
 
-    string input();
-    string output();
-    string cfg();
+    void add(ParseElement *element);
+
+    Modules::iterator m_begin();
+    Modules::iterator m_end();
+    int               m_size();
+    Modules           modules();
+
+    static void createXsd(XsdSpecification *spec);
 
   private:
-    string _input;
-    string _output;
-    string _cfg;
-    
+    Individual *_individual;
 };
 
-#endif // __CONFIGURATION_H__
+#endif // ___DATA_CONFIGURATION_H__

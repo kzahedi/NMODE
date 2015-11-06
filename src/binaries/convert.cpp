@@ -1,7 +1,7 @@
-#include "nmode/Data.h"
-#include "nmode/Population.h"
-#include "nmode/Exporter.h"
-#include "nmode/Random.h"
+#include <nmode/Data.h>
+#include <nmode/Population.h>
+#include <nmode/Exporter.h>
+#include <nmode/Random.h>
 
 #include <glog/logging.h>
 
