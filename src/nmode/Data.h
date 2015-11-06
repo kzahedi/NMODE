@@ -41,6 +41,7 @@ class Data : public Observer
     string __evolution();
     string __configuration();
     string __population();
+    void   __writeCfg();
 
     static Data* _me;
     NMODE*       _root;

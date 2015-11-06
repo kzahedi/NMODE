@@ -22,6 +22,8 @@ void Evolve::initFromDir(string dir)
   _pop->removeCurrentLogDir();
   _pop->setCurrentLogDir(dir);
 
+  _pop->setGeneration(_pop->generation() - 1);
+
   this->init(sst.str(), false);
 }
 

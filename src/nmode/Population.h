@@ -32,6 +32,7 @@ class Population : public Observable, public XsdParseNode
     Individual*           individual(int index);
     Individual*           getNextIndividual();
     int                   generation();
+    void                  setGeneration(int);
     void                  addIndividual(Individual*);
     void                  sortByFitness();
     void                  incGeneration();

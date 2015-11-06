@@ -63,7 +63,7 @@ void Evaluate::__evaluate()
         _com->init(_workingDirectory, sst.str());
         _nrOfSensors   = _com->numberOfSensorsValues();
         _nrOfActuators = _com->numberOfActuatorsValues();
-        cout << "Number of sensors: " << _nrOfSensors << endl;
+        _com->printSensorMotorConfiguration();
         _sensorValues.resize(_nrOfSensors);
         _actuatorValues.resize(_nrOfActuators);
       }

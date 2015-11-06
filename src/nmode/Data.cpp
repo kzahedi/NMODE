@@ -1,9 +1,10 @@
-#include "Data.h"
+#include <nmode/Data.h>
 
-#include "YarsXSDSaxParser.h"
-#include "XmlChangeLog.h"
-#include "macros.h"
-#include "Population.h"
+#include <nmode/YarsXSDSaxParser.h>
+#include <nmode/XmlChangeLog.h>
+#include <nmode/macros.h>
+#include <nmode/Population.h>
+#include <nmode/EvaluationParameterMap.hpp>
 
 #include <glog/logging.h>
 #include <unistd.h>
@@ -18,6 +19,8 @@
 #define _REP  _root->reproduction()
 #define _MUTN _root->mutation()->node()
 #define _MUTE _root->mutation()->edge()
+
+#define CFG "cfg.xml"
 
 
 Data* Data::_me = NULL;
@@ -83,6 +86,8 @@ void Data::read(string xmlFile)
   }
   delete parser;
 
+  __writeCfg();
+
   if(_initialisationCompleted == false)
   {
     if(_root->population() == NULL)
@@ -113,12 +118,21 @@ string Data::__simulator()
 string Data::__evaluator()
 {
   stringstream sst; 
-  sst << "  <evaluation>" << endl;
-  sst << "    <lifetime iterations=\"" << _EVA->lifeTime() << "\"/>" << endl;
+  sst << "  <evaluation module=\"" << _EVA->module() << "\">" << endl;
+  sst << "    <lifetime    iterations=\"" << _EVA->lifeTime()    << "\"/>" << endl;
+  if(_EVA->generations() > 0)
+  {
+    sst << "    <generations iterations=\"" << _EVA->generations() << "\"/>" << endl;
+  }
   sst << "    <cost node=\"" << _EVA->nodeCost() << "\" edge=\"" << _EVA->nodeCost() << "\"/>" << endl;
+  for(EvaluationParameterMap::iterator i = _EVA->begin(); i != _EVA->end(); i++)
+  {
+    sst << "    <parameter    name=\"" << i->first  << "\" value=\"" << i->second << "\"/>" << endl;
+  }
   sst << "  </evaluation>" << endl;
   return sst.str();
 }
+
 
 string Data::__reproduction()
 {
@@ -134,7 +148,7 @@ string Data::__reproduction()
 string Data::__evolution()
 {
   stringstream sst; 
-  sst << "  <evolution>" << endl;
+  sst << "  <mutation>" << endl;
   sst << "    <node>" << endl;
   sst << "      <modify probability=\"" << _MUTN->modifyProbability() << "\" "
     << "maximum=\"" << _MUTN->modifyMaxValue() << "\" "
@@ -151,7 +165,7 @@ string Data::__evolution()
     << "maximum=\"" << _MUTE->addMaxValue() << "\"/>" << endl;
   sst << "      <delete probability=\"" << _MUTE->delProbability() << "\"/>" << endl;
   sst << "    </edge>" << endl;
-  sst << "  </evolution>" << endl;
+  sst << "  </mutation>" << endl;
   return sst.str();
 }
 
@@ -281,8 +295,23 @@ void Data::notify(ObservableMessage *message)
   switch(message->type())
   {
     case __M_NEXT_GENERATION:
-      read(_xml);
+      read(CFG);
       break;
   }
+}
+
+void Data::__writeCfg()
+{
+  ofstream output;
+  output.open(CFG);
+  output << "<?xml version=\"1.0\"?>" << endl << endl;
+  output << "<nmode version=\""     << XmlChangeLog::version() << "\">" << endl;
+  output << __simulator() << endl;
+  output << __evaluator() << endl;
+  output << __reproduction() << endl;
+  output << __evolution() << endl;
+  output << __configuration() << endl;
+  output << "</nmode>" << endl;
+  output.close();
 }
 

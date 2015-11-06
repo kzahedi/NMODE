@@ -87,7 +87,8 @@ void Reproduction::__randomPairing()
       Individual *dad = NULL;
       if(_population->i_size() > 1)
       {
-        do { dad = __getRandomMate(); } while (dad == mom);
+        int n = 0;
+        do { dad = __getRandomMate(); } while (dad == mom && (n++ < 100));
       }
       else
       {

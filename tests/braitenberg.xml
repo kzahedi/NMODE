@@ -9,7 +9,7 @@
     nr="2"/>
 
   <evaluation module="Braitenberg">
-    <lifetime    iterations="1000"/>
+    <lifetime    iterations="10000"/>
     <generations iterations="100000"/>
     <cost        node="0.0" edge="0.0"/>
     <parameter   name="p1"  value="1.0"/>

@@ -222,21 +222,29 @@ void Population::serialise()
   stringstream sst;
   sst << _logDirectory << "/" << "generation-" << _generation << ".xml";
   cout << "Logging " << sst.str() << endl;
-  _output.open(sst.str());
+  VLOG(10) << "opening " << sst.str();
+  _output.open(sst.str(), std::ofstream::trunc);
+  VLOG(10) << "writing data";
   _output << Data::instance()->xml();
+  VLOG(10) << "done writing data";
   _output.close();
+  VLOG(10) << "closing " << sst.str();
 
   sst.str("");
   sst << _logDirectory << "/" << "last_generation.xml";
   // cout << "Logging " << sst.str() << endl;
-  _output.open(sst.str());
+  VLOG(10) << "opening " << sst.str();
+  _output.open(sst.str(), std::ofstream::trunc);
+  VLOG(10) << "writing data";
   _output << Data::instance()->xml();
+  VLOG(10) << "done writing data";
   _output.close();
+  VLOG(10) << "closing " << sst.str();
 
   sst.str("");
   sst << _logDirectory << "/" << "stats-" << _generation << ".csv";
   // cout << "Logging " << sst.str() << endl;
-  _output.open(sst.str());
+  _output.open(sst.str(), std::ofstream::trunc);
 
   _output << "# ID, Fitness, Age, Raw Fitness, "
     << "Node Cost, Edge Cost, Nr. of Neurones, "
@@ -292,3 +300,7 @@ void Population::setCurrentLogDir(string dir)
   _logDirectory = dir;
 }
 
+void Population::setGeneration(int g)
+{
+  _generation = g;
+}
