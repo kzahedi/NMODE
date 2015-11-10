@@ -1,16 +1,16 @@
-#include "Evaluate.h"
-#include "RnnFromIndividual.h"
-#include "Data.h"
+#include <nmode/Evaluate.h>
+#include <nmode/RnnFromIndividual.h>
+#include <nmode/Data.h>
 
 #include <sstream>
 
 Evaluate::Evaluate()
 {
-  _fitness              = 0.0;
+  fitness              = 0.0;
   _com                  = NULL;
-  _nrOfSensors          = 0;
-  _nrOfActuators        = 0;
-  _lifeTime             = Data::instance()->specification()->evaluation()->lifeTime();
+  nrOfSensors          = 0;
+  nrOfActuators        = 0;
+  lifeTime             = Data::instance()->specification()->evaluation()->lifeTime();
   _workingDirectory     = Data::instance()->specification()->simulator()->workingDirectory();
   _xml                  = Data::instance()->specification()->simulator()->xml();
   _options              = Data::instance()->specification()->simulator()->options();
@@ -25,7 +25,7 @@ void Evaluate::run()
     Individual *i = _population->getNextIndividual();
     _rnn = RnnFromIndividual::create(i);
     __evaluate();
-    i->setRawFitness(_fitness);
+    i->setRawFitness(fitness);
 
     double nc = EVA->nodeCost() * _rnn->nrOfNeurons();
     double ec = EVA->edgeCost() * _rnn->nrOfSynapses();
@@ -35,9 +35,9 @@ void Evaluate::run()
     i->setNrOfSynapses(_rnn->nrOfSynapses());
     i->setNrOfNeurons(_rnn->nrOfHidden());
 
-    _fitness -= nc + ec;
+    fitness -= nc + ec;
 
-    i->setFitness(_fitness);
+    i->setFitness(fitness);
 
     _population->evaluationCompleted();
 
@@ -50,8 +50,8 @@ void Evaluate::__evaluate()
   _successfulEvaluation = false;
   while(_successfulEvaluation == false)
   {
-    _lifeTime = Data::instance()->specification()->evaluation()->lifeTime();
-    _fitness  = 0.0;
+    lifeTime = Data::instance()->specification()->evaluation()->lifeTime();
+    fitness  = 0.0;
     try
     {
       if(_com == NULL)
@@ -61,26 +61,28 @@ void Evaluate::__evaluate()
         stringstream sst;
         sst << _options << " " << _xml;
         _com->init(_workingDirectory, sst.str());
-        _nrOfSensors   = _com->numberOfSensorsValues();
-        _nrOfActuators = _com->numberOfActuatorsValues();
+        nrOfSensors   = _com->numberOfSensorsValues();
+        nrOfActuators = _com->numberOfActuatorsValues();
         _com->printSensorMotorConfiguration();
-        _sensorValues.resize(_nrOfSensors);
-        _actuatorValues.resize(_nrOfActuators);
+        sensorValues.resize(nrOfSensors);
+        actuatorValues.resize(nrOfActuators);
       }
 
       newIndividual();
 
-      for(int i = 0; i < _lifeTime; i++)
+      for(int i = 0; i < lifeTime; i++)
       {
+        t = i;
         _com->update();
 
-        for(int j = 0; j < _nrOfSensors; j++)
+        for(int j = 0; j < nrOfSensors; j++)
         {
-          _sensorValues[j] = _com->getSensorValue(j);
+          sensorValues[j] = _com->getSensorValue(j);
         }
 
         if(abort())
         {
+          evaluationCompleted();
           _com->sendReset();
           _successfulEvaluation = true;
           return;
@@ -90,13 +92,13 @@ void Evaluate::__evaluate()
         updateController();
 
 
-        _rnn->setInputs(_networkInput);
+        _rnn->setInputs(networkInput);
         _rnn->update();
-        _rnn->getOutput(_actuatorValues);
+        _rnn->getOutput(actuatorValues);
 
         _message.str("");
         _message << "Generation " << _population->generation() << "\n";
-        _message << "Fitness " << _fitness;
+        _message << "Fitness " << fitness;
 
         updateFitnessFunction();
 
@@ -105,12 +107,13 @@ void Evaluate::__evaluate()
           _com->sendMessage(_message.str());
         }
 
-        for(int j = 0; j < _nrOfActuators; j++)
+        for(int j = 0; j < nrOfActuators; j++)
         {
-          _com->setActuatorValue(j, _actuatorValues[j]);
+          _com->setActuatorValue(j, actuatorValues[j]);
         }
       }
 
+      evaluationCompleted();
       _com->sendReset();
       _successfulEvaluation = true;
     }

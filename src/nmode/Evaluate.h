@@ -1,5 +1,8 @@
-#include "RNN.h"
-#include "Population.h"
+#ifndef __EVALUATE_H__
+#define __EVALUATE_H__
+
+#include <nmode/RNN.h>
+#include <nmode/Population.h>
 
 #include <yars/cppClientCom/YarsClientCom.h>
 
@@ -8,6 +11,7 @@
 class Evaluate
 {
   public:
+
     Evaluate();
 
     void run();
@@ -18,21 +22,25 @@ class Evaluate
     virtual void updateFitnessFunction() = 0;
     virtual bool abort()                 = 0;
     virtual void newIndividual()         = 0;
+    virtual void evaluationCompleted()   = 0;
 
   protected:
-    double         _fitness;
-    int            _nrOfActuators;
-    int            _nrOfSensors;
-    vector<double> _actuatorValues;
-    vector<double> _sensorValues;
-    vector<double> _networkInput;
+
+    double         fitness;
+    int            nrOfActuators;
+    int            nrOfSensors;
+    int            lifeTime;
+    int            t;
+    vector<double> actuatorValues;
+    vector<double> sensorValues;
+    vector<double> networkInput;
 
   private:
-    void __evaluate();
+
+    void           __evaluate();
 
     Population*    _population;
     YarsClientCom* _com;
-    int            _lifeTime;
     string         _options;
     string         _workingDirectory;
     string         _xml;
@@ -43,3 +51,5 @@ class Evaluate
 };
 
 typedef Evaluate* create_e();
+
+#endif // __EVALUATE_H__

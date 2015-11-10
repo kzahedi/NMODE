@@ -8,28 +8,28 @@
 Braitenberg::Braitenberg()
   : Evaluate()
 {
-  _networkInput.resize(2);
+  networkInput.resize(2);
 }
 
 
 void Braitenberg::updateController()
 {
-  _networkInput[0] = 0.0;
-  _networkInput[1] = 0.0;
+  networkInput[0] = 0.0;
+  networkInput[1] = 0.0;
 
   for(int j = 0; j < 3; j++)
   {
-    _networkInput[0] += _sensorValues[j];
-    _networkInput[1] += _sensorValues[3 + j];
+    networkInput[0] += sensorValues[j];
+    networkInput[1] += sensorValues[3 + j];
   }
 
-  _networkInput[0] /= 3.0;
-  _networkInput[1] /= 3.0;
+  networkInput[0] /= 3.0;
+  networkInput[1] /= 3.0;
 }
 
 void Braitenberg::updateFitnessFunction()
 {
-  _fitness += _sensorValues[8] - _sensorValues[9];
+  fitness += sensorValues[8] - sensorValues[9];
 }
 
 bool Braitenberg::abort()
@@ -38,8 +38,10 @@ bool Braitenberg::abort()
 }
 
 void Braitenberg::newIndividual()
-{
-}
+{ }
+
+void Braitenberg::evaluationCompleted()
+{ }
 
 // the class factories
 extern "C" Evaluate* create()

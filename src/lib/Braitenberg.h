@@ -18,4 +18,6 @@ class Braitenberg : public Evaluate
     void updateFitnessFunction();
     bool abort();
     void newIndividual();
+    void evaluationCompleted();
+
 };
