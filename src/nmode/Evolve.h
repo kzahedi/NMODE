@@ -1,10 +1,10 @@
 #ifndef __EVOLVE_H__
 #define __EVOLVE_H__
 
-#include "nmode/Observer.h"
-#include "nmode/Data.h"
-#include "nmode/Reproduction.h"
-#include "Evaluate.h"
+#include <nmode/Observer.h>
+#include <nmode/Data.h>
+#include <nmode/Reproduction.h>
+#include <nmode/Evaluate.h>
 
 #include <string>
 #include <vector>

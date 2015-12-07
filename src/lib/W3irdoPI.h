@@ -5,12 +5,15 @@
 
 #include <yars/cppClientCom/YarsClientCom.h>
 
+#include <entropy++/Container.h>
+#include <entropy++/PIs.h>
+
 #include <sstream>
 
-class Braitenberg : public Evaluate
+class W3irdoPI : public Evaluate
 {
   public:
-    Braitenberg();
+    W3irdoPI();
 
     void updateController();
     void updateFitnessFunction();
@@ -18,4 +21,12 @@ class Braitenberg : public Evaluate
     void newIndividual();
     void evaluationCompleted();
 
+  private:
+    double     _x;
+    double     _y;
+    double     _dist;
+    Container* _l1c;
+    Container* _l2c;
+    Container* _l3c;
+    PIs*       _pi;
 };

@@ -1,7 +1,4 @@
 <?xml version="1.0"?>
-<!--
-     Test file for visualisation
--->
 <nmode version="0.0.2">
   <simulator
     wd="/Users/zahedi/projects/builds/yars-build"
@@ -16,9 +13,9 @@
   </evaluation>
 
   <reproduction>
-    <population size="30"/>
-    <selection  pressure="0.1"/>
-    <reproduction  pressure="1.1"/>
+    <population   size="30"/>
+    <selection    pressure="0.1"/>
+    <reproduction pressure="1.1"/>
   </reproduction>
 
   <mutation>

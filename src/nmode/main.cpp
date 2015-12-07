@@ -24,19 +24,45 @@ namespace po = boost::program_options;
 using namespace boost;
 
 
-void convert(Individual *ind, string filename)
+void convert(int index, Individual* individual, string filename)
 {
-
   stringstream sst;
-  sst << filename.substr(0, filename.size()-4) << ".html";
+  string s = "out.html";
 
-  cout << "opening file " << sst.str() << endl;
+  cout << "opening file " << s << endl;
   std::ofstream ofs;
-  ofs.open (sst.str(), std::ofstream::out);
+  ofs.open (s, std::ofstream::out);
   sst.str("");
-  sst << Exporter::toX3d(ind);
+  sst << Exporter::toX3d(individual);
   ofs << sst.str();
   ofs.close();
+}
+
+void convert(int index, string filename)
+{
+  Data *data = Data::instance();
+  data->read(filename);
+  Population *pop = data->specification()->population();
+
+  if(index >= 0)
+  {
+    if(index > pop->i_size())
+    {
+      cout << "Individual index out of range [0, " << (pop->i_size() - 1) << "]" << endl;
+      exit(-1);
+    }
+
+    Individual *ind = pop->individual(index);
+    convert(index, ind, filename);
+  }
+  else
+  {
+    for(int i = 0; i < pop->i_size(); i++)
+    {
+      Individual *ind = pop->individual(i);
+      convert(i, ind, filename);
+    }
+  }
 }
 
 
@@ -52,12 +78,18 @@ int main(int argc, char** argv)
 
   string xml;
   string continueDir;
+  int    individual_index;
 
   string logdir;
   desc.add_options()
     ("xml",
      po::value<string>(&xml),
      "xml files")
+    ("convert,c",
+     "convert file to X3D")
+    ("individual,i",
+     po::value<int>(&individual_index)->implicit_value(0),
+     "set the individual index")
     ("verbosity,v",
      po::value<int>(),
      "set verbose logging level, defaults to 0")
@@ -107,6 +139,16 @@ int main(int argc, char** argv)
   else
   {
     FLAGS_log_dir = ".";
+  }
+
+  if(vm.count("convert"))
+  {
+    if(vm.count("xml") > 0)
+    {
+      convert(individual_index, xml);
+    };
+    cerr << "please five xml filename" << endl;
+    return 0;
   }
 
   Evolve *evo = new Evolve();

@@ -3,15 +3,15 @@
   <simulator
     wd="/Users/zahedi/projects/mpi/experiments/evo.w3irdo"
     xml="xml/w3irdo_angular.xml"
-    nr="3"/>
+    nr="2"/>
 
-  <evaluation module="W3irdoH">
-    <lifetime    iterations="500"/>
+  <evaluation module="W3irdoPI">
+    <lifetime    iterations="1000"/>
     <generations iterations="100000"/>
-    <cost        node="0.0"  edge="0.0"/>
-    <parameter   name="bins" value="30"/>
+    <cost        node="0.0" edge="0.0"/>
+    <parameter   name="p1"  value="1.0"/>
   </evaluation>
-
+ 
   <reproduction>
     <population   size="30"/>
     <selection    pressure="0.1"/>
@@ -20,14 +20,14 @@
 
   <mutation>
     <node>
-      <modify probability="0.10" maximum="2.0" delta="0.5"/>
-      <add    probability="0.10" maximum="1.0"/>
+      <modify probability="0.1"  maximum="2.0" delta="0.2"/>
+      <add    probability="0.01" maximum="1.0"/>
       <delete probability="0.05"/>
     </node>
     <edge>
-      <modify probability="0.30" maximum="5.0" delta="0.5"/>
-      <add    probability="0.50" maximum="1.0"/>
-      <delete probability="0.11"/>
+      <modify probability="0.2" maximum="4.0" delta="0.5"/>
+      <add    probability="0.2" maximum="1.0"/>
+      <delete probability="0.21"/>
     </edge>
   </mutation>
 
@@ -115,5 +115,4 @@
     </module>
 
   </configuration>
-
 </nmode>
