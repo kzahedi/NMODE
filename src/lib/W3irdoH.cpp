@@ -116,5 +116,4 @@ extern "C" Evaluate* create()
   return (Evaluate*)e;
 }
 
-extern "
-C" void destroy(Evaluate*) {}
+extern "C" void destroy(Evaluate*) {}

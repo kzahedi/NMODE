@@ -375,7 +375,14 @@ bool Module::removeEdge(Edge *e)
 
 Edge* Module::addEdge(Node *src, Node *dst, double weight) throw (NMODEException)
 {
-  if(dst->contains(src)) throw NMODEException("Module::addEdge: The destination node already contains an edge from the source node");
+  if(dst->contains(src))
+  {
+    cerr << "Warning:" << endl;
+    cerr << "  Source node "      << src->label() << ", " << src->type() << endl;
+    cerr << "  Destination node " << dst->label() << ", " << dst->type() << endl;
+    throw NMODEException("Module::addEdge: The destination node already contains an edge from the source node");
+  }
+
   Edge *e = new Edge(NULL);
   e->setSourceNode(src);
   e->setDestinationNode(dst);
@@ -613,19 +620,12 @@ void Module::copyAndApplyTransition(Module *m)
   _edges.clear();
 
   FORCC(Nodes, n, m->_nodes) addNode((*n)->copy());
-  FORC(Edges, e, _edges)
-  {
-    Node *src = nodeByName((*e)->sourceNode()->label());
-    Node *dst = nodeByName((*e)->destinationNode()->label());
-    addEdge(src, dst, (*e)->weight());
-  }
-
   FORC(Edges, e, m->_edges)
   {
-    string src = (*e)->sourceNode()->label();
-    string dst = (*e)->destinationNode()->label();
-    Node *srcNode = NULL;
-    Node *dstNode = NULL;
+    string src     = (*e)->sourceNode()->label();
+    string dst     = (*e)->destinationNode()->label();
+    Node*  srcNode = NULL;
+    Node*  dstNode = NULL;
     FORC(Nodes, n, _nodes)
     {
       if((*n)->label() == src)
@@ -731,6 +731,13 @@ Module* Module::copy()
   {
     Node *src = copy->nodeByName((*e)->sourceNode()->label());
     Node *dst = copy->nodeByName((*e)->destinationNode()->label());
+    FORC(Edges, ee, copy->_edges)
+    {
+      if((*ee)->sourceNode() == src && (*ee)->destinationNode() == dst)
+      {
+        cerr << "duplicate edge: " << src->label() << " -> " << dst->label() << endl;
+      }
+    }
     copy->addEdge(src, dst, (*e)->weight());
   }
 

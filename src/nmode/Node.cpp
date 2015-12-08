@@ -234,19 +234,13 @@ bool Node::operator!=(const Node o)
 bool Node::contains(Edge *e)
 {
   if(_in.empty()) return false;
-
-  if(std::find(_in.begin(), _in.end(), e) != _in.end()) {
-    return true;
-  }
+  if(std::find(_in.begin(), _in.end(), e) != _in.end()) return true;
   return false;
 }
 
 bool Node::contains(Node *n)
 {
-  FORC(Edges, e, _in)
-  {
-    if((*e)->sourceNode() == n) return true;
-  }
+  FORC(Edges, e, _in) if((*e)->sourceNode() == n) return true;
   return false;
 }
 
