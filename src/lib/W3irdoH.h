@@ -22,12 +22,15 @@ class W3irdoH : public Evaluate
     void evaluationCompleted();
 
   private:
-    double     _x;
-    double     _y;
-    double     _dist;
-    int        _bins;
-    Container* _l1c;
-    Container* _l2c;
-    Container* _l3c;
-    Hs*        _h;
+    double             _x;
+    double             _y;
+    double             _dist;
+    double             _distFactor;
+    double             _hFactor;
+    int                _bins;
+    int                _containerSize;
+    int                _combinationType;
+    string             _combinationTypeString;
+    vector<Container*> _containers;
+    Hs*                _h;
 };
