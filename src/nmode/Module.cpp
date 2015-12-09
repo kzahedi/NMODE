@@ -185,7 +185,7 @@ void Module::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_MODULE_DEFINITION);
   root->add(NA(TAG_NAME,    TAG_XSD_STRING,       true));
-  root->add(NA(TAG_NODE_ID, TAG_POSITIVE_INTEGER, true));
+  root->add(NA(TAG_NODE_ID, TAG_POSITIVE_INTEGER, false));
   spec->add(root);
 
   XsdChoice *options = new XsdChoice(NO_NAME, 1, 1);
