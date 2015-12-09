@@ -41,7 +41,7 @@ class Node : public XsdParseNode
     bool operator==(const Node o);
     bool operator!=(const Node o);
 
-    bool contains(Edge *e);
+    // bool contains(Edge *e);
     bool contains(Node *n);
 
     void add(ParseElement *element);

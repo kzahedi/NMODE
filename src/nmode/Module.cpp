@@ -7,6 +7,7 @@
 #include <glog/logging.h>
 
 #define TAG_NAME                   (char*)"name"
+#define TAG_NODE_ID                (char*)"nodeid"
 #define NO_NAME                    (char*)""
 #define OPTION_A                   (char*)"option_a"
 #define OPTION_B                   (char*)"option_b"
@@ -102,7 +103,8 @@ void Module::add(ParseElement *element)
 
   if(element->opening(TAG_MODULE))
   {
-    element->set(TAG_NAME, _name);
+    element->set(TAG_NAME,    _name);
+    element->set(TAG_NODE_ID, _globalId);
     VLOG(100) << "setting name to " << _name;
   }
 
@@ -387,6 +389,8 @@ Edge* Module::addEdge(Node *src, Node *dst, double weight) throw (NMODEException
   e->setSourceNode(src);
   e->setDestinationNode(dst);
   e->setWeight(weight);
+  e->setSourceLabel(src->label());
+  e->setDestinationLabel(dst->label());
 
   dst->addEdge(e);
 
@@ -495,8 +499,14 @@ void Module::setModified(bool m)
 int Module::getNewNodeId()
 {
   int i = _globalId;
+  VLOG(50) << "returning global id " << i;
   _globalId++;
   return i;
+}
+
+int Module::getCurrentNodeId()
+{
+  return _globalId;
 }
 
 Edge* Module::edge(int index)
@@ -561,35 +571,38 @@ void Module::__applyTranslation()
   }
 }
 
-Module& Module::operator=(const Module &m)
-{
+// Module& Module::operator=(const Module &m)
+// {
   // copy and apply transformation
-  _name        = m._name;
-  _ref         = m._ref;
-  _isCopy      = m._isCopy;
-  _modified    = m._modified;
-  _globalId    = m._globalId;
-  _translation = m._translation;
-  _rotation    = m._rotation;
-  _mutation    = NULL;
+  // _name        = m._name;
+  // _ref         = m._ref;
+  // _isCopy      = m._isCopy;
+  // _modified    = m._modified;
+  // _globalId    = m._globalId;
+  // _translation = m._translation;
+  // _rotation    = m._rotation;
+  // _mutation    = NULL;
 
-  FORCC(Nodes, n, m._nodes) addNode((*n)->copy());
-  FORC(Edges, e, _edges)
-  {
-    Node *src = nodeByName((*e)->sourceNode()->label());
-    Node *dst = nodeByName((*e)->destinationNode()->label());
-    addEdge(src, dst, (*e)->weight());
-  }
+  // FORC(Nodes, n, _nodes) delete (*n);
+  // FORC(Edges, e, _edges) delete (*e);
 
-  __applyMirror();
-  if(_isCopy == false)
-  {
-    __applyTranslation();
-    _mutation = m._mutation;
-  }
+  // FORCC(Nodes, n, m._nodes) addNode((*n)->copy());
+  // FORCC(Edges, e, m._edges)
+  // {
+    // Node *src = nodeByName((*e)->sourceNode()->label());
+    // Node *dst = nodeByName((*e)->destinationNode()->label());
+    // addEdge(src, dst, (*e)->weight());
+  // }
 
-  return *this;
-}
+  // __applyMirror();
+  // if(_isCopy == false)
+  // {
+    // __applyTranslation();
+    // _mutation = m._mutation;
+  // }
+
+  // return *this;
+// }
 
 void Module::setMirrorAxes(bool x, bool y, bool z)
 {
@@ -619,29 +632,14 @@ void Module::copyAndApplyTransition(Module *m)
   _connector.clear();
   _edges.clear();
 
+  FORC(Nodes, n, _nodes) delete (*n);
+  FORC(Edges, e, _edges) delete (*e);
+
   FORCC(Nodes, n, m->_nodes) addNode((*n)->copy());
-  FORC(Edges, e, m->_edges)
+  FORC(Edges,  e, m->_edges)
   {
-    string src     = (*e)->sourceNode()->label();
-    string dst     = (*e)->destinationNode()->label();
-    Node*  srcNode = NULL;
-    Node*  dstNode = NULL;
-    FORC(Nodes, n, _nodes)
-    {
-      if((*n)->label() == src)
-      {
-        srcNode = (*n);
-        break;
-      }
-    }
-    FORC(Nodes, n, _nodes)
-    {
-      if((*n)->label() == dst)
-      {
-        dstNode = (*n);
-        break;
-      }
-    }
+    Node *srcNode = nodeByName((*e)->sourceNode()->label());
+    Node *dstNode = nodeByName((*e)->destinationNode()->label());
     addEdge(srcNode, dstNode, (*e)->weight());
   }
 
@@ -717,25 +715,30 @@ Module* Module::copy()
   copy->_mirrorAxes  = _mirrorAxes;
   copy->_mutation    = NULL;
 
-  if(_isCopy == false)
-  {
-    copy->_mutation = _mutation;
-  }
+  if(_isCopy == false)   copy->_mutation = _mutation;
+  FORC(Nodes, n, _nodes) copy->addNode((*n)->copy());
 
-  FORC(Nodes, n, _nodes)
-  {
-    copy->addNode((*n)->copy());
-  }
-
+  // cout << "*****" << endl;
+  // FORC(Edges, e, _edges)
+  // {
+    // cout << "module " << _name << ": "
+      // << (*e)->sourceNode()->label() << " -> "
+      // << (*e)->sourceNode()->label() << " = "
+      // << (*e)->weight() << endl;
+  // }
+  // cout << "#####" << endl;
   FORC(Edges, e, _edges)
   {
     Node *src = copy->nodeByName((*e)->sourceNode()->label());
     Node *dst = copy->nodeByName((*e)->destinationNode()->label());
+    // cout << "module " << _name << " adding edge: "
+      // << src->label() << " -> "
+      // << dst->label() << " weight " << (*e)->weight() << endl;
     FORC(Edges, ee, copy->_edges)
     {
       if((*ee)->sourceNode() == src && (*ee)->destinationNode() == dst)
       {
-        cerr << "duplicate edge: " << src->label() << " -> " << dst->label() << endl;
+        cerr << "module: " << _name << " duplicate edge: " << src->label() << " -> " << dst->label() << " weight " << (*e)->weight() << endl;
       }
     }
     copy->addEdge(src, dst, (*e)->weight());

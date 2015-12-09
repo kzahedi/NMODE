@@ -58,7 +58,7 @@ class Module : public XsdParseNode
 
 
     Module(const Module &m);
-    Module& operator=(const Module &m);
+    // Module& operator=(const Module &m);
 
     Module* copy();
 
@@ -137,6 +137,7 @@ class Module : public XsdParseNode
     bool modified();
     void setModified(bool); // for mutation operator
     int  getNewNodeId();
+    int  getCurrentNodeId();
 
     void setMirrorAxes(bool, bool, bool);
     void setTranslation(P3D);

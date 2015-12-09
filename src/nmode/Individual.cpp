@@ -242,7 +242,7 @@ void Individual::setReproductionFactor(double f)
 
 Individual* Individual::copy(bool reset)
 {
-  Individual *copy     = new Individual();
+  Individual *copy = new Individual();
   if(reset)
   {
     copy->_fitness            = 0.0;

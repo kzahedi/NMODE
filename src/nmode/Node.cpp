@@ -231,16 +231,18 @@ bool Node::operator!=(const Node o)
           _transferfunction != o._transferfunction);
 }
 
-bool Node::contains(Edge *e)
-{
-  if(_in.empty()) return false;
-  if(std::find(_in.begin(), _in.end(), e) != _in.end()) return true;
-  return false;
-}
+// bool Node::contains(Edge *e)
+// {
+  // if(_in.empty()) return false;
+  // if(std::find(_in.begin(), _in.end(), e) != _in.end()) return true;
+  // return false;
+// }
 
 bool Node::contains(Node *n)
 {
-  FORC(Edges, e, _in) if((*e)->sourceNode() == n) return true;
+  FORC(Edges, e, _in)
+    if((*e)->sourceNode() == n)
+      return true;
   return false;
 }
 

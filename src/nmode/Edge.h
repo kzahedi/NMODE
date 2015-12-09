@@ -55,6 +55,8 @@ class Edge : public XsdParseNode
 
     string source();
     string destination();
+    void setSourceLabel(string);
+    void setDestinationLabel(string);
 
     double weight();
     void   setWeight(double);

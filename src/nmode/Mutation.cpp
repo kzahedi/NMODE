@@ -13,6 +13,7 @@
 
 #define LOG_MODULE \
   VLOG(50) << "     Module: " << m->name();\
+  VLOG(50) << "       Global Node Id: " << m->getCurrentNodeId();\
   for(Nodes::iterator n = m->n_begin(); n != m->n_end(); n++) \
     VLOG(50) << "      Node: " << (*n)->label() << " " << (*n)->bias(); \
   for(Edges::iterator e = m->e_begin(); e != m->e_end(); e++) \
@@ -361,28 +362,30 @@ void Mutation::__mutateAddNode(Module *m, double probability, double max)
   P3D np    = (sp + dp) * 0.5;
 
   stringstream oss;
+  VLOG(50) << "1. current node id: " << m->getCurrentNodeId();
   oss << "hidden " << m->getNewNodeId();
+  VLOG(50) << "new node name: " << oss.str();
+  VLOG(50) << "2. current node id: " << m->getCurrentNodeId();
   n->setType("hidden");
   n->setPosition(np);
   n->setBias(Random::rand(-max, max));
   n->setLabel(oss.str());
   n->setTransferfunction("tanh");
 
-  VLOG(50) << "    node added with label " << n->label();
-
   e->setSourceNode(n);
-  VLOG(50) << "    adding edge from: " << src->label() << " " << n->label();
+  m->addNode(n);
   Edge *ne = m->addEdge(src, n, 1.0);
+  LOG_MODULE;
+
+  VLOG(50) << "    node added with label " << n->label();
+  VLOG(50) << "    adding edge from: " << src->label() << " " << n->label();
   VLOG(50) << "    source neuron's position " << src->position();
   VLOG(50) << "    destination neuron's position " << dst->position();
   VLOG(50) << "    new neuron's position " << n->position();
-  VLOG(50) << "    new synapse goes from " << e->source() << " -> "
-           << e->destination() << " with " << e->weight();
-  VLOG(50) << "    new synapse goes from " << ne->source() << " -> "
-           << ne->destination() << " with " << ne->weight();
-
-  m->addNode(n);
-  LOG_MODULE;
+  VLOG(50) << "    new synapse goes from " << e->sourceNode()->label() << " -> "
+           << e->destinationNode()->label() << " with " << e->weight();
+  VLOG(50) << "    new synapse goes from " << ne->sourceNode()->label() << " -> "
+           << ne->destinationNode()->label() << " with " << ne->weight();
   VLOG(50) << "<<<<< add node";
 }
 
@@ -436,6 +439,23 @@ void Mutation::__cleanup(Module *m)
   for(Edges::iterator e = m->e_begin(); e != m->e_end(); e++)
   {
     if((*e)->sourceNode() == NULL || (*e)->destinationNode() == NULL) m->removeEdge(*e);
+  }
+  Edges toBeRemoved;
+  for(Edges::iterator e = m->e_begin(); e != m->e_end(); e++)
+  {
+    for(Edges::iterator f = m->e_begin(); f != m->e_end(); f++)
+    {
+      if((*e)->sourceNode()->label() == (*f)->sourceNode()->label() &&
+         (*e)->sourceNode()          != (*f)->sourceNode()          &&
+         (*e)                        != (*f))
+      {
+        toBeRemoved.push_back(*e);
+      }
+    }
+  }
+  for(Edges::iterator e = toBeRemoved.begin(); e != toBeRemoved.end(); e++)
+  {
+    m->removeEdge(*e);
   }
   LOG_MODULE;
   VLOG(50) << "<<<<< clean up";

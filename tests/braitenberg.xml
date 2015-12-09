@@ -3,10 +3,10 @@
   <simulator
     wd="/Users/zahedi/projects/builds/yars-build"
     xml="xml/braitenberg_tcpip.xml"
-    nr="2"/>
+    nr="3"/>
 
   <evaluation module="Braitenberg">
-    <lifetime    iterations="10000"/>
+    <lifetime    iterations="500"/>
     <generations iterations="100000"/>
     <cost        node="0.0" edge="0.0"/>
     <parameter   name="p1"  value="1.0"/>
@@ -20,9 +20,9 @@
 
   <mutation>
     <node>
-      <modify probability="0.00" maximum="0.0" delta="0.0"/>
-      <add    probability="0.01" maximum="0.1"/>
-      <delete probability="0.05"/>
+      <modify probability="0.50" maximum="0.0" delta="0.0"/>
+      <add    probability="1.00" maximum="0.1"/>
+      <delete probability="0.00"/>
     </node>
     <edge>
       <modify probability="0.30" maximum="5.0" delta="0.5"/>

@@ -102,3 +102,14 @@ void Edge::setWeight(double w)
 {
   _weight = w;
 }
+
+void Edge::setSourceLabel(string s)
+{
+  _source = s;
+}
+
+void Edge::setDestinationLabel(string s)
+{
+  _destination = s;
+}
+
