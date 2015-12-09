@@ -20,6 +20,7 @@
 #define TAG_MODULE_P3D_DEFINITION  (char*)"p3d_definition"
 #define TAG_MODULE_B3D_DEFINITION  (char*)"b3d_definition"
 #define TAG_TRUE_FALSE_DEFINITION  (char*)"true_definition"
+#define TAG_POSITIVE_INTEGER       (char*)"positive_integer_definition"
 
 #define TAG_CONNECTOR              (char*)"connector"
 
@@ -183,7 +184,8 @@ void Module::add(ParseElement *element)
 void Module::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_MODULE_DEFINITION);
-  root->add(NA(TAG_NAME,        TAG_XSD_STRING,             true));
+  root->add(NA(TAG_NAME,    TAG_XSD_STRING,       true));
+  root->add(NA(TAG_NODE_ID, TAG_POSITIVE_INTEGER, true));
   spec->add(root);
 
   XsdChoice *options = new XsdChoice(NO_NAME, 1, 1);
