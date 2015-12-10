@@ -64,9 +64,9 @@ void W3irdoH::newIndividual()
   {
     _containers.push_back(new Container(lifeTime, _containerSize));
   }
-  double** domains = new double*[5];
-  int*     bins    = new int[5];
-  for(int i = 0; i < 5; i++)
+  double** domains = new double*[_containerSize];
+  int*     bins    = new int[_containerSize];
+  for(int i = 0; i < _containerSize; i++)
   {
     domains[i]    = new double[2];
     domains[i][0] = -1.0;
