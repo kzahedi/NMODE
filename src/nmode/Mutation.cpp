@@ -13,7 +13,6 @@
 
 #define LOG_MODULE \
   VLOG(50) << "     Module: " << m->name();\
-  VLOG(50) << "       Global Node Id: " << m->getCurrentNodeId();\
   for(Nodes::iterator n = m->n_begin(); n != m->n_end(); n++) \
     VLOG(50) << "      Node: " << (*n)->label() << " " << (*n)->bias(); \
   for(Edges::iterator e = m->e_begin(); e != m->e_end(); e++) \
@@ -362,10 +361,16 @@ void Mutation::__mutateAddNode(Module *m, double probability, double max)
   P3D np    = (sp + dp) * 0.5;
 
   stringstream oss;
-  VLOG(50) << "1. current node id: " << m->getCurrentNodeId();
-  oss << "hidden " << m->getNewNodeId();
+  bool found = true;
+  int newNodeIndex = -1;
+  while(found == true)
+  {
+    newNodeIndex++;
+    oss.str("");
+    oss << "hidden " << newNodeIndex;
+    found = m->nodeExists(oss.str());
+  }
   VLOG(50) << "new node name: " << oss.str();
-  VLOG(50) << "2. current node id: " << m->getCurrentNodeId();
   n->setType("hidden");
   n->setPosition(np);
   n->setBias(Random::rand(-max, max));

@@ -7,7 +7,6 @@
 #include <glog/logging.h>
 
 #define TAG_NAME                   (char*)"name"
-#define TAG_NODE_ID                (char*)"nodeid"
 #define NO_NAME                    (char*)""
 #define OPTION_A                   (char*)"option_a"
 #define OPTION_B                   (char*)"option_b"
@@ -44,7 +43,6 @@ using namespace std;
 Module::Module(XsdParseNode *parent)
   : XsdParseNode(parent), _mirrorAxes()
 {
-  _globalId = 0;
   _isCopy   = false;
   _modified = false;
   _mutation = NULL;
@@ -105,7 +103,6 @@ void Module::add(ParseElement *element)
   if(element->opening(TAG_MODULE))
   {
     element->set(TAG_NAME,    _name);
-    element->set(TAG_NODE_ID, _globalId);
     VLOG(100) << "setting name to " << _name;
   }
 
@@ -185,7 +182,6 @@ void Module::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_MODULE_DEFINITION);
   root->add(NA(TAG_NAME,    TAG_XSD_STRING,       true));
-  root->add(NA(TAG_NODE_ID, TAG_POSITIVE_INTEGER, false));
   spec->add(root);
 
   XsdChoice *options = new XsdChoice(NO_NAME, 1, 1);
@@ -498,19 +494,6 @@ void Module::setModified(bool m)
   _modified = m;
 }
 
-int Module::getNewNodeId()
-{
-  int i = _globalId;
-  VLOG(50) << "returning global id " << i;
-  _globalId++;
-  return i;
-}
-
-int Module::getCurrentNodeId()
-{
-  return _globalId;
-}
-
 Edge* Module::edge(int index)
 {
   return _edges[index];
@@ -704,7 +687,6 @@ Module* Module::copy()
 {
   Module *copy = new Module(NULL);
 
-  copy->_globalId    = _globalId;
   copy->_isCopy      = _isCopy;
   copy->_modified    = _modified;
 
@@ -791,3 +773,9 @@ void Module::removeMutation()
   _mutation = NULL;
 }
 
+
+bool Module::nodeExists(string name)
+{
+  FORC(Nodes, n, _nodes) if((*n)->label() == name) return true;
+  return false;
+}

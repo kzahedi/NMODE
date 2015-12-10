@@ -212,7 +212,7 @@ string Data::xml()
 string Data::__toXml(Module *m)
 {
   stringstream sst;
-  sst << "      <module name=\"" << m->name() << "\" nodeid=\"" << m->getCurrentNodeId() << "\">" << endl;
+  sst << "      <module name=\"" << m->name() << "\">" << endl;
   if(m->isCopy())
   {
     sst << "        <copy      name=\"" << m->ref() << "\"/>" << endl;

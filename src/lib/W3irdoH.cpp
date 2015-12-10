@@ -105,6 +105,7 @@ void W3irdoH::evaluationCompleted()
   {
     fitness *= r;
   }
+  fitness /= (double)lifeTime;
   sst << "Fitness: " << fitness;
   cout << sst.str() << endl;
 }

@@ -41,7 +41,9 @@ void Braitenberg::newIndividual()
 { }
 
 void Braitenberg::evaluationCompleted()
-{ }
+{
+  fitness /= (double)lifeTime;
+}
 
 // the class factories
 extern "C" Evaluate* create()

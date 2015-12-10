@@ -136,8 +136,7 @@ class Module : public XsdParseNode
 
     bool modified();
     void setModified(bool); // for mutation operator
-    int  getNewNodeId();
-    int  getCurrentNodeId();
+    bool nodeExists(string);
 
     void setMirrorAxes(bool, bool, bool);
     void setTranslation(P3D);
@@ -163,7 +162,6 @@ class Module : public XsdParseNode
     MirrorAxes   _mirrorAxes;
     bool         _isCopy;
     bool         _modified;
-    int          _globalId;
     Edges        _copiedEdges;
     Nodes        _copiedNodes;
 
