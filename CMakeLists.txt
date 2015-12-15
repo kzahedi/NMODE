@@ -1,4 +1,4 @@
-project(enp)
+project(nmode)
 
 cmake_minimum_required(VERSION 2.6)
 
@@ -54,4 +54,8 @@ INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/src/nmode/
   PATTERN "*.cpp" EXCLUDE 
   PATTERN "*.txt" EXCLUDE 
   )
+
+execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
+  ${CMAKE_SOURCE_DIR}/experiments
+  ${CMAKE_BINARY_DIR}/experiments)
 

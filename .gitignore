@@ -2,3 +2,5 @@
 tags
 
 .vimprj/settings.vim
+
+*.ttf
