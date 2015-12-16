@@ -84,24 +84,48 @@
         <transferfunction name="id"/>
       </node>
 
-      <node type="actuator" label="actuator 1">
-        <position x="2.0" y="-1.0" z="0.0"/>
+      <node type="actuator" label="force actuator 1">
+        <position x="2.0" y="-1.0" z="0.5"/>
         <transferfunction name="tanh"/>
       </node>
-      <node type="actuator" label="actuator 2">
-        <position x="4.0" y="-1.0" z="0.0"/>
+      <node type="actuator" label="velocity actuator 1">
+        <position x="2.0" y="-1.0" z="-0.5"/>
         <transferfunction name="tanh"/>
       </node>
-      <node type="actuator" label="actuator 3">
-        <position x="6.0" y="-1.0" z="0.0"/>
+
+      <node type="actuator" label="force actuator 2">
+        <position x="4.0" y="-1.0" z="0.5"/>
         <transferfunction name="tanh"/>
       </node>
-      <node type="actuator" label="actuator 4">
-        <position x="8.0" y="-1.0" z="0.0"/>
+      <node type="actuator" label="velocity actuator 2">
+        <position x="4.0" y="-1.0" z="-0.5"/>
         <transferfunction name="tanh"/>
       </node>
-      <node type="actuator" label="actuator 5">
-        <position x="10.0" y="-1.0" z="0.0"/>
+
+      <node type="actuator" label="force actuator 3">
+        <position x="6.0" y="-1.0" z="0.5"/>
+        <transferfunction name="tanh"/>
+      </node>
+      <node type="actuator" label="velocity actuator 3">
+        <position x="6.0" y="-1.0" z="-0.5"/>
+        <transferfunction name="tanh"/>
+      </node>
+
+      <node type="actuator" label="force actuator 4">
+        <position x="8.0" y="-1.0" z="0.5"/>
+        <transferfunction name="tanh"/>
+      </node>
+      <node type="actuator" label="velocity actuator 4">
+        <position x="8.0" y="-1.0" z="-0.5"/>
+        <transferfunction name="tanh"/>
+      </node>
+
+      <node type="actuator" label="force actuator 5">
+        <position x="10.0" y="-1.0" z="0.5"/>
+        <transferfunction name="tanh"/>
+      </node>
+      <node type="actuator" label="velocity actuator 5">
+        <position x="10.0" y="-1.0" z="-0.5"/>
         <transferfunction name="tanh"/>
       </node>
 
