@@ -4,3 +4,5 @@ tags
 .vimprj/settings.vim
 
 *.ttf
+
+*.log

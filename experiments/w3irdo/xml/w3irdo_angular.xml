@@ -12,8 +12,8 @@
     <screen name="w3irdo evolution" show="true" follow="true" capture="false">
       <size   width="400" height="300"/>
       <camera>
-        <position x="7.0" y="0.0" z="6.0"/>
-        <lookAt   x="0.0" y="0.0" z="1.0"/>
+        <position x="9.00" y="0.00" z="6.0"/>
+        <lookAt   x="0.0"  y="0.0"  z="1.0"/>
       </camera>
       <osd>
         <time  font="Time"  size="25" colour="FFFF00"/>
@@ -295,7 +295,7 @@
           <source      name="leg 1 segment 1"/>
           <destination name="main body"/>
           <force       max="50.0"/>
-          <velocity    max="1.0"/>
+          <velocity    max="2.0"/>
           <pose        x="0.0" y="-0.5" z="0.0" beta="90"/>
           <deflection  min="-60" max="60"/>
           <mapping     min="-1"  max="1"/>
@@ -309,7 +309,7 @@
           <source      name="leg 1 segment 1"/>
           <destination name="leg 1 segment 2"/>
           <force       max="50.0"/>
-          <velocity    max="1.0"/>
+          <velocity    max="2.0"/>
           <pose        x="0.0" y="0.5" z="0.0"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -322,7 +322,7 @@
           <source      name="leg 1 segment 2"/>
           <destination name="leg 1 segment 3"/>
           <force       max="50.0"/>
-          <velocity    max="1.0"/>
+          <velocity    max="2.0"/>
           <pose        x="0.0" y="0.5" z="0.0"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -335,7 +335,7 @@
           <source      name="leg 1 wing 2"/>
           <destination name="leg 1 segment 3"/>
           <force       max="50.0"/>
-          <velocity    max="1.0"/>
+          <velocity    max="2.0"/>
           <pose        x="0.0" y="0.222522" z="-0.026291"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -348,7 +348,7 @@
           <source      name="leg 1 wing 1"/>
           <destination name="leg 1 segment 3"/>
           <force       max="50.0"/>
-          <velocity    max="1.0"/>
+          <velocity    max="2.0"/>
           <pose        x="0.0" y="0.222522" z="-0.026291"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -362,7 +362,7 @@
           <source      name="leg 2 segment 1"/>
           <destination name="main body"/>
           <force       max="50.0"/>
-          <velocity    max="1.0"/>
+          <velocity    max="2.0"/>
           <pose        x="0.0" y="-0.5" z="0.0" beta="90"/>
           <deflection  min="-60" max="60"/>
           <mapping     min="-1"  max="1"/>
@@ -375,7 +375,7 @@
           <source      name="leg 2 segment 1"/>
           <destination name="leg 2 segment 2"/>
           <force       max="50.0"/>
-          <velocity    max="1.0"/>
+          <velocity    max="2.0"/>
           <pose        x="0.0" y="0.5" z="0.0"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -388,7 +388,7 @@
           <source      name="leg 2 segment 2"/>
           <destination name="leg 2 segment 3"/>
           <force       max="50.0"/>
-          <velocity    max="1.0"/>
+          <velocity    max="2.0"/>
           <pose        x="0.0" y="0.5" z="0.0"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -401,7 +401,7 @@
           <source      name="leg 2 wing 2"/>
           <destination name="leg 2 segment 3"/>
           <force       max="50.0"/>
-          <velocity    max="1.0"/>
+          <velocity    max="2.0"/>
           <pose        x="0.0" y="0.222522" z="-0.026291"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -414,7 +414,7 @@
           <source      name="leg 2 wing 1"/>
           <destination name="leg 2 segment 3"/>
           <force       max="50.0"/>
-          <velocity    max="1.0"/>
+          <velocity    max="2.0"/>
           <pose        x="0.0" y="0.222522" z="-0.026291"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -428,7 +428,7 @@
           <source      name="leg 3 segment 1"/>
           <destination name="main body"/>
           <force       max="50.0"/>
-          <velocity    max="1.0"/>
+          <velocity    max="2.0"/>
           <pose        x="0.0" y="-0.5" z="0.0" beta="90"/>
           <deflection  min="-60" max="60"/>
           <mapping     min="-1"  max="1"/>
@@ -441,7 +441,7 @@
           <source      name="leg 3 segment 1"/>
           <destination name="leg 3 segment 2"/>
           <force       max="50.0"/>
-          <velocity    max="1.0"/>
+          <velocity    max="2.0"/>
           <pose        x="0.0" y="0.5" z="0.0"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -454,7 +454,7 @@
           <source      name="leg 3 segment 2"/>
           <destination name="leg 3 segment 3"/>
           <force       max="50.0"/>
-          <velocity    max="1.0"/>
+          <velocity    max="2.0"/>
           <pose        x="0.0" y="0.5" z="0.0"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -467,7 +467,7 @@
           <source      name="leg 3 wing 2"/>
           <destination name="leg 3 segment 3"/>
           <force       max="50.0"/>
-          <velocity    max="1.0"/>
+          <velocity    max="2.0"/>
           <pose        x="0.0" y="0.222522" z="-0.026291"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -480,7 +480,7 @@
           <source      name="leg 3 wing 1"/>
           <destination name="leg 3 segment 3"/>
           <force       max="50.0"/>
-          <velocity    max="1.0"/>
+          <velocity    max="2.0"/>
           <pose        x="0.0" y="0.222522" z="-0.026291"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -499,137 +499,150 @@
           <domain   min="-45" max="45"/>
           <mapping  min="-1"  max="1"/>
         </deflection>
+        <binaryContact name="leg 1 segment 1 contact">
+          <object name="leg 1 segment 1"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
         <deflection name="leg 1 hinge 2 sensor">
           <object   name="leg 1 hinge 2"/>
           <domain   min="-45" max="45"/>
           <mapping  min="-1"  max="1"/>
         </deflection>
+        <binaryContact name="leg 1 segment 2 contact">
+          <object name="leg 1 segment 2"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
         <deflection name="leg 1 hinge 3 sensor">
           <object   name="leg 1 hinge 3"/>
           <domain   min="-45" max="45"/>
           <mapping  min="-1"  max="1"/>
         </deflection>
+        <binaryContact name="leg 1 segment 3 contact">
+          <object name="leg 1 segment 3"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
         <deflection name="leg 1 hinge 4 sensor">
           <object   name="leg 1 hinge 4"/>
           <domain   min="-45" max="45"/>
           <mapping  min="-1"  max="1"/>
         </deflection>
+        <binaryContact name="leg 1 wing 1 contact">
+          <object name="leg 1 wing 1"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
         <deflection name="leg 1 hinge 5 sensor">
           <object   name="leg 1 hinge 5"/>
           <domain   min="-45" max="45"/>
           <mapping  min="-1"  max="1"/>
         </deflection>
+        <binaryContact name="leg 1 wing 2 contact">
+          <object name="leg 1 wing 2"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
+
 
         <deflection name="leg 2 hinge 1 sensor">
           <object   name="leg 2 hinge 1"/>
           <domain   min="-45" max="45"/>
           <mapping  min="-1"  max="1"/>
         </deflection>
+        <binaryContact name="leg 2 segment 1 contact">
+          <object name="leg 2 segment 1"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
         <deflection name="leg 2 hinge 2 sensor">
           <object   name="leg 2 hinge 2"/>
           <domain   min="-45" max="45"/>
           <mapping  min="-1"  max="1"/>
         </deflection>
+        <binaryContact name="leg 2 segment 2 contact">
+          <object name="leg 2 segment 2"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
         <deflection name="leg 2 hinge 3 sensor">
           <object   name="leg 2 hinge 3"/>
           <domain   min="-45" max="45"/>
           <mapping  min="-1"  max="1"/>
         </deflection>
+        <binaryContact name="leg 2 segment 3 contact">
+          <object name="leg 2 segment 3"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
         <deflection name="leg 2 hinge 4 sensor">
           <object   name="leg 2 hinge 4"/>
           <domain   min="-45" max="45"/>
           <mapping  min="-1"  max="1"/>
         </deflection>
+        <binaryContact name="leg 2 wing 1 contact">
+          <object name="leg 2 wing 1"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
         <deflection name="leg 2 hinge 5 sensor">
           <object   name="leg 2 hinge 5"/>
           <domain   min="-45" max="45"/>
           <mapping  min="-1"  max="1"/>
         </deflection>
+        <binaryContact name="leg 2 wing 2 contact">
+          <object name="leg 2 wing 2"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
+
 
         <deflection name="leg 3 hinge 1 sensor">
           <object   name="leg 3 hinge 1"/>
           <domain   min="-45" max="45"/>
           <mapping  min="-1"  max="1"/>
         </deflection>
+        <binaryContact name="leg 3 segment 1 contact">
+          <object name="leg 3 segment 1"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
         <deflection name="leg 3 hinge 2 sensor">
           <object   name="leg 3 hinge 2"/>
           <domain   min="-45" max="45"/>
           <mapping  min="-1"  max="1"/>
         </deflection>
+        <binaryContact name="leg 3 segment 2 contact">
+          <object name="leg 3 segment 2"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
         <deflection name="leg 3 hinge 3 sensor">
           <object   name="leg 3 hinge 3"/>
           <domain   min="-45" max="45"/>
           <mapping  min="-1"  max="1"/>
         </deflection>
+        <binaryContact name="leg 3 segment 3 contact">
+          <object name="leg 3 segment 3"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
         <deflection name="leg 3 hinge 4 sensor">
           <object   name="leg 3 hinge 4"/>
           <domain   min="-45" max="45"/>
           <mapping  min="-1"  max="1"/>
         </deflection>
+        <binaryContact name="leg 3 wing 1 contact">
+          <object name="leg 3 wing 1"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
         <deflection name="leg 3 hinge 5 sensor">
           <object   name="leg 3 hinge 5"/>
           <domain   min="-45" max="45"/>
           <mapping  min="-1"  max="1"/>
         </deflection>
-
-        <binaryContact name="leg 1 segment 1 contact">
-          <object name="leg 1 segment 1"/>
-          <domain min="-1" max="1"/>
-        </binaryContact>
-        <binaryContact name="leg 1 segment 2 contact">
-          <object name="leg 1 segment 2"/>
-          <domain min="-1" max="1"/>
-        </binaryContact>
-        <binaryContact name="leg 1 segment 3 contact">
-          <object name="leg 1 segment 3"/>
-          <domain min="-1" max="1"/>
-        </binaryContact>
-        <binaryContact name="leg 1 wing 1 contact">
-          <object name="leg 1 wing 1"/>
-          <domain min="-1" max="1"/>
-        </binaryContact>
-        <binaryContact name="leg 1 wing 2 contact">
-          <object name="leg 1 wing 2"/>
-          <domain min="-1" max="1"/>
-        </binaryContact>
-
-        <binaryContact name="leg 2 segment 1 contact">
-          <object name="leg 2 segment 1"/>
-          <domain min="-1" max="1"/>
-        </binaryContact>
-        <binaryContact name="leg 2 segment 2 contact">
-          <object name="leg 2 segment 2"/>
-          <domain min="-1" max="1"/>
-        </binaryContact>
-        <binaryContact name="leg 2 segment 3 contact">
-          <object name="leg 2 segment 3"/>
-          <domain min="-1" max="1"/>
-        </binaryContact>
-        <binaryContact name="leg 2 wing 1 contact">
-          <object name="leg 2 wing 1"/>
-          <domain min="-1" max="1"/>
-        </binaryContact>
-        <binaryContact name="leg 2 wing 2 contact">
-          <object name="leg 2 wing 2"/>
-          <domain min="-1" max="1"/>
-        </binaryContact>
-
-        <binaryContact name="leg 3 segment 1 contact">
-          <object name="leg 3 segment 1"/>
-          <domain min="-1" max="1"/>
-        </binaryContact>
-        <binaryContact name="leg 3 segment 2 contact">
-          <object name="leg 3 segment 2"/>
-          <domain min="-1" max="1"/>
-        </binaryContact>
-        <binaryContact name="leg 3 segment 3 contact">
-          <object name="leg 3 segment 3"/>
-          <domain min="-1" max="1"/>
-        </binaryContact>
-        <binaryContact name="leg 3 wing 1 contact">
-          <object name="leg 3 wing 1"/>
-          <domain min="-1" max="1"/>
-        </binaryContact>
         <binaryContact name="leg 3 wing 2 contact">
           <object name="leg 3 wing 2"/>
           <domain min="-1" max="1"/>
@@ -640,19 +653,10 @@
           <domain min="-1" max="1"/>
         </binaryContact>
 
-        <!-- <orientation name="main body orientation"> -->
-          <!-- <object name="main body"/> -->
-          <!-- <coordinates x="true" y="true" z="true"/> -->
-        <!-- </orientation> -->
 
-        <position name="main body position x">
+        <position name="main body position">
           <object name="main body"/>
-          <coordinates x="true" y="false" z="false"/>
-        </position>
-
-        <position name="main body position y">
-          <object name="main body"/>
-          <coordinates x="false" y="true" z="false"/>
+          <coordinates x="true" y="true" z="true"/>
         </position>
 
       </sensors>
@@ -661,7 +665,8 @@
         <parameter name="port" value="4500"/>
       </controller>
 
-      <!-- <controller module="Sinus" frequency="100"/> -->
+      <!-- <controller module="Sinus" frequency="100"> -->
+        <!-- </controller> -->
 
       <!-- <parameter name="use log file"   value="false"/> -->
       <!-- <parameter name="use sensor log file"   value="false"/> -->
@@ -725,12 +730,20 @@
 
 </robots>
 
-<traces>
-  <trace  target="main body" length="10" max="1000" time="5" particles="false">
-    <init  colour="3e84db"    size="0.1"/>
-    <final colour="3e84db00"  size="0.00"/>
-  </trace>
-</traces>
+<!-- <traces> -->
+    <!-- <trace  target="main body" length="5" max="300" time="5" particles="false"> -->
+      <!-- <init  colour="ff0000"    size="0.01"/> -->
+      <!-- <final colour="ff000000"  size="0.00"/> -->
+      <!-- </trace> -->
+    <!-- <trace  target="wheel right" length="5" max="200" time="5" particles="false"> -->
+      <!-- <init  colour="00ff00"    size="0.01"/> -->
+      <!-- <final colour="00ff0000"  size="0.00"/> -->
+      <!-- </trace> -->
+    <!-- <trace  target="wheel left" length="5" max="100" time="5" particles="false"> -->
+      <!-- <init  colour="0000ff"    size="0.01"/> -->
+      <!-- <final colour="0000ff00"  size="0.00"/> -->
+      <!-- </trace> -->
+    <!-- </traces> -->
 
   <logging>
     <!-- <object   target="main body"   precision="8"> <use value="x"/> <use value="y"/> </object> -->

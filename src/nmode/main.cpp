@@ -31,7 +31,7 @@ void convert(int index, Individual* individual, string filename)
 
   cout << "opening file " << s << endl;
   std::ofstream ofs;
-  ofs.open (s, std::ofstream::out);
+  ofs.open(s, std::ofstream::out);
   sst.str("");
   sst << Exporter::toX3d(individual);
   ofs << sst.str();

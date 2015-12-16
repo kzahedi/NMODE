@@ -6,14 +6,13 @@
 #include <yars/cppClientCom/YarsClientCom.h>
 
 #include <entropy++/Container.h>
-#include <entropy++/Hs.h>
 
 #include <sstream>
 
-class W3irdoH : public Evaluate
+class W3irdo : public Evaluate
 {
   public:
-    W3irdoH();
+    W3irdo();
 
     void updateController();
     void updateFitnessFunction();
@@ -26,11 +25,12 @@ class W3irdoH : public Evaluate
     double             _y;
     double             _dist;
     double             _distFactor;
-    double             _hFactor;
+    double             _itFactor;
     int                _bins;
     int                _containerSize;
     int                _combinationType;
     string             _combinationTypeString;
+    string             _measure;
+    int                _measureType;
     vector<Container*> _containers;
-    Hs*                _h;
 };
