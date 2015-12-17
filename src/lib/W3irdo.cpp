@@ -87,6 +87,7 @@ void W3irdo::newIndividual()
   sst.str("");
   sst << "container 1";
   int index = 1;
+  _containerIndices.clear();
   while(EVA->exists(sst.str()))
   {
     // cout << "reading \"" << sst.str() << "\"" << endl;
