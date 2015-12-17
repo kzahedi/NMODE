@@ -34,12 +34,12 @@ void W3irdo::updateController()
   {
     networkInput[i] = sensorValues[i];
   }
-  for(int i = 0; i < (int)_containerIndices.size(); i++)
+  for(int i = 0; i < (int)_containers.size(); i++)
   {
     for(int j = 0; j < (int)_containerIndices[i].size(); j++)
     {
-      // cout << "Filling container " << i << " with sensor << " << j << endl;
-      (*_containers[i]) << sensorValues[j];
+      // cout << "Filling container " << i << " with sensor << " << (2*j) << endl;
+      (*_containers[i]) << sensorValues[2 * _containerIndices[i][j]];
     }
   }
 }
@@ -83,27 +83,16 @@ void W3irdo::newIndividual()
   }
   _containers.clear();
 
-
   sst.str("");
   sst << "container 1";
   int index = 1;
   _containerIndices.clear();
   while(EVA->exists(sst.str()))
   {
-    // cout << "reading \"" << sst.str() << "\"" << endl;
     _containerIndices.push_back(EVA->intList(sst.str()));
     sst.str("");
     sst << "container " << ++index;
   }
-
-  // for(int i = 0; i < (int)_containerIndices.size(); i++)
-  // {
-    // for(int j = 0; j < (int)_containerIndices[i].size(); j++)
-    // {
-      // cout << _containerIndices[i][j] << " ";
-    // }
-    // cout << endl;
-  // }
 
   for(int i = 0; i < (int)_containerIndices.size(); i++)
   {
@@ -131,23 +120,18 @@ void W3irdo::evaluationCompleted()
 {
   stringstream sst;
   double r = 0;
-  int    i = 0;
-  sst << "Factor: " << _itFactor << " Results:";
+  sst << " Results:";
   for(vector<Container*>::iterator c = _containers.begin(); c != _containers.end(); c++)
   {
-    i++;
     Container *d = (*c)->discretise();
     double s  = 0.0;
     switch(_measureType)
     {
-      case useH:
-       s = H(d) / log2(_bins);
-       break;
-      case usePI:
-       s = PI(d) / log2(_bins);
-       break;
+      case useH:  s = H(d);  break;
+      case usePI: s = PI(d); break;
       default:
        cerr << "Unknown measure type: " << _measure << endl;
+       break;
     }
     sst << " " << s;
     r += _itFactor * s;
@@ -156,17 +140,17 @@ void W3irdo::evaluationCompleted()
   if(_combinationType == ADD)
   {
     fitness += r / (double)_containers.size();
-    cout << " Fitness: " << fitness << " avg: " << (r / (double)_containers.size()) << " " << sst.str() << endl;
+    cout << " Fitness: " << (r / (double)_containers.size()) << " " << sst.str() << endl;
   }
   if(_combinationType == MUL1)
   {
     fitness *= 1.0 + r / (double)_containers.size();
-    cout << " Fitness: " << fitness << " avg: " << (1.0 + r / (double)_containers.size()) << " " << sst.str() << endl;
+    cout << " Fitness: " << (1.0 + r / (double)_containers.size()) << " " << sst.str() << endl;
   }
   if(_combinationType == MUL)
   {
     fitness *= r / (double)_containers.size();
-    cout << " Fitness: " << fitness << " avg: " << (r / (double)_containers.size()) << " " << sst.str() << endl;
+    cout << " Fitness: " << (r / (double)_containers.size()) << " " << sst.str() << endl;
   }
 }
 
