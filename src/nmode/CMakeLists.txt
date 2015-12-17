@@ -85,5 +85,10 @@ target_link_libraries(NMODEe ${Boost_LIBRARIES} xerces-c glog YarsClientCom dl)
 add_executable(nmode main.cpp)
 target_link_libraries(nmode NMODEe xerces-c ${Boost_LIBRARIES} glog YarsClientCom dl)
 
+if(USE_PLPLOT)
+  target_link_libraries(NMODEe plplot)
+  target_link_libraries(nmode plplot)
+endif(USE_PLPLOT)
+
 install(TARGETS NMODEe LIBRARY DESTINATION lib)
 install(TARGETS nmode  RUNTIME DESTINATION bin)

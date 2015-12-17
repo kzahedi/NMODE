@@ -52,6 +52,36 @@ class EvaluationParameterMap : public map<string,string>
       return atoi(s.c_str());
     }
 
+    vector<int> intList(string name)
+    {
+      vector<int> lst;
+      string s;
+      get(name, &s);
+      char *str = (char*)s.c_str();
+      char *pch = strtok (str," ,.-");
+      while (pch != NULL)
+      {
+        lst.push_back(atoi(pch));
+        pch = strtok (NULL, " ,.-");
+      }
+      return lst;
+    }
+
+    vector<double> doubleList(string name)
+    {
+      vector<double> lst;
+      string s;
+      get(name, &s);
+      char *str = (char*)s.c_str();
+      char *pch = strtok (str," ,.-");
+      while (pch != NULL)
+      {
+        lst.push_back(atof(pch));
+        pch = strtok (NULL, " ,.-");
+      }
+      return lst;
+    }
+
     double doubleValue(string name)
     {
       string s;

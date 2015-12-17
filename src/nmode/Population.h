@@ -16,7 +16,7 @@ class Population : public Observable, public XsdParseNode
 {
   public:
     Population(XsdParseNode *parent = NULL);
-    // ~Population();
+    ~Population();
 
     //Population(const Population);
     //Population operator=(const Population);
@@ -52,6 +52,9 @@ class Population : public Observable, public XsdParseNode
   private:
     void            __getUniqueDirectoryName();
     void            __calculateSelectionProbabilities();
+#ifdef USE_PLPLOT
+    void            __plotData();
+#endif // USE_PLPLOT
 
     int             _generation;
     int             _individualId;
@@ -61,6 +64,7 @@ class Population : public Observable, public XsdParseNode
     Individuals     _individuals;
     pthread_mutex_t _mutex;
     ofstream        _output;
+    vector<double>  _fitness;
 
     static Population* _me;
 };

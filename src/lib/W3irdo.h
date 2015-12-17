@@ -21,16 +21,17 @@ class W3irdo : public Evaluate
     void evaluationCompleted();
 
   private:
-    double             _x;
-    double             _y;
-    double             _dist;
-    double             _distFactor;
-    double             _itFactor;
-    int                _bins;
-    int                _containerSize;
-    int                _combinationType;
-    string             _combinationTypeString;
-    string             _measure;
-    int                _measureType;
-    vector<Container*> _containers;
+    double               _x;
+    double               _y;
+    double               _dist;
+    double               _distFactor;
+    double               _itFactor;
+    int                  _bins;
+    int                  _containerOffset;
+    int                  _combinationType;
+    string               _combinationTypeString;
+    string               _measure;
+    int                  _measureType;
+    vector<Container*>   _containers;
+    vector<vector<int> > _containerIndices;
 };

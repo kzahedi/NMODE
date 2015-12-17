@@ -40,3 +40,9 @@ IF(XercesC_FOUND)
 ENDIF(XercesC_FOUND)
 
 link_directories("/usr/local/lib")
+
+option(USE_PLPLOT "use plplot" ON)
+if(USE_PLPLOT)
+  include_directories(/usr/local/include/plplot)
+  add_definitions(-DUSE_PLPLOT)
+endif(USE_PLPLOT)

@@ -18,6 +18,12 @@ namespace fs = boost::filesystem;
 
 #define TAG_GENERATION (char*)"generation"
 
+#ifdef USE_PLPLOT
+# include <plplot.h>
+# include <plConfig.h>
+# include <plevent.h>
+#endif // USE_PLPLOT
+
 Population* Population::_me = NULL;
 
 Population::Population(XsdParseNode *parent)
@@ -30,6 +36,19 @@ Population::Population(XsdParseNode *parent)
   _me              = this;
   __getUniqueDirectoryName();
   ENP_INIT;
+#ifdef USE_PLPLOT
+  plsdev("xwin");
+  plinit();
+  plenv( 0.0, 1.0, 0.0, 1.0, 0, 0 );
+#endif // USE_PLPLOT
+}
+
+
+Population::~Population()
+{
+#ifdef USE_PLPLOT
+  plend();
+#endif // USE_PLPLOT
 }
 
 void Population::add(ParseElement *element)
@@ -261,7 +280,50 @@ void Population::serialise()
       << endl;
   }
   _output.close();
+
+#ifdef USE_PLPLOT
+  __plotData();
+#endif // USE_PLPLOT
 }
+
+#ifdef USE_PLPLOT
+void Population::__plotData()
+{
+  _fitness.push_back(_individuals[0]->fitness());
+
+
+  if(_fitness.size() > 1)
+  {
+    PLFLT y[_fitness.size()];
+    PLFLT x[_fitness.size()];
+
+    PLFLT xmin = 0;
+    PLFLT xmax = _fitness.size();
+    PLFLT ymin = _fitness[0];
+    PLFLT ymax = _fitness[1];
+
+    for(int i = 0; i < (int)_fitness.size(); i++)
+    {
+      x[i] = i;
+      y[i] = (PLFLT)_fitness[i];
+      if(y[i] > ymax) ymax = y[i];
+      if(y[i] < ymin) ymin = y[i];
+    }
+
+    cout << "hier 0: " << xmin << " " << xmax << " " << ymin << " " << ymax << endl;
+    plenv( xmin, xmax, ymin, ymax, 0, 0 );
+    cout << "hier 3" << endl;
+
+    cout << "hier 4" << endl;
+    pllab( "generation", "fitness", "Best individual's fitness" );
+    cout << "hier 5" << endl;
+
+    // Plot the data that was prepared above.
+    plline( (int)_fitness.size(), x, y );
+    cout << "hier 6" << endl;
+  }
+}
+#endif // USE_PLPLOT
 
 void Population::incAge()
 {

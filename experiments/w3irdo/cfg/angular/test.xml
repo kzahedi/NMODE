@@ -2,11 +2,11 @@
 <nmode version="0.0.2">
   <simulator
     wd="./experiments/w3irdo"
-    xml="xml/w3irdo_force.xml"
+    xml="xml/w3irdo_angular.xml"
     nr="3"/>
 
   <evaluation module="W3irdo">
-    <lifetime    iterations="500"/>
+    <lifetime    iterations="100"/>
     <generations iterations="100000"/>
     <cost        node="0.0"  edge="0.0"/>
     <parameter   name="bins" value="30"/>
@@ -18,7 +18,7 @@
   </evaluation>
 
   <reproduction>
-    <population   size="50"/>
+    <population   size="10"/>
     <selection    pressure="0.1"/>
     <reproduction pressure="2.1"/>
   </reproduction>
@@ -84,48 +84,24 @@
         <transferfunction name="id"/>
       </node>
 
-      <node type="actuator" label="force actuator 1">
-        <position x="2.0" y="-1.0" z="0.5"/>
+      <node type="actuator" label="actuator 1">
+        <position x="2.0" y="-1.0" z="0.0"/>
         <transferfunction name="tanh"/>
       </node>
-      <node type="actuator" label="velocity actuator 1">
-        <position x="2.0" y="-1.0" z="-0.5"/>
+      <node type="actuator" label="actuator 2">
+        <position x="4.0" y="-1.0" z="0.0"/>
         <transferfunction name="tanh"/>
       </node>
-
-      <node type="actuator" label="force actuator 2">
-        <position x="4.0" y="-1.0" z="0.5"/>
+      <node type="actuator" label="actuator 3">
+        <position x="6.0" y="-1.0" z="0.0"/>
         <transferfunction name="tanh"/>
       </node>
-      <node type="actuator" label="velocity actuator 2">
-        <position x="4.0" y="-1.0" z="-0.5"/>
+      <node type="actuator" label="actuator 4">
+        <position x="8.0" y="-1.0" z="0.0"/>
         <transferfunction name="tanh"/>
       </node>
-
-      <node type="actuator" label="force actuator 3">
-        <position x="6.0" y="-1.0" z="0.5"/>
-        <transferfunction name="tanh"/>
-      </node>
-      <node type="actuator" label="velocity actuator 3">
-        <position x="6.0" y="-1.0" z="-0.5"/>
-        <transferfunction name="tanh"/>
-      </node>
-
-      <node type="actuator" label="force actuator 4">
-        <position x="8.0" y="-1.0" z="0.5"/>
-        <transferfunction name="tanh"/>
-      </node>
-      <node type="actuator" label="velocity actuator 4">
-        <position x="8.0" y="-1.0" z="-0.5"/>
-        <transferfunction name="tanh"/>
-      </node>
-
-      <node type="actuator" label="force actuator 5">
-        <position x="10.0" y="-1.0" z="0.5"/>
-        <transferfunction name="tanh"/>
-      </node>
-      <node type="actuator" label="velocity actuator 5">
-        <position x="10.0" y="-1.0" z="-0.5"/>
+      <node type="actuator" label="actuator 5">
+        <position x="10.0" y="-1.0" z="0.0"/>
         <transferfunction name="tanh"/>
       </node>
 
@@ -170,5 +146,3 @@
   </configuration>
 
 </nmode>
-
-

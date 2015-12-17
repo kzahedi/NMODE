@@ -34,9 +34,13 @@ void W3irdo::updateController()
   {
     networkInput[i] = sensorValues[i];
   }
-  for(int i = 0;  i < 15; i++)
+  for(int i = 0; i < (int)_containerIndices.size(); i++)
   {
-    (*_containers[i / _containerSize]) << sensorValues[2*i];
+    for(int j = 0; j < (int)_containerIndices[i].size(); j++)
+    {
+      // cout << "Filling container " << i << " with sensor << " << j << endl;
+      (*_containers[i]) << sensorValues[j];
+    }
   }
 }
 
@@ -55,10 +59,12 @@ bool W3irdo::abort()
 
 void W3irdo::newIndividual()
 {
+  stringstream sst;
+
   EVA->set("bins",             _bins,                  30);
   EVA->set("distance factor",  _distFactor,            1.0);
   EVA->set("entropy factor",   _itFactor,              1.0);
-  EVA->set("container size",   _containerSize,         1);
+  EVA->set("container offset", _containerOffset,       1);
   EVA->set("combination type", _combinationTypeString, "add");
   EVA->set("measure",          _measure,               "PI");
 
@@ -76,23 +82,47 @@ void W3irdo::newIndividual()
     if(_containers[i] != NULL) delete _containers[i];
   }
   _containers.clear();
-  for(int i = 0; i < 15 / _containerSize; i++)
+
+
+  sst.str("");
+  sst << "container 1";
+  int index = 1;
+  while(EVA->exists(sst.str()))
   {
-    _containers.push_back(new Container(lifeTime, _containerSize));
+    // cout << "reading \"" << sst.str() << "\"" << endl;
+    _containerIndices.push_back(EVA->intList(sst.str()));
+    sst.str("");
+    sst << "container " << ++index;
   }
-  double** domains = new double*[_containerSize];
-  int*     bins    = new int[_containerSize];
-  for(int i = 0; i < _containerSize; i++)
+
+  // for(int i = 0; i < (int)_containerIndices.size(); i++)
+  // {
+    // for(int j = 0; j < (int)_containerIndices[i].size(); j++)
+    // {
+      // cout << _containerIndices[i][j] << " ";
+    // }
+    // cout << endl;
+  // }
+
+  for(int i = 0; i < (int)_containerIndices.size(); i++)
   {
-    domains[i]    = new double[2];
-    domains[i][0] = -1.0;
-    domains[i][1] =  1.0;
-    bins[i]       = _bins;
-  }
-  for(vector<Container*>::iterator c = _containers.begin(); c != _containers.end(); c++)
-  {
-    (*c)->setDomains(domains);
-    (*c)->setBinSizes(bins);
+    int      containerSize = (int)_containerIndices[i].size();
+    double** domains       = new double*[containerSize];
+    int*     bins          = new int[containerSize];
+    for(int i = 0; i < containerSize; i++)
+    {
+      domains[i]    = new double[2];
+      domains[i][0] = -1.0;
+      domains[i][1] =  1.0;
+      bins[i]       = _bins;
+    }
+
+    Container *newContainer = new Container(lifeTime, containerSize);
+
+    newContainer->setDomains(domains);
+    newContainer->setBinSizes(bins);
+
+    _containers.push_back(newContainer);
   }
 }
 
@@ -125,17 +155,17 @@ void W3irdo::evaluationCompleted()
   if(_combinationType == ADD)
   {
     fitness += r / (double)_containers.size();
-    cout << " Fitness: " << fitness << " " << (r / (double)_containers.size()) << " " << sst.str() << endl;
+    cout << " Fitness: " << fitness << " avg: " << (r / (double)_containers.size()) << " " << sst.str() << endl;
   }
   if(_combinationType == MUL1)
   {
     fitness *= 1.0 + r / (double)_containers.size();
-    cout << " Fitness: " << fitness << " " << (1.0 + r / (double)_containers.size()) << " " << sst.str() << endl;
+    cout << " Fitness: " << fitness << " avg: " << (1.0 + r / (double)_containers.size()) << " " << sst.str() << endl;
   }
   if(_combinationType == MUL)
   {
     fitness *= r / (double)_containers.size();
-    cout << " Fitness: " << fitness << " " << (r / (double)_containers.size()) << " " << sst.str() << endl;
+    cout << " Fitness: " << fitness << " avg: " << (r / (double)_containers.size()) << " " << sst.str() << endl;
   }
 }
 
