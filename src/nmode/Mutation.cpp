@@ -218,7 +218,6 @@ void Mutation::__mutateAddEdge(Module *m, double probability,
           {
             // USE FIXED PROBABILITY FOR ALL EDGES
             probabilities[s_index][d_index] = 1.0;
-
             // d  = DIST(src_node->position(), dst_node->position());
             // probabilities[s_index][d_index] = d;
             // if(min < 0.0) min = d; // first iteration
@@ -239,7 +238,7 @@ void Mutation::__mutateAddEdge(Module *m, double probability,
     {
       if(probabilities[s_index][d_index] > 0.0)
       {
-        probabilities[s_index][d_index] = min / probabilities[s_index][d_index];
+        // probabilities[s_index][d_index] = min / probabilities[s_index][d_index];
         sum += probabilities[s_index][d_index];
       }
     }

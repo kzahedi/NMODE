@@ -34,12 +34,15 @@ void W3irdo::updateController()
   {
     networkInput[i] = sensorValues[i];
   }
-  for(int i = 0; i < (int)_containers.size(); i++)
+  if(_itFactor > 0.0)
   {
-    for(int j = 0; j < (int)_containerIndices[i].size(); j++)
+    for(int i = 0; i < (int)_containers.size(); i++)
     {
-      // cout << "Filling container " << i << " with sensor << " << (2*j) << endl;
-      (*_containers[i]) << sensorValues[2 * _containerIndices[i][j]];
+      for(int j = 0; j < (int)_containerIndices[i].size(); j++)
+      {
+        // cout << "Filling container " << i << " with sensor << " << (2*j) << endl;
+        (*_containers[i]) << sensorValues[2 * _containerIndices[i][j]];
+      }
     }
   }
 }
@@ -121,36 +124,39 @@ void W3irdo::evaluationCompleted()
   stringstream sst;
   double r = 0;
   sst << " Results:";
-  for(vector<Container*>::iterator c = _containers.begin(); c != _containers.end(); c++)
+  if(_itFactor > 0.0)
   {
-    Container *d = (*c)->discretise();
-    double s  = 0.0;
-    switch(_measureType)
+    for(vector<Container*>::iterator c = _containers.begin(); c != _containers.end(); c++)
     {
-      case useH:  s = H(d);  break;
-      case usePI: s = PI(d); break;
-      default:
-       cerr << "Unknown measure type: " << _measure << endl;
-       break;
+      Container *d = (*c)->discretise();
+      double s  = 0.0;
+      switch(_measureType)
+      {
+        case useH:  s = H(d);  break;
+        case usePI: s = PI(d); break;
+        default:
+                    cerr << "Unknown measure type: " << _measure << endl;
+                    break;
+      }
+      sst << " " << s;
+      r += _itFactor * s;
+      delete d;
     }
-    sst << " " << s;
-    r += _itFactor * s;
-    delete d;
-  }
-  if(_combinationType == ADD)
-  {
-    fitness += r / (double)_containers.size();
-    cout << " Fitness: " << (r / (double)_containers.size()) << " " << sst.str() << endl;
-  }
-  if(_combinationType == MUL1)
-  {
-    fitness *= 1.0 + r / (double)_containers.size();
-    cout << " Fitness: " << (1.0 + r / (double)_containers.size()) << " " << sst.str() << endl;
-  }
-  if(_combinationType == MUL)
-  {
-    fitness *= r / (double)_containers.size();
-    cout << " Fitness: " << (r / (double)_containers.size()) << " " << sst.str() << endl;
+    if(_combinationType == ADD)
+    {
+      fitness += r / (double)_containers.size();
+      cout << " Fitness: " << (r / (double)_containers.size()) << " " << sst.str() << endl;
+    }
+    if(_combinationType == MUL1)
+    {
+      fitness *= 1.0 + r / (double)_containers.size();
+      cout << " Fitness: " << (1.0 + r / (double)_containers.size()) << " " << sst.str() << endl;
+    }
+    if(_combinationType == MUL)
+    {
+      fitness *= r / (double)_containers.size();
+      cout << " Fitness: " << (r / (double)_containers.size()) << " " << sst.str() << endl;
+    }
   }
 }
 
