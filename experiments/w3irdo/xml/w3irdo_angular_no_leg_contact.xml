@@ -549,10 +549,6 @@
           <domain   min="-45" max="45"/>
           <mapping  min="-1"  max="1"/>
         </deflection>
-        <binaryContact name="leg 2 wing 1 contact">
-          <object name="leg 2 wing 1"/>
-          <domain min="-1" max="1"/>
-        </binaryContact>
 
         <deflection name="leg 2 hinge 5 sensor">
           <object   name="leg 2 hinge 5"/>

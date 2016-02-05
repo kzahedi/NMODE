@@ -49,8 +49,8 @@ void W3irdoNF::updateController()
 
 void W3irdoNF::updateFitnessFunction()
 {
-  _x       = sensorValues[17];
-  _y       = sensorValues[18];
+  _x       = sensorValues[16];
+  _y       = sensorValues[17];
   _dist    = sqrt(_x * _x + _y * _y);
   fitness += _distFactor * _dist;
 }
