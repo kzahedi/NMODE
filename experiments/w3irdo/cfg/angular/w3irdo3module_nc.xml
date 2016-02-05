@@ -10,7 +10,7 @@
     <offset value="30"/>
   </visualisation>
 
-  <evaluation module="W3irdo">
+  <evaluation module="W3irdoNF">
     <lifetime    iterations="500"/>
     <generations iterations="100000"/>
     <cost        node="0.0"  edge="0.0"/>
