@@ -3,7 +3,7 @@
 
   <simulator
     wd="./experiments/w3irdo"
-    xml="xml/w3irdo_angular.xml"
+    xml="xml/w3irdo_angular_no_leg_contact.xml"
     nr="3"/>
 
   <visualisation>
@@ -55,17 +55,9 @@
         <position x="6.0" y="1.0" z="0.5"/>
         <transferfunction name="id"/>
       </node>
-      <node type="sensor" label="contact sensor 1">
-        <position x="6.0" y="1.0" z="-0.5"/>
-        <transferfunction name="id"/>
-      </node>
 
       <node type="sensor" label="angular sensor 2">
         <position x="8.0" y="1.0" z="0.5"/>
-        <transferfunction name="id"/>
-      </node>
-      <node type="sensor" label="contact sensor 2">
-        <position x="8.0" y="1.0" z="-0.5"/>
         <transferfunction name="id"/>
       </node>
 
@@ -73,26 +65,14 @@
         <position x="10.0" y="1.0" z="0.5"/>
         <transferfunction name="id"/>
       </node>
-      <node type="sensor" label="contact sensor 3">
-        <position x="10.0" y="1.0" z="-0.5"/>
-        <transferfunction name="id"/>
-      </node>
 
       <node type="sensor" label="angular sensor 4">
         <position x="12.0" y="1.0" z="0.5"/>
         <transferfunction name="id"/>
       </node>
-      <node type="sensor" label="contact sensor 4">
-        <position x="12.0" y="1.0" z="-0.5"/>
-        <transferfunction name="id"/>
-      </node>
 
       <node type="sensor" label="angular sensor 5">
         <position x="14.0" y="1.0" z="0.5"/>
-        <transferfunction name="id"/>
-      </node>
-      <node type="sensor" label="contact sensor 5">
-        <position x="14.0" y="1.0" z="-0.5"/>
         <transferfunction name="id"/>
       </node>
 
@@ -136,17 +116,9 @@
         <position x="6.0" y="1.0" z="0.5"/>
         <transferfunction name="id"/>
       </node>
-      <node type="sensor" label="contact sensor 1">
-        <position x="6.0" y="1.0" z="-0.5"/>
-        <transferfunction name="id"/>
-      </node>
 
       <node type="sensor" label="angular sensor 2">
         <position x="8.0" y="1.0" z="0.5"/>
-        <transferfunction name="id"/>
-      </node>
-      <node type="sensor" label="contact sensor 2">
-        <position x="8.0" y="1.0" z="-0.5"/>
         <transferfunction name="id"/>
       </node>
 
@@ -154,26 +126,14 @@
         <position x="10.0" y="1.0" z="0.5"/>
         <transferfunction name="id"/>
       </node>
-      <node type="sensor" label="contact sensor 3">
-        <position x="10.0" y="1.0" z="-0.5"/>
-        <transferfunction name="id"/>
-      </node>
 
       <node type="sensor" label="angular sensor 4">
         <position x="12.0" y="1.0" z="0.5"/>
         <transferfunction name="id"/>
       </node>
-      <node type="sensor" label="contact sensor 4">
-        <position x="12.0" y="1.0" z="-0.5"/>
-        <transferfunction name="id"/>
-      </node>
 
       <node type="sensor" label="angular sensor 5">
         <position x="14.0" y="1.0" z="0.5"/>
-        <transferfunction name="id"/>
-      </node>
-      <node type="sensor" label="contact sensor 5">
-        <position x="14.0" y="1.0" z="-0.5"/>
         <transferfunction name="id"/>
       </node>
 
@@ -218,17 +178,9 @@
         <position x="6.0" y="1.0" z="0.5"/>
         <transferfunction name="id"/>
       </node>
-      <node type="sensor" label="contact sensor 1">
-        <position x="6.0" y="1.0" z="-0.5"/>
-        <transferfunction name="id"/>
-      </node>
 
       <node type="sensor" label="angular sensor 2">
         <position x="8.0" y="1.0" z="0.5"/>
-        <transferfunction name="id"/>
-      </node>
-      <node type="sensor" label="contact sensor 2">
-        <position x="8.0" y="1.0" z="-0.5"/>
         <transferfunction name="id"/>
       </node>
 
@@ -236,26 +188,14 @@
         <position x="10.0" y="1.0" z="0.5"/>
         <transferfunction name="id"/>
       </node>
-      <node type="sensor" label="contact sensor 3">
-        <position x="10.0" y="1.0" z="-0.5"/>
-        <transferfunction name="id"/>
-      </node>
 
       <node type="sensor" label="angular sensor 4">
         <position x="12.0" y="1.0" z="0.5"/>
         <transferfunction name="id"/>
       </node>
-      <node type="sensor" label="contact sensor 4">
-        <position x="12.0" y="1.0" z="-0.5"/>
-        <transferfunction name="id"/>
-      </node>
 
       <node type="sensor" label="angular sensor 5">
         <position x="14.0" y="1.0" z="0.5"/>
-        <transferfunction name="id"/>
-      </node>
-      <node type="sensor" label="contact sensor 5">
-        <position x="14.0" y="1.0" z="-0.5"/>
         <transferfunction name="id"/>
       </node>
 

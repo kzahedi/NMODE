@@ -144,6 +144,10 @@
 
 
     <module name="cpg">
+      <node type="sensor" label="main body contact sensor">
+        <position x="0.0" y="0.0" z="0.0"/>
+        <transferfunction name="id"/>
+      </node>
 
       <node type="connector" label="module 1/input 1"/>
       <node type="connector" label="module 1/output 1"/>
