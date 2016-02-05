@@ -1,9 +1,14 @@
 <?xml version="1.0"?>
 <nmode version="0.0.2">
+
   <simulator
     wd="./experiments/w3irdo"
     xml="xml/w3irdo_angular.xml"
     nr="3"/>
+
+  <visualisation>
+    <offset value="30"/>
+  </visualisation>
 
   <evaluation module="W3irdo">
     <lifetime    iterations="500"/>
@@ -21,24 +26,25 @@
     <parameter name="container 4"      value="6,7,8,9"/>
     <parameter name="container 5"      value="9,10,11,12"/>
     <parameter name="container 6"      value="11,12,13,14"/>
+
   </evaluation>
 
   <reproduction>
-    <population   size="50"/>
+    <population   size="10"/>
     <selection    pressure="0.1"/>
     <reproduction pressure="2.1"/>
   </reproduction>
 
   <mutation>
     <node>
-      <modify probability="0.10" maximum="2.0" delta="0.5"/>
-      <add    probability="0.10" maximum="1.0"/>
-      <delete probability="0.05"/>
+      <modify probability="0.10" maximum="0.1" delta="0.01"/>
+      <add    probability="0.10" maximum="0.1"/>
+      <delete probability="0.10"/>
     </node>
     <edge>
-      <modify probability="0.30" maximum="5.0" delta="0.5"/>
-      <add    probability="0.50" maximum="1.0"/>
-      <delete probability="0.11"/>
+      <modify probability="0.90" maximum="5.0" delta="0.5"/>
+      <add    probability="0.90" maximum="1.0"/>
+      <delete probability="0.50"/>
     </edge>
   </mutation>
 
@@ -46,78 +52,78 @@
     <module name="module 1">
 
       <node type="sensor" label="angular sensor 1">
-        <position x="2.0" y="1.0" z="0.5"/>
-        <transferfunction name="id"/>
-      </node>
-      <node type="sensor" label="contact sensor 1">
-        <position x="2.0" y="1.0" z="-0.5"/>
-        <transferfunction name="id"/>
-      </node>
-
-      <node type="sensor" label="angular sensor 2">
-        <position x="4.0" y="1.0" z="0.5"/>
-        <transferfunction name="id"/>
-      </node>
-      <node type="sensor" label="contact sensor 2">
-        <position x="4.0" y="1.0" z="-0.5"/>
-        <transferfunction name="id"/>
-      </node>
-
-      <node type="sensor" label="angular sensor 3">
         <position x="6.0" y="1.0" z="0.5"/>
         <transferfunction name="id"/>
       </node>
-      <node type="sensor" label="contact sensor 3">
+      <node type="sensor" label="contact sensor 1">
         <position x="6.0" y="1.0" z="-0.5"/>
         <transferfunction name="id"/>
       </node>
 
-      <node type="sensor" label="angular sensor 4">
+      <node type="sensor" label="angular sensor 2">
         <position x="8.0" y="1.0" z="0.5"/>
         <transferfunction name="id"/>
       </node>
-      <node type="sensor" label="contact sensor 4">
+      <node type="sensor" label="contact sensor 2">
         <position x="8.0" y="1.0" z="-0.5"/>
         <transferfunction name="id"/>
       </node>
 
-      <node type="sensor" label="angular sensor 5">
+      <node type="sensor" label="angular sensor 3">
         <position x="10.0" y="1.0" z="0.5"/>
         <transferfunction name="id"/>
       </node>
-      <node type="sensor" label="contact sensor 5">
+      <node type="sensor" label="contact sensor 3">
         <position x="10.0" y="1.0" z="-0.5"/>
         <transferfunction name="id"/>
       </node>
 
+      <node type="sensor" label="angular sensor 4">
+        <position x="12.0" y="1.0" z="0.5"/>
+        <transferfunction name="id"/>
+      </node>
+      <node type="sensor" label="contact sensor 4">
+        <position x="12.0" y="1.0" z="-0.5"/>
+        <transferfunction name="id"/>
+      </node>
+
+      <node type="sensor" label="angular sensor 5">
+        <position x="14.0" y="1.0" z="0.5"/>
+        <transferfunction name="id"/>
+      </node>
+      <node type="sensor" label="contact sensor 5">
+        <position x="14.0" y="1.0" z="-0.5"/>
+        <transferfunction name="id"/>
+      </node>
+
       <node type="actuator" label="actuator 1">
-        <position x="2.0" y="-1.0" z="0.0"/>
-        <transferfunction name="tanh"/>
-      </node>
-      <node type="actuator" label="actuator 2">
-        <position x="4.0" y="-1.0" z="0.0"/>
-        <transferfunction name="tanh"/>
-      </node>
-      <node type="actuator" label="actuator 3">
         <position x="6.0" y="-1.0" z="0.0"/>
         <transferfunction name="tanh"/>
       </node>
-      <node type="actuator" label="actuator 4">
+      <node type="actuator" label="actuator 2">
         <position x="8.0" y="-1.0" z="0.0"/>
         <transferfunction name="tanh"/>
       </node>
-      <node type="actuator" label="actuator 5">
+      <node type="actuator" label="actuator 3">
         <position x="10.0" y="-1.0" z="0.0"/>
+        <transferfunction name="tanh"/>
+      </node>
+      <node type="actuator" label="actuator 4">
+        <position x="12.0" y="-1.0" z="0.0"/>
+        <transferfunction name="tanh"/>
+      </node>
+      <node type="actuator" label="actuator 5">
+        <position x="14.0" y="-1.0" z="0.0"/>
         <transferfunction name="tanh"/>
       </node>
 
       <node type="input" label="input 1">
-        <position x="1.0" y="0.0" z="0.5"/>
+        <position x="5.0" y="0.0" z="0.5"/>
         <transferfunction name="tanh"/>
       </node>
 
       <node type="output" label="output 1">
-        <position x="1.0" y="0.0" z="-0.5"/>
+        <position x="5.0" y="0.0" z="-0.5"/>
         <transferfunction name="tanh"/>
       </node>
     </module>
@@ -136,6 +142,7 @@
       <translate x="0.0"   y="0.0"  z="0.0"/>
     </module>
 
+
     <module name="cpg">
 
       <node type="connector" label="module 1/input 1"/>
@@ -152,3 +159,4 @@
   </configuration>
 
 </nmode>
+
