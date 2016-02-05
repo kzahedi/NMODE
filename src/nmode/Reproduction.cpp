@@ -42,6 +42,7 @@ void Reproduction::reproduce()
   _population->incGeneration();
   _population->calculateNrOfOffspring();
   _population->serialise();
+  _population->plotLast();
 
   _parents.clear();
 

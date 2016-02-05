@@ -3,6 +3,7 @@
 #include "mutex.h"
 #include "Exporter.h"
 #include "Data.h"
+#include "Convert.h"
 
 #include <glog/logging.h>
 #include <unistd.h>
@@ -310,17 +311,12 @@ void Population::__plotData()
       if(y[i] < ymin) ymin = y[i];
     }
 
-    cout << "hier 0: " << xmin << " " << xmax << " " << ymin << " " << ymax << endl;
     plenv( xmin, xmax, ymin, ymax, 0, 0 );
-    cout << "hier 3" << endl;
 
-    cout << "hier 4" << endl;
     pllab( "generation", "fitness", "Best individual's fitness" );
-    cout << "hier 5" << endl;
 
     // Plot the data that was prepared above.
     plline( (int)_fitness.size(), x, y );
-    cout << "hier 6" << endl;
   }
 }
 #endif // USE_PLPLOT
@@ -365,4 +361,11 @@ void Population::setCurrentLogDir(string dir)
 void Population::setGeneration(int g)
 {
   _generation = g;
+}
+
+void Population::plotLast()
+{
+  cout << "converting " << _logDirectory << endl;
+  Convert::convertIndividual(_individuals[0]);
+  system("open out.html");
 }

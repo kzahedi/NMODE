@@ -35,6 +35,7 @@ set(SRC
 
   Evolve.cpp
   EvaluationParameter.cpp
+  Convert.cpp
 
   Population.cpp
   Individual.cpp

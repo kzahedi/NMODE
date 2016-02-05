@@ -11,6 +11,8 @@
 #define FORALLEDGES for(Edges::iterator e = m->e_begin(); e != m->e_end(); e++)
 #define FORALLNODES for(Nodes::iterator n = m->n_begin(); n != m->n_end(); n++)
 
+#define MIN_DIST 0.25
+
 #define LOG_MODULE \
   VLOG(50) << "     Module: " << m->name();\
   for(Nodes::iterator n = m->n_begin(); n != m->n_end(); n++) \
@@ -190,7 +192,6 @@ void Mutation::__mutateAddEdge(Module *m, double probability,
 
   double probabilities[m->n_size()][m->n_size()];
   double d   =  0.0;
-  double min = -1.0;
 
   for(int s_index = 0; s_index < m->n_size(); s_index++)
   {
@@ -217,14 +218,12 @@ void Mutation::__mutateAddEdge(Module *m, double probability,
           if(dst_node->contains(src_node) == false)
           {
             // USE FIXED PROBABILITY FOR ALL EDGES
-            probabilities[s_index][d_index] = 1.0;
-            // d  = DIST(src_node->position(), dst_node->position());
-            // probabilities[s_index][d_index] = d;
-            // if(min < 0.0) min = d; // first iteration
-            // if(min < d)   min = d;
-            // VLOG(50) << "    edge from "
-              // << src_node->label() << " to "
-              // << dst_node->label() << " does not exist. setting distance to " << d;
+            d = DIST(src_node->position(), dst_node->position());
+            if(d < MIN_DIST) d = 0;
+            probabilities[s_index][d_index] = exp(-d);
+            VLOG(50) << "    edge from "
+              << src_node->label() << " to "
+              << dst_node->label() << " does not exist. setting distance to " << d;
           }
         }
       }
@@ -238,7 +237,6 @@ void Mutation::__mutateAddEdge(Module *m, double probability,
     {
       if(probabilities[s_index][d_index] > 0.0)
       {
-        // probabilities[s_index][d_index] = min / probabilities[s_index][d_index];
         sum += probabilities[s_index][d_index];
       }
     }

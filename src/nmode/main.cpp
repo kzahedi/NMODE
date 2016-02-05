@@ -3,6 +3,7 @@
 #include <nmode/Exporter.h>
 #include <nmode/Random.h>
 #include <nmode/Evolve.h>
+#include <nmode/Convert.h>
 #include <nmode/RnnFromIndividual.h>
 
 #include <glog/logging.h>
@@ -22,49 +23,6 @@
 using namespace std;
 namespace po = boost::program_options;
 using namespace boost;
-
-
-void convert(int index, Individual* individual, string filename)
-{
-  stringstream sst;
-  string s = "out.html";
-
-  cout << "opening file " << s << endl;
-  std::ofstream ofs;
-  ofs.open(s, std::ofstream::out);
-  sst.str("");
-  sst << Exporter::toX3d(individual);
-  ofs << sst.str();
-  ofs.close();
-}
-
-void convert(int index, string filename)
-{
-  Data *data = Data::instance();
-  data->read(filename);
-  Population *pop = data->specification()->population();
-
-  if(index >= 0)
-  {
-    if(index > pop->i_size())
-    {
-      cout << "Individual index out of range [0, " << (pop->i_size() - 1) << "]" << endl;
-      exit(-1);
-    }
-
-    Individual *ind = pop->individual(index);
-    convert(index, ind, filename);
-  }
-  else
-  {
-    for(int i = 0; i < pop->i_size(); i++)
-    {
-      Individual *ind = pop->individual(i);
-      convert(i, ind, filename);
-    }
-  }
-}
-
 
 int main(int argc, char** argv)
 {
@@ -145,7 +103,7 @@ int main(int argc, char** argv)
   {
     if(vm.count("xml") > 0)
     {
-      convert(individual_index, xml);
+      Convert::convertXmlFile(individual_index, xml);
     };
     cerr << "please five xml filename" << endl;
     return 0;

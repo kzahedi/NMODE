@@ -25,7 +25,7 @@
   </evaluation>
 
   <reproduction>
-    <population   size="50"/>
+    <population   size="10"/>
     <selection    pressure="0.1"/>
     <reproduction pressure="2.1"/>
   </reproduction>

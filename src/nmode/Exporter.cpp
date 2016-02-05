@@ -46,6 +46,7 @@ string Exporter::toX3d(Individual *i)
   sst << "      </p> " << endl;
   sst << "      <x3d width='900px' height='700px'> " << endl;
   sst << "      <scene> " << endl;
+  // sst << "        <viewpoint id= \"front\" position=\"0 0 -20\" description=\"camera\"> </viewpoint>" << endl;
 
   Individual *ir = i->getRealisation();
 
