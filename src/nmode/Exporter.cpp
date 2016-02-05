@@ -1,4 +1,5 @@
 #include "Exporter.h"
+#include "Data.h"
 
 #include <sstream>
 #include <math.h>
@@ -46,7 +47,6 @@ string Exporter::toX3d(Individual *i)
   sst << "      </p> " << endl;
   sst << "      <x3d width='900px' height='700px'> " << endl;
   sst << "      <scene> " << endl;
-  // sst << "        <viewpoint id= \"front\" position=\"0 0 -20\" description=\"camera\"> </viewpoint>" << endl;
 
   Individual *ir = i->getRealisation();
 
@@ -91,6 +91,7 @@ string Exporter::toX3d(Node *n)
 {
   stringstream sst;
   P3D p = n->position();
+  p.z -= VIS->offset();
 
   if(n->type() == TAG_SENSOR)
   {
@@ -157,6 +158,11 @@ string Exporter::toX3d(Edge *e)
   {
     color = string("0 0 1");
   }
+
+  psrc.z    -= VIS->offset();
+  centre1.z -= VIS->offset();
+  centre2.z -= VIS->offset();
+  pdst.z    -= VIS->offset();
 
   sst << __cylinder(psrc,    centre2, "1 0 0");
   sst << __cylinder(centre1, centre2, "1 0 0");

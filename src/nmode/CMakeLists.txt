@@ -32,6 +32,7 @@ set(SRC
   CfgMutationNode.cpp
   CfgMutationEdge.cpp
   CfgEvaluation.cpp
+  CfgVisualisation.cpp
 
   Evolve.cpp
   EvaluationParameter.cpp

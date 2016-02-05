@@ -1,9 +1,14 @@
 <?xml version="1.0"?>
 <nmode version="0.0.2">
+
   <simulator
     wd="./experiments/w3irdo"
     xml="xml/w3irdo_angular.xml"
     nr="3"/>
+
+  <visualisation>
+    <offset value="30"/>
+  </visualisation>
 
   <evaluation module="W3irdo">
     <lifetime    iterations="500"/>

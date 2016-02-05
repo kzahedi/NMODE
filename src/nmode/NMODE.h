@@ -5,6 +5,7 @@
 #include "Version.h"
 
 #include "CfgReproduction.h"
+#include "CfgVisualisation.h"
 #include "CfgMutation.h"
 #include "CfgEvaluation.h"
 #include "Configuration.h"
@@ -39,25 +40,27 @@ class NMODE : public XsdParseNode
 
     static void createXsd(XsdSpecification *spec);
 
-    Simulator*       simulator();
-    CfgMutation*     mutation();
-    CfgEvaluation*   evaluation();
-    Configuration*   configuration();
-    Population*      population();
-    CfgReproduction* reproduction();
+    Simulator*        simulator();
+    CfgMutation*      mutation();
+    CfgEvaluation*    evaluation();
+    Configuration*    configuration();
+    Population*       population();
+    CfgReproduction*  reproduction();
+    CfgVisualisation* visualisation();
 
   private:
     void __getChild(ParseElement *element);
     void __applyConfigurationToModules();
 
-    Version          _version;
-    Simulator*       _simulator;
-    CfgMutation*     _mutation;
-    Configuration*   _configuration;
-    Population*      _population;
-    CfgEvaluation*   _evaluation;
-    CfgReproduction* _reproduction;
-    bool             _initialisationCompleted;
+    Version           _version;
+    Simulator*        _simulator;
+    CfgMutation*      _mutation;
+    Configuration*    _configuration;
+    Population*       _population;
+    CfgEvaluation*    _evaluation;
+    CfgReproduction*  _reproduction;
+    CfgVisualisation* _visualisation;
+    bool              _initialisationCompleted;
 
 };
 

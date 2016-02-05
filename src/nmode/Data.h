@@ -12,6 +12,7 @@
 #define REP Data::instance()->specification()->reproduction()
 #define SIM Data::instance()->specification()->simulator()
 #define EVA Data::instance()->specification()->evaluation()
+#define VIS Data::instance()->specification()->visualisation()
 
 using namespace std;
 
@@ -41,6 +42,8 @@ class Data : public Observer
     string __evolution();
     string __configuration();
     string __population();
+    string __visualisation();
+
     void   __writeCfg();
 
     static Data* _me;

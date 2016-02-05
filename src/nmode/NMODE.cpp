@@ -27,6 +27,7 @@ NMODE::NMODE(XsdParseNode *parent)
   _population    = NULL;
   _evaluation    = NULL;
   _reproduction  = NULL;
+  _visualisation = NULL;
 
   _initialisationCompleted = false;
 }
@@ -65,6 +66,7 @@ void NMODE::createXsd(XsdSpecification *spec)
   XsdSequence *_root = new XsdSequence(TAG_NMODE);
   _root->add(NA(TAG_VERSION,       TAG_VERSION_DEFINITION,       true));
   _root->add(NE(TAG_SIMULATOR,     TAG_SIMULATOR_DEFINITION,     1, 1));
+  _root->add(NE(TAG_VISUALISATION, TAG_VISUALISATION_DEFINITION, 1, 1));
   _root->add(NE(TAG_EVALUATION,    TAG_EVALUATION_DEFINITION,    1, 1));
   _root->add(NE(TAG_REPRODUCTION,  TAG_REPRODUCTION_DEFINITION,  1, 1));
   _root->add(NE(TAG_MUTATION,      TAG_MUTATION_DEFINITION,      1, 1));
@@ -78,6 +80,7 @@ void NMODE::createXsd(XsdSpecification *spec)
   spec->add(versionDefinition);
 
   CfgMutation::createXsd(spec);
+  CfgVisualisation::createXsd(spec);
   CfgEvaluation::createXsd(spec);
   Configuration::createXsd(spec);
   Population::createXsd(spec);
@@ -157,6 +160,14 @@ void NMODE::__getChild(ParseElement *element)
     if(_simulator != NULL) delete _simulator;
     _simulator = new Simulator(this);
     current = _simulator;
+    current->add(element);
+  }
+
+  if(element->opening(TAG_VISUALISATION))
+  {
+    if(_visualisation != NULL) delete _visualisation;
+    _visualisation = new CfgVisualisation(this);
+    current = _visualisation;
     current->add(element);
   }
 
@@ -262,8 +273,12 @@ CfgEvaluation* NMODE::evaluation()
   return _evaluation;
 }
 
-
 CfgReproduction* NMODE::reproduction()
 {
   return _reproduction;
+}
+
+CfgVisualisation* NMODE::visualisation()
+{
+  return _visualisation;
 }

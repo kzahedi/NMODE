@@ -19,6 +19,7 @@
 #define _REP  _root->reproduction()
 #define _MUTN _root->mutation()->node()
 #define _MUTE _root->mutation()->edge()
+#define _VIS  _root->visualisation()
 
 #define CFG "cfg.xml"
 
@@ -115,6 +116,15 @@ string Data::__simulator()
   return sst.str();
 }
 
+string Data::__visualisation()
+{
+  stringstream sst; 
+  sst << "  <visualisation>" << endl;
+  sst << "    <offset value=\""  << _VIS->offset() << "\"/>" << endl;
+  sst << "  </visualisation>" << endl;
+  return sst.str();
+}
+
 string Data::__evaluator()
 {
   stringstream sst; 
@@ -198,13 +208,14 @@ string Data::xml()
   stringstream sst;
 
   sst << "<?xml version=\"1.0\"?>" << endl << endl;
-  sst << "<nmode version=\""     << XmlChangeLog::version() << "\">" << endl;
-  sst << __simulator() << endl;
-  sst << __evaluator() << endl;
-  sst << __reproduction() << endl;
-  sst << __evolution() << endl;
+  sst << "<nmode version=\"" << XmlChangeLog::version() << "\">" << endl;
+  sst << __simulator()     << endl;
+  sst << __visualisation() << endl;
+  sst << __evaluator()     << endl;
+  sst << __reproduction()  << endl;
+  sst << __evolution()     << endl;
   sst << __configuration() << endl;
-  sst << __population() << endl;
+  sst << __population()    << endl;
   sst << "</nmode>" << endl;
   return sst.str();
 }
@@ -307,6 +318,7 @@ void Data::__writeCfg()
   output << "<?xml version=\"1.0\"?>" << endl << endl;
   output << "<nmode version=\""     << XmlChangeLog::version() << "\">" << endl;
   output << __simulator() << endl;
+  output << __visualisation() << endl;
   output << __evaluator() << endl;
   output << __reproduction() << endl;
   output << __evolution() << endl;
