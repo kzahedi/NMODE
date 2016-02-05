@@ -85,14 +85,14 @@ void Mutation::mutate(Module *m, CfgMutationNode *den, CfgMutationEdge *dee)
     __mutateModifyEdge(m, e->modifyProbability(),
                           e->modifyDelta(),
                           e->modifyMaxValue());
-    __mutateAddEdge(m,    e->addProbability(),
-                          e->addMaxValue());
     __mutateModifyNode(m, n->modifyProbability(),
                           n->modifyDelta(),
                           n->modifyMaxValue());
     __mutateDelNode(m,    n->delProbability());
     __mutateAddNode(m,    n->addProbability(),
                           n->addMaxValue());
+    __mutateAddEdge(m,    e->addProbability(),
+                          e->addMaxValue());
     __cleanup(m);
   }
   VLOG(50) << "<< mutate";
