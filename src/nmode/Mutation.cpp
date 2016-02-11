@@ -76,7 +76,8 @@ void Mutation::mutate(Module *m, CfgMutationNode *den, CfgMutationEdge *dee)
   }
 
   int attemps = 0;
-  while(m->modified() == false && attemps < 100)
+  m->setModified(false);
+  while(m->modified() == false && attemps < 10000)
   {
     attemps++;
     VLOG(50) << "### BEFORE MUTATION";
