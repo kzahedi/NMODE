@@ -1,0 +1,804 @@
+<?xml version="1.0"?>
+
+<rosiml version="0.8.38">
+
+  <simulator frequency="100">
+    <solver  iterations="100"/>
+    <!-- <control reset="1000000"/> -->
+    <!-- <control iterations="1000"/> -->
+  </simulator>
+
+  <screens>
+    <screen name="w3irdo evolution" show="true" follow="true" capture="false">
+      <size   width="400" height="300"/>
+      <camera>
+        <position x="9.00" y="0.00" z="6.0"/>
+        <lookAt   x="0.0"  y="0.0"  z="1.0"/>
+      </camera>
+      <osd>
+        <time  font="Time"  size="25" colour="FFFF00"/>
+        <robot font="Robot" size="25" colour="FFFFFF"/>
+      </osd>
+    </screen>
+    <cameras>
+      <orbit speed="0.25">
+        <lookAtX p="0.9" i="0.0" d="0.0"/>
+        <lookAtY p="0.9" i="0.0" d="0.0"/>
+        <lookAtZ p="0.0" i="0.0" d="0.0"/>
+        <fromX   p="0.9" i="0.0" d="0.0"/>
+        <fromY   p="0.9" i="0.0" d="0.0"/>
+        <fromZ   p="0.0" i="0.0" d="0.0"/>
+      </orbit>
+      <!-- <centre speed="1.5"/> -->
+    </cameras>
+
+    <followables>
+      <followable name="main body"/>
+    </followables>
+    <!-- <recording> -->
+      <!-- <interval start="0"    end="100"/> -->
+    <!-- </recording> -->
+  </screens>
+
+  <environment>
+
+    <gravitation x="0.0" y="0.0" z="-9.81"/>
+
+    <ground fixed="true" fog="false">
+      <visualisation>
+        <texture name="YARS/DryGroundSmall"/>
+      </visualisation>
+    </ground>
+
+    <ply name="ring" filename="data/weird_ring.ply">
+      <pose x="0.0" y="0.0" z="0.0"/>
+      <visualisation>
+        <mesh name="BorderMesh.mesh">
+          <pose  x="0.0" y="0.0" z="0.0"/>
+        </mesh>
+      </visualisation>
+      <physics>
+        <mass kg="0"/>
+        <friction value="10"/>
+      </physics>
+    </ply>
+
+    <ply name="ring 2" filename="data/weird_ring_2.ply">
+      <pose x="0.0" y="0.0" z="0.0"/>
+      <visualisation>
+        <mesh name="Border_2_Mesh.mesh">
+          <pose  x="0.0" y="0.0" z="0.0"/>
+        </mesh>
+      </visualisation>
+      <physics>
+        <mass kg="0"/>
+        <friction value="10"/>
+      </physics>
+    </ply>
+
+
+  </environment>
+
+  <robots>
+    <robot name="w3irdo">
+      <body selfCollide="true">
+
+        <ply name="main body" filename="data/weird_main_body.ply">
+          <pose x="0.0" y="0.0" z="0.125"/>
+          <visualisation>
+            <mesh name="Weird_Main_Body_Mesh.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg="1"/>
+            <friction value="10"/>
+          </physics>
+        </ply>
+
+
+        <ply name="leg 1 segment 1" filename="data/weird_leg_segment.ply">
+          <pose x="0.866025" y="-0.50000" z="0.125" gamma="-120.0"/>
+          <visualisation>
+            <mesh name="Leg_1_Segment_1_Mesh.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg="0.5"/>
+            <friction value="0.1"/>
+          </physics>
+        </ply>
+        <ply name="leg 1 segment 2" filename="data/weird_leg_segment.ply">
+          <pose x="1.73205" y="-1.00000" z="0.125" gamma="-120.0"/>
+          <visualisation>
+            <mesh name="Leg_1_Segment_2_Mesh.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg="0.5"/>
+            <friction value="0.1"/>
+          </physics>
+        </ply>
+        <ply name="leg 1 segment 3" filename="data/weird_leg_segment.ply">
+          <pose x="2.598075" y="-1.50000" z="0.125" gamma="-120.0"/>
+          <visualisation>
+            <mesh name="Leg_1_Segment_3_Mesh.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg="0.5"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+
+        <ply name="leg 1 wing 2" filename="data/weird_wing_segment.ply">
+          <pose x="2.348073" y="-1.933016" z="0.125" gamma="-30.0"/>
+          <visualisation>
+            <mesh name="Leg_1_Wing_2_Mesh.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg="0.5"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+
+        <ply name="leg 1 wing 1" filename="data/weird_wing_segment.ply">
+          <pose x="2.848074" y="-1.066991" z="0.125" gamma="150.0"/>
+          <visualisation>
+            <mesh name="Leg_1_Wing_1_Mesh.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg="0.5"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+
+
+
+
+        <ply name="leg 2 segment 1" filename="data/weird_leg_segment.ply">
+          <pose x="0.0" y="1.00000" z="0.125"/>
+          <visualisation>
+            <mesh name="Leg_2_Segment_1_Mesh.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg="0.5"/>
+            <friction value="0.1"/>
+          </physics>
+        </ply>
+        <ply name="leg 2 segment 2" filename="data/weird_leg_segment.ply">
+          <pose x="0.0" y="2.00000" z="0.125"/>
+          <visualisation>
+            <mesh name="Leg_2_Segment_2_Mesh.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg="0.5"/>
+            <friction value="0.1"/>
+          </physics>
+        </ply>
+        <ply name="leg 2 segment 3" filename="data/weird_leg_segment.ply">
+          <pose x="0.0" y="3.0" z="0.125"/>
+          <visualisation>
+            <mesh name="Leg_2_Segment_3_Mesh.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg="0.5"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+        <ply name="leg 2 wing 2" filename="data/weird_wing_segment.ply">
+          <pose x="0.5" y="3.0" z="0.125" gamma="90.0"/>
+          <visualisation>
+            <mesh name="Leg_2_Wing_2_Mesh.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg="0.5"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+        <ply name="leg 2 wing 1" filename="data/weird_wing_segment.ply">
+          <pose x="-0.5" y="3.0" z="0.125" gamma="-90.0"/>
+          <visualisation>
+            <mesh name="Leg_2_Wing_1_Mesh.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg="0.5"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+
+
+
+
+        <ply name="leg 3 segment 1" filename="data/weird_leg_segment.ply">
+          <pose x="-0.866025" y="-0.5" z="0.125" gamma="120"/>
+          <visualisation>
+            <mesh name="Leg_3_Segment_1_Mesh.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg="0.5"/>
+            <friction value="0.1"/>
+          </physics>
+        </ply>
+        <ply name="leg 3 segment 2" filename="data/weird_leg_segment.ply">
+          <pose x="-1.73205" y="-1.00000" z="0.125" gamma="120"/>
+          <visualisation>
+            <mesh name="Leg_3_Segment_2_Mesh.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg="0.5"/>
+            <friction value="0.1"/>
+          </physics>
+        </ply>
+        <ply name="leg 3 segment 3" filename="data/weird_leg_segment.ply">
+          <pose x="-2.598075" y="-1.5" z="0.125" gamma="120"/>
+          <visualisation>
+            <mesh name="Leg_3_Segment_3_Mesh.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg="0.5"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+        <ply name="leg 3 wing 2" filename="data/weird_wing_segment.ply">
+          <pose x="-2.848076" y="-1.066989" z="0.125" gamma="-150.0"/>
+          <visualisation>
+            <mesh name="Leg_3_Wing_2_Mesh.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg="0.5"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+        <ply name="leg 3 wing 1" filename="data/weird_wing_segment.ply">
+          <pose x="-2.348075" y="-1.933014" z="0.125" gamma="30.0"/>
+          <visualisation>
+            <mesh name="Leg_3_Wing_1_Mesh.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg="0.5"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+
+      </body>
+
+      <actuators>
+        <hinge name="leg 1 hinge 1" type="angular" mode="active">
+          <source      name="leg 1 segment 1"/>
+          <destination name="main body"/>
+          <force       max="50.0"/>
+          <velocity    max="2.0"/>
+          <pose        x="0.0" y="-0.5" z="0.0" beta="90"/>
+          <deflection  min="-60" max="60"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="1.0" i="0.0" d="0.0" size="1"/>
+        </hinge>
+
+        <hinge name="leg 1 hinge 2" type="angular" mode="active">
+          <source      name="leg 1 segment 1"/>
+          <destination name="leg 1 segment 2"/>
+          <force       max="50.0"/>
+          <velocity    max="2.0"/>
+          <pose        x="0.0" y="0.5" z="0.0"/>
+          <deflection  min="-80" max="80"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="1.0" i="0.0" d="0.0" size="1"/>
+        </hinge>
+        <hinge name="leg 1 hinge 3" type="angular" mode="active">
+          <source      name="leg 1 segment 2"/>
+          <destination name="leg 1 segment 3"/>
+          <force       max="50.0"/>
+          <velocity    max="2.0"/>
+          <pose        x="0.0" y="0.5" z="0.0"/>
+          <deflection  min="-80" max="80"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="1.0" i="0.0" d="0.0" size="1"/>
+        </hinge>
+        <hinge name="leg 1 hinge 4" type="angular" mode="active">
+          <source      name="leg 1 wing 2"/>
+          <destination name="leg 1 segment 3"/>
+          <force       max="50.0"/>
+          <velocity    max="2.0"/>
+          <pose        x="0.0" y="0.222522" z="-0.026291"/>
+          <deflection  min="-80" max="80"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="1.0" i="0.0" d="0.0" size="1"/>
+        </hinge>
+        <hinge name="leg 1 hinge 5" type="angular" mode="active">
+          <source      name="leg 1 wing 1"/>
+          <destination name="leg 1 segment 3"/>
+          <force       max="50.0"/>
+          <velocity    max="2.0"/>
+          <pose        x="0.0" y="0.222522" z="-0.026291"/>
+          <deflection  min="-80" max="80"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="1.0" i="0.0" d="0.0" size="1"/>
+        </hinge>
+
+        <hinge name="leg 2 hinge 1" type="angular" mode="active">
+          <source      name="leg 2 segment 1"/>
+          <destination name="main body"/>
+          <force       max="50.0"/>
+          <velocity    max="2.0"/>
+          <pose        x="0.0" y="-0.5" z="0.0" beta="-90"/>
+          <deflection  min="-60" max="60"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="1.0" i="0.0" d="0.0" size="1"/>
+        </hinge>
+        <hinge name="leg 2 hinge 2" type="angular" mode="active">
+          <source      name="leg 2 segment 1"/>
+          <destination name="leg 2 segment 2"/>
+          <force       max="50.0"/>
+          <velocity    max="2.0"/>
+          <pose        x="0.0" y="0.5" z="0.0"/>
+          <deflection  min="-80" max="80"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="1.0" i="0.0" d="0.0" size="1"/>
+        </hinge>
+        <hinge name="leg 2 hinge 3" type="angular" mode="active">
+          <source      name="leg 2 segment 2"/>
+          <destination name="leg 2 segment 3"/>
+          <force       max="50.0"/>
+          <velocity    max="2.0"/>
+          <pose        x="0.0" y="0.5" z="0.0"/>
+          <deflection  min="-80" max="80"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="1.0" i="0.0" d="0.0" size="1"/>
+        </hinge>
+        <hinge name="leg 2 hinge 4" type="angular" mode="active">
+          <source      name="leg 2 wing 2"/>
+          <destination name="leg 2 segment 3"/>
+          <force       max="50.0"/>
+          <velocity    max="2.0"/>
+          <pose        x="0.0" y="0.222522" z="-0.026291"/>
+          <deflection  min="-80" max="80"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="1.0" i="0.0" d="0.0" size="1"/>
+        </hinge>
+        <hinge name="leg 2 hinge 5" type="angular" mode="active">
+          <source      name="leg 2 wing 1"/>
+          <destination name="leg 2 segment 3"/>
+          <force       max="50.0"/>
+          <velocity    max="2.0"/>
+          <pose        x="0.0" y="0.222522" z="-0.026291"/>
+          <deflection  min="-80" max="80"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="1.0" i="0.0" d="0.0" size="1"/>
+        </hinge>
+
+        <hinge name="leg 3 hinge 1" type="angular" mode="active">
+          <source      name="leg 3 segment 1"/>
+          <destination name="main body"/>
+          <force       max="50.0"/>
+          <velocity    max="2.0"/>
+          <pose        x="0.0" y="-0.5" z="0.0" beta="90"/>
+          <deflection  min="-60" max="60"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="1.0" i="0.0" d="0.0" size="1"/>
+        </hinge>
+        <hinge name="leg 3 hinge 2" type="angular" mode="active">
+          <source      name="leg 3 segment 1"/>
+          <destination name="leg 3 segment 2"/>
+          <force       max="50.0"/>
+          <velocity    max="2.0"/>
+          <pose        x="0.0" y="0.5" z="0.0"/>
+          <deflection  min="-80" max="80"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="1.0" i="0.0" d="0.0" size="1"/>
+        </hinge>
+        <hinge name="leg 3 hinge 3" type="angular" mode="active">
+          <source      name="leg 3 segment 2"/>
+          <destination name="leg 3 segment 3"/>
+          <force       max="50.0"/>
+          <velocity    max="2.0"/>
+          <pose        x="0.0" y="0.5" z="0.0"/>
+          <deflection  min="-80" max="80"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="1.0" i="0.0" d="0.0" size="1"/>
+        </hinge>
+        <hinge name="leg 3 hinge 4" type="angular" mode="active">
+          <source      name="leg 3 wing 2"/>
+          <destination name="leg 3 segment 3"/>
+          <force       max="50.0"/>
+          <velocity    max="2.0"/>
+          <pose        x="0.0" y="0.222522" z="-0.026291"/>
+          <deflection  min="-80" max="80"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="1.0" i="0.0" d="0.0" size="1"/>
+        </hinge>
+        <hinge name="leg 3 hinge 5" type="angular" mode="active">
+          <source      name="leg 3 wing 1"/>
+          <destination name="leg 3 segment 3"/>
+          <force       max="50.0"/>
+          <velocity    max="2.0"/>
+          <pose        x="0.0" y="0.222522" z="-0.026291"/>
+          <deflection  min="-80" max="80"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="1.0" i="0.0" d="0.0" size="1"/>
+        </hinge>
+
+      </actuators>
+
+      <sensors>
+
+        <deflection name="leg 1 hinge 1 sensor">
+          <object   name="leg 1 hinge 1"/>
+          <domain   min="-45" max="45"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+
+        <deflection name="leg 1 hinge 2 sensor">
+          <object   name="leg 1 hinge 2"/>
+          <domain   min="-45" max="45"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+
+        <deflection name="leg 1 hinge 3 sensor">
+          <object   name="leg 1 hinge 3"/>
+          <domain   min="-45" max="45"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+
+        <deflection name="leg 1 hinge 4 sensor">
+          <object   name="leg 1 hinge 4"/>
+          <domain   min="-45" max="45"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+
+        <deflection name="leg 1 hinge 5 sensor">
+          <object   name="leg 1 hinge 5"/>
+          <domain   min="-45" max="45"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+
+
+
+        <deflection name="leg 2 hinge 1 sensor">
+          <object   name="leg 2 hinge 1"/>
+          <domain   min="-45" max="45"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+
+        <deflection name="leg 2 hinge 2 sensor">
+          <object   name="leg 2 hinge 2"/>
+          <domain   min="-45" max="45"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+
+        <deflection name="leg 2 hinge 3 sensor">
+          <object   name="leg 2 hinge 3"/>
+          <domain   min="-45" max="45"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+
+        <deflection name="leg 2 hinge 4 sensor">
+          <object   name="leg 2 hinge 4"/>
+          <domain   min="-45" max="45"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+
+        <deflection name="leg 2 hinge 5 sensor">
+          <object   name="leg 2 hinge 5"/>
+          <domain   min="-45" max="45"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+
+
+
+        <deflection name="leg 3 hinge 1 sensor">
+          <object   name="leg 3 hinge 1"/>
+          <domain   min="-45" max="45"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+
+        <deflection name="leg 3 hinge 2 sensor">
+          <object   name="leg 3 hinge 2"/>
+          <domain   min="-45" max="45"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+
+        <deflection name="leg 3 hinge 3 sensor">
+          <object   name="leg 3 hinge 3"/>
+          <domain   min="-45" max="45"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+
+        <deflection name="leg 3 hinge 4 sensor">
+          <object   name="leg 3 hinge 4"/>
+          <domain   min="-45" max="45"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+
+        <deflection name="leg 3 hinge 5 sensor">
+          <object   name="leg 3 hinge 5"/>
+          <domain   min="-45" max="45"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+
+        <binaryContact name="main body contact">
+          <object name="main body"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
+        <position name="main body position">
+          <object name="main body"/>
+          <coordinates x="true" y="true" z="true"/>
+        </position>
+
+      </sensors>
+
+      <controller module="TCPIP" frequency="10">
+        <parameter name="port" value="4500"/>
+      </controller>
+
+      <!-- <controller module="Sinus" frequency="100"> -->
+        <!-- </controller> -->
+
+      <!-- <parameter name="use log file"   value="false"/> -->
+      <!-- <parameter name="use sensor log file"   value="false"/> -->
+      <!-- <parameter name="amplitude"       value="2.0"/> -->
+      <!-- <parameter name="period"          value="100"/> -->
+      <!-- <parameter name="phase shift 1"   value="0.0"/> -->
+      <!-- <parameter name="phase shift 2"   value="4.71238898"/> -->
+      <!-- <parameter name="phase shift 3"   value="3.141592654"/> -->
+      <!-- <parameter name="phase shift 4"   value="1.570796327"/> -->
+      <!-- <parameter name="phase shift 5"   value="3.141592654"/> -->
+      <!-- <parameter name="phase shift 6"   value="1.570796327"/> -->
+      <!-- <parameter name="phase shift 7"   value="0.0"/> -->
+      <!-- <parameter name="phase shift 8"   value="4.71238898"/> -->
+      <!-- <parameter name="phase shift 9"   value="0.0"/> -->
+      <!-- <parameter name="phase shift 10"  value="4.71238898"/> -->
+      <!-- <parameter name="phase shift 11"  value="3.141592654"/> -->
+      <!-- <parameter name="phase shift 12"  value="1.570796327"/> -->
+      <!-- <parameter name="phase shift 13"  value="0.0"/> -->
+      <!-- <parameter name="phase shift 14"  value="4.71238898"/> -->
+      <!-- <parameter name="phase shift 15"  value="3.141592654"/> -->
+
+
+      <!-- <parameter name="amplitude 1"     value="1.0"/> -->
+      <!-- <parameter name="amplitude 2"     value="1.0"/> -->
+      <!-- <parameter name="amplitude 3"     value="1.0"/> -->
+      <!-- <parameter name="amplitude 4"     value="1.0"/> -->
+      <!-- <parameter name="amplitude 5"     value="1.0"/> -->
+      <!-- <parameter name="amplitude 6"     value="1.0"/> -->
+      <!-- <parameter name="amplitude 7"     value="1.0"/> -->
+      <!-- <parameter name="amplitude 8"     value="1.0"/> -->
+      <!-- <parameter name="amplitude 9"     value="1.0"/> -->
+      <!-- <parameter name="amplitude 10"    value="1.0"/> -->
+      <!-- <parameter name="amplitude 11"    value="1.0"/> -->
+      <!-- <parameter name="amplitude 12"    value="1.0"/> -->
+      <!-- <parameter name="amplitude 13"    value="1.0"/> -->
+      <!-- <parameter name="amplitude 14"    value="1.0"/> -->
+      <!-- <parameter name="amplitude 15"    value="1.0"/> -->
+
+      <!-- <parameter name="period 1"        value="10"/> -->
+      <!-- <parameter name="period 2"        value="10"/> -->
+      <!-- <parameter name="period 3"        value="10"/> -->
+      <!-- <parameter name="period 4"        value="10"/> -->
+      <!-- <parameter name="period 5"        value="10"/> -->
+      <!-- <parameter name="period 6"        value="10"/> -->
+      <!-- <parameter name="period 7"        value="10"/> -->
+      <!-- <parameter name="period 8"        value="10"/> -->
+      <!-- <parameter name="period 9"        value="10"/> -->
+      <!-- <parameter name="period 10"       value="10"/> -->
+      <!-- <parameter name="period 11"       value="10"/> -->
+      <!-- <parameter name="period 12"       value="10"/> -->
+      <!-- <parameter name="period 13"       value="10"/> -->
+      <!-- <parameter name="period 14"       value="10"/> -->
+      <!-- <parameter name="period 15"       value="10"/> -->
+
+      <!-- <parameter name="switch time"     value="100000000000000"/> -->
+      <!-- <parameter name="mode"            value="recording"/> -->
+
+      <!-- </controller> -->
+
+  </robot>
+
+</robots>
+
+<!-- <traces> -->
+    <!-- <trace  target="main body" length="5" max="300" time="5" particles="false"> -->
+      <!-- <init  colour="ff0000"    size="0.01"/> -->
+      <!-- <final colour="ff000000"  size="0.00"/> -->
+      <!-- </trace> -->
+    <!-- <trace  target="wheel right" length="5" max="200" time="5" particles="false"> -->
+      <!-- <init  colour="00ff00"    size="0.01"/> -->
+      <!-- <final colour="00ff0000"  size="0.00"/> -->
+      <!-- </trace> -->
+    <!-- <trace  target="wheel left" length="5" max="100" time="5" particles="false"> -->
+      <!-- <init  colour="0000ff"    size="0.01"/> -->
+      <!-- <final colour="0000ff00"  size="0.00"/> -->
+      <!-- </trace> -->
+    <!-- </traces> -->
+
+  <logging>
+    <!-- <object   target="main body"   precision="8"> <use value="x"/> <use value="y"/> </object> -->
+    <!-- <object   target="wheel left"  precision="8"> <use value="x"/> <use value="y"/> </object> -->
+    <!-- <object   target="wheel right" precision="8"> <use value="x"/> <use value="y"/> </object> -->
+    <!-- <sensor target="right 1" precision="8"> <external/> </sensor> -->
+    <!-- <sensor target="right 2" precision="8"> <external/> </sensor> -->
+    <!-- <sensor target="right 3" precision="8"> <external/> </sensor> -->
+    <!-- <sensor target="left 1"  precision="8"> <external/> </sensor> -->
+    <!-- <sensor target="left 2"  precision="8"> <external/> </sensor> -->
+    <!-- <sensor target="left 3"  precision="8"> <external/> </sensor> -->
+
+    <!-- <sensor   target="right wheel hinge sensor" precision="8"> <external/> <internal/>      </sensor> -->
+    <!-- <sensor   target="main body velocity" precision="8"> <external/> </sensor> -->
+    <!-- <sensor   target="main body angular velocity" precision="8"> <external/> </sensor> -->
+    <!-- <sensor   target="main body position" precision="8"> <external/> </sensor> -->
+
+    <!-- <actuator target="wheel left hinge" precision="8"> <internal/> <external/> <appliedForce/> <appliedVelocity/> </actuator> -->
+    <!-- <actuator target="wheel right hinge" precision="8"> <internal/> <external/> <appliedForce/> <appliedVelocity/> </actuator> -->
+
+    <!-- <controller target="BraitenbergSixInputs" precision="4"> -->
+      <!--   <use value="left"/> -->
+      <!--   <use value="right"/> -->
+      <!--   <use value="m"/> -->
+      <!-- </controller> -->
+    <!-- <console> -->
+      <!--   <target name="main body"/>  -->
+      <!-- <target name="wheel left hinge"/>  -->
+      <!-- <target name="wheel right hinge"/>  -->
+      <!-- <target name="right 1"/>  -->
+      <!-- <target name="right 2"/>  -->
+      <!-- <target name="right 3"/>  -->
+      <!-- <target name="left 1"/>  -->
+      <!-- <target name="left 2"/>  -->
+      <!-- <target name="left 3"/>  -->
+      <!-- <target name="right wheel hinge sensor"/>  -->
+      <!-- <target name="left wheel hinge sensor"/>  -->
+      <!-- <target name="wheel left hinge"/>  -->
+      <!-- <target name="wheel right hinge"/>  -->
+      <!--   <target name="BraitenbergSixInputs"/>  -->
+      <!-- </console> -->
+
+    <!-- <console> -->
+      <!--   <target name="BraitenbergSixInputs"/>  -->
+      <!-- </console> -->
+
+    <!-- <console> -->
+      <!-- <target name="main body velocity"/>  -->
+      <!-- <target name="main body angular velocity"/>  -->
+      <!-- <target name="main body position"/>  -->
+      <!-- </console> -->
+
+    <!-- <console> -->
+      <!--   <target name="main body"/>  -->
+      <!-- </console> -->
+
+    <!-- <gnuplot size="10000" delay="100" pairwise="true"> -->
+      <!--   <target name="wheel left"/>  -->
+      <!--   <target name="wheel right"/>  -->
+      <!-- </gnuplot> -->
+
+    <!-- <gnuplot size="10000" delay="100" pairwise="false"> -->
+      <!--   <target name="wheel left"/>  -->
+      <!--   <target name="wheel right"/>  -->
+      <!-- </gnuplot> -->
+
+    <!-- <gnuplot name="braitenberg sensors" size="10000" delay="100"> -->
+      <!-- <target name="right 1"/>  -->
+      <!-- <target name="left 1"/>  -->
+      <!-- <target name="wheel left hinge"/>  -->
+      <!-- <target name="wheel right hinge"/>  -->
+      <!--   <target name="BraitenbergSixInputs"/>  -->
+      <!-- </gnuplot> -->
+
+    <!-- <gnuplot name="braitenberg sensors" size="5" delay="50" term="aqua"> -->
+      <!--   <target name="right 1"/>  -->
+      <!--   <target name="left 1"/>  -->
+      <!--   <target name="wheel left hinge"/>  -->
+      <!--   <target name="wheel right hinge"/>  -->
+      <!-- </gnuplot> -->
+
+    <!-- <selforg name="braitenberg sensors"  -->
+      <!--          file="true" -->
+      <!--          filename="bb" -->
+      <!--          guilogger="true" -->
+      <!--          matrixviz="true"> -->
+      <!--   <guilogger stepsize="100"/> -->
+      <!--   <matrixviz stepsize="1"/> -->
+      <!--   <target name="right 1"/>  -->
+      <!--   <target name="left 1"/>  -->
+      <!--   <target name="wheel left hinge"/>  -->
+      <!--   <target name="wheel right hinge"/>  -->
+      <!--   <target name="BraitenbergSixInputs"/>  -->
+      <!-- </selforg> -->
+
+    <!-- <file name="braitenberg"> -->
+      <!--   <target name="main body"/>  -->
+      <!--   <target name="wheel left"/>  -->
+      <!--   <target name="wheel right"/>  -->
+      <!--   <target name="right 1"/>  -->
+      <!--   <target name="wheel left hinge"/>  -->
+      <!--   <target name="wheel right hinge"/>  -->
+      <!--   <target name="BraitenbergSixInputs"/>  -->
+      <!-- </file> -->
+
+    <!-- <file name="braitenberg-log" date="false"> -->
+      <!--   <target name="main body"/>  -->
+      <!-- </file> -->
+
+    <!-- <file name="braitenberg" date="true"> -->
+      <!--   <target name="main body not found"/>  -->
+      <!-- </file> -->
+
+    <!-- <blender name="braitenberg_blender.csv" cfg="braitenberg_blender.cfg" framerate="10"/> -->
+    <!-- <blender name="braitenberg_blender.txt"/> -->
+
+  </logging>
+</rosiml>
+
