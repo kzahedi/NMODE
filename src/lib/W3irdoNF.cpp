@@ -30,6 +30,14 @@ W3irdoNF::W3irdoNF()
 
 void W3irdoNF::updateController()
 {
+  if(_lastSensorReading.size() == 0)
+  {
+    _lastSensorReading.resize(sensorValues.size());
+    for(int i = 0; i < (int)sensorValues.size(); i++)
+    {
+      _lastSensorReading[i] = sensorValues[i];
+    }
+  }
   for(int i = 0; i < (int)networkInput.size(); i++)
   {
     networkInput[i] = sensorValues[i];
@@ -53,6 +61,13 @@ void W3irdoNF::updateFitnessFunction()
   _y       = sensorValues[17];
   _dist    = sqrt(_x * _x + _y * _y);
   fitness += _distFactor * _dist;
+  for(int i = 0; i < (int)_lastSensorReading.size(); i++)
+  {
+    if(sensorValues[i] * _lastSensorReading[i] < 0)
+    {
+      fitness -= _oscillationFactor;
+    }
+  }
 }
 
 bool W3irdoNF::abort()
@@ -64,12 +79,13 @@ void W3irdoNF::newIndividual()
 {
   stringstream sst;
 
-  EVA->set("bins",             _bins,                  30);
-  EVA->set("distance factor",  _distFactor,            1.0);
-  EVA->set("entropy factor",   _itFactor,              1.0);
-  EVA->set("container offset", _containerOffset,       1);
-  EVA->set("combination type", _combinationTypeString, "add");
-  EVA->set("measure",          _measure,               "PI");
+  EVA->set("bins",               _bins,                  30);
+  EVA->set("distance factor",    _distFactor,            1.0);
+  EVA->set("entropy factor",     _itFactor,              1.0);
+  EVA->set("oscillation factor", _oscillationFactor,     0.0);
+  EVA->set("container offset",   _containerOffset,       1);
+  EVA->set("combination type",   _combinationTypeString, "add");
+  EVA->set("measure",            _measure,               "PI");
 
   if(_combinationTypeString == "add")  _combinationType = ADD;
   if(_combinationTypeString == "mul")  _combinationType = MUL;

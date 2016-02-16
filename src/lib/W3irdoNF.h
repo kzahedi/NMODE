@@ -26,6 +26,7 @@ class W3irdoNF : public Evaluate
     double               _dist;
     double               _distFactor;
     double               _itFactor;
+    double               _oscillationFactor;
     int                  _bins;
     int                  _containerOffset;
     int                  _combinationType;
@@ -34,4 +35,5 @@ class W3irdoNF : public Evaluate
     int                  _measureType;
     vector<Container*>   _containers;
     vector<vector<int> > _containerIndices;
+    vector<double>       _lastSensorReading;
 };
