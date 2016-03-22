@@ -25,6 +25,9 @@ class CfgMutationEdge : public XsdParseNode
     double addProbability();
     double addMaxValue();
 
+    double selfProbability();
+    double selfMaxValue();
+
     double delProbability();
 
     CfgMutationEdge* copy();
@@ -32,12 +35,13 @@ class CfgMutationEdge : public XsdParseNode
     friend std::ostream& operator<<(std::ostream& str, const CfgMutationEdge& e)
     {
       str << "Edge mutation parameters: " << endl;
-      str << "  Mod probability " << e._modifyProbability << endl;
-      str << "  Mod max value:  " << e._modifyMaxValue    << endl;
-      str << "  Mod delta:      " << e._modifyDelta       << endl;
-      str << "  Add prob:       " << e._addProbability    << endl;
-      str << "  Add max value:  " << e._addProbability    << endl;
-      str << "  Del prob:       " << e._delProbability    << endl;
+      str << "  Mod probability   " << e._modifyProbability << endl;
+      str << "  Mod max value:    " << e._modifyMaxValue    << endl;
+      str << "  Mod delta:        " << e._modifyDelta       << endl;
+      str << "  Add prob:         " << e._addProbability    << endl;
+      str << "  Add self-coupling " << e._addSelfcoupling   << endl;
+      str << "  Add max value:    " << e._addProbability    << endl;
+      str << "  Del prob:         " << e._delProbability    << endl;
       return str;
     };
 
@@ -49,6 +53,9 @@ class CfgMutationEdge : public XsdParseNode
 
     double _addProbability;
     double _addMaxValue;
+
+    double _addSelfcoupling;
+    double _maxSelfcoupling;
 
     double _delProbability;
 

@@ -23,6 +23,7 @@ class Mutation
     void __mutateDelEdge(Module*,    double);
     void __mutateModifyEdge(Module*, double, double, double);
     void __mutateAddEdge(Module*,    double, double);
+    void __mutateAddSelf(Module*,    double, double);
     void __mutateAddNode(Module*,    double, double);
     void __mutateModifyNode(Module*, double, double, double);
     void __mutateDelNode(Module*,    double);

@@ -171,8 +171,8 @@ string Data::__evolution()
   sst << "      <modify probability=\"" << _MUTN->modifyProbability() << "\" "
     << "maximum=\"" << _MUTE->modifyMaxValue() << "\" "
     << "delta=\""   << _MUTE->modifyDelta() << "\"/>" << endl;
-  sst << "      <add    probability=\"" << _MUTE->addProbability() << "\" "
-    << "maximum=\"" << _MUTE->addMaxValue() << "\"/>" << endl;
+  sst << "      <add    probability=\"" << _MUTE->addProbability()  << "\" " << "maximum=\"" << _MUTE->addMaxValue()  << "\"/>" << endl;
+  sst << "      <self   probability=\"" << _MUTE->selfProbability() << "\" " << "maximum=\"" << _MUTE->selfMaxValue() << "\"/>" << endl;
   sst << "      <delete probability=\"" << _MUTE->delProbability() << "\"/>" << endl;
   sst << "    </edge>" << endl;
   sst << "  </mutation>" << endl;

@@ -47,6 +47,7 @@
     <edge>
       <modify probability="0.90" maximum="5.0" delta="0.5"/>
       <add    probability="0.90" maximum="1.0"/>
+      <self   probability="0.10" maximum="1.0"/>
       <delete probability="0.50"/>
     </edge>
   </mutation>

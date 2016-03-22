@@ -59,7 +59,7 @@
       </visualisation>
       <physics>
         <mass kg="0"/>
-        <friction value="10"/>
+        <friction value="0.1"/>
       </physics>
     </ply>
 
@@ -72,7 +72,7 @@
       </visualisation>
       <physics>
         <mass kg="0"/>
-        <friction value="10"/>
+        <friction value="0.1"/>
       </physics>
     </ply>
 
@@ -92,7 +92,7 @@
           </visualisation>
           <physics>
             <mass kg="1"/>
-            <friction value="10"/>
+            <friction value="0.1"/>
           </physics>
         </ply>
 
@@ -130,7 +130,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="1.0"/>
+            <friction value="0.1"/>
           </physics>
         </ply>
 
@@ -143,7 +143,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="1.0"/>
+            <friction value="0.1"/>
           </physics>
         </ply>
 
@@ -156,7 +156,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="1.0"/>
+            <friction value="0.1"/>
           </physics>
         </ply>
 
@@ -196,7 +196,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="1.0"/>
+            <friction value="0.1"/>
           </physics>
         </ply>
         <ply name="leg 2 wing 2" filename="data/weird_wing_segment.ply">
@@ -208,7 +208,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="1.0"/>
+            <friction value="0.1"/>
           </physics>
         </ply>
         <ply name="leg 2 wing 1" filename="data/weird_wing_segment.ply">
@@ -220,7 +220,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="1.0"/>
+            <friction value="0.1"/>
           </physics>
         </ply>
 
@@ -260,7 +260,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="1.0"/>
+            <friction value="0.1"/>
           </physics>
         </ply>
         <ply name="leg 3 wing 2" filename="data/weird_wing_segment.ply">
@@ -272,7 +272,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="1.0"/>
+            <friction value="0.1"/>
           </physics>
         </ply>
         <ply name="leg 3 wing 1" filename="data/weird_wing_segment.ply">
@@ -284,7 +284,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="1.0"/>
+            <friction value="0.1"/>
           </physics>
         </ply>
 
@@ -295,7 +295,7 @@
           <source      name="leg 1 segment 1"/>
           <destination name="main body"/>
           <force       max="50.0"/>
-          <velocity    max="2.0"/>
+          <velocity   max="0.5"/>
           <pose        x="0.0" y="-0.5" z="0.0" beta="90"/>
           <deflection  min="-60" max="60"/>
           <mapping     min="-1"  max="1"/>
@@ -309,7 +309,7 @@
           <source      name="leg 1 segment 1"/>
           <destination name="leg 1 segment 2"/>
           <force       max="50.0"/>
-          <velocity    max="2.0"/>
+          <velocity   max="0.5"/>
           <pose        x="0.0" y="0.5" z="0.0"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -322,7 +322,7 @@
           <source      name="leg 1 segment 2"/>
           <destination name="leg 1 segment 3"/>
           <force       max="50.0"/>
-          <velocity    max="2.0"/>
+          <velocity   max="0.5"/>
           <pose        x="0.0" y="0.5" z="0.0"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -335,7 +335,7 @@
           <source      name="leg 1 wing 2"/>
           <destination name="leg 1 segment 3"/>
           <force       max="50.0"/>
-          <velocity    max="2.0"/>
+          <velocity   max="0.5"/>
           <pose        x="0.0" y="0.222522" z="-0.026291"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -348,7 +348,7 @@
           <source      name="leg 1 wing 1"/>
           <destination name="leg 1 segment 3"/>
           <force       max="50.0"/>
-          <velocity    max="2.0"/>
+          <velocity   max="0.5"/>
           <pose        x="0.0" y="0.222522" z="-0.026291"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -362,7 +362,7 @@
           <source      name="leg 2 segment 1"/>
           <destination name="main body"/>
           <force       max="50.0"/>
-          <velocity    max="2.0"/>
+          <velocity   max="0.5"/>
           <pose        x="0.0" y="-0.5" z="0.0" beta="90"/>
           <deflection  min="-60" max="60"/>
           <mapping     min="-1"  max="1"/>
@@ -375,7 +375,7 @@
           <source      name="leg 2 segment 1"/>
           <destination name="leg 2 segment 2"/>
           <force       max="50.0"/>
-          <velocity    max="2.0"/>
+          <velocity   max="0.5"/>
           <pose        x="0.0" y="0.5" z="0.0"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -388,7 +388,7 @@
           <source      name="leg 2 segment 2"/>
           <destination name="leg 2 segment 3"/>
           <force       max="50.0"/>
-          <velocity    max="2.0"/>
+          <velocity   max="0.5"/>
           <pose        x="0.0" y="0.5" z="0.0"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -401,7 +401,7 @@
           <source      name="leg 2 wing 2"/>
           <destination name="leg 2 segment 3"/>
           <force       max="50.0"/>
-          <velocity    max="2.0"/>
+          <velocity   max="0.5"/>
           <pose        x="0.0" y="0.222522" z="-0.026291"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -414,7 +414,7 @@
           <source      name="leg 2 wing 1"/>
           <destination name="leg 2 segment 3"/>
           <force       max="50.0"/>
-          <velocity    max="2.0"/>
+          <velocity   max="0.5"/>
           <pose        x="0.0" y="0.222522" z="-0.026291"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -428,7 +428,7 @@
           <source      name="leg 3 segment 1"/>
           <destination name="main body"/>
           <force       max="50.0"/>
-          <velocity    max="2.0"/>
+          <velocity   max="0.5"/>
           <pose        x="0.0" y="-0.5" z="0.0" beta="90"/>
           <deflection  min="-60" max="60"/>
           <mapping     min="-1"  max="1"/>
@@ -441,7 +441,7 @@
           <source      name="leg 3 segment 1"/>
           <destination name="leg 3 segment 2"/>
           <force       max="50.0"/>
-          <velocity    max="2.0"/>
+          <velocity   max="0.5"/>
           <pose        x="0.0" y="0.5" z="0.0"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -454,7 +454,7 @@
           <source      name="leg 3 segment 2"/>
           <destination name="leg 3 segment 3"/>
           <force       max="50.0"/>
-          <velocity    max="2.0"/>
+          <velocity   max="0.5"/>
           <pose        x="0.0" y="0.5" z="0.0"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -467,7 +467,7 @@
           <source      name="leg 3 wing 2"/>
           <destination name="leg 3 segment 3"/>
           <force       max="50.0"/>
-          <velocity    max="2.0"/>
+          <velocity   max="0.5"/>
           <pose        x="0.0" y="0.222522" z="-0.026291"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>
@@ -480,7 +480,7 @@
           <source      name="leg 3 wing 1"/>
           <destination name="leg 3 segment 3"/>
           <force       max="50.0"/>
-          <velocity    max="2.0"/>
+          <velocity   max="0.5"/>
           <pose        x="0.0" y="0.222522" z="-0.026291"/>
           <deflection  min="-80" max="80"/>
           <mapping     min="-1"  max="1"/>

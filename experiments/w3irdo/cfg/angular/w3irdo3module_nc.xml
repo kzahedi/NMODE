@@ -11,12 +11,12 @@
   </visualisation>
 
   <evaluation module="W3irdoNF">
-    <lifetime    iterations="500"/>
+    <lifetime    iterations="200"/>
     <generations iterations="100000"/>
     <cost        node="0.0"  edge="0.0"/>
     <parameter   name="bins" value="100"/>
     <parameter name="distance factor"  value="1.0"/>
-    <parameter name="entropy factor"   value="1.0"/>
+    <parameter name="entropy factor"   value="0.0"/>
     <parameter name="combination type" value="mul"/>
     <parameter name="measure"          value="H"/>
 
@@ -29,21 +29,21 @@
     <parameter name="container 6"      value="11,12,13,14"/>
     -->
 
-    <parameter name="container 1"  value="0"/>
-    <parameter name="container 2"  value="1"/>
-    <parameter name="container 3"  value="2"/>
-    <parameter name="container 4"  value="3"/>
-    <parameter name="container 5"  value="4"/>
-    <parameter name="container 6"  value="5"/>
-    <parameter name="container 7"  value="6"/>
-    <parameter name="container 8"  value="7"/>
-    <parameter name="container 9"  value="8"/>
-    <parameter name="container 10" value="9"/>
-    <parameter name="container 11" value="10"/>
-    <parameter name="container 12" value="11"/>
-    <parameter name="container 13" value="12"/>
-    <parameter name="container 14" value="13"/>
-    <parameter name="container 15" value="14"/>
+    <!-- <parameter name="container 1"  value="0"/> -->
+    <!-- <parameter name="container 2"  value="1"/> -->
+    <!-- <parameter name="container 3"  value="2"/> -->
+    <!-- <parameter name="container 4"  value="3"/> -->
+    <!-- <parameter name="container 5"  value="4"/> -->
+    <!-- <parameter name="container 6"  value="5"/> -->
+    <!-- <parameter name="container 7"  value="6"/> -->
+    <!-- <parameter name="container 8"  value="7"/> -->
+    <!-- <parameter name="container 9"  value="8"/> -->
+    <!-- <parameter name="container 10" value="9"/> -->
+    <!-- <parameter name="container 11" value="10"/> -->
+    <!-- <parameter name="container 12" value="11"/> -->
+    <!-- <parameter name="container 13" value="12"/> -->
+    <!-- <parameter name="container 14" value="13"/> -->
+    <!-- <parameter name="container 15" value="14"/> -->
 
   </evaluation>
 
@@ -61,7 +61,8 @@
     </node>
     <edge>
       <modify probability="0.90" maximum="5.0" delta="0.5"/>
-      <add    probability="0.90" maximum="1.0"/>
+      <add    probability="0.50" maximum="1.0"/>
+      <self   probability="0.10" maximum="1.0"/>
       <delete probability="0.50"/>
     </edge>
   </mutation>
