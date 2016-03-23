@@ -59,7 +59,7 @@
       </visualisation>
       <physics>
         <mass kg="0"/>
-        <friction value="0.1"/>
+        <friction value="0.05"/>
       </physics>
     </ply>
 
@@ -72,7 +72,7 @@
       </visualisation>
       <physics>
         <mass kg="0"/>
-        <friction value="0.1"/>
+        <friction value="0.05"/>
       </physics>
     </ply>
 
@@ -92,7 +92,7 @@
           </visualisation>
           <physics>
             <mass kg="1"/>
-            <friction value="0.1"/>
+            <friction value="0.05"/>
           </physics>
         </ply>
 
@@ -106,7 +106,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="0.1"/>
+            <friction value="0.05"/>
           </physics>
         </ply>
         <ply name="leg 1 segment 2" filename="data/weird_leg_segment.ply">
@@ -118,7 +118,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="0.1"/>
+            <friction value="0.05"/>
           </physics>
         </ply>
         <ply name="leg 1 segment 3" filename="data/weird_leg_segment.ply">
@@ -130,7 +130,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="0.1"/>
+            <friction value="0.05"/>
           </physics>
         </ply>
 
@@ -143,7 +143,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="0.1"/>
+            <friction value="0.05"/>
           </physics>
         </ply>
 
@@ -156,7 +156,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="0.1"/>
+            <friction value="0.05"/>
           </physics>
         </ply>
 
@@ -172,7 +172,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="0.1"/>
+            <friction value="0.05"/>
           </physics>
         </ply>
         <ply name="leg 2 segment 2" filename="data/weird_leg_segment.ply">
@@ -184,7 +184,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="0.1"/>
+            <friction value="0.05"/>
           </physics>
         </ply>
         <ply name="leg 2 segment 3" filename="data/weird_leg_segment.ply">
@@ -196,7 +196,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="0.1"/>
+            <friction value="0.05"/>
           </physics>
         </ply>
         <ply name="leg 2 wing 2" filename="data/weird_wing_segment.ply">
@@ -208,7 +208,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="0.1"/>
+            <friction value="0.05"/>
           </physics>
         </ply>
         <ply name="leg 2 wing 1" filename="data/weird_wing_segment.ply">
@@ -220,7 +220,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="0.1"/>
+            <friction value="0.05"/>
           </physics>
         </ply>
 
@@ -236,7 +236,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="0.1"/>
+            <friction value="0.05"/>
           </physics>
         </ply>
         <ply name="leg 3 segment 2" filename="data/weird_leg_segment.ply">
@@ -248,7 +248,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="0.1"/>
+            <friction value="0.05"/>
           </physics>
         </ply>
         <ply name="leg 3 segment 3" filename="data/weird_leg_segment.ply">
@@ -260,7 +260,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="0.1"/>
+            <friction value="0.05"/>
           </physics>
         </ply>
         <ply name="leg 3 wing 2" filename="data/weird_wing_segment.ply">
@@ -272,7 +272,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="0.1"/>
+            <friction value="0.05"/>
           </physics>
         </ply>
         <ply name="leg 3 wing 1" filename="data/weird_wing_segment.ply">
@@ -284,7 +284,7 @@
           </visualisation>
           <physics>
             <mass kg="0.5"/>
-            <friction value="0.1"/>
+            <friction value="0.05"/>
           </physics>
         </ply>
 

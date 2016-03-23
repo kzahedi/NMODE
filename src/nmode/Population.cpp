@@ -208,6 +208,8 @@ void Population::evaluationCompleted()
 void Population::reproductionCompleted()
 {
   _nextIndividual = 0;
+  int index = 1;
+  FORC(Individuals, i, _individuals) (*i)->setNr(index++);
 }
 
 void Population::__getUniqueDirectoryName()

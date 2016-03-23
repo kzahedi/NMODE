@@ -73,6 +73,7 @@ void Evolve::init(string xml, bool read)
   for(int i = 0; i < nr; i++)
   {
     Evaluate *e = create_controller();
+    if(i > 0) e->nogui();
     _evaluators.push_back(e);
   }
 

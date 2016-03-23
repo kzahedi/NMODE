@@ -57,6 +57,9 @@ class Individual : public XsdParseNode
     double            reproductionFactor();
     void              setReproductionFactor(double);
 
+    int               nr();
+    void              setNr(int);
+
     Individual*       copy(bool reset=false);
 
   private:
@@ -64,6 +67,7 @@ class Individual : public XsdParseNode
     Node*   __getNonHiddenNodeFromModule(Module *m, string nodeLabel);
 
     int     _id;
+    int     _nr;
     int     _age;
     double  _fitness;
     Modules _modules;

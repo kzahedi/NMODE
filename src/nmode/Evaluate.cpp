@@ -6,11 +6,11 @@
 
 Evaluate::Evaluate()
 {
-  fitness              = 0.0;
+  fitness               = 0.0;
   _com                  = NULL;
-  nrOfSensors          = 0;
-  nrOfActuators        = 0;
-  lifeTime             = Data::instance()->specification()->evaluation()->lifeTime();
+  nrOfSensors           = 0;
+  nrOfActuators         = 0;
+  lifeTime              = Data::instance()->specification()->evaluation()->lifeTime();
   _workingDirectory     = Data::instance()->specification()->simulator()->workingDirectory();
   _xml                  = Data::instance()->specification()->simulator()->xml();
   _options              = Data::instance()->specification()->simulator()->options();
@@ -18,26 +18,33 @@ Evaluate::Evaluate()
   _successfulEvaluation = false;
 }
 
+void Evaluate::nogui()
+{
+  stringstream sst;
+  sst << _options << " --nogui";
+  _options = sst.str();
+}
+
 void Evaluate::run()
 {
   while(true)
   {
-    Individual *i = _population->getNextIndividual();
-    _rnn = RnnFromIndividual::create(i);
+    _individual = _population->getNextIndividual();
+    _rnn = RnnFromIndividual::create(_individual);
     __evaluate();
-    i->setRawFitness(fitness);
+    _individual->setRawFitness(fitness);
 
     double nc = EVA->nodeCost() * _rnn->nrOfNeurons();
     double ec = EVA->edgeCost() * _rnn->nrOfSynapses();
 
-    i->setNodeCost(nc);
-    i->setEdgeCost(ec);
-    i->setNrOfSynapses(_rnn->nrOfSynapses());
-    i->setNrOfNeurons(_rnn->nrOfHidden());
+    _individual->setNodeCost(nc);
+    _individual->setEdgeCost(ec);
+    _individual->setNrOfSynapses(_rnn->nrOfSynapses());
+    _individual->setNrOfNeurons(_rnn->nrOfHidden());
 
     fitness -= nc + ec;
 
-    i->setFitness(fitness);
+    _individual->setFitness(fitness);
 
     _population->evaluationCompleted();
 
@@ -48,6 +55,8 @@ void Evaluate::run()
 void Evaluate::__evaluate()
 {
   _successfulEvaluation = false;
+  int n = _individual->nr();
+  int s = _population->i_size();
   while(_successfulEvaluation == false)
   {
     lifeTime = Data::instance()->specification()->evaluation()->lifeTime();
@@ -100,6 +109,7 @@ void Evaluate::__evaluate()
 
         _message.str("");
         _message << "Generation " << _population->generation() << "\n";
+        _message << "Individual " << n << " / " << s << "\n";
         _message << "Fitness " << fitness;
 
         updateFitnessFunction();

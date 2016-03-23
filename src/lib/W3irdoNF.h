@@ -23,6 +23,7 @@ class W3irdoNF : public Evaluate
   private:
     double               _x;
     double               _y;
+    double               _z;
     double               _mbContact;
     double               _dist;
     double               _distFactor;

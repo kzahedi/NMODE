@@ -19,6 +19,7 @@ Individual::Individual(XsdParseNode *parent)
   : XsdParseNode(parent)
 {
   _id                 = 1;
+  _nr                 = -1;
   _fitness            = 0.0;
   _reproductionFactor = 0.0;
   _age                = 0;
@@ -344,3 +345,14 @@ void Individual::setNrOfOffspring(int o)
 {
   _nrOfOffspring = o;
 }
+
+int Individual::nr()
+{
+  return _nr;
+}
+
+void Individual::setNr(int nr)
+{
+  _nr = nr;
+}
+

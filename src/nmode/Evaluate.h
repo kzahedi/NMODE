@@ -15,8 +15,8 @@ class Evaluate
     Evaluate();
 
     void run();
-
     void quit();
+    void nogui();
 
     virtual void updateController()      = 0;
     virtual void updateFitnessFunction() = 0;
@@ -47,6 +47,7 @@ class Evaluate
     stringstream   _message;
     bool           _successfulEvaluation;
     RNN*           _rnn;
+    Individual*    _individual;
 
 };
 
