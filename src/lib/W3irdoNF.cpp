@@ -62,7 +62,7 @@ void W3irdoNF::updateFitnessFunction()
   _z       = sensorValues[18];
   _mbContact = sensorValues[15];
   _dist    = sqrt(_x * _x + _y * _y);
-  fitness += _distFactor * _dist * _z;
+  fitness += _distFactor * _dist;
 
   for(int i = 0; i < (int)_lastSensorReading.size(); i++)
   {
