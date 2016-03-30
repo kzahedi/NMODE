@@ -48,8 +48,7 @@ void W3irdoNF::updateController()
     {
       for(int j = 0; j < (int)_containerIndices[i].size(); j++)
       {
-        // cout << "Filling container " << i << " with sensor << " << (2*j) << endl;
-        (*_containers[i]) << sensorValues[2 * _containerIndices[i][j]];
+        (*_containers[i]) << sensorValues[_containerIndices[i][j]];
       }
     }
   }

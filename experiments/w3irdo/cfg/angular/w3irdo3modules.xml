@@ -10,24 +10,33 @@
   </visualisation>
 
   <evaluation module="W3irdoNF">
-    <lifetime    iterations="300"/>
+    <lifetime    iterations="100"/>
     <generations iterations="100000"/>
     <cost        node="0" edge="1.0"/>
     <parameter   name="bins" value="100"/>
-    <parameter   name="combination type" value="add"/>
-    <parameter   name="container 1" value="0,1,2,3"/>
-    <parameter   name="container 2" value="2,3,4,5"/>
-    <parameter   name="container 3" value="4,5,6,7"/>
-    <parameter   name="container 4" value="6,7,8,9"/>
-    <parameter   name="container 5" value="9,10,11,12"/>
-    <parameter   name="container 6" value="11,12,13,14"/>
+    <parameter   name="combination type" value="mul"/>
+
+    <parameter   name="container 1" value="0,1,2"/>
+    <parameter   name="container 2" value="1,2,3"/>
+    <parameter   name="container 3" value="2,3,4"/>
+    <parameter   name="container 4" value="3,4,5"/>
+    <parameter   name="container 5" value="4,5,6"/>
+    <parameter   name="container 6" value="5,6,7"/>
+    <parameter   name="container 7" value="6,7,8"/>
+    <parameter   name="container 8" value="7,8,9"/>
+    <parameter   name="container 9" value="8,9,10"/>
+    <parameter   name="container 10" value="9,10,11"/>
+    <parameter   name="container 11" value="10,11,12"/>
+    <parameter   name="container 12" value="11,12,13"/>
+    <parameter   name="container 13" value="12,13,14"/>
+
     <parameter   name="distance factor" value="1.0"/>
-    <parameter   name="entropy factor" value="0.0"/>
+    <parameter   name="entropy factor" value="1.0"/>
     <parameter   name="measure" value="H"/>
   </evaluation>
 
   <reproduction>
-    <population size="250"/>
+    <population size="100"/>
     <selection    pressure="0.1"/>
     <reproduction pressure="2.1"/>
   </reproduction>
