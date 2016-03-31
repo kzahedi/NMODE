@@ -24,8 +24,9 @@ W3irdoNF::W3irdoNF()
   : Evaluate()
 {
   networkInput.resize(31);
-  _measureType     = -1;
-  _combinationType = -1;
+  _measureType         = -1;
+  _combinationType     = -1;
+  _intermediateFitness = 0.0;
 }
 
 void W3irdoNF::updateController()
@@ -61,15 +62,17 @@ void W3irdoNF::updateFitnessFunction()
   _z       = sensorValues[18];
   _mbContact = sensorValues[15];
   _dist    = sqrt(_x * _x + _y * _y);
-  fitness += _distFactor * _dist;
+  _intermediateFitness += _distFactor * _dist; 
 
   for(int i = 0; i < (int)_lastSensorReading.size(); i++)
   {
     if(sensorValues[i] * _lastSensorReading[i] < 0)
     {
-      fitness -= _oscillationFactor;
+      _intermediateFitness -= _oscillationFactor;
     }
   }
+  fitness = __entropy(_intermediateFitness);
+  // cout << _intermediateFitness << " -> " << fitness << endl;
 }
 
 bool W3irdoNF::abort()
@@ -135,47 +138,42 @@ void W3irdoNF::newIndividual()
 
     _containers.push_back(newContainer);
   }
+  _intermediateFitness = 0.0;
 }
 
 void W3irdoNF::evaluationCompleted()
+{ }
+
+double W3irdoNF::__entropy(double f)
 {
-  stringstream sst;
   double r = 0;
-  sst << " Results:";
   if(_itFactor > 0.0)
   {
-    for(vector<Container*>::iterator c = _containers.begin(); c != _containers.end(); c++)
+    for(vector<Container*>::iterator c = _containers.begin();
+        c != _containers.end(); c++)
     {
       Container *d = (*c)->discretise();
-      double s  = 0.0;
+      double s = 0.0;
       switch(_measureType)
       {
         case useH:  s = H(d);  break;
         case usePI: s = PI(d); break;
         default:
-                    cerr << "Unknown measure type: " << _measure << endl;
-                    break;
+            cerr << "Unknown measure type: " << _measure << endl;
+            break;
       }
-      sst << " " << s;
       r += _itFactor * s;
+      // cout << s << " (" << r << ") ";
       delete d;
     }
-    if(_combinationType == ADD)
-    {
-      fitness += r / (double)_containers.size();
-      cout << " Fitness: " << (r / (double)_containers.size()) << " " << sst.str() << endl;
-    }
-    if(_combinationType == MUL1)
-    {
-      fitness *= 1.0 + r / (double)_containers.size();
-      cout << " Fitness: " << (1.0 + r / (double)_containers.size()) << " " << sst.str() << endl;
-    }
-    if(_combinationType == MUL)
-    {
-      fitness *= r / (double)_containers.size();
-      cout << " Fitness: " << (r / (double)_containers.size()) << " " << sst.str() << endl;
-    }
+    // cout << " -> " << r << endl;
+    r = r / (double)_containers.size();
+    // cout << " -> " << r << " (" << _itFactor << ", " << _containers.size() << ")" << endl;
+    if(_combinationType == ADD)  f += r;
+    if(_combinationType == MUL1) f *= 1.0 + r;
+    if(_combinationType == MUL)  f *= r;
   }
+  return f;
 }
 
 // the class factories

@@ -21,6 +21,7 @@ class W3irdoNF : public Evaluate
     void evaluationCompleted();
 
   private:
+    double               __entropy(double);
     double               _x;
     double               _y;
     double               _z;
@@ -29,6 +30,7 @@ class W3irdoNF : public Evaluate
     double               _distFactor;
     double               _itFactor;
     double               _oscillationFactor;
+    double               _intermediateFitness;
     int                  _bins;
     int                  _containerOffset;
     int                  _combinationType;
