@@ -3,14 +3,14 @@
 <nmode version="0.0.2">
   <simulator wd="./experiments/w3irdo"
              xml="xml/w3irdo_angular_no_leg_contact.xml"
-             nr="6"/>
+             nr="2"/>
 
   <visualisation>
     <offset value="30"/>
   </visualisation>
 
   <evaluation module="W3irdoNF">
-    <lifetime    iterations="3000"/>
+    <lifetime    iterations="600"/>
     <generations iterations="100000"/>
     <cost        node="0" edge="0"/>
     <parameter   name="bins" value="10"/>
@@ -24,7 +24,7 @@
   </evaluation>
 
   <reproduction>
-    <population size="100"/>
+    <population size="20"/>
     <selection    pressure="0.1"/>
     <reproduction pressure="2.1"/>
   </reproduction>

@@ -12,6 +12,28 @@
 # define TAG_POPULATION            (char*)"population"
 # define TAG_POPULATION_DEFINITION (char*)"population_definition"
 
+struct Stats
+{
+  double fitness;
+  double avgFitness;
+  double sdFitness;
+  double minSdFitness;
+  double maxSdFitness;
+
+  double bestNrHiddenUnits;
+  double avgNrHiddenUnits;
+  double sdHiddenUnits;
+  double minSdHiddenUnits;
+  double maxSdHiddenUnits;
+
+  double bestNrEdges;
+  double avgNrEdges;
+  double sdEdges;
+  double minSdEdges;
+  double maxSdEdges;
+};
+
+
 class Population : public Observable, public XsdParseNode
 {
   public:
@@ -55,6 +77,12 @@ class Population : public Observable, public XsdParseNode
     void            __calculateSelectionProbabilities();
 #ifdef USE_PLPLOT
     void            __plotData();
+    void            __plotMaxFitness();
+    void            __plotAvgFitness();
+    void            __plotNrHiddenUnits();
+    void            __plotAvgHiddenUnits();
+    void            __plotNrEdges();
+    void            __plotAvgEdges();
 #endif // USE_PLPLOT
 
     int             _generation;
@@ -65,7 +93,13 @@ class Population : public Observable, public XsdParseNode
     Individuals     _individuals;
     pthread_mutex_t _mutex;
     ofstream        _output;
-    vector<double>  _fitness;
+
+    // vector<double>  _fitness;
+    // vector<double>  _meanfitness;
+    // vector<double>  _stdminfitness;
+    // vector<double>  _stdmaxfitness;
+    // vector<double>  _stdfitness;
+    vector<Stats>   _stats;
 
     static Population* _me;
 };
