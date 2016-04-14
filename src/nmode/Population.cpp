@@ -359,7 +359,7 @@ void Population::__plotData()
 
   if(_stats.size() < 2) return;
   plsetopt("dev","pdf");
-  plsetopt("geometry","600x900");
+  plsetopt("geometry","1200x900");
   plsfnam ("stats.pdf");
   plstar( 2, 3 );
   __plotMaxFitness();
