@@ -41,18 +41,24 @@ void Mutation::mutate(Individual *i)
   Data *data = Data::instance();
   CfgMutationEdge *dee = data->specification()->mutation()->edge();
   CfgMutationNode *den = data->specification()->mutation()->node();
-  for(Modules::iterator mod = i->m_begin(); mod != i->m_end(); mod++)
+  bool modified = false;
+  int attemps = 0;
+  while(modified == false && attemps < 10000)
   {
-    if((*mod)->isCopy() == false)
+    attemps++;
+    for(Modules::iterator mod = i->m_begin(); mod != i->m_end(); mod++)
     {
-      mutate(*mod, den, dee);
+      if((*mod)->isCopy() == false)
+      {
+        modified |= mutate(*mod, den, dee);
+      }
     }
   }
   VLOG(50) << ">> end mutate individual";
 }
 
 
-void Mutation::mutate(Module *m, CfgMutationNode *den, CfgMutationEdge *dee)
+bool Mutation::mutate(Module *m, CfgMutationNode *den, CfgMutationEdge *dee)
 {
   VLOG(50) << ">> mutate";
   m->setModified(false);
@@ -75,33 +81,29 @@ void Mutation::mutate(Module *m, CfgMutationNode *den, CfgMutationEdge *dee)
     VLOG(50) << *e;
   }
 
-  int attemps = 0;
   m->setModified(false);
-  while(m->modified() == false && attemps < 10000)
-  {
-    attemps++;
-    VLOG(50) << "### BEFORE MUTATION";
-    LOG_MODULE;
-    __mutateDelEdge(m,    e->delProbability());
-    __mutateModifyEdge(m, e->modifyProbability(),
-                          e->modifyDelta(),
-                          e->modifyMaxValue());
-    __mutateModifyNode(m, n->modifyProbability(),
-                          n->modifyDelta(),
-                          n->modifyMaxValue());
-    __mutateDelNode(m,    n->delProbability());
-    __mutateAddNode(m,    n->addProbability(),
-                          n->addMaxValue());
-    __mutateAddEdge(m,    e->addProbability(),
-                          e->addMaxValue());
-    // __mutateAddSelf(m,    e->selfProbability(),
-                          // e->selfMaxValue());
-    __cleanup(m);
-  }
+  VLOG(50) << "### BEFORE MUTATION";
+  LOG_MODULE;
+  __mutateDelEdge(m,    e->delProbability());
+  __mutateModifyEdge(m, e->modifyProbability(),
+                     e->modifyDelta(),
+                     e->modifyMaxValue());
+  __mutateModifyNode(m, n->modifyProbability(),
+                     n->modifyDelta(),
+                     n->modifyMaxValue());
+  __mutateDelNode(m,    n->delProbability());
+  __mutateAddNode(m,    n->addProbability(),
+                  n->addMaxValue());
+  __mutateAddEdge(m,    e->addProbability(),
+                  e->addMaxValue());
+  __mutateAddSelf(m,    e->selfProbability(),
+  e->selfMaxValue());
+  __cleanup(m);
   VLOG(50) << "<< mutate";
   VLOG(50) << "### AFTER MUTATION";
   LOG_MODULE;
   VLOG(50) << "### AFTER MUTATION";
+  return m->modified();
 }
 
 void Mutation::__mutateDelEdge(Module *m, double probability)
@@ -221,13 +223,13 @@ void Mutation::__mutateAddEdge(Module *m, double probability,
           if(dst_node->contains(src_node) == false)
           {
             // USE FIXED PROBABILITY FOR ALL EDGES
-            // d = DIST(src_node->position(), dst_node->position());
-            // if(d < MIN_DIST) d = 0;
-            // probabilities[s_index][d_index] = exp(-d);
-            // VLOG(50) << "    edge from "
-              // << src_node->label() << " to "
-              // << dst_node->label() << " does not exist. setting distance to " << d;
-            probabilities[s_index][d_index] = 1.0;
+            d = DIST(src_node->position(), dst_node->position());
+            if(d < MIN_DIST) d = 0;
+            probabilities[s_index][d_index] = exp(-d);
+            VLOG(50) << "    edge from "
+              << src_node->label() << " to "
+              << dst_node->label() << " does not exist. setting distance to " << d;
+            // probabilities[s_index][d_index] = 1.0;
           }
         }
       }

@@ -17,7 +17,7 @@ class Mutation
 
     void mutate(Population*);
     void mutate(Individual*);
-    void mutate(Module*, CfgMutationNode*, CfgMutationEdge*);
+    bool mutate(Module*, CfgMutationNode*, CfgMutationEdge*);
 
   private:
     void __mutateDelEdge(Module*,    double);
