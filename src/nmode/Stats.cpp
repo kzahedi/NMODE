@@ -98,7 +98,7 @@ void Stats::__bestEdges(const Individuals& individuals)
   _bestNrEdges = 0;
   for(Modules::iterator m = individuals[0]->m_begin(); m != individuals[0]->m_end(); m++)
   {
-    _bestNrEdges = (*m)->h_size();
+    _bestNrEdges = (*m)->e_size();
   }
 }
 
@@ -109,7 +109,7 @@ void Stats::__avgEdges(const Individuals& individuals)
   {
     for(Modules::iterator m = (*i)->m_begin(); m != (*i)->m_end(); m++)
     {
-      _avgNrEdges += (*m)->h_size();
+      _avgNrEdges += (*m)->e_size();
     }
   }
   _avgNrEdges /= (double)(individuals.size());
@@ -125,7 +125,7 @@ void Stats::__sdEdges(const Individuals& individuals)
     {
       avg = (*m)->h_size();
     }
-    avg /= (double)(*i)->m_size();
+    avg /= (double)(*i)->e_size();
     double d = avg - _avgNrEdges;
     _sdEdges += d * d;
   }
