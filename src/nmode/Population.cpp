@@ -234,6 +234,8 @@ void Population::__getUniqueDirectoryName()
 
 void Population::serialise()
 {
+  Stats *s = new Stats(_individuals);
+  _stats.push_back(s);
   cout << "Generation " << _generation << " completed." << endl;
   stringstream sst;
   sst << _logDirectory << "/" << "generation-" << _generation << ".xml";
@@ -286,77 +288,6 @@ void Population::serialise()
 #ifdef USE_PLPLOT
 void Population::__plotData()
 {
-  Stats stat;
-
-  stat.fitness = _individuals[0]->fitness();
-
-  double m = 0;
-  for(int i = 0; i < (int)_individuals.size(); i++) m += _individuals[i]->fitness();
-  m /= (double)_individuals.size();
-
-  stat.avgFitness = m;
-
-  double s = 0;
-  for(int i = 0; i < (int)_individuals.size(); i++)
-  {
-    double d = m - _individuals[i]->fitness();
-    s += d * d;
-  }
-  s = sqrt(s);
-
-  stat.sdFitness    = s;
-  stat.minSdFitness = m - s;
-  stat.maxSdFitness = m + s;
-
-  stat.bestNrHiddenUnits = 0;
-  for(Modules::iterator m = _individuals[0]->m_begin(); m != _individuals[0]->m_end(); m++)
-  {
-    stat.bestNrHiddenUnits += (*m)->h_size();
-  }
-
-  stat.avgNrHiddenUnits = 0;
-  double i = 0;
-  for(Modules::iterator m = _individuals[0]->m_begin(); m != _individuals[0]->m_end(); m++)
-  {
-    stat.avgNrHiddenUnits += (*m)->h_size();
-    i = i + 1.0;
-  }
-  stat.avgNrHiddenUnits /= i;
-  
-  stat.sdHiddenUnits = 0;
-  for(Modules::iterator m = _individuals[0]->m_begin(); m != _individuals[0]->m_end(); m++)
-  {
-    double d = stat.avgNrHiddenUnits - (*m)->h_size();
-    stat.sdHiddenUnits = d * d;
-  }
-  stat.sdHiddenUnits = sqrt(stat.sdHiddenUnits);
-
-  stat.minSdHiddenUnits = stat.avgNrHiddenUnits - stat.sdHiddenUnits;
-  stat.maxSdHiddenUnits = stat.avgNrHiddenUnits + stat.sdHiddenUnits;
-
-  stat.avgNrEdges = 0;
-  i = 0;
-  for(Modules::iterator m = _individuals[0]->m_begin(); m != _individuals[0]->m_end(); m++)
-  {
-    stat.avgNrEdges += (*m)->e_size();
-    i = i + 1.0;
-  }
-  stat.avgNrEdges /= i;
-  
-  stat.sdEdges = 0;
-  for(Modules::iterator m = _individuals[0]->m_begin(); m != _individuals[0]->m_end(); m++)
-  {
-    double d = stat.avgNrEdges - (*m)->e_size();
-    stat.sdEdges = d * d;
-  }
-  stat.sdEdges = sqrt(stat.sdEdges);
-
-  stat.minSdEdges = stat.avgNrEdges - stat.sdEdges;
-  stat.maxSdEdges = stat.avgNrEdges + stat.sdEdges;
-
-
-  _stats.push_back(stat);
-
   if(_stats.size() < 2) return;
   plsetopt("dev","pdf");
   plsetopt("geometry","1200x900");
@@ -384,7 +315,7 @@ void Population::__plotNrEdges()
   for(int i = 0; i < (int)_stats.size(); i++)
   {
     x[i] = i;
-    y[i] = (PLFLT)_stats[i].bestNrEdges;
+    y[i] = (PLFLT)_stats[i]->bestNrEdges();
     if(y[i] > ymax) ymax = y[i];
     if(y[i] < ymin) ymin = y[i];
   }
@@ -406,13 +337,13 @@ void Population::__plotAvgEdges()
 
   PLFLT xmin = 0;
   PLFLT xmax = _stats.size()-1;
-  PLFLT ymin = _stats[0].minSdEdges;
+  PLFLT ymin = _stats[0]->minSdEdges();
   PLFLT ymax = 1;
 
   for(int i = 0; i < (int)_stats.size(); i++)
   {
-    if(_stats[i].maxSdEdges > ymax) ymax = _stats[i].maxSdEdges;
-    if(_stats[i].minSdEdges < ymin) ymin = _stats[i].minSdEdges;
+    if(_stats[i]->maxSdEdges() > ymax) ymax = _stats[i]->maxSdEdges();
+    if(_stats[i]->minSdEdges() < ymin) ymin = _stats[i]->minSdEdges();
   }
 
   plenv( xmin, xmax, ymin, ymax, 0, 0 );
@@ -423,7 +354,7 @@ void Population::__plotAvgEdges()
   for(int i = 0; i < (int)_stats.size(); i++)
   {
     x[i] = i;
-    y[i] = (PLFLT)_stats[i].avgNrEdges;
+    y[i] = (PLFLT)_stats[i]->avgNrEdges();
   }
   plline( (int)_stats.size(), x, y );
 
@@ -432,7 +363,7 @@ void Population::__plotAvgEdges()
   for(int i = 0; i < (int)_stats.size(); i++)
   {
     x[i] = i;
-    y[i] = (PLFLT)_stats[i].minSdEdges;
+    y[i] = (PLFLT)_stats[i]->minSdEdges();
   }
   plline( (int)_stats.size(), x, y );
 
@@ -440,7 +371,7 @@ void Population::__plotAvgEdges()
   for(int i = 0; i < (int)_stats.size(); i++)
   {
     x[i] = i;
-    y[i] = (PLFLT)_stats[i].maxSdEdges;
+    y[i] = (PLFLT)_stats[i]->maxSdEdges();
   }
   plline( (int)_stats.size(), x, y );
   plcol0(1);
@@ -459,7 +390,7 @@ void Population::__plotNrHiddenUnits()
   for(int i = 0; i < (int)_stats.size(); i++)
   {
     x[i] = i;
-    y[i] = (PLFLT)_stats[i].bestNrHiddenUnits;
+    y[i] = (PLFLT)_stats[i]->bestNrHiddenUnits();
     if(y[i] > ymax) ymax = y[i];
     if(y[i] < ymin) ymin = y[i];
   }
@@ -481,13 +412,13 @@ void Population::__plotAvgHiddenUnits()
 
   PLFLT xmin = 0;
   PLFLT xmax = _stats.size()-1;
-  PLFLT ymin = _stats[0].minSdHiddenUnits;
+  PLFLT ymin = _stats[0]->minSdHiddenUnits();
   PLFLT ymax = 1;
 
   for(int i = 0; i < (int)_stats.size(); i++)
   {
-    if(_stats[i].maxSdHiddenUnits > ymax) ymax = _stats[i].maxSdHiddenUnits;
-    if(_stats[i].minSdHiddenUnits < ymin) ymin = _stats[i].minSdHiddenUnits;
+    if(_stats[i]->maxSdHiddenUnits() > ymax) ymax = _stats[i]->maxSdHiddenUnits();
+    if(_stats[i]->minSdHiddenUnits() < ymin) ymin = _stats[i]->minSdHiddenUnits();
   }
 
   plenv( xmin, xmax, ymin, ymax, 0, 0 );
@@ -498,7 +429,7 @@ void Population::__plotAvgHiddenUnits()
   for(int i = 0; i < (int)_stats.size(); i++)
   {
     x[i] = i;
-    y[i] = (PLFLT)_stats[i].avgNrHiddenUnits;
+    y[i] = (PLFLT)_stats[i]->avgNrHiddenUnits();
   }
   plline( (int)_stats.size(), x, y );
 
@@ -507,7 +438,7 @@ void Population::__plotAvgHiddenUnits()
   for(int i = 0; i < (int)_stats.size(); i++)
   {
     x[i] = i;
-    y[i] = (PLFLT)_stats[i].minSdHiddenUnits;
+    y[i] = (PLFLT)_stats[i]->minSdHiddenUnits();
   }
   plline( (int)_stats.size(), x, y );
 
@@ -515,7 +446,7 @@ void Population::__plotAvgHiddenUnits()
   for(int i = 0; i < (int)_stats.size(); i++)
   {
     x[i] = i;
-    y[i] = (PLFLT)_stats[i].maxSdHiddenUnits;
+    y[i] = (PLFLT)_stats[i]->maxSdHiddenUnits();
   }
   plline( (int)_stats.size(), x, y );
   plcol0(1);
@@ -528,13 +459,13 @@ void Population::__plotAvgFitness()
 
   PLFLT xmin = 0;
   PLFLT xmax = _stats.size()-1;
-  PLFLT ymin = _stats[0].minSdFitness;
-  PLFLT ymax = _stats[0].maxSdFitness;
+  PLFLT ymin = _stats[0]->minSdFitness();
+  PLFLT ymax = _stats[0]->maxSdFitness();
 
   for(int i = 0; i < (int)_stats.size(); i++)
   {
-    if(_stats[i].maxSdFitness > ymax) ymax = _stats[i].maxSdFitness;
-    if(_stats[i].minSdFitness < ymin) ymin = _stats[i].minSdFitness;
+    if(_stats[i]->maxSdFitness() > ymax) ymax = _stats[i]->maxSdFitness();
+    if(_stats[i]->minSdFitness() < ymin) ymin = _stats[i]->minSdFitness();
   }
 
   plenv( xmin, xmax, ymin, ymax, 0, 0 );
@@ -545,7 +476,7 @@ void Population::__plotAvgFitness()
   for(int i = 0; i < (int)_stats.size(); i++)
   {
     x[i] = i;
-    y[i] = (PLFLT)_stats[i].avgFitness;
+    y[i] = (PLFLT)_stats[i]->avgFitness();
   }
   plline( (int)_stats.size(), x, y );
 
@@ -554,7 +485,7 @@ void Population::__plotAvgFitness()
   for(int i = 0; i < (int)_stats.size(); i++)
   {
     x[i] = i;
-    y[i] = (PLFLT)_stats[i].minSdFitness;
+    y[i] = (PLFLT)_stats[i]->minSdFitness();
   }
   plline( (int)_stats.size(), x, y );
 
@@ -562,7 +493,7 @@ void Population::__plotAvgFitness()
   for(int i = 0; i < (int)_stats.size(); i++)
   {
     x[i] = i;
-    y[i] = (PLFLT)_stats[i].maxSdFitness;
+    y[i] = (PLFLT)_stats[i]->maxSdFitness();
   }
   plline( (int)_stats.size(), x, y );
   plcol0(1);
@@ -575,13 +506,13 @@ void Population::__plotMaxFitness()
 
   PLFLT xmin = 0;
   PLFLT xmax = _stats.size()-1;
-  PLFLT ymin = _stats[0].fitness;
-  PLFLT ymax = _stats[1].fitness;
+  PLFLT ymin = _stats[0]->bestFitness();
+  PLFLT ymax = _stats[0]->bestFitness();
 
   for(int i = 0; i < (int)_stats.size(); i++)
   {
     x[i] = i;
-    y[i] = (PLFLT)_stats[i].fitness;
+    y[i] = (PLFLT)_stats[i]->bestFitness();
     if(y[i] > ymax) ymax = y[i];
     if(y[i] < ymin) ymin = y[i];
   }

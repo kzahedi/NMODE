@@ -4,6 +4,7 @@
 #include "XsdParseNode.h"
 #include "Individual.h"
 #include "Observable.h"
+#include "Stats.h"
 
 #include <pthread.h>
 #include <iostream>
@@ -11,27 +12,6 @@
 
 # define TAG_POPULATION            (char*)"population"
 # define TAG_POPULATION_DEFINITION (char*)"population_definition"
-
-struct Stats
-{
-  double fitness;
-  double avgFitness;
-  double sdFitness;
-  double minSdFitness;
-  double maxSdFitness;
-
-  double bestNrHiddenUnits;
-  double avgNrHiddenUnits;
-  double sdHiddenUnits;
-  double minSdHiddenUnits;
-  double maxSdHiddenUnits;
-
-  double bestNrEdges;
-  double avgNrEdges;
-  double sdEdges;
-  double minSdEdges;
-  double maxSdEdges;
-};
 
 
 class Population : public Observable, public XsdParseNode
@@ -84,6 +64,7 @@ class Population : public Observable, public XsdParseNode
     void            __plotNrEdges();
     void            __plotAvgEdges();
 #endif // USE_PLPLOT
+    void            __calculateStats();
 
     int             _generation;
     int             _individualId;
@@ -93,13 +74,7 @@ class Population : public Observable, public XsdParseNode
     Individuals     _individuals;
     pthread_mutex_t _mutex;
     ofstream        _output;
-
-    // vector<double>  _fitness;
-    // vector<double>  _meanfitness;
-    // vector<double>  _stdminfitness;
-    // vector<double>  _stdmaxfitness;
-    // vector<double>  _stdfitness;
-    vector<Stats>   _stats;
+    Statistics      _stats;
 
     static Population* _me;
 };

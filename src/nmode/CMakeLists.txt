@@ -43,6 +43,7 @@ set(SRC
   Module.cpp
   Edge.cpp
   Node.cpp
+  Stats.cpp
 
   YarsXSDGenerator.cpp
   XSDString.cpp
