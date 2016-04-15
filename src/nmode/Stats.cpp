@@ -125,7 +125,7 @@ void Stats::__sdEdges(const Individuals& individuals)
     {
       avg = (*m)->h_size();
     }
-    avg /= (double)(*i)->e_size();
+    avg /= (double)(*i)->m_size();
     double d = avg - _avgNrEdges;
     _sdEdges += d * d;
   }
