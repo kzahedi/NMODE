@@ -134,7 +134,7 @@ string Data::__evaluator()
   {
     sst << "    <generations iterations=\"" << _EVA->generations() << "\"/>" << endl;
   }
-  sst << "    <cost        node=\"" << _EVA->nodeCost() << "\" edge=\"" << _EVA->nodeCost() << "\"/>" << endl;
+  sst << "    <cost        node=\"" << _EVA->nodeCost() << "\" edge=\"" << _EVA->edgeCost() << "\"/>" << endl;
   for(EvaluationParameterMap::iterator i = _EVA->begin(); i != _EVA->end(); i++)
   {
     sst << "    <parameter   name=\"" << i->first  << "\" value=\"" << i->second << "\"/>" << endl;
