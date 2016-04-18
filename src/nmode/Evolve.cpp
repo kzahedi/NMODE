@@ -21,6 +21,7 @@ void Evolve::initFromDir(string dir)
   _pop = Population::instance();
   _pop->removeCurrentLogDir();
   _pop->setCurrentLogDir(dir);
+  _pop->readStats(dir);
 
   _pop->setGeneration(_pop->generation() - 1);
 

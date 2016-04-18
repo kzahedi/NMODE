@@ -9,12 +9,14 @@
 
 #include <glog/logging.h>
 #include <unistd.h>
+#include <regex>
 
 #include <boost/date_time/gregorian/gregorian.hpp>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/format.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>
+#include <boost/regex.hpp>
 
 using namespace boost::gregorian;
 namespace fs = boost::filesystem;
@@ -575,4 +577,61 @@ void Population::plotLast()
   cout << "converting " << _logDirectory << endl;
   Convert::convertIndividual(_individuals[0]);
   // system("open out.html");
+}
+
+
+void Population::readStats(string d)
+{
+  _stats.clear();
+  fs::path dir(d);
+  const string ext = ".csv";
+  vector<fs::path> files;
+  
+  if(!fs::exists(dir) || !fs::is_directory(dir)) return;
+
+  fs::recursive_directory_iterator it(dir);
+  fs::recursive_directory_iterator endit;
+
+  while(it != endit)
+  {
+    if(fs::is_regular_file(*it) && it->path().extension() == ext) files.push_back(it->path().filename());
+    ++it;
+  }
+
+  std::regex rgx("stats-(\\d+)\\.csv");
+  std::smatch match;
+
+  vector<int> indices;
+
+  cout << "Files: " << endl;
+  for(vector<fs::path>::iterator i = files.begin(); i != files.end(); i++)
+  {
+    string t = (*i).string();
+    string s = boost::regex_replace(t,
+                                    boost::regex("stats-([0-9]+).csv"),
+                                    string("\\1")
+                                   );
+    indices.push_back(atoi(s.c_str()));
+  }
+
+  std::sort (indices.begin(), indices.end());
+  
+  // cout << "indices: " << endl;
+  // stringstream sst;
+  // for(vector<int>::iterator i = indices.begin(); i != indices.end(); i++)
+  // {
+    // sst.str("");
+    // sst << "stats-" << *i << ".csv";
+    // std::ifstream input(sst.str());
+    // std::string line;
+    // getline(input, line); // first line are comments
+    // for(;getline( input, line );)
+    // {
+
+    // }
+
+    
+  // }
+  // cout << "end" << endl;
+
 }

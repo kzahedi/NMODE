@@ -121,13 +121,6 @@ bool YarsXSDSaxParser::read(string filename)
     XMLString::release(&message);
     return false;
   }
-  catch (const SAXException& toCatch) {
-    char* message = XMLString::transcode(toCatch.getMessage());
-    cout << "Exception message is: \n"
-      << message << "\n";
-    XMLString::release(&message);
-    return false;
-  }
   catch (const SAXNotRecognizedException& toCatch) {
     char* message = XMLString::transcode(toCatch.getMessage());
     cout << "Exception message is: \n"
@@ -144,6 +137,13 @@ bool YarsXSDSaxParser::read(string filename)
   }
   catch (const NMODEException& toCatch) {
     std::cout << "Exception message is: \n" << toCatch.what() << endl;
+    return false;
+  }
+  catch (const SAXException& toCatch) {
+    char* message = XMLString::transcode(toCatch.getMessage());
+    cout << "Exception message is: \n"
+      << message << "\n";
+    XMLString::release(&message);
     return false;
   }
   catch (...) {
