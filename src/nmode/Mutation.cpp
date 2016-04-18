@@ -223,13 +223,13 @@ void Mutation::__mutateAddEdge(Module *m, double probability,
           if(dst_node->contains(src_node) == false)
           {
             // USE FIXED PROBABILITY FOR ALL EDGES
-            d = DIST(src_node->position(), dst_node->position());
-            if(d < MIN_DIST) d = 0;
-            probabilities[s_index][d_index] = exp(-d);
-            VLOG(50) << "    edge from "
-              << src_node->label() << " to "
-              << dst_node->label() << " does not exist. setting distance to " << d;
-            // probabilities[s_index][d_index] = 1.0;
+            // d = DIST(src_node->position(), dst_node->position());
+            // if(d < MIN_DIST) d = 0;
+            // probabilities[s_index][d_index] = exp(-d);
+            // VLOG(50) << "    edge from "
+              // << src_node->label() << " to "
+              // << dst_node->label() << " does not exist. setting distance to " << d;
+            probabilities[s_index][d_index] = 1.0;
           }
         }
       }
