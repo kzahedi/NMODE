@@ -306,6 +306,7 @@ void Population::__plotData()
 
 void Population::__plotNrEdges()
 {
+  plcol0(4);
   PLFLT y[_stats.size()];
   PLFLT x[_stats.size()];
 
@@ -327,13 +328,12 @@ void Population::__plotNrEdges()
   pllab( "generation", "#edges", "Best individual's #edges" );
 
   // Plot the data that was prepared above.
-  plcol0(5);
   plline( (int)_stats.size(), x, y );
-  plcol0(1);
 }
 
 void Population::__plotAvgEdges()
 {
+  plcol0(4);
   PLFLT y[_stats.size()];
   PLFLT x[_stats.size()];
 
@@ -351,7 +351,7 @@ void Population::__plotAvgEdges()
   plenv( xmin, xmax, ymin, ymax, 0, 0 );
   pllab( "generation", "#edges", "Avg. individual's #edges" );
 
-  plcol0(3);
+  plcol0(4);
   // plwid(2);
   for(int i = 0; i < (int)_stats.size(); i++)
   {
@@ -361,7 +361,7 @@ void Population::__plotAvgEdges()
   plline( (int)_stats.size(), x, y );
 
   // plwid(1);
-  plcol0(4);
+  plcol0(3);
   for(int i = 0; i < (int)_stats.size(); i++)
   {
     x[i] = i;
@@ -369,18 +369,18 @@ void Population::__plotAvgEdges()
   }
   plline( (int)_stats.size(), x, y );
 
-  plcol0(4);
+  plcol0(3);
   for(int i = 0; i < (int)_stats.size(); i++)
   {
     x[i] = i;
     y[i] = (PLFLT)_stats[i]->maxSdEdges();
   }
   plline( (int)_stats.size(), x, y );
-  plcol0(1);
 }
 
 void Population::__plotNrHiddenUnits()
 {
+  plcol0(4);
   PLFLT y[_stats.size()];
   PLFLT x[_stats.size()];
 
@@ -402,13 +402,12 @@ void Population::__plotNrHiddenUnits()
   pllab( "generation", "#hidden units", "Best individual's #hidden" );
 
   // Plot the data that was prepared above.
-  plcol0(5);
   plline( (int)_stats.size(), x, y );
-  plcol0(1);
 }
 
 void Population::__plotAvgHiddenUnits()
 {
+  plcol0(4);
   PLFLT y[_stats.size()];
   PLFLT x[_stats.size()];
 
@@ -426,7 +425,7 @@ void Population::__plotAvgHiddenUnits()
   plenv( xmin, xmax, ymin, ymax, 0, 0 );
   pllab( "generation", "#hidden units", "Avg. individual's #hidden units" );
 
-  plcol0(3);
+  plcol0(4);
   // plwid(2);
   for(int i = 0; i < (int)_stats.size(); i++)
   {
@@ -451,11 +450,11 @@ void Population::__plotAvgHiddenUnits()
     y[i] = (PLFLT)_stats[i]->maxSdHiddenUnits();
   }
   plline( (int)_stats.size(), x, y );
-  plcol0(1);
 }
 
 void Population::__plotAvgFitness()
 {
+  plcol0(4);
   PLFLT y[_stats.size()];
   PLFLT x[_stats.size()];
 
@@ -473,7 +472,7 @@ void Population::__plotAvgFitness()
   plenv( xmin, xmax, ymin, ymax, 0, 0 );
   pllab( "generation", "fitness", "Avg. individual's fitness" );
 
-  plcol0(3);
+  plcol0(4);
   // plwid(2);
   for(int i = 0; i < (int)_stats.size(); i++)
   {
@@ -483,7 +482,7 @@ void Population::__plotAvgFitness()
   plline( (int)_stats.size(), x, y );
 
   // plwid(1);
-  plcol0(4);
+  plcol0(3);
   for(int i = 0; i < (int)_stats.size(); i++)
   {
     x[i] = i;
@@ -491,18 +490,18 @@ void Population::__plotAvgFitness()
   }
   plline( (int)_stats.size(), x, y );
 
-  plcol0(4);
+  plcol0(3);
   for(int i = 0; i < (int)_stats.size(); i++)
   {
     x[i] = i;
     y[i] = (PLFLT)_stats[i]->maxSdFitness();
   }
   plline( (int)_stats.size(), x, y );
-  plcol0(1);
 }
 
 void Population::__plotMaxFitness()
 {
+  plcol0(4);
   PLFLT y[_stats.size()];
   PLFLT x[_stats.size()];
 
@@ -524,9 +523,7 @@ void Population::__plotMaxFitness()
   pllab( "generation", "fitness", "Best individual's fitness" );
 
   // Plot the data that was prepared above.
-  plcol0(1);
   plline( (int)_stats.size(), x, y );
-  plcol0(1);
 }
 #endif // USE_PLPLOT
 

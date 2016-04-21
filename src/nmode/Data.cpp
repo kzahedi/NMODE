@@ -168,7 +168,7 @@ string Data::__evolution()
   sst << "      <delete probability=\"" << _MUTN->delProbability() << "\"/>" << endl;
   sst << "    </node>" << endl;
   sst << "    <edge>" << endl;
-  sst << "      <modify probability=\"" << _MUTN->modifyProbability() << "\" "
+  sst << "      <modify probability=\"" << _MUTE->modifyProbability() << "\" "
     << "maximum=\"" << _MUTE->modifyMaxValue() << "\" "
     << "delta=\""   << _MUTE->modifyDelta() << "\"/>" << endl;
   sst << "      <add    probability=\"" << _MUTE->addProbability()  << "\" " << "maximum=\"" << _MUTE->addMaxValue()  << "\"/>" << endl;

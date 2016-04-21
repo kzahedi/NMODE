@@ -86,16 +86,16 @@ bool Mutation::mutate(Module *m, CfgMutationNode *den, CfgMutationEdge *dee)
   LOG_MODULE;
   __mutateDelEdge(m,    e->delProbability());
   __mutateModifyEdge(m, e->modifyProbability(),
-                     e->modifyDelta(),
-                     e->modifyMaxValue());
+                        e->modifyDelta(),
+                        e->modifyMaxValue());
   __mutateModifyNode(m, n->modifyProbability(),
-                     n->modifyDelta(),
-                     n->modifyMaxValue());
+                        n->modifyDelta(),
+                        n->modifyMaxValue());
   __mutateDelNode(m,    n->delProbability());
   __mutateAddNode(m,    n->addProbability(),
-                  n->addMaxValue());
+                        n->addMaxValue());
   __mutateAddEdge(m,    e->addProbability(),
-                  e->addMaxValue());
+                        e->addMaxValue());
   __mutateAddSelf(m,    e->selfProbability(),
   e->selfMaxValue());
   __cleanup(m);
@@ -223,13 +223,13 @@ void Mutation::__mutateAddEdge(Module *m, double probability,
           if(dst_node->contains(src_node) == false)
           {
             // USE FIXED PROBABILITY FOR ALL EDGES
-            // d = DIST(src_node->position(), dst_node->position());
-            // if(d < MIN_DIST) d = 0;
-            // probabilities[s_index][d_index] = exp(-d);
-            // VLOG(50) << "    edge from "
-              // << src_node->label() << " to "
-              // << dst_node->label() << " does not exist. setting distance to " << d;
-            probabilities[s_index][d_index] = 1.0;
+            d = DIST(src_node->position(), dst_node->position());
+            if(d < MIN_DIST) d = 0;
+            probabilities[s_index][d_index] = exp(-d);
+            VLOG(50) << "    edge from "
+              << src_node->label() << " to "
+              << dst_node->label() << " does not exist. setting distance to " << d;
+            // probabilities[s_index][d_index] = 1.0;
           }
         }
       }
