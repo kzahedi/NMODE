@@ -1,5 +1,5 @@
-#ifndef __EVALUATE_H__
-#define __EVALUATE_H__
+#ifndef __NMODE_EVALUATE_H__
+#define __NMODE_EVALUATE_H__
 
 #include <nmode/RNN.h>
 #include <nmode/Population.h>

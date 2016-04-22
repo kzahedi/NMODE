@@ -1,5 +1,5 @@
-#ifndef __ENP_MUTEX_H__
-#define __ENP_MUTEX_H__
+#ifndef __NMODE_ENP_MUTEX_H__
+#define __NMODE_ENP_MUTEX_H__
 
 #include <pthread.h>
 

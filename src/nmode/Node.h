@@ -1,12 +1,12 @@
-#ifndef __DATA_MODULE_NODE_H__
-#define __DATA_MODULE_NODE_H__
+#ifndef __NMODE_DATA_MODULE_NODE_H__
+#define __NMODE_DATA_MODULE_NODE_H__
 
-#include "XsdParseNode.h"
+#include <nmode/XsdParseNode.h>
 
-#include "NMODEException.h"
+#include <nmode/NMODEException.h>
 
-#include "Edge.h"
-#include "P3D.h"
+#include <nmode/Edge.h>
+#include <nmode/P3D.h>
 
 # define TAG_MODULE_NODE            (char*)"node"
 # define TAG_MODULE_NODE_DEFINITION (char*)"module_node_definition"

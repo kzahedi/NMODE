@@ -1,8 +1,8 @@
-#ifndef __EVALUATION_PARAMETER_H__
-#define __EVALUATION_PARAMETER_H__
+#ifndef __NMODE_EVALUATION_PARAMETER_H__
+#define __NMODE_EVALUATION_PARAMETER_H__
 
-#include "ParseElement.h"
-#include "XsdParseNode.h"
+#include <nmode/ParseElement.h>
+#include <nmode/XsdParseNode.h>
 
 #include <string>
 #include <vector>

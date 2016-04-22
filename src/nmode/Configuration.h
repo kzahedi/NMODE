@@ -1,10 +1,10 @@
-#ifndef ___DATA_CONFIGURATION_H__
-#define ___DATA_CONFIGURATION_H__
+#ifndef __NMODE_DATA_CONFIGURATION_H__
+#define __NMODE_DATA_CONFIGURATION_H__
 
-#include "XsdParseNode.h"
+#include <nmode/XsdParseNode.h>
 
-#include "Module.h"
-#include "Individual.h"
+#include <nmode/Module.h>
+#include <nmode/Individual.h>
 
 # define TAG_CONFIGURATION            (char*)"configuration"
 # define TAG_CONFIGURATION_DEFINITION (char*)"configuration_definition"

@@ -1,4 +1,4 @@
-#include "CfgVisualisation.h"
+#include <nmode/CfgVisualisation.h>
 
 #include <nmode/macros.h>
 

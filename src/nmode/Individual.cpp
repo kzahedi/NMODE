@@ -1,8 +1,7 @@
-#include "Individual.h"
+#include <nmode/Individual.h>
+#include <nmode/macros.h>
 
-#include "glog/logging.h"
-
-#include "nmode/macros.h"
+#include <glog/logging.h>
 
 #include <boost/algorithm/string.hpp>
 

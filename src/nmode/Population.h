@@ -1,10 +1,10 @@
-#ifndef __DATA_POPULATION_H__
-#define __DATA_POPULATION_H__
+#ifndef __NMODE_DATA_POPULATION_H__
+#define __NMODE_DATA_POPULATION_H__
 
-#include "XsdParseNode.h"
-#include "Individual.h"
-#include "Observable.h"
-#include "Stats.h"
+#include <nmode/XsdParseNode.h>
+#include <nmode/Individual.h>
+#include <nmode/Observable.h>
+#include <nmode/Stats.h>
 
 #include <pthread.h>
 #include <iostream>

@@ -1,7 +1,7 @@
-#ifndef __EXPORTER_H__
-#define __EXPORTER_H__
+#ifndef __NMODE_EXPORTER_H__
+#define __NMODE_EXPORTER_H__
 
-#include "Population.h"
+#include <nmode/Population.h>
 
 #include <string>
 

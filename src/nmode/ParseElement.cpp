@@ -1,4 +1,4 @@
-#include "ParseElement.h"
+#include <nmode/ParseElement.h>
 
 ParseElement::ParseElement(int type)
 {

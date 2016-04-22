@@ -1,8 +1,8 @@
-#ifndef __OBSERVABLE_H__
-#define __OBSERVABLE_H__
+#ifndef __NMODE_OBSERVABLE_H__
+#define __NMODE_OBSERVABLE_H__
 
-#include "Observer.h"
-#include "ObservableMessage.h"
+#include <nmode/Observer.h>
+#include <nmode/ObservableMessage.h>
 
 #include <list>
 

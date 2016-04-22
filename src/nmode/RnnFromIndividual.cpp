@@ -1,6 +1,6 @@
-#include "RnnFromIndividual.h"
+#include <nmode/RnnFromIndividual.h>
 
-#include "macros.h"
+#include <nmode/macros.h>
 
 #include <map>
 #include <boost/algorithm/string.hpp>

@@ -1,4 +1,4 @@
-#include "FileSystemOperations.h"
+#include <nmode/FileSystemOperations.h>
 
 #include <boost/tokenizer.hpp>
 #include <boost/foreach.hpp>

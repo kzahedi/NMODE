@@ -1,5 +1,5 @@
-#include "nmode/Population.h"
-#include "nmode/Mutation.h"
+#include <nmode/Population.h>
+#include <nmode/Mutation.h>
 
 #define PAIRING_METHOD_RANDOM 1001
 

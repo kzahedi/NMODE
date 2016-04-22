@@ -1,13 +1,13 @@
-#ifndef __DATA_H__
-#define __DATA_H__
+#ifndef __NMODE_DATA_H__
+#define __NMODE_DATA_H__
 
 #include <vector>
 #include <string>
 
-#include "XsdSpecification.h"
+#include <nmode/XsdSpecification.h>
 
-#include "NMODE.h"
-#include "Observer.h"
+#include <nmode/NMODE.h>
+#include <nmode/Observer.h>
 
 #define REP Data::instance()->specification()->reproduction()
 #define SIM Data::instance()->specification()->simulator()

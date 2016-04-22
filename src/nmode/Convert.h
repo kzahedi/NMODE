@@ -1,7 +1,7 @@
-#ifndef __CONVERT_H__
-#define __CONVERT_H__
+#ifndef __NMODE_CONVERT_H__
+#define __NMODE_CONVERT_H__
 
-#include "Individual.h"
+#include  <nmode/Individual.h>
 
 class Convert
 {

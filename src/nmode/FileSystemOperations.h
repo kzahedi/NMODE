@@ -1,5 +1,5 @@
-#ifndef __FILESYSTEM_OPERATIONS_H__
-#define __FILESYSTEM_OPERATIONS_H__
+#ifndef __NMODE_FILESYSTEM_OPERATIONS_H__
+#define __NMODE_FILESYSTEM_OPERATIONS_H__
 
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/operations.hpp>

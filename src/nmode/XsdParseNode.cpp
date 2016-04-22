@@ -1,4 +1,4 @@
-#include "XsdParseNode.h"
+#include <nmode/XsdParseNode.h>
 
 XsdParseNode* XsdParseNode::current = NULL;
 

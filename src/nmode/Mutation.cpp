@@ -1,10 +1,10 @@
-#include "Mutation.h"
+#include <nmode/Mutation.h>
 
 #include <glog/logging.h>
 
-#include "nmode/macros.h"
-#include "nmode/Random.h"
-#include "nmode/Data.h"
+#include <nmode/macros.h>
+#include <nmode/Random.h>
+#include <nmode/Data.h>
 
 #include <sstream>
 

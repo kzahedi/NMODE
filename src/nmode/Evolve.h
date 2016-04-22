@@ -1,5 +1,5 @@
-#ifndef __EVOLVE_H__
-#define __EVOLVE_H__
+#ifndef __NMODE_EVOLVE_H__
+#define __NMODE_EVOLVE_H__
 
 #include <nmode/Observer.h>
 #include <nmode/Data.h>

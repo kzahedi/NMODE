@@ -1,5 +1,5 @@
-#ifndef __EVALUATION_H__
-#define __EVALUATION_H__
+#ifndef __NMODE_EVALUATION_H__
+#define __NMODE_EVALUATION_H__
 
 #include <nmode/XsdParseNode.h>
 #include <nmode/EvaluationParameter.h>

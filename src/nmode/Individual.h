@@ -1,8 +1,8 @@
-#ifndef __DATA_INDIVIDUAL_H__
-#define __DATA_INDIVIDUAL_H__
+#ifndef __NMODE_DATA_INDIVIDUAL_H__
+#define __NMODE_DATA_INDIVIDUAL_H__
 
-#include "XsdParseNode.h"
-#include "Module.h"
+#include <nmode/XsdParseNode.h>
+#include <nmode/Module.h>
 
 # define TAG_INDIVIDUAL            (char*)"individual"
 # define TAG_INDIVIDUAL_DEFINITION (char*)"individual_definition"

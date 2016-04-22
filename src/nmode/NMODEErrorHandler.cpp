@@ -1,13 +1,13 @@
-#include "NMODEErrorHandler.h"
+#include <nmode/NMODEErrorHandler.h>
 
-#include "StringTokeniser.h"
+#include <nmode/StringTokeniser.h>
 
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdarg.h>
 
-#ifndef __APPLE__
+#ifndef __NMODE_APPLE__
 #include <string.h>
 #endif // __APPLE__
 

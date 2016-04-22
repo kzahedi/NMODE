@@ -1,4 +1,4 @@
-#include "Evolve.h"
+#include <nmode/Evolve.h>
 
 #include <nmode/Data.h>
 #include <nmode/Random.h>
@@ -27,6 +27,26 @@ void Evolve::initFromDir(string dir)
 
   this->init(sst.str(), false);
 }
+
+// void Evolve::initFromDir(string dir)
+// {
+  // stringstream sst;
+  // sst << dir << "/" << "last_generation.xml";
+
+  // _data = Data::instance();
+  // _data->read(sst.str());
+
+  // _pop = Population::instance();
+  // _pop->removeCurrentLogDir();
+  // _pop->setCurrentLogDir(dir);
+  // _pop->readStats(dir);
+
+  // _pop->setGeneration(_pop->generation() - 1);
+
+  // this->init(sst.str(), false);
+// }
+
+
 
 void Evolve::init(string xml, bool read)
 {

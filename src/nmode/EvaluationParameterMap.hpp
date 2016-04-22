@@ -1,5 +1,5 @@
-#ifndef __EVALUATION_PARAMETER_MAP_H__
-#define __EVALUATION_PARAMETER_MAP_H__
+#ifndef __NMODE_EVALUATION_PARAMETER_MAP_H__
+#define __NMODE_EVALUATION_PARAMETER_MAP_H__
 
 #include <map>
 #include <string>

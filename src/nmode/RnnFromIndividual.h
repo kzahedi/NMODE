@@ -1,5 +1,5 @@
-#include "Individual.h"
-#include "RNN.h"
+#include <nmode/Individual.h>
+#include <nmode/RNN.h>
 
 class RnnFromIndividual
 {

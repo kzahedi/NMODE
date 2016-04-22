@@ -1,5 +1,5 @@
-#ifndef __VERSION_H__
-#define __VERSION_H__
+#ifndef __NMODE_VERSION_H__
+#define __NMODE_VERSION_H__
 
 #include <iostream>
 

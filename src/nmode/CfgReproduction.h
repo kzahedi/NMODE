@@ -1,7 +1,7 @@
-#ifndef __CFG_REPRODUCTION_H__
-#define __CFG_REPRODUCTION_H__
+#ifndef __NMODE_CFG_REPRODUCTION_H__
+#define __NMODE_CFG_REPRODUCTION_H__
 
-#include "XsdParseNode.h"
+#include <nmode/XsdParseNode.h>
 
 # define TAG_REPRODUCTION            (char*)"reproduction"
 # define TAG_REPRODUCTION_DEFINITION (char*)"reproduction_cfg_definition"

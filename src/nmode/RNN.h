@@ -1,9 +1,9 @@
-#ifndef __RNN_H__
-#define __RNN_H__
+#ifndef __NMODE_RNN_H__
+#define __NMODE_RNN_H__
 
-#include "P3D.h"
-#include "NMODEException.h"
-#include "Individual.h"
+#include <nmode/P3D.h>
+#include <nmode/NMODEException.h>
+#include <nmode/Individual.h>
 
 #include <vector>
 

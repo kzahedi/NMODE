@@ -1,5 +1,5 @@
-#ifndef __DATA_SIMULATOR_H__
-#define __DATA_SIMULATOR_H__
+#ifndef __NMODE_DATA_SIMULATOR_H__
+#define __NMODE_DATA_SIMULATOR_H__
 
 #include "XsdParseNode.h"
 

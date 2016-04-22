@@ -1,5 +1,5 @@
-#ifndef __DATA_EVOLUTION_NODE_H__
-#define __DATA_EVOLUTION_NODE_H__
+#ifndef __NMODE_DATA_EVOLUTION_NODE_H__
+#define __NMODE_DATA_EVOLUTION_NODE_H__
 
 #include "XsdParseNode.h"
 #include "Version.h"

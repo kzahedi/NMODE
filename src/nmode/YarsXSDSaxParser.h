@@ -25,8 +25,8 @@
  *************************************************************************/
 
 
-#ifndef __YARS_XSD_SAX_PARSER_H__
-#define __YARS_XSD_SAX_PARSER_H__
+#ifndef __NMODE_YARS_XSD_SAX_PARSER_H__
+#define __NMODE_YARS_XSD_SAX_PARSER_H__
 
 #include <vector>
 #include <string>

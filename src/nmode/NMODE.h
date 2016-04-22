@@ -1,19 +1,19 @@
-#ifndef ___DATA_NMODE_H__
-#define ___DATA_NMODE_H__
+#ifndef __NMODE_DATA_NODE_H__
+#define __NMODE_DATA_NODE_H__
 
-#include "XsdParseNode.h"
-#include "Version.h"
+#include <nmode/XsdParseNode.h>
+#include <nmode/Version.h>
 
-#include "CfgReproduction.h"
-#include "CfgVisualisation.h"
-#include "CfgMutation.h"
-#include "CfgEvaluation.h"
-#include "Configuration.h"
-#include "Simulator.h"
-#include "Population.h"
+#include <nmode/CfgReproduction.h>
+#include <nmode/CfgVisualisation.h>
+#include <nmode/CfgMutation.h>
+#include <nmode/CfgEvaluation.h>
+#include <nmode/Configuration.h>
+#include <nmode/Simulator.h>
+#include <nmode/Population.h>
 
 # define TAG_NMODE                        (char*)"nmode"
-# define TAG_NMODE_DEFINITION             (char*)"enp_definition"
+# define TAG_NODE_DEFINITION             (char*)"enp_definition"
 # define TAG_VERSION_REGULAR_EXPRESSION (char*)"[0-9]+.[0-9]+.[0-9]+"
 
 class NMODE : public XsdParseNode
@@ -64,4 +64,4 @@ class NMODE : public XsdParseNode
 
 };
 
-#endif // ___DATA_NMODE_H__
+#endif // ___DATA_NODE_H__

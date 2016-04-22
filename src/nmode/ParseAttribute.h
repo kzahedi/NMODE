@@ -1,5 +1,5 @@
-#ifndef __DATA_PARSE_ATTRIBUTE_H__
-#define __DATA_PARSE_ATTRIBUTE_H__
+#ifndef __NMODE_DATA_PARSE_ATTRIBUTE_H__
+#define __NMODE_DATA_PARSE_ATTRIBUTE_H__
 
 #include <string>
 

@@ -1,6 +1,6 @@
-#include "Node.h"
+#include <nmode/Node.h>
 
-#include "macros.h"
+#include <nmode/macros.h>
 
 #include <iostream>
 #include <glog/logging.h>

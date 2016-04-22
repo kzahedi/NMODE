@@ -1,9 +1,9 @@
-#include "Population.h"
-#include "macros.h"
-#include "mutex.h"
-#include "Exporter.h"
-#include "Data.h"
-#include "Convert.h"
+#include <nmode/Population.h>
+#include <nmode/macros.h>
+#include <nmode/mutex.h>
+#include <nmode/Exporter.h>
+#include <nmode/Data.h>
+#include <nmode/Convert.h>
 
 #include <math.h>
 

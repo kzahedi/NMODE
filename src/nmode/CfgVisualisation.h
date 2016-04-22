@@ -1,5 +1,5 @@
-#ifndef __VISUALISATION_H__
-#define __VISUALISATION_H__
+#ifndef __NMODE_VISUALISATION_H__
+#define __NMODE_VISUALISATION_H__
 
 #include <nmode/XsdParseNode.h>
 

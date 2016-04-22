@@ -1,6 +1,6 @@
-#include "CfgReproduction.h"
+#include <nmode/CfgReproduction.h>
 
-#include "XsdSpecification.h"
+#include <nmode/XsdSpecification.h>
 
 #include <iostream>
 #include <glog/logging.h>

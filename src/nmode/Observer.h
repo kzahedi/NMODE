@@ -1,7 +1,7 @@
-#ifndef __OBSERVER_H__
-#define __OBSERVER_H__
+#ifndef __NMODE_OBSERVER_H__
+#define __NMODE_OBSERVER_H__
 
-#include "ObservableMessage.h"
+#include <nmode/ObservableMessage.h>
 
 class Observer
 {

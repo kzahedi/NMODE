@@ -1,4 +1,4 @@
-#include "Stats.h"
+#include <nmode/Stats.h>
 
 Stats::Stats(const Individuals& individuals)
 {

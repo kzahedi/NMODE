@@ -1,10 +1,11 @@
-#ifndef __MUTATION_H__
-#define __MUTATION_H__
-#include "Population.h"
-#include "Individual.h"
-#include "Module.h"
-#include "CfgMutationEdge.h"
-#include "CfgMutationNode.h"
+#ifndef __NMODE_MUTATION_H__
+#define __NMODE_MUTATION_H__
+
+#include <nmode/Population.h>
+#include <nmode/Individual.h>
+#include <nmode/Module.h>
+#include <nmode/CfgMutationEdge.h>
+#include <nmode/CfgMutationNode.h>
 
 class Mutation
 {

@@ -1,4 +1,4 @@
-#include "CfgEvaluation.h"
+#include <nmode/CfgEvaluation.h>
 
 #include <nmode/macros.h>
 

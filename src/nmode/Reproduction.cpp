@@ -1,10 +1,10 @@
-#include "Reproduction.h"
+#include <nmode/Reproduction.h>
 
-#include "Random.h"
-#include "macros.h"
-#include "Data.h"
+#include <nmode/Random.h>
+#include <nmode/macros.h>
+#include <nmode/Data.h>
 
-#include "Mutation.h"
+#include <nmode/Mutation.h>
 
 #include <glog/logging.h>
 

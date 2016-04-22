@@ -1,4 +1,4 @@
-#include "CfgMutationEdge.h"
+#include <nmode/CfgMutationEdge.h>
 
 #include <iostream>
 #include <glog/logging.h>

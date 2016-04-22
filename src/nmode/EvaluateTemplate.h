@@ -1,5 +1,5 @@
-#include "RNN.h"
-#include "Population.h"
+#include  <nmode/RNN.h>
+#include  <nmode/Population.h>
 
 #include <yars/cppClientCom/YarsClientCom.h>
 

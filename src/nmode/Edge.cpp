@@ -1,4 +1,4 @@
-#include "Edge.h"
+#include  <nmode/Edge.h>
 
 #include <iostream>
 #include <glog/logging.h>

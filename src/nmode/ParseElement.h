@@ -1,7 +1,7 @@
-#ifndef __DATA_PARSE_ELEMENT_H__
-#define __DATA_PARSE_ELEMENT_H__
+#ifndef __NMODE_DATA_PARSE_ELEMENT_H__
+#define __NMODE_DATA_PARSE_ELEMENT_H__
 
-#include "ParseAttribute.h"
+#include <nmode/ParseAttribute.h>
 
 #include <string>
 #include <vector>

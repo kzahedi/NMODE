@@ -1,12 +1,12 @@
-#include "Exporter.h"
-#include "Data.h"
+#include <nmode/Exporter.h>
+#include <nmode/Data.h>
 
 #include <sstream>
 #include <math.h>
 
-#include "nmode/macros.h"
-#include "nmode/Individual.h"
-#include "glog/logging.h"
+#include <nmode/macros.h>
+#include <nmode/Individual.h>
+#include <glog/logging.h>
 
 #define XML_BOOL(a) (a?"true":"false")
 #define ZERO(a)     ((fabs(a)<0.0000000000001)?0:a)

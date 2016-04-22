@@ -1,4 +1,4 @@
-#include "Version.h"
+#include <nmode/Version.h>
 
 Version::Version()
 {

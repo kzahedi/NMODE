@@ -1,5 +1,5 @@
-#ifndef __MODULE_H__
-#define __MODULE_H__
+#ifndef __NMODE_MODULE_H__
+#define __NMODE_MODULE_H__
 
 #include <nmode/XsdParseNode.h>
 

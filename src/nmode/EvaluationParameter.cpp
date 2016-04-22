@@ -1,4 +1,4 @@
-#include "EvaluationParameter.h"
+#include <nmode/EvaluationParameter.h>
 
 #include <stdio.h>
 #include <stdlib.h>

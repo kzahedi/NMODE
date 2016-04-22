@@ -1,10 +1,10 @@
-#ifndef ___CFG_MUTATION_H__
-#define ___CFG_MUTATION_H__
+#ifndef __NMODE_CFG_MUTATION_H__
+#define __NMODE_CFG_MUTATION_H__
 
-#include "XsdParseNode.h"
+#include <nmode/XsdParseNode.h>
 
-#include "CfgMutationNode.h"
-#include "CfgMutationEdge.h"
+#include <nmode/CfgMutationNode.h>
+#include <nmode/CfgMutationEdge.h>
 
 # define TAG_MUTATION                        (char*)"mutation"
 # define TAG_MUTATION_DEFINITION             (char*)"mutation_definition"

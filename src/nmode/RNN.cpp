@@ -1,7 +1,7 @@
-#include "RNN.h"
+#include <nmode/RNN.h>
 
-#include "macros.h"
-#include "NMODEException.h"
+#include <nmode/macros.h>
+#include <nmode/NMODEException.h>
 
 #include <math.h>
 

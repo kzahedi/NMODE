@@ -1,8 +1,8 @@
-#ifndef ___DATA_EVOLUTION_EDGE_H__
-#define ___DATA_EVOLUTION_EDGE_H__
+#ifndef __NMODE_DATA_EVOLUTION_EDGE_H__
+#define __NMODE_DATA_EVOLUTION_EDGE_H__
 
-#include "XsdParseNode.h"
-#include "Version.h"
+#include <nmode/XsdParseNode.h>
+#include <nmode/Version.h>
 
 # define TAG_MUTATION_EDGE            (char*)"edge"
 # define TAG_MUTATION_EDGE_DEFINITION (char*)"edge_evolution_definition"

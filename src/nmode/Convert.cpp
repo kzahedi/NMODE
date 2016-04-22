@@ -1,8 +1,8 @@
-#include "Convert.h"
+#include  <nmode/Convert.h>
 
-#include "Data.h"
-#include "Exporter.h"
-#include "FileSystemOperations.h"
+#include  <nmode/Data.h>
+#include  <nmode/Exporter.h>
+#include  <nmode/FileSystemOperations.h>
 
 #include <sstream>
 

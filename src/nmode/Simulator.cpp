@@ -1,4 +1,4 @@
-#include "Simulator.h"
+#include <nmode/Simulator.h>
 
 #include <iostream>
 

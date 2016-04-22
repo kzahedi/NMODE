@@ -1,6 +1,6 @@
-#include "Configuration.h"
+#include <nmode/Configuration.h>
 
-#include "nmode/macros.h"
+#include <nmode/macros.h>
 
 #include <iostream>
 #include <glog/logging.h>

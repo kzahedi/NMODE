@@ -1,5 +1,5 @@
-#ifndef __OBSERVABLE_MESSAGE_H__
-#define __OBSERVABLE_MESSAGE_H__
+#ifndef __NMODE_OBSERVABLE_MESSAGE_H__
+#define __NMODE_OBSERVABLE_MESSAGE_H__
 
 #include <string>
 

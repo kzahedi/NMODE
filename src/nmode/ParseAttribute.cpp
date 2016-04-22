@@ -1,4 +1,4 @@
-#include "ParseAttribute.h"
+#include <nmode/ParseAttribute.h>
 
 #include <stdio.h>
 #include <stdlib.h>

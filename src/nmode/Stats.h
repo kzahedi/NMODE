@@ -1,7 +1,7 @@
-#ifndef __STATS_H__
-#define __STATS_H__
+#ifndef __NMODE_STATS_H__
+#define __NMODE_STATS_H__
 
-#include "Individual.h"
+#include <nmode/Individual.h>
 #include <vector>
 
 using namespace std;
