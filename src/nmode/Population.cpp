@@ -247,7 +247,7 @@ void Population::serialise()
   cout << "Generation " << _generation << " completed." << endl;
   stringstream sst;
   sst << _logDirectory << "/" << "generation-" << _generation << ".xml";
-  cout << "Logging " << sst.str() << endl;
+  // cout << "Logging " << sst.str() << endl;
   VLOG(10) << "opening " << sst.str();
   _output.open(sst.str(), std::ofstream::trunc);
   VLOG(10) << "writing data";
