@@ -231,11 +231,17 @@ void Population::__getUniqueDirectoryName()
     index++;
     _logDirectory = newOss.str();
   }
-  fs::create_directory(_logDirectory);
+  // fs::create_directory(_logDirectory);
 }
 
 void Population::serialise()
 {
+
+  if(boost::filesystem::exists(fs::path(_logDirectory)) == false)
+  {
+    fs::create_directory(_logDirectory);
+  }
+
   Stats *s = new Stats(_individuals);
   _stats.push_back(s);
   cout << "Generation " << _generation << " completed." << endl;
@@ -571,7 +577,7 @@ void Population::setGeneration(int g)
 
 void Population::plotLast()
 {
-  cout << "converting " << _logDirectory << endl;
+  // cout << "converting " << _logDirectory << endl;
   Convert::convertIndividual(_individuals[0]);
   // system("open out.html");
 }

@@ -19,7 +19,7 @@ void Evolve::initFromDir(string dir)
   _data->read(sst.str());
 
   _pop = Population::instance();
-  _pop->removeCurrentLogDir();
+  // _pop->removeCurrentLogDir();
   _pop->setCurrentLogDir(dir);
   _pop->readStats(dir);
 
