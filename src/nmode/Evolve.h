@@ -19,7 +19,7 @@ class Evolve : public Observer
   public:
     Evolve();
 
-    void init(string xml, bool read = true);
+    void init(string xml, bool read = true, string log = "");
     void initFromDir(string dir);
 
     void notify(ObservableMessage *message);

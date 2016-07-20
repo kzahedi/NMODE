@@ -35,6 +35,7 @@ int main(int argc, char** argv)
   po::variables_map vm;
 
   string xml;
+  string log;
   string continueDir;
   int    individual_index;
 
@@ -43,6 +44,9 @@ int main(int argc, char** argv)
     ("xml",
      po::value<string>(&xml),
      "xml files")
+    ("log",
+     po::value<string>(&log),
+     "nmode-log")
     ("convert,c",
      "convert file to X3D")
     ("individual,i",
@@ -114,7 +118,7 @@ int main(int argc, char** argv)
   if(xml != "")
   {
     cout << endl << "XML file: " << xml << endl;
-    evo->init(xml, true);
+    evo->init(xml, true, log);
   }
   if(continueDir != "") 
   {

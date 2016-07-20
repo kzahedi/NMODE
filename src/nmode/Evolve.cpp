@@ -8,6 +8,7 @@
 Evolve::Evolve()
 {
   Random::initialise();
+  _population = NULL;
 }
 
 void Evolve::initFromDir(string dir)
@@ -48,7 +49,7 @@ void Evolve::initFromDir(string dir)
 
 
 
-void Evolve::init(string xml, bool read)
+void Evolve::init(string xml, bool read, string log)
 {
   if(read == true)
   {
@@ -57,6 +58,7 @@ void Evolve::init(string xml, bool read)
   }
 
   _pop          = Population::instance();
+  if(log != "") _pop->setCurrentLogDir(log);
   _reproduction = new Reproduction();
   // the initial population is always open to reproduction
   _reproduction->reproduce();
