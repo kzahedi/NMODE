@@ -13,6 +13,11 @@
 # define TAG_POPULATION            (char*)"population"
 # define TAG_POPULATION_DEFINITION (char*)"population_definition"
 
+#ifdef USE_PLPLOT
+# include <plplot.h>
+# include <plConfig.h>
+# include <plevent.h>
+#endif // USE_PLPLOT
 
 class Population : public Observable, public XsdParseNode
 {
@@ -58,13 +63,15 @@ class Population : public Observable, public XsdParseNode
     void            __getUniqueDirectoryName();
     void            __calculateSelectionProbabilities();
 #ifdef USE_PLPLOT
-    void            __plotData();
-    void            __plotMaxFitness();
-    void            __plotAvgFitness();
-    void            __plotNrHiddenUnits();
-    void            __plotAvgHiddenUnits();
-    void            __plotNrEdges();
-    void            __plotAvgEdges();
+    void __plotData();
+    void __plotMaxFitness();
+    void __plotAvgFitness();
+    void __plotNrHiddenUnits();
+    void __plotAvgHiddenUnits();
+    void __plotNrEdges();
+    void __plotAvgEdges();
+    void __plotNrOfOffspring();
+    void __plfbox( PLFLT x0, PLFLT y0 );
 #endif // USE_PLPLOT
     void            __calculateStats();
 

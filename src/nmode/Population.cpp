@@ -29,6 +29,11 @@ namespace fs = boost::filesystem;
 # include <plevent.h>
 #endif // USE_PLPLOT
 
+static PLFLT pos[]   = { 0.0, 0.25, 0.5, 0.75, 1.0 };
+static PLFLT red[]   = { 0.0, 0.25, 0.5, 1.0, 1.0 };
+static PLFLT green[] = { 1.0, 0.5, 0.5, 0.5, 1.0 };
+static PLFLT blue[]  = { 1.0, 1.0, 0.5, 0.25, 0.0 };
+
 Population* Population::_me = NULL;
 
 Population::Population(XsdParseNode *parent)
@@ -298,17 +303,67 @@ void Population::__plotData()
 {
   if(_stats.size() < 2) return;
   plsetopt("dev","pdf");
-  plsetopt("geometry","1200x900");
+  plsetopt("geometry","1800x1200");
   plsfnam ("stats.pdf");
-  plstar( 2, 3 );
+  plstar( 3, 3 );
   __plotMaxFitness();
   __plotAvgFitness();
   __plotNrHiddenUnits();
   __plotAvgHiddenUnits();
   __plotNrEdges();
   __plotAvgEdges();
+  __plotNrOfOffspring();
   plend();
 }
+
+void Population::__plfbox( PLFLT x0, PLFLT y0 )
+{
+    PLFLT x[4], y[4];
+
+    x[0] = x0;
+    y[0] = 0.;
+    x[1] = x0;
+    y[1] = y0;
+    x[2] = x0 + 1.;
+    y[2] = y0;
+    x[3] = x0 + 1.;
+    y[3] = 0.;
+    plfill( 4, x, y );
+    plcol0( 1 );
+    pllsty( 1 );
+    plline( 4, x, y );
+}
+
+void Population::__plotNrOfOffspring()
+{
+  int max = 0;
+  for(int i = 0; i < (int)_individuals.size(); i++)
+  {
+    int m = _individuals[i]->nrOfOffspring();
+    if(m > max) max = m;
+  }
+
+  plcol0(4);
+  plenv( 0, _individuals.size(), 0, ((float)max) * 1.5, 0, 0 );
+  pllab( "Parent", "Nr. of offspring", "" );
+
+  plscmap1l( 1, 5, pos, red, green, blue, NULL );
+
+  int index = 0;
+  char string[100];
+  for(int i = 0; i < (int)_individuals.size(); i++)
+  {
+    //plcol0(i + 1);
+    plcol1( i / 9.0 );
+    plpsty( 0 );
+    __plfbox( i, _individuals[i]->nrOfOffspring());
+    sprintf( string, "%d", _individuals[i]->nrOfOffspring());
+    plptex( (i + .5), (_individuals[i]->nrOfOffspring() + 2.), 1.0, 0.0, .5, string );
+    sprintf( string, "%d", i+1);
+    // plmtex( "b", 1.0, ( ( i + 1 ) * .1 - .05 ), 0.5, string );
+  }
+}
+
 
 void Population::__plotNrEdges()
 {

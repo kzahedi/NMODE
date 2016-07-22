@@ -15,7 +15,6 @@ Stats::Stats(const Individuals& individuals)
   __sdEdges(individuals);
 }
 
-
 void Stats::__bestFitness(const Individuals& individuals)
 {
   _bestFitness = individuals[0]->fitness();
