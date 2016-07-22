@@ -304,7 +304,7 @@ void Population::__plotData()
   if(_stats.size() < 2) return;
   stringstream sst;
 
-  sst << "stats-" << _generation << ".pdf";
+  sst << _logDirectory << "/" << "stats-" << _generation << ".pdf";
   plsetopt("dev","pdf");
   plsetopt("geometry","1800x1200");
   plsfnam (sst.str().c_str());
@@ -318,7 +318,7 @@ void Population::__plotData()
   plend();
 
   sst.str("");
-  sst << "stats.pdf";
+  sst << _logDirectory << "/" << "stats.pdf";
   plsetopt("dev","pdf");
   plsetopt("geometry","1800x1200");
   plsfnam (sst.str().c_str());
@@ -334,7 +334,7 @@ void Population::__plotData()
   plsetopt("dev","pdf");
   plsetopt("geometry","1800x400");
   sst.str("");
-  sst << "fitness-" << _generation << ".pdf";
+  sst << _logDirectory << "/" << "fitness-" << _generation << ".pdf";
   plsfnam (sst.str().c_str());
   plstar( 2, 1 );
   __plotNrOfOffspring();
@@ -342,7 +342,7 @@ void Population::__plotData()
   plend();
 
   sst.str("");
-  sst << "fitness.pdf";
+  sst << _logDirectory << "/" << "fitness.pdf";
   plsetopt("dev","pdf");
   plsetopt("geometry","1800x400");
   plsfnam (sst.str().c_str());
