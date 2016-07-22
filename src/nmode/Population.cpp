@@ -147,29 +147,33 @@ void Population::__calculateSelectionProbabilities()
   double sum = 0.0;
   double min = _individuals[0]->fitness();
   double rp  = REP->reproductionPressure();
-  double max = 0.0;
+  double max = _individuals[0]->fitness();
   vector<double> fitness(_individuals.size());
 
   FORI(0, _individuals.size(), i) fitness[i] = _individuals[i]->fitness();
   FORI(0, fitness.size(), i)      if(min > fitness[i]) min = fitness[i];
-  // FORI(0, fitness.size(), i)      fitness[i] -= min;
-  // FORI(0, fitness.size(), i)      if(fitness[i] > max) max = fitness[i];
+  FORI(0, fitness.size(), i)      if(fitness[i] > max) max = fitness[i];
   if(min < 0.0)
   {
-    FORI(0, fitness.size(), i)    fitness[i] -= min;
+    FORI(0, fitness.size(), i) fitness[i] -= min;
+    FORI(0, fitness.size(), i) fitness[i] += 0.1 * (max - min);
   }
-  if(max > 0.0)
+
+  FORI(0, fitness.size(), i) sum += fitness[i];
+  if(sum > 0.00001)
   {
-    FORI(0, fitness.size(), i)    fitness[i] = fitness[i] / max;
-    FORI(0, fitness.size(), i)    fitness[i] = pow(fitness[i], rp);
-    FORI(0, fitness.size(), i)    sum += fitness[i];
-    FORI(0, fitness.size(), i)    _individuals[i]->setReproductionFactor(fitness[i] / sum);
+    FORI(0, fitness.size(), i) fitness[i] = fitness[i] / sum;
   }
   else
   {
-    double f = 1.0/((double)_individuals.size());
-    FORI(0, fitness.size(),    i) _individuals[i]->setReproductionFactor(f);
+    FORI(0, fitness.size(), i) fitness[i] = 1.0 / ((float)_individuals.size());
   }
+
+  FORI(0, fitness.size(), i) fitness[i] = pow(fitness[i], rp);
+  sum = 0.0;
+  FORI(0, fitness.size(), i) sum += fitness[i];
+  FORI(0, fitness.size(), i) fitness[i] /= sum;
+  FORI(0, fitness.size(), i) _individuals[i]->setReproductionFactor(fitness[i]);
 }
 
 Population* Population::instance()
