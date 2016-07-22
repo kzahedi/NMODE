@@ -27,6 +27,7 @@ W3irdoNF::W3irdoNF()
   _measureType         = -1;
   _combinationType     = -1;
   _intermediateFitness = 0.0;
+  _maxDist             = 0.0;
 }
 
 void W3irdoNF::updateController()
@@ -62,7 +63,11 @@ void W3irdoNF::updateFitnessFunction()
   _z       = sensorValues[18];
   _mbContact = sensorValues[15];
   _dist    = sqrt(_x * _x + _y * _y);
-  _intermediateFitness += _distFactor * _dist; 
+  if(_dist > _maxDist)
+  {
+    _maxDist = _dist;
+    _intermediateFitness += _distFactor * _dist; 
+  }
 
   for(int i = 0; i < (int)_lastSensorReading.size(); i++)
   {
@@ -71,7 +76,8 @@ void W3irdoNF::updateFitnessFunction()
       _intermediateFitness -= _oscillationFactor;
     }
   }
-  fitness = __entropy(_intermediateFitness);
+  // fitness = __entropy(_intermediateFitness);
+  fitness = _intermediateFitness;
   // cout << _intermediateFitness << " -> " << fitness << endl;
 }
 
@@ -82,6 +88,7 @@ bool W3irdoNF::abort()
 
 void W3irdoNF::newIndividual()
 {
+  _maxDist = 0.0;
   stringstream sst;
 
   EVA->set("bins",               _bins,                  30);
@@ -142,7 +149,9 @@ void W3irdoNF::newIndividual()
 }
 
 void W3irdoNF::evaluationCompleted()
-{ }
+{
+  fitness = __entropy(fitness);
+}
 
 double W3irdoNF::__entropy(double f)
 {

@@ -31,6 +31,7 @@ class W3irdoNF : public Evaluate
     double               _itFactor;
     double               _oscillationFactor;
     double               _intermediateFitness;
+    double               _maxDist;
     int                  _bins;
     int                  _containerOffset;
     int                  _combinationType;
