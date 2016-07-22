@@ -302,17 +302,51 @@ void Population::serialise()
 void Population::__plotData()
 {
   if(_stats.size() < 2) return;
+  stringstream sst;
+
+  sst << "stats-" << _generation << ".pdf";
   plsetopt("dev","pdf");
   plsetopt("geometry","1800x1200");
-  plsfnam ("stats.pdf");
-  plstar( 3, 3 );
+  plsfnam (sst.str().c_str());
+  plstar( 2, 3 );
   __plotMaxFitness();
   __plotAvgFitness();
   __plotNrHiddenUnits();
   __plotAvgHiddenUnits();
   __plotNrEdges();
   __plotAvgEdges();
+  plend();
+
+  sst.str("");
+  sst << "stats.pdf";
+  plsetopt("dev","pdf");
+  plsetopt("geometry","1800x1200");
+  plsfnam (sst.str().c_str());
+  plstar( 2, 3 );
+  __plotMaxFitness();
+  __plotAvgFitness();
+  __plotNrHiddenUnits();
+  __plotAvgHiddenUnits();
+  __plotNrEdges();
+  __plotAvgEdges();
+  plend();
+
+  plsetopt("dev","pdf");
+  plsetopt("geometry","1800x400");
+  sst.str("");
+  sst << "fitness-" << _generation << ".pdf";
+  plsfnam (sst.str().c_str());
+  plstar( 2, 1 );
   __plotNrOfOffspring();
+  __plotFitness();
+  plend();
+
+  sst.str("");
+  sst << "fitness.pdf";
+  plsfnam (sst.str().c_str());
+  plstar( 2, 1 );
+  __plotNrOfOffspring();
+  __plotFitness();
   plend();
 }
 
@@ -334,6 +368,37 @@ void Population::__plfbox( PLFLT x0, PLFLT y0 )
     plline( 4, x, y );
 }
 
+void Population::__plotFitness()
+{
+  double max = _individuals[0]->fitness();
+  double min = _individuals[0]->fitness();
+  for(int i = 1; i < (int)_individuals.size(); i++)
+  {
+    double m = _individuals[i]->fitness();
+    if(m > max) max = m;
+    if(m < min) min = m;
+  }
+  if(max < 0.0) max = 0.0;
+  if(min > 0.0) min = 0.0;
+
+  plcol0(4);
+  plscmap1l( 1, 5, pos, red, green, blue, NULL );
+  plenv( 0, _individuals.size(), 1.1 * min, 1.1 * max, 0, -1 );
+  pllab("", "", "Fitness");
+
+  float delta = 1.0/(float)(_individuals.size());
+  int index = 0;
+  char string[100];
+  for(int i = 0; i < (int)_individuals.size(); i++)
+  {
+    plcol1( ((float)i) / ((float)_individuals.size()));
+    plpsty( 0 );
+    __plfbox( i, _individuals[i]->fitness());
+    sprintf( string, "%.2f", _individuals[i]->fitness());
+    plmtex( "b", 1.0, ( ( i + 1 ) * delta - .5 * delta ), 0.5, string );
+  }
+}
+
 void Population::__plotNrOfOffspring()
 {
   int max = 0;
@@ -344,24 +409,27 @@ void Population::__plotNrOfOffspring()
   }
 
   plcol0(4);
-  plenv( 0, _individuals.size(), 0, ((float)max) * 1.5, 0, 0 );
-  pllab( "Parent", "Nr. of offspring", "" );
+  plscmap1l(1, 5, pos, red, green, blue, NULL);
+  // plbox("b", 10000.0, 0, "b", (float)_individuals.size(), 10000.0);
+  plenv(0, _individuals.size(), 0, ((float)max) * 1.1, 0, -1);
+  pllab("", "", "Nr. of offspring");
 
-  plscmap1l( 1, 5, pos, red, green, blue, NULL );
-
+  float delta = 1.0/(float)(_individuals.size());
   int index = 0;
   char string[100];
+  // plssym(12.0, 1.0);
   for(int i = 0; i < (int)_individuals.size(); i++)
   {
     //plcol0(i + 1);
-    plcol1( i / 9.0 );
-    plpsty( 0 );
-    __plfbox( i, _individuals[i]->nrOfOffspring());
-    sprintf( string, "%d", _individuals[i]->nrOfOffspring());
-    plptex( (i + .5), (_individuals[i]->nrOfOffspring() + 2.), 1.0, 0.0, .5, string );
-    sprintf( string, "%d", i+1);
-    // plmtex( "b", 1.0, ( ( i + 1 ) * .1 - .05 ), 0.5, string );
+    plcol1( ((float)i) / ((float)_individuals.size()));
+    plpsty(0);
+    __plfbox(i, _individuals[i]->nrOfOffspring());
+    sprintf(string, "%d", _individuals[i]->nrOfOffspring());
+    // plptex((i + .5), 1.5, 1.0, 0.0, .5, string);
+    // sprintf(string, "%d", i+1);
+    plmtex("b", 1.0, ((i + 1) * delta - .5 * delta), 0.5, string);
   }
+  // plssym(12.0, 1.0);
 }
 
 

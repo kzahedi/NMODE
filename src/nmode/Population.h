@@ -72,6 +72,7 @@ class Population : public Observable, public XsdParseNode
     void __plotAvgEdges();
     void __plotNrOfOffspring();
     void __plfbox( PLFLT x0, PLFLT y0 );
+    void __plotFitness();
 #endif // USE_PLPLOT
     void            __calculateStats();
 
