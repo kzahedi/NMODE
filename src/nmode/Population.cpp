@@ -343,6 +343,7 @@ void Population::__plotData()
 
   sst.str("");
   sst << "fitness.pdf";
+  plsetopt("dev","pdf");
   plsfnam (sst.str().c_str());
   plstar( 2, 1 );
   __plotNrOfOffspring();
