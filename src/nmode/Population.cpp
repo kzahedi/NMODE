@@ -152,8 +152,12 @@ void Population::__calculateSelectionProbabilities()
 
   FORI(0, _individuals.size(), i) fitness[i] = _individuals[i]->fitness();
   FORI(0, fitness.size(), i)      if(min > fitness[i]) min = fitness[i];
-  FORI(0, fitness.size(), i)      fitness[i] -= min;
-  FORI(0, fitness.size(), i)      if(fitness[i] > max) max = fitness[i];
+  // FORI(0, fitness.size(), i)      fitness[i] -= min;
+  // FORI(0, fitness.size(), i)      if(fitness[i] > max) max = fitness[i];
+  if(min < 0.0)
+  {
+    FORI(0, fitness.size(), i)    fitness[i] -= min;
+  }
   if(max > 0.0)
   {
     FORI(0, fitness.size(), i)    fitness[i] = fitness[i] / max;
