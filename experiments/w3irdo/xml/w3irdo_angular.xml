@@ -21,7 +21,7 @@
       </osd>
     </screen>
     <cameras>
-      <orbit speed="0.01">
+      <orbit speed="5.0">
         <lookAtX p="0.9" i="0.0" d="0.0"/>
         <lookAtY p="0.9" i="0.0" d="0.0"/>
         <lookAtZ p="0.0" i="0.0" d="0.0"/>

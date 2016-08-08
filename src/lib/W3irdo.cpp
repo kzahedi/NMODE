@@ -110,7 +110,7 @@ void W3irdo::newIndividual()
       bins[i]       = _bins;
     }
 
-    Container *newContainer = new Container(lifeTime, containerSize);
+    DContainer *newContainer = new DContainer(lifeTime, containerSize);
 
     newContainer->setDomains(domains);
     newContainer->setBinSizes(bins);
@@ -126,9 +126,9 @@ void W3irdo::evaluationCompleted()
   sst << " Results:";
   if(_itFactor > 0.0)
   {
-    for(vector<Container*>::iterator c = _containers.begin(); c != _containers.end(); c++)
+    for(vector<DContainer*>::iterator c = _containers.begin(); c != _containers.end(); c++)
     {
-      Container *d = (*c)->discretise();
+      ULContainer *d = (*c)->discretise();
       double s  = 0.0;
       switch(_measureType)
       {

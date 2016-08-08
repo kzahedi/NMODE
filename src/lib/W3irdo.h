@@ -32,6 +32,6 @@ class W3irdo : public Evaluate
     string               _combinationTypeString;
     string               _measure;
     int                  _measureType;
-    vector<Container*>   _containers;
+    vector<DContainer*>  _containers;
     vector<vector<int> > _containerIndices;
 };
