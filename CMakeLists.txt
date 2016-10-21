@@ -23,11 +23,6 @@ if(UNIX AND NOT APPLE)
   set(CMAKE_CXX_FLAGS_RELEASE "   -O3 -fpermissive -pthread -std=c++11 -fPIC")
 endif(UNIX AND NOT APPLE)
 
-find_package(Boost REQUIRED program_options system thread)
-IF(Boost_FOUND)
-  include_directories(${Boost_INCLUDE_DIRS})
-ENDIF(Boost_FOUND)
-
 if(USE_MAKE_MATRIX_VIDEO)
   add_definitions(-DUSE_MATRIX_VIDEO)
 endif(USE_MAKE_MATRIX_VIDEO)

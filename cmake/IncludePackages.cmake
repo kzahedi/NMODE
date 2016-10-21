@@ -1,6 +1,6 @@
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-set(Boost_USE_STATIC_LIBS ON)
+set(Boost_USE_STATIC_LIBS OFF)
 find_package(Boost REQUIRED program_options filesystem system date_time regex
   thread)
 IF(Boost_FOUND)
@@ -17,5 +17,6 @@ link_directories("/usr/local/lib")
 option(USE_PLPLOT "use plplot" ON)
 if(USE_PLPLOT)
   include_directories(/usr/local/include/plplot)
+  link_directories(/usr/lib/x86_64-linux-gnu/)
   add_definitions(-DUSE_PLPLOT)
 endif(USE_PLPLOT)

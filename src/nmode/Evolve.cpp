@@ -71,7 +71,11 @@ void Evolve::init(string xml, bool read, string log)
 
   string module = EVA->module();
   stringstream m;
+#ifdef __APPLE__
   m << "lib/lib" << module << ".dylib";
+#else // __APPLE__
+  m << "lib/lib" << module << ".so";
+#endif // __APPLE__
 
   void *controllerLib = dlopen(m.str().c_str(),RTLD_LAZY);
 
