@@ -83,6 +83,8 @@ class Node : public XsdParseNode
     bool isDestination();
     void setIsSource(bool);
     void setIsDestination(bool);
+    void setInactive(bool b);
+    bool isInactive();
 
     Node* copy();
 
@@ -104,6 +106,7 @@ class Node : public XsdParseNode
     P3D    _position;
     bool   _isDestination;
     bool   _isSource;
+    bool   _inactive;
     double _bias;
     string _label;
     string _moduleName;

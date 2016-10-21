@@ -11,7 +11,7 @@
 #define TAG_NAME                        (char*)"name"
 #define TAG_VALUE                       (char*)"value"
 #define TAG_TYPE                        (char*)"type"
-// #define TAG_OUTPUT                      (char*)"output"
+#define TAG_INACTIVE                    (char*)"inactive"
 #define TAG_NAME                        (char*)"name"
 #define TAG_TYPE_DEFINITION             (char*)"type_definition"
 #define TAG_TYPE_CONNECTOR_DEFINITION   (char*)"type_connector_definition"
@@ -23,6 +23,7 @@
 #define TAG_BIAS                        (char*)"bias"
 #define TAG_BIAS_DEFINITION             (char*)"bias_definition"
 #define TAG_TFUNCTION_ENUMERATION       (char*)"tfunction_enum_definition"
+#define TAG_TRUE_FALSE_DEFINITION       (char*)"true_definition"
 
 using namespace std;
 
@@ -32,6 +33,7 @@ Node::Node(XsdParseNode *parent)
   _isSource      = false;
   _isDestination = false;
   _bias          = 0.0;
+  _inactive      = false;
 }
 
 Node::~Node()
@@ -51,8 +53,9 @@ void Node::add(ParseElement *element)
 
   if(element->opening(TAG_MODULE_NODE))
   {
-    element->set(TAG_TYPE,  _type);
-    element->set(TAG_LABEL, _label);
+    element->set(TAG_TYPE,     _type);
+    element->set(TAG_LABEL,    _label);
+    element->set(TAG_INACTIVE, _inactive);
     VLOG(100) << "setting type = " << _type << " and label = " << _label;
 
     if(_type == TAG_ACTUATOR || _type == TAG_SENSOR ||
@@ -95,6 +98,7 @@ void Node::createXsd(XsdSpecification *spec)
   XsdSequence *root = new XsdSequence(TAG_MODULE_NODE_DEFINITION);
   root->add(NA(TAG_TYPE,             TAG_TYPE_DEFINITION,             true));
   root->add(NA(TAG_LABEL,            TAG_XSD_STRING,                  true));
+  root->add(NA(TAG_INACTIVE,         TAG_TRUE_FALSE_DEFINITION,       false));
   root->add(NE(TAG_POSITION,         TAG_XYZ_DEFINITION,              0, 1));
   root->add(NE(TAG_TRANSFERFUNCTION, TAG_TRANSFERFUNCTION_DEFINITION, 0, 1));
   root->add(NE(TAG_BIAS,             TAG_BIAS_DEFINITION,             0, 1));
@@ -324,6 +328,7 @@ Node* Node::copy()
   copy->_bias             = _bias;
   copy->_isSource         = _isSource;
   copy->_isDestination    = _isDestination;
+  copy->_inactive         = _inactive;
 
   // edges must be copied outside of here
   return copy;
@@ -339,3 +344,12 @@ void Node::setIsDestination(bool d)
   _isDestination = d;
 }
 
+void Node::setInactive(bool b)
+{
+  _inactive = b;
+}
+
+bool Node::isInactive()
+{
+  return _inactive;
+}

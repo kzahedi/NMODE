@@ -39,6 +39,8 @@ void Reproduction::reproduce()
       break;
   }
 
+  __adaptNodeConfigurationFromCfg();
+
   _population->incGeneration();
   _population->calculateNrOfOffspring();
   _population->serialise();
@@ -159,4 +161,22 @@ Individual* Reproduction::__cross(Individual *mom, Individual *dad)
     }
   }
   return child;
+}
+
+
+void Reproduction::__adaptNodeConfigurationFromCfg()
+{
+  Configuration *cfg = Data::instance()->specification()->configuration();
+
+  for(int m = 0; m < cfg->m_size(); m++)
+  {
+    for(int n = 0; n < cfg->module(m)->n_size(); n++)
+    {
+      Node *node = cfg->module(m)->node(n);
+      if(node->type() != "hidden")
+      {
+        _population->setInactive(m, n, node->isInactive());
+      }
+    }
+  }
 }

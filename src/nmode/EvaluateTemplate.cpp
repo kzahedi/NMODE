@@ -22,24 +22,38 @@ void EvaluateTemplate::run()
 {
   while(true)
   {
+    cout << "hier 0" << endl;
     Individual *i = _population->getNextIndividual();
+    cout << "hier 1" << endl;
     _rnn = RnnFromIndividual::create(i);
+    cout << "hier 2" << endl;
     __evaluate();
+    cout << "hier 3" << endl;
     i->setRawFitness(_fitness);
+    cout << "hier 4" << endl;
 
     double nc = EVA->nodeCost() * _rnn->nrOfNeurons();
+    cout << "hier 5" << endl;
     double ec = EVA->edgeCost() * _rnn->nrOfSynapses();
+    cout << "hier 6" << endl;
 
     i->setNodeCost(nc);
+    cout << "hier 7" << endl;
     i->setEdgeCost(ec);
+    cout << "hier 8" << endl;
     i->setNrOfSynapses(_rnn->nrOfSynapses());
+    cout << "hier 9" << endl;
     i->setNrOfNeurons(_rnn->nrOfHidden());
+    cout << "hier 10" << endl;
 
     _fitness -= nc + ec;
+    cout << "hier 11" << endl;
 
     i->setFitness(_fitness);
+    cout << "hier 12" << endl;
 
     _population->evaluationCompleted();
+    cout << "hier 13" << endl;
 
     delete _rnn;
   }

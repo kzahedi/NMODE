@@ -250,7 +250,9 @@ string Data::__toXml(Module *m)
     for(Nodes::const_iterator n = m->n_begin(); n != m->n_end(); n++)
     {
       sst << "        <node type=\"" << (*n)->type()
-        << "\" label=\"" << (*n)->label() << "\">" << endl;
+        << "\" label=\"" << (*n)->label()
+        << "\" inactive=\"" << ((*n)->isInactive()?"true":"false")
+        << "\">" << endl;
       sst << "          <position x=\"" << (*n)->position().x
         << "\" y=\"" << (*n)->position().y
         << "\" z=\"" << (*n)->position().z

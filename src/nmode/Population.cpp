@@ -771,3 +771,11 @@ void Population::readStats(string d)
   // cout << "end" << endl;
 
 }
+
+void Population::setInactive(int module, int node, bool value)
+{
+  for(Individuals::iterator i = _individuals.begin(); i != _individuals.end(); i++)
+  {
+    (*i)->module(module)->node(node)->setInactive(value);
+  }
+}

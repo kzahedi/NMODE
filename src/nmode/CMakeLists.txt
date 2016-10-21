@@ -78,6 +78,7 @@ set(SRC
 
   Mutation.cpp
   Reproduction.cpp
+  # Speciation.cpp
   EvaluateTemplate.cpp
   Evaluate.cpp
 )

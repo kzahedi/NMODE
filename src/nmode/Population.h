@@ -50,6 +50,7 @@ class Population : public Observable, public XsdParseNode
     void                  incAge();
     void                  calculateNrOfOffspring();
     void                  cleanup();
+    void                  setInactive(int module, int node, bool value);
 
     void                  removeCurrentLogDir();
     void                  setCurrentLogDir(string);

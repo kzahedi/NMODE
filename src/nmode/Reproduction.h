@@ -36,6 +36,7 @@ class Reproduction
     void        __select();
     void        __randomPairing();
     void        __createOffspring();
+    void        __adaptNodeConfigurationFromCfg();
     Individual* __getRandomMate();
     Parents*    __randomlySelectParent();
     Individual* __cross(Individual*, Individual*);

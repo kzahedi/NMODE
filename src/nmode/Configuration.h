@@ -27,6 +27,7 @@ class Configuration : public XsdParseNode
     Modules::iterator m_end();
     int               m_size();
     Modules           modules();
+    Module*           module(int index);
 
     static void createXsd(XsdSpecification *spec);
 

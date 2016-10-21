@@ -209,11 +209,13 @@ void Mutation::__mutateAddEdge(Module *m, double probability,
   for(int s_index = 0; s_index < m->n_size(); s_index++)
   {
     Node *src_node = m->node(s_index);
+    if(src_node->isInactive()) continue;
     if(src_node->isSource())
     {
       for(int d_index = 0; d_index < m->n_size(); d_index++)
       {
         Node *dst_node = m->node(d_index);
+        if(dst_node->isInactive()) continue;
         // if(src_node->type() == TAG_CONNECTOR && dst_node->type() == TAG_CONNECTOR)
         // {
           // continue;

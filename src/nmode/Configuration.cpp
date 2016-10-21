@@ -70,3 +70,8 @@ Modules Configuration::modules()
 {
   return _individual->modules();
 }
+
+Module* Configuration::module(int index)
+{
+  return _individual->module(index);
+}
