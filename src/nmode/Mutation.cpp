@@ -472,7 +472,7 @@ void Mutation::__mutateModifyNode(Module *m,
 
   int ni        = int(Random::unit() * m->n_size());
   Node *n       = m->node(ni);
-  if(n->type() == TAG_CONNECTOR) return;
+  if(n->type() == TAG_CONNECTOR || n->isInactive() == true) return;
   m->setModified(true);
   double value  = n->bias();
   double d  = Random::rand(-delta, delta);
