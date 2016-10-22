@@ -11,8 +11,14 @@ using namespace std;
 # define TAG_SELECTION                       (char*)"selection"
 # define TAG_SELECTION_DEFINTION             (char*)"selection_cfg_definition"
 
-# define TAG_REPRODUCTION                    (char*)"reproduction"
-# define TAG_REPRODUCTION_PRESSURE_DEFINTION (char*)"reproduction_pressure_cfg_definition"
+# define TAG_PROBABILITY                     (char*)"probability"
+# define TAG_PROBABILITY_DEFINITION          (char*)"probability_definition"
+
+# define TAG_CROSSOVER                       (char*)"crossover"
+# define TAG_CROSSOVER_DEFINTION             (char*)"crossover_cfg_definition"
+
+# define TAG_ELITE                    (char*)"elite"
+# define TAG_ELITE_PRESSURE_DEFINTION (char*)"elite_pressure_cfg_definition"
 
 # define TAG_PRESSURE                        (char*)"pressure"
 
@@ -27,6 +33,7 @@ CfgReproduction::CfgReproduction(XsdParseNode *parent)
   _populationSize    = 100;
   _selectionPressure = 0.1;
   _reproductionPressure = 0.1;
+  _crossoverProbability = 0.0;
 }
 
 // CfgReproduction::~CfgReproduction()
@@ -48,9 +55,15 @@ void CfgReproduction::add(ParseElement *element)
     element->set(TAG_PRESSURE, _selectionPressure);
   }
 
-  if(element->opening(TAG_REPRODUCTION))
+  if(element->opening(TAG_ELITE))
   {
     element->set(TAG_PRESSURE, _reproductionPressure);
+  }
+
+  if(element->opening(TAG_CROSSOVER))
+  {
+    element->set(TAG_PROBABILITY, _crossoverProbability);
+    cout << "setting crossover: " << _crossoverProbability << endl;
   }
 
   if(element->opening(TAG_POPULATION_SIZE))
@@ -65,16 +78,21 @@ void CfgReproduction::createXsd(XsdSpecification *spec)
   XsdSequence *root = new XsdSequence(TAG_REPRODUCTION_DEFINITION);
   root->add(NE(TAG_POPULATION_SIZE, TAG_POPULATION_SIZE_DEFINITION,      1, 1));
   root->add(NE(TAG_SELECTION,       TAG_SELECTION_DEFINTION,             1, 1));
-  root->add(NE(TAG_REPRODUCTION,    TAG_REPRODUCTION_PRESSURE_DEFINTION, 1, 1));
+  root->add(NE(TAG_ELITE,    TAG_ELITE_PRESSURE_DEFINTION, 1, 1));
+  root->add(NE(TAG_CROSSOVER,       TAG_CROSSOVER_DEFINTION,             1, 1));
   spec->add(root);
 
   XsdSequence *selection = new XsdSequence(TAG_SELECTION_DEFINTION);
   selection->add(NA(TAG_PRESSURE, TAG_POSITIVE_NON_ZERO_DECIMAL, true));
   spec->add(selection);
 
-  XsdSequence *reproduction = new XsdSequence(TAG_REPRODUCTION_PRESSURE_DEFINTION);
+  XsdSequence *reproduction = new XsdSequence(TAG_ELITE_PRESSURE_DEFINTION);
   reproduction->add(NA(TAG_PRESSURE, TAG_POSITIVE_NON_ZERO_DECIMAL, true));
   spec->add(reproduction);
+
+  XsdSequence *crossover = new XsdSequence(TAG_CROSSOVER_DEFINTION);
+  crossover->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL, true));
+  spec->add(crossover);
 
   XsdSequence *pop = new XsdSequence(TAG_POPULATION_SIZE);
   pop->add(NA(TAG_SIZE, TAG_POSITIVE_INTEGER, true));
@@ -94,4 +112,9 @@ double CfgReproduction::selectionPressure()
 double CfgReproduction::reproductionPressure()
 {
   return _reproductionPressure;
+}
+
+double CfgReproduction::crossoverProbability()
+{
+  return _crossoverProbability;
 }

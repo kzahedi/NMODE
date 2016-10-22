@@ -148,9 +148,10 @@ string Data::__reproduction()
 {
   stringstream sst; 
   sst << "  <reproduction>" << endl;
-  sst << "    <population size=\"" << _REP->populationSize() << "\"/>" << endl;
-  sst << "    <selection    pressure=\"" << _REP->selectionPressure() << "\"/>" << endl;
-  sst << "    <reproduction pressure=\"" << _REP->reproductionPressure() << "\"/>" << endl;
+  sst << "    <population size=\""          << _REP->populationSize()       << "\"/>" << endl;
+  sst << "    <selection    pressure=\""    << _REP->selectionPressure()    << "\"/>" << endl;
+  sst << "    <elite        pressure=\""    << _REP->reproductionPressure() << "\"/>" << endl;
+  sst << "    <crossover    probability=\"" << _REP->crossoverProbability() << "\"/>" << endl;
   sst << "  </reproduction>" << endl;
   return sst.str();
 }
@@ -171,7 +172,10 @@ string Data::__evolution()
   sst << "      <modify probability=\"" << _MUTE->modifyProbability() << "\" "
     << "maximum=\"" << _MUTE->modifyMaxValue() << "\" "
     << "delta=\""   << _MUTE->modifyDelta() << "\"/>" << endl;
-  sst << "      <add    probability=\"" << _MUTE->addProbability()  << "\" " << "maximum=\"" << _MUTE->addMaxValue()  << "\"/>" << endl;
+  sst << "      <add    probability=\"" << _MUTE->addProbability()
+    << "\" " << "maximum=\"" << _MUTE->addMaxValue()
+    << "\" " << "mode=\"" << ((_MUTE->mode() == EDGE_ADD_MODE_UNIFORM)?"uniform":"distance") 
+    << "\"/>" << endl;
   sst << "      <self   probability=\"" << _MUTE->selfProbability() << "\" " << "maximum=\"" << _MUTE->selfMaxValue() << "\"/>" << endl;
   sst << "      <delete probability=\"" << _MUTE->delProbability() << "\"/>" << endl;
   sst << "    </edge>" << endl;

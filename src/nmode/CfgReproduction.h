@@ -18,11 +18,13 @@ class CfgReproduction : public XsdParseNode
     int populationSize();
     double selectionPressure();
     double reproductionPressure();
+    double crossoverProbability();
 
   private:
     int    _populationSize;
     double _selectionPressure;
     double _reproductionPressure;
+    double _crossoverProbability;
 };
 
 

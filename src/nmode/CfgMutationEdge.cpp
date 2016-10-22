@@ -5,13 +5,18 @@
 
 
 #define TAG_MODIFY            (char*)"modify"
-#define TAG_MODIFY_DEFINITION (char*)"modify_definition"
+#define TAG_MODIFY_DEFINITION (char*)"edge_modify_definition"
 
 #define TAG_ADD               (char*)"add"
-#define TAG_ADD_DEFINITION    (char*)"add_definition"
+#define TAG_ADD_DEFINITION    (char*)"edge_add_definition"
 
 #define TAG_DEL               (char*)"delete"
-#define TAG_DEL_DEFINITION    (char*)"delete_definition"
+#define TAG_DEL_DEFINITION    (char*)"edge_delete_definition"
+
+#define TAG_MODE              (char*)"mode"
+#define TAG_MODE_ENUM         (char*)"edge_add_mode_enum"
+#define TAG_UNIFORM           (char*)"uniform"
+#define TAG_DISTANCE          (char*)"distance"
 
 #define TAG_PROBABILITY       (char*)"probability"
 #define TAG_MAX               (char*)"maximum"
@@ -35,6 +40,7 @@ CfgMutationEdge::CfgMutationEdge(XsdParseNode *parent)
   _maxSelfcoupling   = 0.0;
 
   _delProbability    = 0.1;
+  _mode              = EDGE_ADD_MODE_DISTANCE;
 }
 
 CfgMutationEdge::~CfgMutationEdge()
@@ -66,8 +72,12 @@ void CfgMutationEdge::add(ParseElement *element)
 
   if(element->opening(TAG_ADD))
   {
+    string mode;
     element->set(TAG_PROBABILITY, _addProbability);
     element->set(TAG_MAX,         _addMaxValue);
+    element->set(TAG_MODE,         mode);
+    if(mode == TAG_UNIFORM)  _mode = EDGE_ADD_MODE_UNIFORM;
+    if(mode == TAG_DISTANCE) _mode = EDGE_ADD_MODE_DISTANCE;
     VLOG(100) << "set add probability to: " << _addProbability;
     VLOG(100) << "set add max to:         " << _addMaxValue;
   }
@@ -105,6 +115,7 @@ void CfgMutationEdge::createXsd(XsdSpecification *spec)
   XsdSequence *add = new XsdSequence(TAG_ADD_DEFINITION);
   add->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL,    true));
   add->add(NA(TAG_MAX,         TAG_POSITIVE_DECIMAL, true));
+  add->add(NA(TAG_MODE,        TAG_MODE_ENUM,        true));
   spec->add(add);
 
   XsdSequence *self = new XsdSequence(TAG_SELF_DEFINITION);
@@ -115,6 +126,12 @@ void CfgMutationEdge::createXsd(XsdSpecification *spec)
   XsdSequence *del = new XsdSequence(TAG_DEL_DEFINITION);
   del->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL, true));
   spec->add(del);
+
+  XsdEnumeration *tfuncenum = new XsdEnumeration(TAG_MODE_ENUM,
+                                                 TAG_XSD_STRING);
+  tfuncenum->add(TAG_UNIFORM);
+  tfuncenum->add(TAG_DISTANCE);
+  spec->add(tfuncenum);
 
 }
 
@@ -170,4 +187,9 @@ CfgMutationEdge* CfgMutationEdge::copy()
   copy->_delProbability    = _delProbability;
 
   return copy;
+}
+
+int CfgMutationEdge::mode()
+{
+  return _mode;
 }

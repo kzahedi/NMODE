@@ -13,7 +13,7 @@ Reproduction::Reproduction()
   _pairingMethod        = PAIRING_METHOD_RANDOM;
   _selectionMethod      = SELECTION_METHOD_RANK;
   _population           = Population::instance();
-  _crossoverProbability = 0.0;
+  _crossoverProbability = Data::instance()->specification()->reproduction()->crossoverProbability();
   _mutation             = new Mutation();
   _populationSize       = Data::instance()->specification()->reproduction()->populationSize();
   _selectionPressure    = Data::instance()->specification()->reproduction()->selectionPressure();
@@ -24,10 +24,6 @@ Reproduction::~Reproduction()
   // if(_next_generation != NULL) delete _next_generation;
 }
 
-void Reproduction::setCrossoverProbability(double p)
-{
-  _crossoverProbability = p;
-}
 
 void Reproduction::reproduce()
 {
@@ -146,6 +142,7 @@ void Reproduction::__createOffspring()
 
 Individual* Reproduction::__cross(Individual *mom, Individual *dad)
 {
+  // cout << "crossing module?" << endl;
   Individual *child = new Individual();
   FORI(0, mom->m_size(), i)
   {
@@ -153,6 +150,7 @@ Individual* Reproduction::__cross(Individual *mom, Individual *dad)
        Random::unit() < _crossoverProbability)
     {
       VLOG(100) << "crossing module " << dad->module(i)->name();
+      // cout << "crossing module " << endl;
       child->addModule(dad->module(i)->copy());
     }
     else

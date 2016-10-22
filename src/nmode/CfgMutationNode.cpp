@@ -4,11 +4,11 @@
 
 
 #define TAG_MODIFY               (char*)"modify"
-#define TAG_MODIFY_DEFINITION    (char*)"modify_definition"
+#define TAG_MODIFY_DEFINITION    (char*)"node_modify_definition"
 #define TAG_ADD                  (char*)"add"
-#define TAG_ADD_DEFINITION       (char*)"add_definition"
+#define TAG_ADD_DEFINITION       (char*)"node_add_definition"
 #define TAG_DEL                  (char*)"delete"
-#define TAG_DEL_DEFINITION       (char*)"delete_definition"
+#define TAG_DEL_DEFINITION       (char*)"node_delete_definition"
 #define TAG_PROBABILITY          (char*)"probability"
 #define TAG_MAX                  (char*)"maximum"
 #define TAG_DELTA                (char*)"delta"

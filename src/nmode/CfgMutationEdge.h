@@ -7,6 +7,9 @@
 # define TAG_MUTATION_EDGE            (char*)"edge"
 # define TAG_MUTATION_EDGE_DEFINITION (char*)"edge_evolution_definition"
 
+# define EDGE_ADD_MODE_UNIFORM  10001
+# define EDGE_ADD_MODE_DISTANCE 10002
+
 class CfgMutationEdge : public XsdParseNode
 {
   public:
@@ -30,6 +33,8 @@ class CfgMutationEdge : public XsdParseNode
 
     double delProbability();
 
+    int    mode();
+
     CfgMutationEdge* copy();
 
     friend std::ostream& operator<<(std::ostream& str, const CfgMutationEdge& e)
@@ -41,6 +46,7 @@ class CfgMutationEdge : public XsdParseNode
       str << "  Add prob:         " << e._addProbability    << endl;
       str << "  Add self-coupling " << e._addSelfcoupling   << endl;
       str << "  Add max value:    " << e._addProbability    << endl;
+      str << "  Add mode:         " << e._mode              << endl;
       str << "  Del prob:         " << e._delProbability    << endl;
       return str;
     };
@@ -58,6 +64,7 @@ class CfgMutationEdge : public XsdParseNode
     double _maxSelfcoupling;
 
     double _delProbability;
+    double _mode;
 
 };
 
