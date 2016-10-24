@@ -15,15 +15,15 @@ class CfgReproduction : public XsdParseNode
 
     static void createXsd(XsdSpecification *spec);
 
-    int populationSize();
+    int    populationSize();
     double selectionPressure();
-    double reproductionPressure();
+    double elitePressure();
     double crossoverProbability();
 
   private:
     int    _populationSize;
     double _selectionPressure;
-    double _reproductionPressure;
+    double _elitePressure;
     double _crossoverProbability;
 };
 

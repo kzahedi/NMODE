@@ -60,6 +60,8 @@ class Population : public Observable, public XsdParseNode
 
     static Population*    instance();
 
+    void                  removeFirstIndividual();
+
   private:
     void            __getUniqueDirectoryName();
     void            __calculateSelectionProbabilities();

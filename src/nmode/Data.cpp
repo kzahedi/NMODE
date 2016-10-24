@@ -150,9 +150,9 @@ string Data::__reproduction()
   sst << "  <reproduction>" << endl;
   sst << "    <population size=\""          << _REP->populationSize()       << "\"/>" << endl;
   sst << "    <selection    pressure=\""    << _REP->selectionPressure()    << "\"/>" << endl;
-  sst << "    <elite        pressure=\""    << _REP->reproductionPressure() << "\"/>" << endl;
+  sst << "    <elite        pressure=\""    << _REP->elitePressure()        << "\"/>" << endl;
   sst << "    <crossover    probability=\"" << _REP->crossoverProbability() << "\"/>" << endl;
-  sst << "  </reproduction>" << endl;
+  sst << "  </reproduction>"                << endl;
   return sst.str();
 }
 
@@ -254,9 +254,12 @@ string Data::__toXml(Module *m)
     for(Nodes::const_iterator n = m->n_begin(); n != m->n_end(); n++)
     {
       sst << "        <node type=\"" << (*n)->type()
-        << "\" label=\"" << (*n)->label()
-        << "\" inactive=\"" << ((*n)->isInactive()?"true":"false")
-        << "\">" << endl;
+        << "\" label=\"" << (*n)->label() << "\"";
+      if((*n)->isInactive() == true)
+      {
+        sst << " inactive=\"true\"";
+      }
+      sst << ">" << endl;
       sst << "          <position x=\"" << (*n)->position().x
         << "\" y=\"" << (*n)->position().y
         << "\" z=\"" << (*n)->position().z

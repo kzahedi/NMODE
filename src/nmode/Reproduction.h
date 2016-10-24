@@ -29,6 +29,7 @@ class Reproduction
     ~Reproduction();
 
     void reproduce();
+    void firstReproduction();
     void setCrossoverProbability(double p);
 
   private:

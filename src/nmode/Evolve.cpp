@@ -61,7 +61,8 @@ void Evolve::init(string xml, bool read, string log)
   if(log != "") _pop->setCurrentLogDir(log);
   _reproduction = new Reproduction();
   // the initial population is always open to reproduction
-  _reproduction->reproduce();
+  _reproduction->firstReproduction();
+
 
   _pop->addObserver(this);
   char buf[1024];

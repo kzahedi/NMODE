@@ -146,7 +146,7 @@ void Population::__calculateSelectionProbabilities()
 {
   double sum = 0.0;
   double min = _individuals[0]->fitness();
-  double rp  = REP->reproductionPressure();
+  double rp  = REP->elitePressure();
   double max = _individuals[0]->fitness();
   vector<double> fitness(_individuals.size());
 
@@ -778,4 +778,9 @@ void Population::setInactive(int module, int node, bool value)
   {
     (*i)->module(module)->node(node)->setInactive(value);
   }
+}
+
+void Population::removeFirstIndividual()
+{
+  _individuals.erase(_individuals.begin());
 }

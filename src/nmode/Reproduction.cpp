@@ -24,6 +24,21 @@ Reproduction::~Reproduction()
   // if(_next_generation != NULL) delete _next_generation;
 }
 
+void Reproduction::firstReproduction()
+{
+  _population->incGeneration();
+  _population->calculateNrOfOffspring();
+  _population->serialise();
+  _population->plotLast();
+  __randomPairing();
+  _populationSize = Data::instance()->specification()->reproduction()->populationSize() + 1;
+  while(_population->i_size() < _populationSize)
+  {
+    __createOffspring();
+  }
+  _population->removeFirstIndividual();
+  _population->reproductionCompleted();
+}
 
 void Reproduction::reproduce()
 {
@@ -101,6 +116,8 @@ void Reproduction::__randomPairing()
 
 Individual* Reproduction::__getRandomMate()
 {
+  // int index = (int)(Random::unit() * _population->i_size());
+  // return _population->individual(index);
   double dice = Random::unit();
   double s = 0.0;
   FORF(Individuals, i, _population, i_begin(), i_end())
@@ -117,7 +134,7 @@ Individual* Reproduction::__getRandomMate()
 
 Parents* Reproduction::__randomlySelectParent()
 {
-  int parentIndex = Random::randi(0, _parents.size() -1);
+  int parentIndex = (int)(Random::unit() * _parents.size());
   return _parents[parentIndex];
 }
 
