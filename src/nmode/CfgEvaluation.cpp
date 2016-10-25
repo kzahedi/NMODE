@@ -138,3 +138,7 @@ string CfgEvaluation::module()
   return _module;
 }
 
+void CfgEvaluation::setLifeTime(int lf)
+{
+  _lifeTime = lf;
+}

@@ -282,3 +282,38 @@ CfgVisualisation* NMODE::visualisation()
 {
   return _visualisation;
 }
+
+void NMODE::setSimulator(Simulator* s)
+{
+  _simulator = s;
+}
+void NMODE::setCfgMutation(CfgMutation* m)
+{
+  _mutation = m;
+}
+
+void NMODE::setCfgEvaluation(CfgEvaluation* e)
+{
+  _evaluation = e;
+}
+
+void NMODE::setConfiguration(Configuration* c)
+{
+  _configuration = c;
+}
+
+void NMODE::setPopulation(Population* p)
+{
+  _population = p;
+}
+
+void NMODE::setCfgReproduction(CfgReproduction* r)
+{
+  _reproduction = r;
+}
+
+void NMODE::setCfgVisualisation(CfgVisualisation* v)
+{
+  _visualisation = v;
+}
+

@@ -28,6 +28,8 @@ class CfgEvaluation : public XsdParseNode, public EvaluationParameterMap
     double edgeCost();
     string module();
 
+    void setLifeTime(int);
+
   private:
     int                  _lifeTime;
     int                  _generations;

@@ -61,6 +61,7 @@ class Individual : public XsdParseNode
     void              setNr(int);
 
     Individual*       copy(bool reset=false);
+    bool              equal(Individual*);
 
   private:
     Node*   __getNonHiddenNode(string module, string label);

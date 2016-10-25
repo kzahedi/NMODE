@@ -41,8 +41,8 @@ void xmlTest::testXml()
   CPPUNIT_ASSERT_DOUBLES_EQUAL(0.22, me->modifyMaxValue(),    0.000001);
   CPPUNIT_ASSERT_DOUBLES_EQUAL(0.23, me->modifyDelta(),       0.000001);
 
-  DataConfiguration *conf = nmode->configuration();
-  Modules            mods = conf->modules();
+  Configuration* conf = nmode->configuration();
+  Modules        mods = conf->modules();
 
   CPPUNIT_ASSERT(3 == mods.size());
   CPPUNIT_ASSERT("module 1" == mods[0]->name());

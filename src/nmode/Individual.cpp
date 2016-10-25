@@ -355,3 +355,19 @@ void Individual::setNr(int nr)
   _nr = nr;
 }
 
+
+bool Individual::equal(Individual* other)
+{
+  if(_id             != other->id())           return false;
+  if(_nr             != other->nr())           return false;
+  if(_age            != other->age())          return false;
+  if(_fitness        != other->fitness())      return false;
+  if(_nrOfSynapses   != other->nrOfSynapses()) return false;
+  if(_nrOfNeurons    != other->nrOfNeurons())  return false;
+  if(_modules.size() != other->m_size())       return false;
+  for(int i = 0; i < (int)_modules.size(); i++)
+  {
+    if(_modules[i]->equal(other->module(i)) == false) return false;
+  }
+  return true;
+}

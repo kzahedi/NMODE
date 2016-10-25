@@ -1,6 +1,7 @@
 #include <nmode/Evaluate.h>
 #include <nmode/RnnFromIndividual.h>
 #include <nmode/Data.h>
+#include <nmode/Timer.h>
 
 #include <ctime>
 
@@ -33,10 +34,10 @@ void Evaluate::run()
   {
     _individual = _population->getNextIndividual();
     _rnn = RnnFromIndividual::create(_individual);
-    clock_t begin = clock();
+    unsigned long begin = Timer::getTime();
     __evaluate();
-    clock_t end = clock();
-    double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+    unsigned long end = Timer::getTime();
+    double elapsed_secs = double(end - begin) / 1000.0;
     _individual->setRawFitness(fitness);
     cout << "Individual " << _individual->nr() << " / "
       <<  _population->i_size() << ": " << fitness << " " << elapsed_secs << "s" << endl;

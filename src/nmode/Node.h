@@ -86,6 +86,8 @@ class Node : public XsdParseNode
     void setInactive(bool b);
     bool isInactive();
 
+    bool equal(Node* other);
+
     Node* copy();
 
     friend std::ostream& operator<<(std::ostream& str, const Node& n)

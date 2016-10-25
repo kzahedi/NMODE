@@ -48,6 +48,15 @@ class NMODE : public XsdParseNode
     CfgReproduction*  reproduction();
     CfgVisualisation* visualisation();
 
+    // for test cases only
+    void setSimulator(Simulator*);
+    void setCfgMutation(CfgMutation*);
+    void setCfgEvaluation(CfgEvaluation*);
+    void setConfiguration(Configuration*);
+    void setPopulation(Population*);
+    void setCfgReproduction(CfgReproduction*);
+    void setCfgVisualisation(CfgVisualisation*);
+
   private:
     void __getChild(ParseElement *element);
     void __applyConfigurationToModules();

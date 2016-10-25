@@ -12,7 +12,12 @@ using namespace std;
 
 Simulator::Simulator(XsdParseNode *parent)
   : XsdParseNode(parent)
-{ }
+{
+  _workingDirectory = "no wd";
+  _xml              = "no xml";
+  _options          = "";
+  _nr               = 4;
+}
 
 Simulator::~Simulator()
 {

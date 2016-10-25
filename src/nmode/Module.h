@@ -104,6 +104,12 @@ class Module : public XsdParseNode
     Nodes::iterator h_end();
     int             h_size();
 
+    Node*           connectorNode(int index);
+    Nodes           connectorNodes();
+    Nodes::iterator c_begin();
+    Nodes::iterator c_end();
+    int             c_size();
+
     Edges           edges();
     Edges::iterator e_begin();
     Edges::iterator e_end();
@@ -137,6 +143,7 @@ class Module : public XsdParseNode
     bool modified();
     void setModified(bool); // for mutation operator
     bool nodeExists(string);
+    bool edgeExists(Node* src, Node *dst);
 
     void setMirrorAxes(bool, bool, bool);
     void setTranslation(P3D);
@@ -149,9 +156,12 @@ class Module : public XsdParseNode
     void         setMutation(CfgMutation*);
     void         removeMutation();
 
+    bool         equal(Module*);
+
   private:
     void         __applyMirror();
     void         __applyTranslation();
+    bool         __equalCopy(Module*);
 
     string       _name;
     string       _ref;

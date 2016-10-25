@@ -353,3 +353,18 @@ bool Node::isInactive()
 {
   return _inactive;
 }
+
+bool Node::equal(Node* other)
+{
+  if((_position == other->position()) == false)      return false;
+  if(_isDestination != other->isDestination())       return false;
+  if(_isSource != other->isSource())                 return false;
+  if(_inactive != other->isInactive())               return false;
+  if(fabs(_bias - other->bias()) > 0.00001)          return false;
+  if(_label != other->label())                       return false;
+  if(_moduleName != other->moduleName())             return false;
+  if(_nodeName != other->nodeName())                 return false;
+  if(_transferfunction != other->transferfunction()) return false;
+  if(_type != other->type())                         return false;
+  return true;
+}

@@ -449,6 +449,21 @@ int Module::a_size()
   return _actuator.size();
 }
 
+Nodes::iterator Module::c_begin()
+{
+  return _connector.begin();
+}
+
+Nodes::iterator Module::c_end()
+{
+  return _connector.end();
+}
+
+int Module::c_size()
+{
+  return _connector.size();
+}
+
 Nodes::iterator Module::h_begin()
 {
   return _hidden.begin();
@@ -482,6 +497,11 @@ Node* Module::actuatorNode(int index)
 Node* Module::hiddenNode(int index)
 {
   return _hidden[index];
+}
+
+Node* Module::connectorNode(int index)
+{
+  return _connector[index];
 }
 
 bool Module::modified()
@@ -667,6 +687,11 @@ Nodes Module::moduleOutputNodes()
   return _moduleOutput;
 }
 
+Nodes Module::hiddenNodes()
+{
+  return _hidden;
+}
+
 Nodes::iterator Module::o_begin()
 {
   return _moduleOutput.begin();
@@ -773,9 +798,81 @@ void Module::removeMutation()
   _mutation = NULL;
 }
 
-
 bool Module::nodeExists(string name)
 {
   FORC(Nodes, n, _nodes) if((*n)->label() == name) return true;
   return false;
 }
+
+bool Module::edgeExists(Node* src, Node* dst)
+{
+  for(Edges::iterator e = _edges.begin(); e != _edges.end(); e++)
+  {
+    if((*e)->sourceNode() == src && (*e)->destinationNode() == dst) return true;
+  }
+  return false;
+}
+
+bool Module::equal(Module* other)
+{
+  if(_isCopy) return __equalCopy(other);
+  if(_nodes.size()        != other->n_size()) return false;
+  if(_sensor.size()       != other->s_size()) return false;
+  if(_actuator.size()     != other->a_size()) return false;
+  if(_connector.size()    != other->c_size()) return false;
+  if(_hidden.size()       != other->h_size()) return false;
+  if(_moduleOutput.size() != other->o_size()) return false;
+  if(_moduleInput.size()  != other->i_size()) return false;
+  if(_edges.size()        != other->e_size()) return false;
+
+  for(int n = 0; n < (int)_nodes.size(); n++)
+  {
+    if(_nodes[n]->equal(other->node(n)) == false) return false;
+  }
+  for(int n = 0; n < (int)_sensor.size(); n++)
+  {
+    if(_sensor[n]->equal(other->sensorNode(n)) == false) return false;
+  }
+  for(int n = 0; n < (int)_actuator.size(); n++)
+  {
+    if(_actuator[n]->equal(other->actuatorNode(n)) == false) return false;
+  }
+  for(int n = 0; n < (int)_connector.size(); n++)
+  {
+    if(_connector[n]->equal(other->connectorNode(n)) == false) return false;
+  }
+  for(int n = 0; n < (int)_hidden.size(); n++)
+  {
+    if(_hidden[n]->equal(other->hiddenNode(n)) == false) return false;
+  }
+  for(int n = 0; n < (int)_moduleOutput.size(); n++)
+  {
+    if(_moduleOutput[n]->equal(other->moduleOutputNode(n)) == false) return false;
+  }
+  for(int n = 0; n < (int)_moduleInput.size(); n++)
+  {
+    if(_moduleInput[n]->equal(other->moduleInputNode(n)) == false) return false;
+  }
+  for(int e = 0; e < (int)_edges.size(); e++)
+  {
+    if(fabs(_edges[e]->weight() -  other->edge(e)->weight()) > 0.000001)          return false;
+    if(_edges[e]->sourceNode()->label()      != other->edge(e)->sourceNode()->label())      return false;
+    if(_edges[e]->destinationNode()->label() != other->edge(e)->destinationNode()->label()) return false;
+    return true;
+  }
+
+    // Edges        _edges;
+
+  return true;
+}
+
+bool Module::__equalCopy(Module *other)
+{
+  if(_ref != other->ref()) return false;
+  if(_mirrorAxes.x != other->mirrorAxes().x ||
+     _mirrorAxes.y != other->mirrorAxes().y ||
+     _mirrorAxes.z != other->mirrorAxes().z) return false;
+
+  return true;
+}
+

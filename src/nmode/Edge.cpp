@@ -112,4 +112,3 @@ void Edge::setDestinationLabel(string s)
 {
   _destination = s;
 }
-

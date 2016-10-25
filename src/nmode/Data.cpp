@@ -335,4 +335,3 @@ void Data::__writeCfg()
   output << "</nmode>" << endl;
   output.close();
 }
-
