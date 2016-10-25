@@ -18,7 +18,6 @@ string transferfunctions[] = {"id", "sigm", "tanh"};
 
 void ioTest::testIOModulesAndNeurons()
 {
-
   Random::initialise();
 
   Data* data = Data::instance();
@@ -145,6 +144,20 @@ void ioTest::testIOModulesAndNeurons()
   secondsst << second.rdbuf();
 
   CPPUNIT_ASSERT_EQUAL(firstsst.str(), secondsst.str());
+}
+
+void ioTest::testAgain1() { testIOModulesAndNeurons(); }
+void ioTest::testAgain2() { testIOModulesAndNeurons(); }
+void ioTest::testAgain3() { testIOModulesAndNeurons(); }
+void ioTest::testAgain4() { testIOModulesAndNeurons(); }
+void ioTest::testAgain5() { testIOModulesAndNeurons(); }
+void ioTest::testAgain6() { testIOModulesAndNeurons(); }
+void ioTest::testAgain7() { testIOModulesAndNeurons(); }
+void ioTest::testAgain8() { testIOModulesAndNeurons(); }
+void ioTest::testAgain9() { testIOModulesAndNeurons(); }
+
+void ioTest::tearDown()
+{
   remove("io_test.xml");
   remove("io_test_2.xml");
 }
