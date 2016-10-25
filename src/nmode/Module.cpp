@@ -816,14 +816,14 @@ bool Module::edgeExists(Node* src, Node* dst)
 bool Module::equal(Module* other)
 {
   if(_isCopy) return __equalCopy(other);
-  if(_nodes.size()        != other->n_size()) return false;
-  if(_sensor.size()       != other->s_size()) return false;
-  if(_actuator.size()     != other->a_size()) return false;
-  if(_connector.size()    != other->c_size()) return false;
-  if(_hidden.size()       != other->h_size()) return false;
-  if(_moduleOutput.size() != other->o_size()) return false;
-  if(_moduleInput.size()  != other->i_size()) return false;
-  if(_edges.size()        != other->e_size()) return false;
+  EQUAL_TEST(_nodes.size(),        other->n_size(), "Module: Nr Of Neurons mismatch");
+  EQUAL_TEST(_sensor.size(),       other->s_size(), "Module: Nr Of Sensors mismatch");
+  EQUAL_TEST(_actuator.size(),     other->a_size(), "Module: Nr Of Actuators mismatch");
+  EQUAL_TEST(_connector.size(),    other->c_size(), "Module: Nr Of Connector mismatch");
+  EQUAL_TEST(_hidden.size(),       other->h_size(), "Module: Nr Of Hidden mismatch");
+  EQUAL_TEST(_moduleOutput.size(), other->o_size(), "Module: Nr Of Module Output mismatch");
+  EQUAL_TEST(_moduleInput.size(),  other->i_size(), "Module: Nr Of Module Input mismatch");
+  EQUAL_TEST(_edges.size(),        other->e_size(), "Module: Nr Of Edges mismatch");
 
   for(int n = 0; n < (int)_nodes.size(); n++)
   {
@@ -871,7 +871,14 @@ bool Module::__equalCopy(Module *other)
   if(_ref != other->ref()) return false;
   if(_mirrorAxes.x != other->mirrorAxes().x ||
      _mirrorAxes.y != other->mirrorAxes().y ||
-     _mirrorAxes.z != other->mirrorAxes().z) return false;
+     _mirrorAxes.z != other->mirrorAxes().z)
+  {
+    cout << "Module Copy equal: Mirror Axis mismatch: " << 
+      _mirrorAxes.x << " vs. " << other->mirrorAxes().x << ", " << 
+      _mirrorAxes.y << " vs. " << other->mirrorAxes().y << ", " <<
+      _mirrorAxes.z << " vs. " << other->mirrorAxes().z << endl;
+    return false;
+  }
 
   return true;
 }

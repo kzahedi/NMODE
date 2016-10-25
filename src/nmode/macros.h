@@ -43,4 +43,7 @@ static inline std::string &trim(std::string &s) {
         return ltrim(rtrim(s));
 }
 
+# define EQUAL_TEST(a, b, msg) if(a != b){cout << msg << ": " << a << " " << b << endl; return false;}
+# define EQUAL_TEST_DOUBLE(a, b, msg) if(fabs(a - b) > 0.000001){cout << msg << ": " << a << " " << b << endl; return false;}
+
 #endif // MACROS

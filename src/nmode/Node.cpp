@@ -156,6 +156,18 @@ void Node::setType(string t) throw (NMODEException)
     sst << "Unknown node type \"" << t << "\" given";
     throw NMODEException(sst.str());
   }
+  if(_type == TAG_ACTUATOR || _type == TAG_SENSOR ||
+     _type == TAG_INPUT    || _type == TAG_HIDDEN ||
+     _type == TAG_CONNECTOR)
+  {
+    _isSource = true;
+  }
+
+  if(_type == TAG_ACTUATOR || _type == TAG_OUTPUT ||
+     _type == TAG_HIDDEN   || _type == TAG_CONNECTOR)
+  {
+    _isDestination = true;
+  }
 }
 
 string Node::label()
@@ -356,15 +368,15 @@ bool Node::isInactive()
 
 bool Node::equal(Node* other)
 {
-  if((_position == other->position()) == false)      return false;
-  if(_isDestination != other->isDestination())       return false;
-  if(_isSource != other->isSource())                 return false;
-  if(_inactive != other->isInactive())               return false;
-  if(fabs(_bias - other->bias()) > 0.00001)          return false;
-  if(_label != other->label())                       return false;
-  if(_moduleName != other->moduleName())             return false;
-  if(_nodeName != other->nodeName())                 return false;
-  if(_transferfunction != other->transferfunction()) return false;
-  if(_type != other->type())                         return false;
+  EQUAL_TEST_DOUBLE(_bias,          other->bias(),         "Node Bias mismatch");
+  EQUAL_TEST(_position,         other->position(),         "Node Position mismatch");
+  EQUAL_TEST(_isDestination,    other->isDestination(),    "Node isDestination mismatch");
+  EQUAL_TEST(_isSource,         other->isSource(),         "Node isSource mismatch");
+  EQUAL_TEST(_inactive,         other->isInactive(),       "Node isInactive mismatch");
+  EQUAL_TEST(_label,            other->label(),            "Node Label mismatch");
+  EQUAL_TEST(_moduleName,       other->moduleName(),       "Node Module Name mismatch");
+  EQUAL_TEST(_nodeName,         other->nodeName(),         "Node Node Name mismatch");
+  EQUAL_TEST(_transferfunction, other->transferfunction(), "Node Transfer Function mismatch");
+  EQUAL_TEST(_type,             other->type(),             "Node Type mismatch");
   return true;
 }

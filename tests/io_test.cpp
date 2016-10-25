@@ -46,98 +46,74 @@ void ioTest::testIOModulesAndNeurons()
   data->specification()->setCfgReproduction(reproduction);
   data->specification()->setConfiguration(configuration);
 
-
-  vector<int> nr_of_modules_per_individial;
-
-  vector<int>    nr_of_neurons_per_module;
-  vector<string> neuron_types;
-  vector<string> neuron_labels;
-  vector<string> neuron_transferfunctions;
-  vector<double> neuron_biasses;
-  vector<P3D>    neuron_position;
-
-  vector<int>    nr_of_synapses_per_module;
-  vector<double> synapses_weights;
-  vector<Node*>  synapses_srcs;
-  vector<Node*>  synapses_dsts;
-
-  Individual* individual = new Individual();
-  int nr_of_modules = Random::randi(10,100);
-  nr_of_modules_per_individial.push_back(nr_of_modules);
-
-  stringstream sst;
-
-  for(int i = 0; i < nr_of_modules; i++)
+  int nr_of_individuals = Random::randi(10,30);
+  for(int l = 0; l < nr_of_individuals; l++)
   {
-    Module* m = new Module();
-    individual->addModule(m);
-    int nr_of_neurons  = Random::randi(10,100);
-    for(int j = 0; j < nr_of_neurons; j++)
+    Individual* individual = new Individual();
+    int nr_of_modules = Random::randi(10,100);
+    population->addIndividual(individual);
+
+    stringstream sst;
+
+    for(int i = 0; i < nr_of_modules; i++)
     {
-      nr_of_neurons_per_module.push_back(nr_of_neurons);
-      Node* node = new Node();
-
-      // type
-      int type = Random::randi(0,2);
-      neuron_types.push_back(types[type]);
-      node->setType(types[type]);
-
-      // label
-      sst.str("");
-      sst << "node " << i << " " << j;
-      neuron_labels.push_back(sst.str());
-      node->setLabel(sst.str());
-
-      // position
-      P3D p(Random::unit(), Random::unit(), Random::unit());
-      neuron_position.push_back(p);
-      node->setPosition(p);
-
-      // transfer function
-      int tf = Random::randi(0,2);
-      neuron_transferfunctions.push_back(transferfunctions[tf]);
-      node->setTransferfunction(transferfunctions[tf]);
-
-      // bias
-      double bias = Random::unit();
-      neuron_biasses.push_back(bias);
-      node->setBias(bias);
-
-      m->addNode(node);
-    }
-
-
-    int nr_of_synapses = Random::randi(5,10);
-    nr_of_synapses_per_module.push_back(nr_of_synapses);
-    for(int j = 0; j < nr_of_synapses; j++)
-    {
-      bool ok       = false;
-      int src_index = -1;
-      int dst_index = -1;
-      Node* src     = NULL;
-      Node* dst     = NULL;
-
-      while(ok == false)
+      Module* m = new Module();
+      individual->addModule(m);
+      int nr_of_neurons  = Random::randi(10,100);
+      for(int j = 0; j < nr_of_neurons; j++)
       {
-        src_index = Random::randi(0, nr_of_neurons-1);
-        src = m->node(src_index);
+        Node* node = new Node();
 
-        dst_index = Random::randi(0, nr_of_neurons-1);
-        dst = m->node(dst_index);
+        // type
+        int type = Random::randi(0,2);
+        node->setType(types[type]);
 
-        if(m->edgeExists(src, dst)) ok = false;
-        else                        ok = true;
+        // label
+        sst.str("");
+        sst << "node " << i << " " << j;
+        node->setLabel(sst.str());
+
+        // position
+        P3D p(Random::unit(), Random::unit(), Random::unit());
+        node->setPosition(p);
+
+        // transfer function
+        int tf = Random::randi(0,2);
+        node->setTransferfunction(transferfunctions[tf]);
+
+        // bias
+        double bias = Random::unit();
+        node->setBias(bias);
+
+        m->addNode(node);
       }
-      double  w = Random::unit();
-      m->addEdge(src, dst, w);
-      synapses_srcs.push_back(src);
-      synapses_dsts.push_back(dst);
-      synapses_weights.push_back(w);
-    }
-    individual->addModule(m);
-  }
 
-  population->addIndividual(individual);
+      int nr_of_synapses = Random::randi(5,10);
+      for(int j = 0; j < nr_of_synapses; j++)
+      {
+        bool ok       = false;
+        int src_index = -1;
+        int dst_index = -1;
+        Node* src     = NULL;
+        Node* dst     = NULL;
+
+        while(ok == false)
+        {
+          src_index = Random::randi(0, nr_of_neurons-1);
+          src = m->node(src_index);
+
+          dst_index = Random::randi(0, nr_of_neurons-1);
+          dst = m->node(dst_index);
+
+          if(m->edgeExists(src, dst)) ok = false;
+          else                        ok = true;
+        }
+        double  w = Random::unit();
+        m->addEdge(src, dst, w);
+      }
+      individual->addModule(m);
+    }
+  }
 
   string xml = data->xml();
   ofstream output;
@@ -148,8 +124,27 @@ void ioTest::testIOModulesAndNeurons()
   data->read("io_test.xml");
   int index = 0;
 
-  Individual* read_individual = data->specification()->population()->individual(0);
+  for(int i = 0; i < nr_of_individuals; i++)
+  {
+    Individual* individual      = population->individual(i);
+    Individual* read_individual = data->specification()->population()->individual(i);
+    CPPUNIT_ASSERT(read_individual->equal(individual));
+  }
 
-  CPPUNIT_ASSERT(read_individual->equal(individual));
+  xml = data->xml();
+  output.open("io_test_2.xml");
+  output << xml << endl;
+  output.close();
 
+  ifstream first("io_test.xml");
+  stringstream firstsst;
+  firstsst << first.rdbuf();
+
+  ifstream second("io_test_2.xml");
+  stringstream secondsst;
+  secondsst << second.rdbuf();
+
+  CPPUNIT_ASSERT_EQUAL(firstsst.str(), secondsst.str());
+  remove("io_test.xml");
+  remove("io_test_2.xml");
 }

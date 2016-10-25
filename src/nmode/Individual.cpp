@@ -358,13 +358,13 @@ void Individual::setNr(int nr)
 
 bool Individual::equal(Individual* other)
 {
-  if(_id             != other->id())           return false;
-  if(_nr             != other->nr())           return false;
-  if(_age            != other->age())          return false;
-  if(_fitness        != other->fitness())      return false;
-  if(_nrOfSynapses   != other->nrOfSynapses()) return false;
-  if(_nrOfNeurons    != other->nrOfNeurons())  return false;
-  if(_modules.size() != other->m_size())       return false;
+  EQUAL_TEST(_id,             other->id(),           "Individual: ID mismatch");
+  EQUAL_TEST(_nr,             other->nr(),           "Individual: Nr mismatch");
+  EQUAL_TEST(_age,            other->age(),          "Individual: Age mismatch");
+  EQUAL_TEST(_fitness,        other->fitness(),      "Individual: Fitness mismatch");
+  EQUAL_TEST(_nrOfSynapses,   other->nrOfSynapses(), "Individual: Nr Of Synapses mismatch");
+  EQUAL_TEST(_nrOfNeurons,    other->nrOfNeurons(),  "Individual: Nr Of Neurons mismatch");
+  EQUAL_TEST(_modules.size(), other->m_size(),       "Individual: Nr Of Modules mismatch");
   for(int i = 0; i < (int)_modules.size(); i++)
   {
     if(_modules[i]->equal(other->module(i)) == false) return false;
