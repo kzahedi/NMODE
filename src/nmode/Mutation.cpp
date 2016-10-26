@@ -108,60 +108,19 @@ bool Mutation::mutate(Module *m, CfgMutationNode *den, CfgMutationEdge *dee)
 
 void Mutation::__mutateDelEdge(Module *m, double probability)
 {
-  if(m->e_size()    == 0)           return;
-  if(Random::unit() >= probability) return;
+  if(m->e_size() == 0) return;
   VLOG(50) << ">>>>> del edge";
   LOG_MODULE;
-  m->setModified(true);
 
-  int edgeIndex = (int)(Random::unit() * m->e_size());
-  m->removeEdge(m->edge(edgeIndex));
+  int nr_of_synapses_to_removed = (int)(Random::unit() * probability * m->e_size());
 
-  // double weights[m->e_size()];
-  // double sum = 0.0;
+  for(int i = 0; i < nr_of_synapses_to_removed; i++)
+  {
+    m->setModified(true);
+    int edgeIndex = (int)(Random::unit() * m->e_size());
+    m->removeEdge(m->edge(edgeIndex));
+  }
 
-  // for(int i = 0; i < m->e_size(); i++)
-  // {
-    // double w = m->edge(i)->weight();
-    // weights[i] = fabs(w);
-    // sum += fabs(w);
-  // }
-
-  // for(int i = 0; i < m->e_size(); i++)
-  // {
-    // weights[i] /= sum;
-  // }
-
-  // if(VLOG_IS_ON(50))
-  // {
-    // stringstream sst;
-    // sst << "    weights " << weights[0];
-    // for(int i = 1; i < m->e_size(); i++)
-    // {
-      // sst << " " << weights[i];
-    // }
-    // VLOG(50) << "  weights " << sst.str();
-  // }
-
-  // double p = Random::unit();
-  // double s = 0.0;
-
-  // VLOG(50) << "    p = " << p;
-
-  // for(int i = 0; i < m->e_size(); i++)
-  // {
-    // s += weights[i];
-    // if(s <= p)
-    // {
-      // VLOG(50) << "    removing edge " << i << ": "
-               // << m->edge(i)->source()
-               // << " -> "
-               // << m->edge(i)->destination() << " with "
-               // << m->edge(i)->weight();
-      // m->removeEdge(m->edge(i));
-      // return;
-    // }
-  // }
   LOG_MODULE;
   VLOG(50) << "<<<<< del edge";
 }
