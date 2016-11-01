@@ -17,12 +17,13 @@
 #define TAG_MODE_ENUM         (char*)"edge_add_mode_enum"
 #define TAG_UNIFORM           (char*)"uniform"
 #define TAG_DISTANCE          (char*)"distance"
+#define TAG_MIN_DISTANCE      (char*)"minDistance"
 
 #define TAG_PROBABILITY       (char*)"probability"
 #define TAG_MAX               (char*)"maximum"
 #define TAG_DELTA             (char*)"delta"
-#define TAG_SELF              (char*)"self"
-#define TAG_SELF_DEFINITION   (char*)"self_coupling_definition"
+// #define TAG_SELF              (char*)"self"
+// #define TAG_SELF_DEFINITION   (char*)"self_coupling_definition"
 
 using namespace std;
 
@@ -38,6 +39,8 @@ CfgMutationEdge::CfgMutationEdge(XsdParseNode *parent)
 
   _addSelfcoupling   = 0.0;
   _maxSelfcoupling   = 0.0;
+
+  _minDistance       = 1.0;
 
   _delProbability    = 0.1;
   _mode              = EDGE_ADD_MODE_DISTANCE;
@@ -73,21 +76,22 @@ void CfgMutationEdge::add(ParseElement *element)
   if(element->opening(TAG_ADD))
   {
     string mode;
-    element->set(TAG_PROBABILITY, _addProbability);
-    element->set(TAG_MAX,         _addMaxValue);
-    element->set(TAG_MODE,         mode);
+    element->set(TAG_PROBABILITY,  _addProbability);
+    element->set(TAG_MAX,          _addMaxValue);
+    element->set(TAG_MODE,          mode);
+    element->set(TAG_MIN_DISTANCE, _minDistance);
     if(mode == TAG_UNIFORM)  _mode = EDGE_ADD_MODE_UNIFORM;
     if(mode == TAG_DISTANCE) _mode = EDGE_ADD_MODE_DISTANCE;
     VLOG(100) << "set add probability to: " << _addProbability;
     VLOG(100) << "set add max to:         " << _addMaxValue;
   }
-  if(element->opening(TAG_SELF))
-  {
-    element->set(TAG_PROBABILITY,  _addSelfcoupling);
-    element->set(TAG_MAX,          _maxSelfcoupling);
-    VLOG(100) << "set add self coupling:  " << _addSelfcoupling;
-    VLOG(100) << "set max self coupling:  " << _maxSelfcoupling;
-  }
+  // if(element->opening(TAG_SELF))
+  // {
+    // element->set(TAG_PROBABILITY,  _addSelfcoupling);
+    // element->set(TAG_MAX,          _maxSelfcoupling);
+    // VLOG(100) << "set add self coupling:  " << _addSelfcoupling;
+    // VLOG(100) << "set max self coupling:  " << _maxSelfcoupling;
+  // }
 
   if(element->opening(TAG_DEL))
   {
@@ -102,7 +106,7 @@ void CfgMutationEdge::createXsd(XsdSpecification *spec)
   XsdSequence *root = new XsdSequence(TAG_MUTATION_EDGE_DEFINITION);
   root->add(NE(TAG_MODIFY, TAG_MODIFY_DEFINITION, 1, 1));
   root->add(NE(TAG_ADD,    TAG_ADD_DEFINITION,    1, 1));
-  root->add(NE(TAG_SELF,   TAG_SELF_DEFINITION,   1, 1));
+  // root->add(NE(TAG_SELF,   TAG_SELF_DEFINITION,   1, 1));
   root->add(NE(TAG_DEL,    TAG_DEL_DEFINITION,    1, 1));
   spec->add(root);
 
@@ -113,15 +117,16 @@ void CfgMutationEdge::createXsd(XsdSpecification *spec)
   spec->add(modify);
   
   XsdSequence *add = new XsdSequence(TAG_ADD_DEFINITION);
-  add->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL,    true));
-  add->add(NA(TAG_MAX,         TAG_POSITIVE_DECIMAL, true));
-  add->add(NA(TAG_MODE,        TAG_MODE_ENUM,        true));
+  add->add(NA(TAG_PROBABILITY,  TAG_UNIT_INTERVAL,    true));
+  add->add(NA(TAG_MAX,          TAG_POSITIVE_DECIMAL, true));
+  add->add(NA(TAG_MODE,         TAG_MODE_ENUM,        true));
+  add->add(NA(TAG_MIN_DISTANCE, TAG_POSITIVE_DECIMAL, false));
   spec->add(add);
 
-  XsdSequence *self = new XsdSequence(TAG_SELF_DEFINITION);
-  self->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL,    true));
-  self->add(NA(TAG_MAX,         TAG_POSITIVE_DECIMAL, true));
-  spec->add(self);
+  // XsdSequence *self = new XsdSequence(TAG_SELF_DEFINITION);
+  // self->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL,    true));
+  // self->add(NA(TAG_MAX,         TAG_POSITIVE_DECIMAL, true));
+  // spec->add(self);
 
   XsdSequence *del = new XsdSequence(TAG_DEL_DEFINITION);
   del->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL, true));
@@ -155,15 +160,15 @@ double CfgMutationEdge::addProbability()
   return _addProbability;
 }
 
-double CfgMutationEdge::selfProbability()
-{
-  return _addSelfcoupling;
-}
+// double CfgMutationEdge::selfProbability()
+// {
+  // return _addSelfcoupling;
+// }
 
-double CfgMutationEdge::selfMaxValue()
-{
-  return _maxSelfcoupling;
-}
+// double CfgMutationEdge::selfMaxValue()
+// {
+  // return _maxSelfcoupling;
+// }
 
 double CfgMutationEdge::addMaxValue()
 {
@@ -185,6 +190,7 @@ CfgMutationEdge* CfgMutationEdge::copy()
   copy->_addProbability    = _addProbability;
   copy->_addMaxValue       = _addMaxValue;
   copy->_delProbability    = _delProbability;
+  copy->_minDistance       = _minDistance;
 
   return copy;
 }
@@ -192,4 +198,9 @@ CfgMutationEdge* CfgMutationEdge::copy()
 int CfgMutationEdge::mode()
 {
   return _mode;
+}
+
+double CfgMutationEdge::minDistance()
+{
+  return _minDistance;
 }

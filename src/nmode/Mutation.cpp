@@ -95,9 +95,10 @@ bool Mutation::mutate(Module *m, CfgMutationNode *den, CfgMutationEdge *dee)
   __mutateAddNode(m,    n->addProbability(),
                         n->addMaxValue());
   __mutateAddEdge(m,    e->addProbability(),
-                        e->addMaxValue());
-  __mutateAddSelf(m,    e->selfProbability(),
-  e->selfMaxValue());
+                        e->addMaxValue(),
+                        e->minDistance());
+  // __mutateAddSelf(m,    e->selfProbability(),
+                        // e->selfMaxValue());
   __cleanup(m);
   VLOG(50) << "<< mutate";
   VLOG(50) << "### AFTER MUTATION";
@@ -153,7 +154,8 @@ void Mutation::__mutateModifyEdge(Module *m,
 
 void Mutation::__mutateAddEdge(Module *m,
                                double probability,
-                               double max)
+                               double max,
+                               double minDist)
 {
   VLOG(50) << ">>>>> add edge";
   LOG_MODULE;
@@ -189,7 +191,7 @@ void Mutation::__mutateAddEdge(Module *m,
           if(dst_node->contains(src_node) == false)
           {
             // USE FIXED PROBABILITY FOR ALL EDGES
-            d = MAX(1.0, DIST(src_node->position(), dst_node->position()));
+            d = MAX(minDist, DIST(src_node->position(), dst_node->position()));
             if(d < MIN_DIST) d = 0;
             // probabilities[s_index][d_index] = exp(-d);
             if(dee->mode() == EDGE_ADD_MODE_UNIFORM)
@@ -286,61 +288,61 @@ void Mutation::__mutateAddEdge(Module *m,
   VLOG(50) << "<<<<< add edge";
 }
 
-void Mutation::__mutateAddSelf(Module *m, double probability,
-                                          double max)
-{
-  if(Random::unit() >= probability) return;
-  VLOG(50) << ">>>>> add edge";
-  LOG_MODULE;
+// void Mutation::__mutateAddSelf(Module *m, double probability,
+                                          // double max)
+// {
+  // if(Random::unit() >= probability) return;
+  // VLOG(50) << ">>>>> add edge";
+  // LOG_MODULE;
 
-  vector<int> indices;
+  // vector<int> indices;
 
-  for(int i = 0; i < m->n_size(); i++)
-  {
-    Node *node = m->node(i);
-    if(node->isSource() && node->isDestination())
-    {
-      if(m->node(i)->contains(m->node(i)) == false)
-      {
-        indices.push_back(i);
-      }
-    }
-  }
+  // for(int i = 0; i < m->n_size(); i++)
+  // {
+    // Node *node = m->node(i);
+    // if(node->isSource() && node->isDestination())
+    // {
+      // if(m->node(i)->contains(m->node(i)) == false)
+      // {
+        // indices.push_back(i);
+      // }
+    // }
+  // }
 
-  if(indices.size() == 0)
-  {
-    LOG_MODULE;
-    return;
-  }
+  // if(indices.size() == 0)
+  // {
+    // LOG_MODULE;
+    // return;
+  // }
 
-  double prob = 1.0 / (double)(indices.size());
-  double s = 0.0;
-  double pp = Random::unit();
+  // double prob = 1.0 / (double)(indices.size());
+  // double s = 0.0;
+  // double pp = Random::unit();
 
-  for(int i = 0; i < (int)indices.size(); i++)
-  {
-    s += prob;
-    if(pp <= s)
-    {
-      int index = indices[i];
-      Node *src = m->node(index);
-      Node *dst = m->node(index);
-      VLOG(50) << "    adding edge from " << src->label() << " -> " << dst->label();
-      VLOG(50) << "    before number of edges: " << m->e_size();
-      Edge *e   = m->addEdge(src, dst, Random::rand(-max, max));
-      VLOG(50) << "    adding edge from "
-        << m->node(i)->label() << " to "
-        << m->node(i)->label() << " with "
-        << e->weight();
-      VLOG(50) << "    after number of edges: " << m->e_size();
-      return;
-    }
-  }
+  // for(int i = 0; i < (int)indices.size(); i++)
+  // {
+    // s += prob;
+    // if(pp <= s)
+    // {
+      // int index = indices[i];
+      // Node *src = m->node(index);
+      // Node *dst = m->node(index);
+      // VLOG(50) << "    adding edge from " << src->label() << " -> " << dst->label();
+      // VLOG(50) << "    before number of edges: " << m->e_size();
+      // Edge *e   = m->addEdge(src, dst, Random::rand(-max, max));
+      // VLOG(50) << "    adding edge from "
+        // << m->node(i)->label() << " to "
+        // << m->node(i)->label() << " with "
+        // << e->weight();
+      // VLOG(50) << "    after number of edges: " << m->e_size();
+      // return;
+    // }
+  // }
 
-  m->setModified(true);
-  LOG_MODULE;
-  VLOG(50) << "<<<<< add edge";
-}
+  // m->setModified(true);
+  // LOG_MODULE;
+  // VLOG(50) << "<<<<< add edge";
+// }
 
 void Mutation::__mutateAddNode(Module *m, double probability, double max)
 {

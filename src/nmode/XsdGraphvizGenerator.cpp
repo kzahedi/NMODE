@@ -1,7 +1,8 @@
-#include <nmode/XsdGraphvizGenerator.h>
+#include <yars/configuration/xsd/graphviz/XsdGraphvizGenerator.h>
 
-#include <nmode/XsdGraphNodeInstance.h>
-#include <nmode/macros.h>
+#include <yars/configuration/xsd/graphviz/graph/XsdGraphNodeInstance.h>
+
+#include <yars/util/stl_macros.h>
 
 #include <vector>
 #include <iostream>
@@ -43,10 +44,12 @@ void XsdGraphvizGenerator::__generate(XsdGraphNodeInstance *node, int depth)
   _dot << " " << node->uniqueName() << " " << node->label() << endl;
   if(d != 0)
   {
-    FORP(vector<XsdGraphNodeInstance*>, i, node)
+    int index = 1;
+    FOREACHP(XsdGraphNodeInstance*, i, node)
     {
       __generate(*i, d);
-      _dot << node->uniqueName() << ":" << (*i)->port() << " -> " << (*i)->uniqueName() << ";" << endl;
+      _dot << node->uniqueName() << ":" << (*i)->port() << " -> " << (*i)->uniqueName() << 
+        "[ label=\"" << (*i)->restrictions() << "\"]" << ";" << endl;
     }
   }
 }

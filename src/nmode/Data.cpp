@@ -176,7 +176,7 @@ string Data::__evolution()
     << "\" " << "maximum=\"" << _MUTE->addMaxValue()
     << "\" " << "mode=\"" << ((_MUTE->mode() == EDGE_ADD_MODE_UNIFORM)?"uniform":"distance") 
     << "\"/>" << endl;
-  sst << "      <self   probability=\"" << _MUTE->selfProbability() << "\" " << "maximum=\"" << _MUTE->selfMaxValue() << "\"/>" << endl;
+  // sst << "      <self   probability=\"" << _MUTE->selfProbability() << "\" " << "maximum=\"" << _MUTE->selfMaxValue() << "\"/>" << endl;
   sst << "      <delete probability=\"" << _MUTE->delProbability() << "\"/>" << endl;
   sst << "    </edge>" << endl;
   sst << "  </mutation>" << endl;
@@ -335,3 +335,4 @@ void Data::__writeCfg()
   output << "</nmode>" << endl;
   output.close();
 }
+

@@ -1,19 +1,20 @@
-#include <nmode/XsdGraphNodeInstance.h>
+#include "XsdGraphNodeInstance.h"
 
 #include <sstream>
 
 int XsdGraphNodeInstance::_index = 0;
 
-XsdGraphNodeInstance::XsdGraphNodeInstance(string name, string label, XsdGraphNode *node)
+XsdGraphNodeInstance::XsdGraphNodeInstance(string name, string label, XsdGraphNode *node, string restrictions)
 {
   stringstream oss;
   oss << name << "_" << _index++;
 
-  _name       = name;
-  _label      = label;
-  _node       = node;
-  _port       = 0;
-  _uniqueName = oss.str();
+  _name         = name;
+  _label        = label;
+  _node         = node;
+  _restrictions = restrictions;
+  _port         = 0;
+  _uniqueName   = oss.str();
 };
 
 string XsdGraphNodeInstance::uniqueName()
@@ -24,6 +25,11 @@ string XsdGraphNodeInstance::uniqueName()
 string XsdGraphNodeInstance::name()
 {
   return _name;
+};
+
+string XsdGraphNodeInstance::restrictions()
+{
+  return _restrictions;
 };
 
 string XsdGraphNodeInstance::label()

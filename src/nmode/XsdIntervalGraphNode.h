@@ -1,8 +1,8 @@
-#ifndef __NMODE_XSD_INTERVAL_GRAPH_NODE_H__
-#define __NMODE_XSD_INTERVAL_GRAPH_NODE_H__
+#ifndef __XSD_INTERVAL_GRAPH_NODE_H__
+#define __XSD_INTERVAL_GRAPH_NODE_H__
 
-#include <nmode/XsdGraphNode.h>
-#include <nmode/XsdInterval.h>
+#include <yars/configuration/xsd/graphviz/graph/XsdGraphNode.h>
+#include <yars/configuration/xsd/specification/XsdInterval.h>
 
 #include <string>
 #include <sstream>
@@ -15,6 +15,7 @@ class XsdIntervalGraphNode : public XsdGraphNode
     XsdIntervalGraphNode(XsdInterval *spec);
     string customLabel(string label);
     string name();
+    string content();
     XsdInterval* spec();
 
   private:

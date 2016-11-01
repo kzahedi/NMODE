@@ -1,9 +1,9 @@
-#ifndef __NMODE_YARS_XSD_GRAPH_H__
-#define __NMODE_YARS_XSD_GRAPH_H__
+#ifndef __YARS_XSD_GRAPH_H__
+#define __YARS_XSD_GRAPH_H__
 
-#include <nmode/XsdGraphNode.h>
-#include <nmode/XsdGraphNodeInstance.h>
-#include <nmode/XsdGraphLink.h>
+#include "XsdGraphNode.h"
+#include "XsdGraphNodeInstance.h"
+#include "XsdGraphLink.h"
 
 #include <ostream>
 #include <sstream>
@@ -21,6 +21,9 @@ class XsdGraph
     std::vector<XsdGraphNodeInstance*>::iterator i_begin();
     std::vector<XsdGraphNodeInstance*>::iterator i_end();
 
+    std::vector<XsdGraphNode*>::iterator n_begin();
+    std::vector<XsdGraphNode*>::iterator n_end();
+
   private:
     void __createGraph();
     void __add(XsdSequence          *seq);
@@ -31,7 +34,7 @@ class XsdGraph
 
     void __add(XsdGraphNodeInstance *parent, XsdNode              *node);
     void __add(XsdGraphNodeInstance *parent, XsdElement           *element);
-    void __add(XsdGraphNodeInstance *parent, XsdAttribute         *attribute);
+    void __add(XsdGraphNodeInstance *parent, XsdAttribute         *attribute, int index);
     void __add(XsdGraphNodeInstance *parent, XsdSequence          *node);
     void __add(XsdGraphNodeInstance *parent, XsdChoice            *node);
     void __add(XsdGraphNodeInstance *parent, XsdRegularExpression *node);

@@ -126,12 +126,13 @@ void Node::createXsd(XsdSpecification *spec)
   type->add(TAG_INPUT);
   type->add(TAG_OUTPUT);
   type->add(TAG_HIDDEN);
+  type->add(TAG_CONNECTOR);
   spec->add(type);
 
-  XsdEnumeration *connectorType = new XsdEnumeration(TAG_TYPE_CONNECTOR_DEFINITION,
-                                                     TAG_XSD_STRING);
-  type->add(TAG_CONNECTOR);
-  spec->add(connectorType);
+  // XsdEnumeration *connectorType = new XsdEnumeration(TAG_TYPE_CONNECTOR_DEFINITION,
+                                                     // TAG_XSD_STRING);
+  // type->add(TAG_CONNECTOR);
+  // spec->add(connectorType);
 }
 
 string Node::type()

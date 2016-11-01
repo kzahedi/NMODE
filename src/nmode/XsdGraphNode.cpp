@@ -1,4 +1,6 @@
-#include <nmode/XsdGraphNode.h>
+#include <yars/configuration/xsd/graphviz/graph/XsdGraphNode.h>
+
+#include <yars/configuration/data/Data.h>
 
 #include <sstream>
 

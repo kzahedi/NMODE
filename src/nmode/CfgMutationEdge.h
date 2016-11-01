@@ -28,10 +28,12 @@ class CfgMutationEdge : public XsdParseNode
     double addProbability();
     double addMaxValue();
 
-    double selfProbability();
-    double selfMaxValue();
+    // double selfProbability();
+    // double selfMaxValue();
 
     double delProbability();
+
+    double minDistance();
 
     int    mode();
 
@@ -65,6 +67,7 @@ class CfgMutationEdge : public XsdParseNode
 
     double _delProbability;
     double _mode;
+    double _minDistance;
 
 };
 

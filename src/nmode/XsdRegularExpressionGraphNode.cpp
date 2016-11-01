@@ -1,8 +1,8 @@
-#include <nmode/XsdRegularExpressionGraphNode.h>
+#include <yars/configuration/xsd/graphviz/graph/XsdRegularExpressionGraphNode.h>
 
-#include <nmode/macros.h>
+#include <yars/util/stl_macros.h>
 
-// #include "configuration/data/Data.h"
+#include <yars/configuration/data/Data.h>
 
 XsdRegularExpressionGraphNode::XsdRegularExpressionGraphNode(XsdRegularExpression *spec)
 {
@@ -34,4 +34,12 @@ string XsdRegularExpressionGraphNode::name()
 XsdRegularExpression* XsdRegularExpressionGraphNode::spec()
 {
   return _spec;
+}
+
+string XsdRegularExpressionGraphNode::content()
+{
+  _oss.str("");
+  _oss << "<tr> <td> "       << _spec->regExp() << " </td> </tr>";
+  _oss << "<tr> <td> type: " << _spec->type()   << " </td> </tr>";
+  return _oss.str();
 }

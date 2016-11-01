@@ -1,8 +1,8 @@
 #ifndef __XSD_REGULAR_EXPRESSION_GRAPH_NODE_H__
 #define __XSD_REGULAR_EXPRESSION_GRAPH_NODE_H__
 
-#include <nmode/XsdGraphNode.h>
-#include <nmode/XsdRegularExpression.h>
+#include <yars/configuration/xsd/graphviz/graph/XsdGraphNode.h>
+#include <yars/configuration/xsd/specification/XsdRegularExpression.h>
 
 #include <string>
 #include <sstream>
@@ -15,6 +15,7 @@ class XsdRegularExpressionGraphNode : public XsdGraphNode
     XsdRegularExpressionGraphNode(XsdRegularExpression *spec);
     string customLabel(string label);
     string name();
+    string content();
     XsdRegularExpression* spec();
 
   private:

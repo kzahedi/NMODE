@@ -1,11 +1,13 @@
-#include <nmode/XsdEnumerationGraphNode.h>
+#include <yars/configuration/xsd/graphviz/graph/XsdEnumerationGraphNode.h>
 
-#include <nmode/macros.h>
+#include <yars/util/stl_macros.h>
+
+#include <yars/configuration/data/Data.h>
 
 XsdEnumerationGraphNode::XsdEnumerationGraphNode(XsdEnumeration *spec)
 {
   _spec = spec;
-  FORF(vector<string>, v, spec, v_begin(), v_end())
+  FOREACHF(string, v, spec, ->v_begin(), ->v_end())
   {
     _oss << "<tr> <td bgcolor=\"" << SPECIFICATION_BGCOLOR << "\"> " << *v << " </td> </tr>";
   }
@@ -25,6 +27,15 @@ string XsdEnumerationGraphNode::customLabel(string label)
   return _oss.str();
 }
 
+string XsdEnumerationGraphNode::content()
+{
+  _oss.str("");
+  FOREACHF(string, v, _spec, ->v_begin(), ->v_end())
+  {
+    _oss << "<tr> <td> " << *v << " </td> </tr>";
+  }
+  return _oss.str();
+}
 
 string XsdEnumerationGraphNode::name()
 {

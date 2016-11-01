@@ -1,9 +1,9 @@
-#ifndef __NMODE_XSD_GRAPH_LINK_H__
-#define __NMODE_XSD_GRAPH_LINK_H__
+#ifndef __XSD_GRAPH_LINK_H__
+#define __XSD_GRAPH_LINK_H__
 
 class XsdGraphNode;
 
-#include <nmode/XsdGraphNode.h>
+#include "XsdGraphNode.h"
 
 class XsdGraphLink
 {

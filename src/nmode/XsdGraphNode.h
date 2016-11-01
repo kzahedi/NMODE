@@ -1,7 +1,7 @@
-#ifndef __NMODE_YARS_XSD_GRAPH_NODE_H__
-#define __NMODE_YARS_XSD_GRAPH_NODE_H__
+#ifndef __YARS_XSD_GRAPH_NODE_H__
+#define __YARS_XSD_GRAPH_NODE_H__
 
-#include <nmode/XsdSpecification.h>
+#include <yars/configuration/xsd/specification/XsdSpecification.h>
 
 #include <string>
 #include <vector>
@@ -28,6 +28,7 @@ class XsdGraphNode
 
     virtual string   customLabel(string label) = 0;
     virtual string   name()                    = 0;
+    virtual string   content()                 = 0;
     virtual XsdNode* spec()                    = 0;
 
     string uniqueNodeName();

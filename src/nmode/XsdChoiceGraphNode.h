@@ -1,8 +1,9 @@
-#ifndef __NMODE_XSD_CHOICE_GRAPH_NODE_H__
-#define __NMODE_XSD_CHOICE_GRAPH_NODE_H__
+#ifndef __XSD_CHOICE_GRAPH_NODE_H__
+#define __XSD_CHOICE_GRAPH_NODE_H__
 
-#include <nmode/XsdGraphNode.h>
-#include <nmode/XsdChoice.h>
+#include <yars/configuration/xsd/graphviz/graph/XsdGraphNode.h>
+#include <yars/configuration/xsd/graphviz/graph/XsdGraph.h>
+#include <yars/configuration/xsd/specification/XsdChoice.h>
 
 #include <string>
 #include <sstream>
@@ -12,14 +13,18 @@ using namespace std;
 class XsdChoiceGraphNode : public XsdGraphNode
 {
   public:
-    XsdChoiceGraphNode(XsdChoice *spec);
+    XsdChoiceGraphNode(XsdGraph* graph, XsdChoice* spec);
     string customLabel(string label);
     string name();
+    string content();
     XsdChoice* spec();
 
   private:
-    stringstream _oss;
-    XsdChoice *_spec;
+
+    XsdGraphNode* __findNode(string name);
+    stringstream  _oss;
+    XsdChoice*    _spec;
+    XsdGraph*     _graph;
 
 };
 

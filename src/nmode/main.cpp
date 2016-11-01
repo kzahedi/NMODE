@@ -5,6 +5,8 @@
 #include <nmode/Evolve.h>
 #include <nmode/Convert.h>
 #include <nmode/RnnFromIndividual.h>
+#include <nmode/YarsXSDGenerator.h>
+#include <nmode/XsdGraphvizExporter.h>
 
 #include <glog/logging.h>
 
@@ -44,6 +46,10 @@ int main(int argc, char** argv)
     ("xml",
      po::value<string>(&xml),
      "xml files")
+    ("xsd",
+     "export the XSD gammar")
+    ("pdf",
+     "export the XSD gammar as PDF files")
     ("log",
      po::value<string>(&log),
      "nmode-log")
@@ -84,6 +90,26 @@ int main(int argc, char** argv)
   {
     FLAGS_v = 0;
   }
+
+  if(vm.count("pdf"))
+  {
+    XsdGraphvizExporter::writeDotFile("pdf");
+  }
+
+  if(vm.count("xsd"))
+  {
+    YarsXSDGenerator *xsd = new YarsXSDGenerator();
+    // cout << (*xsd) << endl;
+    ofstream myfile;
+    stringstream filename;
+    filename << "nmode.xsd";
+    myfile.open(filename.str().c_str());
+    myfile << (*xsd) << endl;
+    myfile.close();
+    cout << "nmode.xsd written to current directory." << endl;
+    delete xsd;
+  }
+
 
   if (vm.count("logstderr"))
   {

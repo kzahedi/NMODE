@@ -1,6 +1,8 @@
-#include <nmode/XsdIntervalGraphNode.h>
+#include <yars/configuration/xsd/graphviz/graph/XsdIntervalGraphNode.h>
 
-#include <nmode/macros.h>
+#include <yars/util/stl_macros.h>
+
+#include <yars/configuration/data/Data.h>
 
 XsdIntervalGraphNode::XsdIntervalGraphNode(XsdInterval *spec)
 {
@@ -33,4 +35,14 @@ string XsdIntervalGraphNode::name()
 XsdInterval* XsdIntervalGraphNode::spec()
 {
   return _spec;
+}
+
+string XsdIntervalGraphNode::content()
+{
+  _oss.str("");
+  _oss << "<tr> <td> min:  " << _spec->minimum() << " </td> </tr>";
+  _oss << "<tr> <td> max:  " << _spec->maximum() << " </td> </tr>";
+  _oss << "<tr> <td> type: " << _spec->type() << " </td> </tr>";
+
+  return _oss.str();
 }

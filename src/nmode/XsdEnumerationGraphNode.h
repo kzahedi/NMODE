@@ -1,8 +1,8 @@
-#ifndef __NMODE_XSD_ENUMERATION_GRAPH_NODE_H__
-#define __NMODE_XSD_ENUMERATION_GRAPH_NODE_H__
+#ifndef __XSD_ENUMERATION_GRAPH_NODE_H__
+#define __XSD_ENUMERATION_GRAPH_NODE_H__
 
-#include <nmode/XsdGraphNode.h>
-#include <nmode/XsdEnumeration.h>
+#include <yars/configuration/xsd/graphviz/graph/XsdGraphNode.h>
+#include <yars/configuration/xsd/specification/XsdEnumeration.h>
 
 #include <string>
 #include <sstream>
@@ -14,6 +14,7 @@ class XsdEnumerationGraphNode : public XsdGraphNode
   public:
     XsdEnumerationGraphNode(XsdEnumeration *spec);
     string customLabel(string label);
+    string content();
     string name();
     XsdEnumeration* spec();
 

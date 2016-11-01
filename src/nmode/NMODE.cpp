@@ -85,6 +85,7 @@ void NMODE::createXsd(XsdSpecification *spec)
   Configuration::createXsd(spec);
   Population::createXsd(spec);
   CfgReproduction::createXsd(spec);
+  Simulator::createXsd(spec);
 }
 
 

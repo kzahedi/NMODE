@@ -1,4 +1,4 @@
-#include <nmode/XsdGraphLink.h>
+#include "XsdGraphLink.h"
 
 #include <iostream>
 

@@ -1,33 +1,36 @@
-#include <nmode/XsdGraph.h>
+#include <yars/configuration/xsd/graphviz/graph/XsdGraph.h>
 
-#include <iostream>
+#include <yars/configuration/data/Data.h>
+#include <yars/configuration/xsd/specification/XsdSpecification.h>
 
-using namespace std;
+#include <yars/util/YarsErrorHandler.h>
 
-// #include "configuration/data/Data.h"
-#include "XsdSpecification.h"
+#include <yars/util/stl_macros.h>
 
-#include "macros.h"
+#include <yars/configuration/xsd/graphviz/graph/XsdSequenceGraphNode.h>
+#include <yars/configuration/xsd/graphviz/graph/XsdChoiceGraphNode.h>
+#include <yars/configuration/xsd/graphviz/graph/XsdEnumerationGraphNode.h>
+#include <yars/configuration/xsd/graphviz/graph/XsdRegularExpressionGraphNode.h>
+#include <yars/configuration/xsd/graphviz/graph/XsdIntervalGraphNode.h>
+#include <yars/configuration/xsd/graphviz/graph/XsdElementGraphNode.h>
 
-#include "XsdSequenceGraphNode.h"
-#include "XsdChoiceGraphNode.h"
-#include "XsdEnumerationGraphNode.h"
-#include "XsdRegularExpressionGraphNode.h"
-#include "XsdIntervalGraphNode.h"
-#include "XsdElementGraphNode.h"
+class XsdSequenceGraphNode;
+class XsdRegularExpressionGraphNode;
+class XsdChoiceGraphNode;
+class XsdIntervalGraphNode;
 
 
 #define DO(a) if((a)->name() == destination->name()) __addChild(destination, a)
 
 XsdGraph::XsdGraph()
 {
-  // _spec                      = Data::instance()->xsd();
+  _spec                      = Data::instance()->xsd();
 
-  // FOREACHF(XsdSequence*,          s, _spec, s_begin(), s_end()) __add(*s);
-  // FOREACHF(XsdChoice*,            c, _spec, c_begin(), c_end()) __add(*c);
-  // FOREACHF(XsdEnumeration*,       e, _spec, e_begin(), e_end()) __add(*e);
-  // FOREACHF(XsdInterval*,          i, _spec, i_begin(), i_end()) __add(*i);
-  // FOREACHF(XsdRegularExpression*, r, _spec, r_begin(), r_end()) __add(*r);
+  FOREACHF(XsdSequence*,          s, _spec, ->s_begin(), ->s_end()) __add(*s);
+  FOREACHF(XsdChoice*,            c, _spec, ->c_begin(), ->c_end()) __add(*c);
+  FOREACHF(XsdEnumeration*,       e, _spec, ->e_begin(), ->e_end()) __add(*e);
+  FOREACHF(XsdInterval*,          i, _spec, ->i_begin(), ->i_end()) __add(*i);
+  FOREACHF(XsdRegularExpression*, r, _spec, ->r_begin(), ->r_end()) __add(*r);
 
   __createGraph();
 }
@@ -41,13 +44,13 @@ XsdGraph::~XsdGraph()
 void XsdGraph::__add(XsdSequence *seq)
 {
   if(seq->name() == _spec->root()->name()) return;
-  XsdSequenceGraphNode *s = new XsdSequenceGraphNode(seq);
+  XsdSequenceGraphNode *s = new XsdSequenceGraphNode(this, seq);
   _nodes.push_back(s);
 }
 
 void XsdGraph::__add(XsdChoice *choice)
 {
-  XsdChoiceGraphNode *c = new XsdChoiceGraphNode(choice);
+  XsdChoiceGraphNode *c = new XsdChoiceGraphNode(this, choice);
   _nodes.push_back(c);
 }
 
@@ -79,13 +82,22 @@ std::vector<XsdGraphNodeInstance*>::iterator XsdGraph::i_end()
   return _instances.end();
 }
 
+std::vector<XsdGraphNode*>::iterator XsdGraph::n_begin()
+{
+  return _nodes.begin();
+}
+
+std::vector<XsdGraphNode*>::iterator XsdGraph::n_end()
+{
+  return _nodes.end();
+}
 XsdGraphNodeInstance* XsdGraph::get(string parent, string name)
 {
-  FORC(vector<XsdGraphNodeInstance*>, i, _instances)
+  FOREACH(XsdGraphNodeInstance*, i, _instances)
   {
     if((*i)->name() == parent)
     {
-      FORP(vector<XsdGraphNodeInstance*>, c, (*i))
+      FOREACHP(XsdGraphNodeInstance*, c, (*i))
       {
         if((*c)->name() == name)
         {
@@ -100,35 +112,42 @@ XsdGraphNodeInstance* XsdGraph::get(string parent, string name)
 void XsdGraph::__createGraph()
 {
   XsdSequence          *seq  = _spec->root();
-  XsdSequenceGraphNode *root = new XsdSequenceGraphNode(seq);
-  _root                      = new XsdGraphNodeInstance(root->name(), root->name(), root);
+  XsdSequenceGraphNode *root = new XsdSequenceGraphNode(this, seq);
+  _root                      = new XsdGraphNodeInstance(root->name(), root->name(), root, "");
   _instances.push_back(_root);
 
-  int index = 0;
-  FORF(vector<XsdAttribute*>, a, seq, a_begin(), a_end()) __add(_root, *a);
-  FORF(vector<XsdElement*>,   e, seq, e_begin(), e_end()) __add(_root, *e);
-  FORP(vector<XsdGraphNodeInstance*>, n, _root) (*n)->setPort(index++);
+  int index = 1;
+  // FOREACHF(XsdAttribute*, a, seq, ->a_begin(), ->a_end()) __add(_root, *a, index++);
+  FOREACHF(XsdElement*,   e, seq, ->e_begin(), ->e_end()) __add(_root, *e);
+  // int index = 0;
+  // FOREACHP(XsdGraphNodeInstance*, n, _root)
+  // {
+    // (*n)->setPort(index++);
+  // }
 }
 
 void XsdGraph::__add(XsdGraphNodeInstance *parent, XsdElement *element)
 {
   XsdGraphNode *node             = __findNode(element->type());
   XsdGraphNodeInstance *instance = NULL;
+  stringstream sst;
+  sst << element->minOccurs() << ":" << element->maxOccurs();
 
   int index = 0;
   if(node != NULL)
   {
-    instance = new XsdGraphNodeInstance(element->name(), element->type(), node);
+    instance = new XsdGraphNodeInstance(element->name(), element->type(), node, sst.str());
     __add(instance, node->spec());
   }
   else
   {
-    XsdElementGraphNode *node = new XsdElementGraphNode(element);
-    instance = new XsdGraphNodeInstance(element->name(), element->name(), node);
-    FORF(vector<XsdAttribute*>, a, element, a_begin(), a_end())
-      __add(instance, *a);
-    FORP(vector<XsdGraphNodeInstance*>, n, instance)
+    XsdElementGraphNode *node = new XsdElementGraphNode(this, element);
+    instance = new XsdGraphNodeInstance(element->name(), element->name(), node, sst.str());
+    // FOREACHF(XsdAttribute*, a, element, ->a_begin(), ->a_end()) __add(instance, *a);
+    FOREACHP(XsdGraphNodeInstance*, n, instance)
+    {
       (*n)->setPort(index++);
+    }
   }
 
   _instances.push_back(instance);
@@ -139,44 +158,42 @@ void XsdGraph::__add(XsdGraphNodeInstance *parent, XsdElement *element)
 
 void XsdGraph::__add(XsdGraphNodeInstance *parent, XsdSequence *seq)
 {
-  FORF(vector<XsdAttribute*>,         a, seq, a_begin(), a_end())
-    __add(parent, *a);
-  FORF(vector<XsdElement*>,           e, seq, e_begin(), e_end())
-    __add(parent, *e);
-  FORF(vector<XsdChoice*>,            c, seq, c_begin(), c_end())
-    __add(parent, *c);
-  FORF(vector<XsdRegularExpression*>, r, seq, r_begin(), r_end())
-    __add(parent, *r);
-  FORF(vector<XsdInterval*>,          i, seq, i_begin(), i_end())
-    __add(parent, *i);
+  int index = 1;
+  // FOREACHF(XsdAttribute*,         a, seq, ->a_begin(), ->a_end()) __add(parent, *a, index++);
+  FOREACHF(XsdElement*,           e, seq, ->e_begin(), ->e_end()) __add(parent, *e);
+  FOREACHF(XsdChoice*,            c, seq, ->c_begin(), ->c_end()) __add(parent, *c);
+  FOREACHF(XsdRegularExpression*, r, seq, ->r_begin(), ->r_end()) __add(parent, *r);
+  FOREACHF(XsdInterval*,          i, seq, ->i_begin(), ->i_end()) __add(parent, *i);
 
-  int index = 0;
-  FORP(vector<XsdGraphNodeInstance*>, n, parent) (*n)->setPort(index++);
+  // int index = 0;
+  // FOREACHP(XsdGraphNodeInstance*, n, parent)
+  // {
+    // (*n)->setPort(index++);
+  // }
 }
 
 void XsdGraph::__add(XsdGraphNodeInstance *parent, XsdChoice *choice)
 {
-  FORF(vector<XsdAttribute*>, a, choice, a_begin(), a_end())
-    __add(parent, *a);
-  FORF(vector<XsdElement*>,   e, choice, e_begin(), e_end())
-    __add(parent, *e);
   int index = 0;
-  FORP(vector<XsdGraphNodeInstance*>, n, parent)
-  {
-    (*n)->setPort(index++);
-  }
+  // FOREACHF(XsdAttribute*, a, choice, ->a_begin(), ->a_end()) __add(parent, *a, index++);
+  FOREACHF(XsdElement*,   e, choice, ->e_begin(), ->e_end()) __add(parent, *e);
+  // int index = 0;
+  // FOREACHP(XsdGraphNodeInstance*, n, parent)
+  // {
+    // (*n)->setPort(index++);
+  // }
 
   std::vector<XsdGraphNodeInstance*> v;
-  FORF(vector<XsdSequence*>,  s, choice, s_begin(), s_end())
+  FOREACHF(XsdSequence*,  s, choice, ->s_begin(), ->s_end())
   {
-    XsdGraphNodeInstance *i = new XsdGraphNodeInstance("", "", NULL);
+    XsdGraphNodeInstance *i = new XsdGraphNodeInstance("", "", NULL, "");
     __add(i, *s);
     v.push_back(i);
   }
 
-  FORC(vector<XsdGraphNodeInstance*>, p, v)
+  FOREACH(XsdGraphNodeInstance*, p, v)
   {
-    FORP(vector<XsdGraphNodeInstance*>, i, (*p))
+    FOREACHP(XsdGraphNodeInstance*, i, (*p))
     {
       parent->push_back(*i);
       (*i)->setPort(index);
@@ -186,14 +203,15 @@ void XsdGraph::__add(XsdGraphNodeInstance *parent, XsdChoice *choice)
   v.clear();
 }
 
-void XsdGraph::__add(XsdGraphNodeInstance *parent, XsdAttribute *attribute)
+void XsdGraph::__add(XsdGraphNodeInstance *parent, XsdAttribute *attribute, int index)
 {
   XsdGraphNode *node             = __findNode(attribute->type());
   XsdGraphNodeInstance *instance = NULL;
 
   if(node != NULL)
   {
-    instance = new XsdGraphNodeInstance(attribute->name(), attribute->type(), node);
+    instance = new XsdGraphNodeInstance(attribute->name(), attribute->type(), node, "");
+    instance->setPort(index);
     __add(instance, node->spec());
 
     _instances.push_back(instance);
@@ -208,7 +226,7 @@ void XsdGraph::__add(XsdGraphNodeInstance *parent, XsdRegularExpression *regexp)
 
   if(node != NULL)
   {
-    instance = new XsdGraphNodeInstance(regexp->name(), regexp->type(), node);
+    instance = new XsdGraphNodeInstance(regexp->name(), regexp->type(), node, "");
     __add(instance, node->spec());
 
     _instances.push_back(instance);
@@ -223,7 +241,7 @@ void XsdGraph::__add(XsdGraphNodeInstance *parent, XsdInterval *interval)
 
   if(node != NULL)
   {
-    instance = new XsdGraphNodeInstance(interval->name(), interval->type(), node);
+    instance = new XsdGraphNodeInstance(interval->name(), interval->type(), node, "");
     __add(instance, node->spec());
 
     _instances.push_back(instance);
@@ -238,7 +256,7 @@ void XsdGraph::__add(XsdGraphNodeInstance *parent, XsdEnumeration *enumeration)
 
   if(node != NULL)
   {
-    instance = new XsdGraphNodeInstance(enumeration->name(), enumeration->type(), node);
+    instance = new XsdGraphNodeInstance(enumeration->name(), enumeration->type(), node, "");
     __add(instance, node->spec());
 
     _instances.push_back(instance);
@@ -266,7 +284,7 @@ void XsdGraph::__add(XsdGraphNodeInstance *parent, XsdNode *node)
        __add(parent, (XsdInterval*)node);
       break;
     case XSD_NODE_TYPE_ATTRIBUTE:
-       __add(parent, (XsdAttribute*)node);
+       // __add(parent, (XsdAttribute*)node, 0);
       break;
     case XSD_NODE_TYPE_ENUMERATION:
        __add(parent, (XsdEnumeration*)node);
@@ -280,7 +298,7 @@ void XsdGraph::__add(XsdGraphNodeInstance *parent, XsdNode *node)
 
 XsdGraphNode* XsdGraph::__findNode(string name)
 {
-  FORC(vector<XsdGraphNode*>, n, _nodes)
+  FOREACH(XsdGraphNode*, n, _nodes)
   {
     if((*n)->name() == name)
     {

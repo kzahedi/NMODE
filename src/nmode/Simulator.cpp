@@ -48,7 +48,7 @@ void Simulator::createXsd(XsdSpecification *spec)
   root->add(NA(TAG_WD,      TAG_XSD_STRING,                true));
   root->add(NA(TAG_XML,     TAG_XSD_STRING,                true));
   root->add(NA(TAG_OPTIONS, TAG_XSD_STRING,                false));
-  root->add(NA(TAG_NR,      TAG_POSITIVE_NON_ZERO_DECIMAL, true));
+  root->add(NA(TAG_NR,      TAG_POSITIVE_NON_ZERO_INTEGER, true));
   spec->add(root);
 }
 
