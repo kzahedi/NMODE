@@ -1,8 +1,8 @@
 #ifndef __XSD_ENUMERATION_GRAPH_NODE_H__
 #define __XSD_ENUMERATION_GRAPH_NODE_H__
 
-#include <yars/configuration/xsd/graphviz/graph/XsdGraphNode.h>
-#include <yars/configuration/xsd/specification/XsdEnumeration.h>
+#include <nmode/XsdGraphNode.h>
+#include <nmode/XsdEnumeration.h>
 
 #include <string>
 #include <sstream>

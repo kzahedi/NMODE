@@ -1,6 +1,5 @@
-#include <yars/configuration/xsd/graphviz/graph/XsdElementGraphNode.h>
-
-#include <yars/util/stl_macros.h>
+#include <nmode/XsdElementGraphNode.h>
+#include <nmode/macros.h>
 
 #include <iostream>
 

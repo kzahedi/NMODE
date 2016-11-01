@@ -1,8 +1,6 @@
-#include <yars/configuration/xsd/graphviz/graph/XsdRegularExpressionGraphNode.h>
+#include <nmode/XsdRegularExpressionGraphNode.h>
 
-#include <yars/util/stl_macros.h>
-
-#include <yars/configuration/data/Data.h>
+#include <nmode/Data.h>
 
 XsdRegularExpressionGraphNode::XsdRegularExpressionGraphNode(XsdRegularExpression *spec)
 {

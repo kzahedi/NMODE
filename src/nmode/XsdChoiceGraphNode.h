@@ -1,9 +1,9 @@
 #ifndef __XSD_CHOICE_GRAPH_NODE_H__
 #define __XSD_CHOICE_GRAPH_NODE_H__
 
-#include <yars/configuration/xsd/graphviz/graph/XsdGraphNode.h>
-#include <yars/configuration/xsd/graphviz/graph/XsdGraph.h>
-#include <yars/configuration/xsd/specification/XsdChoice.h>
+#include <nmode/XsdGraphNode.h>
+#include <nmode/XsdGraph.h>
+#include <nmode/XsdChoice.h>
 
 #include <string>
 #include <sstream>

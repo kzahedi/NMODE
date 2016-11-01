@@ -1,18 +1,15 @@
-#include <yars/configuration/xsd/graphviz/graph/XsdGraph.h>
+#include <nmode/XsdGraph.h>
 
-#include <yars/configuration/data/Data.h>
-#include <yars/configuration/xsd/specification/XsdSpecification.h>
+#include <nmode/macros.h>
+#include <nmode/Data.h>
+#include <nmode/XsdSpecification.h>
 
-#include <yars/util/YarsErrorHandler.h>
-
-#include <yars/util/stl_macros.h>
-
-#include <yars/configuration/xsd/graphviz/graph/XsdSequenceGraphNode.h>
-#include <yars/configuration/xsd/graphviz/graph/XsdChoiceGraphNode.h>
-#include <yars/configuration/xsd/graphviz/graph/XsdEnumerationGraphNode.h>
-#include <yars/configuration/xsd/graphviz/graph/XsdRegularExpressionGraphNode.h>
-#include <yars/configuration/xsd/graphviz/graph/XsdIntervalGraphNode.h>
-#include <yars/configuration/xsd/graphviz/graph/XsdElementGraphNode.h>
+#include <nmode/XsdSequenceGraphNode.h>
+#include <nmode/XsdChoiceGraphNode.h>
+#include <nmode/XsdEnumerationGraphNode.h>
+#include <nmode/XsdRegularExpressionGraphNode.h>
+#include <nmode/XsdIntervalGraphNode.h>
+#include <nmode/XsdElementGraphNode.h>
 
 class XsdSequenceGraphNode;
 class XsdRegularExpressionGraphNode;

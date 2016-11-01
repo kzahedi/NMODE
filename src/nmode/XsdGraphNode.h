@@ -1,7 +1,7 @@
 #ifndef __YARS_XSD_GRAPH_NODE_H__
 #define __YARS_XSD_GRAPH_NODE_H__
 
-#include <yars/configuration/xsd/specification/XsdSpecification.h>
+#include <nmode/XsdSpecification.h>
 
 #include <string>
 #include <vector>

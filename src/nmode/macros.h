@@ -46,4 +46,14 @@ static inline std::string &trim(std::string &s) {
 # define EQUAL_TEST(a, b, msg) if(a != b){cout << msg << ": " << a << " " << b << endl; return false;}
 # define EQUAL_TEST_DOUBLE(a, b, msg) if(fabs(a - b) > 0.000001){cout << msg << ": " << a << " " << b << endl; return false;}
 
+# define FOREACHP(stl_container, i, container) \
+  for(std::vector<stl_container>::iterator i = (container)->begin(); i != (container)->end(); i++)
+
+# define FOREACHF(stl_container, i, container, begin, end) \
+  for(std::vector<stl_container>::iterator i = (container)begin; i != (container)end; i++)
+
+# define FOREACH(stl_container, i, container) \
+  for(std::vector<stl_container>::iterator i = (container).begin(); i != (container).end(); i++)
+
+
 #endif // MACROS

@@ -1,10 +1,10 @@
 #ifndef __XSD_ELEMENT_GRAPH_NODE_H__
 #define __XSD_ELEMENT_GRAPH_NODE_H__
 
-#include <yars/configuration/xsd/graphviz/graph/XsdGraphNode.h>
-#include <yars/configuration/xsd/graphviz/graph/XsdGraph.h>
+#include <nmode/XsdGraphNode.h>
+#include <nmode/XsdGraph.h>
 
-#include <yars/configuration/xsd/specification/XsdElement.h>
+#include <nmode/XsdElement.h>
 
 #include <string>
 #include <sstream>

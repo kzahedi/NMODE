@@ -1,8 +1,8 @@
 #ifndef __XSD_REGULAR_EXPRESSION_GRAPH_NODE_H__
 #define __XSD_REGULAR_EXPRESSION_GRAPH_NODE_H__
 
-#include <yars/configuration/xsd/graphviz/graph/XsdGraphNode.h>
-#include <yars/configuration/xsd/specification/XsdRegularExpression.h>
+#include <nmode/XsdGraphNode.h>
+#include <nmode/XsdRegularExpression.h>
 
 #include <string>
 #include <sstream>

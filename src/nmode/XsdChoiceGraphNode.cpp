@@ -1,6 +1,5 @@
-#include <yars/configuration/xsd/graphviz/graph/XsdChoiceGraphNode.h>
-
-#include <yars/util/stl_macros.h>
+#include <nmode/XsdChoiceGraphNode.h>
+#include <nmode/macros.h>
 
 #include <iostream>
 

@@ -1,7 +1,7 @@
 #ifndef __YARS_XSD_GRAPHVIZ_GENERATOR_H__
 #define __YARS_XSD_GRAPHVIZ_GENERATOR_H__
 
-#include <yars/configuration/xsd/graphviz/graph/XsdGraph.h>
+#include <nmode/XsdGraph.h>
 
 #include <sstream>
 

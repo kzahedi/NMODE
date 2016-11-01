@@ -1,11 +1,11 @@
-#include <yars/configuration/xsd/graphviz/graph/XsdSequenceGraphNode.h>
-#include <yars/configuration/data/Data.h>
-
-#include <yars/util/stl_macros.h>
+#include <nmode/XsdSequenceGraphNode.h>
+#include <nmode/Data.h>
+#include <nmode/macros.h>
 
 #include <iostream>
 
 using namespace std;
+
 
 XsdSequenceGraphNode::XsdSequenceGraphNode(XsdGraph* graph, XsdSequence* spec)
 {

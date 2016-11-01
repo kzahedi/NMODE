@@ -1,8 +1,8 @@
 #ifndef __XSD_INTERVAL_GRAPH_NODE_H__
 #define __XSD_INTERVAL_GRAPH_NODE_H__
 
-#include <yars/configuration/xsd/graphviz/graph/XsdGraphNode.h>
-#include <yars/configuration/xsd/specification/XsdInterval.h>
+#include <nmode/XsdGraphNode.h>
+#include <nmode/XsdInterval.h>
 
 #include <string>
 #include <sstream>

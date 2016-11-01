@@ -1,8 +1,7 @@
-#include <yars/configuration/xsd/graphviz/graph/XsdEnumerationGraphNode.h>
+#include <nmode/XsdEnumerationGraphNode.h>
 
-#include <yars/util/stl_macros.h>
-
-#include <yars/configuration/data/Data.h>
+#include <nmode/Data.h>
+#include <nmode/macros.h>
 
 XsdEnumerationGraphNode::XsdEnumerationGraphNode(XsdEnumeration *spec)
 {
