@@ -35,6 +35,7 @@ set(SRC
   CfgVisualisation.cpp
 
   Evolve.cpp
+  Replay.cpp
   EvaluationParameter.cpp
   Convert.cpp
 

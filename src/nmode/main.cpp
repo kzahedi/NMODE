@@ -3,6 +3,7 @@
 #include <nmode/Exporter.h>
 #include <nmode/Random.h>
 #include <nmode/Evolve.h>
+#include <nmode/Replay.h>
 #include <nmode/Convert.h>
 #include <nmode/RnnFromIndividual.h>
 #include <nmode/YarsXSDGenerator.h>
@@ -20,7 +21,6 @@
 #include <stdlib.h>
 
 #include <boost/thread.hpp>
-
 
 using namespace std;
 namespace po = boost::program_options;
@@ -40,6 +40,7 @@ int main(int argc, char** argv)
   string log;
   string continueDir;
   int    individual_index;
+  string replayDir;
 
   string logdir;
   desc.add_options()
@@ -65,6 +66,9 @@ int main(int argc, char** argv)
      "set verbose logging level, defaults to 0")
     ("continue",
      po::value<string>(&continueDir),
+     "read and continue from directory")
+    ("replay",
+     po::value<string>(&replayDir),
      "read and continue from directory")
     ("logdir,L",
      po::value<string>(&logdir),
@@ -110,6 +114,13 @@ int main(int argc, char** argv)
     delete xsd;
   }
 
+  if (vm.count("replay"))
+  {
+    cout << "Replay directory:  " << replayDir        << endl;
+    Replay *r = new Replay();
+    r->initFromDir(replayDir);
+    exit(0);
+  }
 
   if (vm.count("logstderr"))
   {

@@ -1,3 +1,6 @@
+#ifndef __REPRODUCTION_H__
+#define __REPRODUCTION_H__
+
 #include <nmode/Population.h>
 #include <nmode/Mutation.h>
 
@@ -52,3 +55,4 @@ class Reproduction
     Mutation*     _mutation;
 };
 
+#endif // __REPRODUCTION_H__

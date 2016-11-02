@@ -35,15 +35,16 @@ void Evaluate::run()
 {
   while(true)
   {
-    _individual = _population->getNextIndividual();
-    _rnn = RnnFromIndividual::create(_individual);
+    _individual         = _population->getNextIndividual();
+    _rnn                = RnnFromIndividual::create(_individual);
     unsigned long begin = Timer::getTime();
     __evaluate();
-    unsigned long end = Timer::getTime();
+    unsigned long end   = Timer::getTime();
     double elapsed_secs = double(end - begin) / 1000.0;
     _individual->setRawFitness(fitness);
     cout << "Individual " << _individual->nr() << " / "
-      <<  _population->i_size() << ": " << fitness << " " << elapsed_secs << "s" << endl;
+      <<  _population->i_size() << ": "
+      << fitness << " " << elapsed_secs << "s" << endl;
 
     double nc = EVA->nodeCost() * _rnn->nrOfNeurons();
     double ec = EVA->edgeCost() * _rnn->nrOfSynapses();
