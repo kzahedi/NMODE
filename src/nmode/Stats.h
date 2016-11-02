@@ -11,6 +11,25 @@ class Stats
 
   public:
     Stats(const Individuals&);
+    Stats(double bestFitness,
+          double avgFitness,
+          double sdFitness,
+          double minSdFitness,
+          double maxSdFitness,
+
+          double bestNrHiddenUnits,
+          double avgNrHiddenUnits,
+          double sdHiddenUnits,
+          double minSdHiddenUnits,
+          double maxSdHiddenUnits,
+
+          double bestNrEdges,
+          double avgNrEdges,
+          double sdEdges,
+          double minSdEdges,
+          double maxSdEdges);
+
+
     double bestFitness()       {return _bestFitness;};
     double avgFitness()        {return _avgFitness;};
     double sdFitness()         {return _sdFitness;};

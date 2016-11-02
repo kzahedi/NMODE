@@ -4,8 +4,10 @@
 #include <nmode/Exporter.h>
 #include <nmode/Data.h>
 #include <nmode/Convert.h>
+#include <nmode/StringTokeniser.h>
 
 #include <math.h>
+#include <stdlib.h>
 
 #include <glog/logging.h>
 #include <unistd.h>
@@ -744,6 +746,7 @@ void Population::readStats(string d)
   for(vector<fs::path>::iterator i = files.begin(); i != files.end(); i++)
   {
     string t = (*i).string();
+    cout << "  " << t << endl;
     string s = boost::regex_replace(t,
                                     boost::regex("stats-([0-9]+).csv"),
                                     string("\\1")
@@ -753,23 +756,44 @@ void Population::readStats(string d)
 
   std::sort (indices.begin(), indices.end());
   
-  // cout << "indices: " << endl;
-  // stringstream sst;
-  // for(vector<int>::iterator i = indices.begin(); i != indices.end(); i++)
-  // {
-    // sst.str("");
-    // sst << "stats-" << *i << ".csv";
-    // std::ifstream input(sst.str());
-    // std::string line;
-    // getline(input, line); // first line are comments
-    // for(;getline( input, line );)
-    // {
+  _stats.clear();
+  cout << "indices (" << indices.size() << "): " << endl;
+  stringstream sst;
+  int index = 1;
+  for(vector<int>::iterator i = indices.begin(); i != indices.end(); i++)
+  {
+    sst.str("");
+    sst << "stats-" << (index++) << ".csv";
+    cout << sst.str() << endl;
+    std::ifstream input(sst.str());
+    std::string line;
+    getline(input, line); // first line is comments
+    vector<double> fitness;
+    vector<double> age;
+    vector<double> rawfitness;
+    // vector<double> nodecost;
+    // vector<double> edgecost;
+    vector<double> nrneurons;
+    vector<double> nrsynapses;
+    // vector<double> offspring;
+    for(;getline( input, line );)
+    {
+      vector<string> toks = StringTokeniser::tokenise(line, ",");
+      fitness.push_back(atof(toks[1].c_str()));
+      age.push_back(atof(toks[2].c_str()));
+      rawfitness.push_back(atof(toks[3].c_str()));
+      // nodecost.push_back(atof(toks[4].c_str()));
+      // edgecost.push_back(atof(toks[5].c_str()));
+      nrneurons.push_back(atof(toks[6].c_str()));
+      nrsynapses.push_back(atof(toks[7].c_str()));
+      // nroffspring.push_back(atof(toks[8].c_str()));
+    }
+    input.close();
 
-    // }
 
-    
-  // }
-  // cout << "end" << endl;
+
+  }
+  cout << "end" << endl;
 
 }
 

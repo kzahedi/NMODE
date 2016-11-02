@@ -36,6 +36,7 @@ CfgEvaluation::CfgEvaluation(XsdParseNode *parent)
   _nodeCost    = 0.0;
   _edgeCost    = 0.0;
   _generations = -1;
+  _logFileType = "pdf";
   _module      = "unknown";
 }
 
