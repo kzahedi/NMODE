@@ -14,20 +14,14 @@ class Stats
     Stats(double bestFitness,
           double avgFitness,
           double sdFitness,
-          double minSdFitness,
-          double maxSdFitness,
 
           double bestNrHiddenUnits,
           double avgNrHiddenUnits,
           double sdHiddenUnits,
-          double minSdHiddenUnits,
-          double maxSdHiddenUnits,
 
           double bestNrEdges,
           double avgNrEdges,
-          double sdEdges,
-          double minSdEdges,
-          double maxSdEdges);
+          double sdEdges);
 
 
     double bestFitness()       {return _bestFitness;};

@@ -25,6 +25,7 @@ using namespace std;
 # define TAG_LOG                    (char*)"log"
 # define TAG_LOG_DEFINITION         (char*)"log_definition"
 # define TAG_FILE_TYPE              (char*)"filetype"
+# define TAG_FILE_TYPE_DEFINITION   (char*)"log_filetype_definition"
 # define TAG_FILE_TYPE_PDF          (char*)"pdf"
 # define TAG_FILE_TYPE_SVG          (char*)"svg"
 # define TAG_FILE_TYPE_PS           (char*)"ps"
@@ -126,11 +127,15 @@ void CfgEvaluation::createXsd(XsdSpecification *spec)
   cost->add(NA(TAG_EDGE, TAG_POSITIVE_DECIMAL, false));
   spec->add(cost);
 
-  XsdEnumeration *log = new XsdEnumeration(TAG_LOG_DEFINITION, TAG_XSD_STRING);
-  log->add(TAG_FILE_TYPE_PDF);
-  log->add(TAG_FILE_TYPE_SVG);
-  log->add(TAG_FILE_TYPE_PS);
+  XsdSequence *log = new XsdSequence(TAG_LOG_DEFINITION);
+  log->add(NA(TAG_FILE_TYPE, TAG_FILE_TYPE_DEFINITION, true));
   spec->add(log);
+
+  XsdEnumeration *filetypes = new XsdEnumeration(TAG_FILE_TYPE_DEFINITION, TAG_XSD_STRING);
+  filetypes->add(TAG_FILE_TYPE_PDF);
+  filetypes->add(TAG_FILE_TYPE_SVG);
+  filetypes->add(TAG_FILE_TYPE_PS);
+  spec->add(filetypes);
 
 }
 

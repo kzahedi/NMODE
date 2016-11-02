@@ -17,38 +17,32 @@ Stats::Stats(const Individuals& individuals)
 Stats::Stats(double bestFitness,
              double avgFitness,
              double sdFitness,
-             double minSdFitness,
-             double maxSdFitness,
 
              double bestNrHiddenUnits,
              double avgNrHiddenUnits,
              double sdHiddenUnits,
-             double minSdHiddenUnits,
-             double maxSdHiddenUnits,
 
              double bestNrEdges,
              double avgNrEdges,
-             double sdEdges,
-             double minSdEdges,
-             double maxSdEdges)
+             double sdEdges)
 {
-  bestFitness       = _bestFitness;;
-  avgFitness        = _avgFitness;;
-  sdFitness         = _sdFitness;;
-  minSdFitness      = _minSdFitness;;
-  maxSdFitness      = _maxSdFitness;;
+  _bestFitness       = bestFitness;
+  _avgFitness        = avgFitness;
+  _sdFitness         = sdFitness;
+  _minSdFitness      = avgFitness - sdFitness;
+  _maxSdFitness      = avgFitness + sdFitness;
 
-  bestNrHiddenUnits = _bestNrHiddenUnits;;
-  avgNrHiddenUnits  = _avgNrHiddenUnits;;
-  sdHiddenUnits     = _sdHiddenUnits;;
-  minSdHiddenUnits  = _minSdHiddenUnits;;
-  maxSdHiddenUnits  = _maxSdHiddenUnits;;
+  _bestNrHiddenUnits = bestNrHiddenUnits;
+  _avgNrHiddenUnits  = avgNrHiddenUnits;
+  _sdHiddenUnits     = sdHiddenUnits;
+  _minSdHiddenUnits  = avgNrHiddenUnits - sdHiddenUnits;
+  _maxSdHiddenUnits  = avgNrHiddenUnits + sdHiddenUnits;
 
-  bestNrEdges       = _bestNrEdges;;
-  avgNrEdges        = _avgNrEdges;;
-  sdEdges           = _sdEdges;;
-  minSdEdges        = _minSdEdges;;
-  maxSdEdges        = _maxSdEdges;;
+  _bestNrEdges       = bestNrEdges;
+  _avgNrEdges        = avgNrEdges;
+  _sdEdges           = sdEdges;
+  _minSdEdges        = avgNrEdges - sdEdges;
+  _maxSdEdges        = avgNrEdges + sdEdges;
 }
 
 void Stats::__bestFitness(const Individuals& individuals)

@@ -763,14 +763,14 @@ void Population::readStats(string d)
   for(vector<int>::iterator i = indices.begin(); i != indices.end(); i++)
   {
     sst.str("");
-    sst << "stats-" << (index++) << ".csv";
+    sst << dir.string() << "/stats-" << (index++) << ".csv";
     cout << sst.str() << endl;
     std::ifstream input(sst.str());
     std::string line;
     getline(input, line); // first line is comments
     vector<double> fitness;
-    vector<double> age;
-    vector<double> rawfitness;
+    // vector<double> age;
+    // vector<double> rawfitness;
     // vector<double> nodecost;
     // vector<double> edgecost;
     vector<double> nrneurons;
@@ -780,8 +780,8 @@ void Population::readStats(string d)
     {
       vector<string> toks = StringTokeniser::tokenise(line, ",");
       fitness.push_back(atof(toks[1].c_str()));
-      age.push_back(atof(toks[2].c_str()));
-      rawfitness.push_back(atof(toks[3].c_str()));
+      // age.push_back(atof(toks[2].c_str()));
+      // rawfitness.push_back(atof(toks[3].c_str()));
       // nodecost.push_back(atof(toks[4].c_str()));
       // edgecost.push_back(atof(toks[5].c_str()));
       nrneurons.push_back(atof(toks[6].c_str()));
@@ -790,10 +790,30 @@ void Population::readStats(string d)
     }
     input.close();
 
+    double bestFitness       = fitness[0];
+    double bestNrHiddenUnits = nrneurons[0];
+    double bestNrEdges       = nrsynapses[0];
 
+    double avgFitness        = __mean(fitness);
+    double avgNrHiddenUnits  = __mean(nrneurons);
+    double avgNrEdges        = __mean(nrsynapses);
 
+    double sdFitness         = __std(fitness);
+    double sdHiddenUnits     = __std(nrneurons);
+    double sdEdges           = __std(nrsynapses);
 
+    Stats *s = new Stats(bestFitness,
+                         avgFitness,
+                         sdFitness,
 
+                         bestNrHiddenUnits,
+                         avgNrHiddenUnits,
+                         sdHiddenUnits,
+
+                         bestNrEdges,
+                         avgNrEdges,
+                         sdEdges);
+    _stats.push_back(s);
   }
   cout << "end" << endl;
 
@@ -810,4 +830,25 @@ void Population::setInactive(int module, int node, bool value)
 void Population::removeFirstIndividual()
 {
   _individuals.erase(_individuals.begin());
+}
+
+double Population::__mean(vector<double> &v)
+{
+  double s = 0;
+  for(vector<double>::iterator i = v.begin(); i != v.end(); i++)
+  {
+    s += *i;
+  }
+  return (s / ((float) v.size()));
+}
+
+double Population::__std(vector<double> &v)
+{
+  double m = __mean(v);
+  double s = 0;
+  for(vector<double>::iterator i = v.begin(); i != v.end(); i++)
+  {
+    s += (*i - m) * (*i - m);
+  }
+  return (s / ((float) v.size()));
 }

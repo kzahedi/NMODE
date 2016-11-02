@@ -78,13 +78,14 @@ void Evaluate::__evaluate()
         _com = new YarsClientCom();
         _com->throwException(true);
         stringstream sst;
-	sst << _options << " " << _xml;
+        sst << _options << " " << _xml;
+        // cout << _path << "yars " << sst.str() << endl;
         _com->init(_workingDirectory, sst.str(), _path);
         nrOfSensors   = _com->numberOfSensorsValues();
         nrOfActuators = _com->numberOfActuatorsValues();
-        cout << "nr of sensors:   " << nrOfSensors << endl;
-        cout << "nr of actuators: " << nrOfActuators << endl;
-        _com->printSensorMotorConfiguration();
+        // cout << "nr of sensors:   " << nrOfSensors << endl;
+        // cout << "nr of actuators: " << nrOfActuators << endl;
+        // _com->printSensorMotorConfiguration();
         sensorValues.resize(nrOfSensors);
         actuatorValues.resize(nrOfActuators);
       }

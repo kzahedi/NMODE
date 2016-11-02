@@ -78,6 +78,8 @@ class Population : public Observable, public XsdParseNode
     void __plotFitness();
 #endif // USE_PLPLOT
     void            __calculateStats();
+    double          __mean(vector<double> &v);
+    double          __std(vector<double> &v);
 
     int             _generation;
     int             _individualId;
