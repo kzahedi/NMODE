@@ -5,6 +5,7 @@
 #include <nmode/Data.h>
 #include <nmode/Convert.h>
 #include <nmode/StringTokeniser.h>
+#include <nmode/Timer.h>
 
 #include <math.h>
 #include <stdlib.h>
@@ -45,6 +46,8 @@ Population::Population(XsdParseNode *parent)
   _nextIndividual  = 0;
   _individualId    = 0;
   _openEvaluations = 0;
+  _start           = 0;
+  _end             = 0;
   _me              = this;
   _ext             = Data::instance()->specification()->evaluation()->logFileType();
   __getUniqueDirectoryName();
@@ -219,6 +222,14 @@ void Population::evaluationCompleted()
 
 void Population::reproductionCompleted()
 {
+  if(_start > 0)
+  {
+    _end = Timer::getTime();
+    double elapsed_secs = double(_end - _start) / 1000.0;
+    cout << "Elapsed time: " << elapsed_secs << "s" << endl;
+  }
+  _start = Timer::getTime();
+
   _nextIndividual = 0;
   int index = 1;
   FORC(Individuals, i, _individuals) (*i)->setNr(index++);

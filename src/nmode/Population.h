@@ -91,6 +91,8 @@ class Population : public Observable, public XsdParseNode
     pthread_mutex_t _mutex;
     ofstream        _output;
     Statistics      _stats;
+    unsigned long   _start;
+    unsigned long   _end;
 
     static Population* _me;
 };
