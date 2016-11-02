@@ -15,11 +15,13 @@ Evaluate::Evaluate()
   nrOfActuators         = 0;
   lifeTime              = Data::instance()->specification()->evaluation()->lifeTime();
   _workingDirectory     = Data::instance()->specification()->simulator()->workingDirectory();
-  _path                 = Data::instance()->specification()->simulator()->path();
+  _path                 = "/usr/people/zahedi/.local/bin/";
   _xml                  = Data::instance()->specification()->simulator()->xml();
   _options              = Data::instance()->specification()->simulator()->options();
   _population           = Population::instance();
   _successfulEvaluation = false;
+
+  // cout << "Options: " << _options << endl << "XML: " << _xml << endl << "PATH: " << _path << endl;
 }
 
 void Evaluate::nogui()
@@ -77,7 +79,7 @@ void Evaluate::__evaluate()
         _com = new YarsClientCom();
         _com->throwException(true);
         stringstream sst;
-        sst << _options << " " << _xml;
+	sst << _options << " " << _xml;
         _com->init(_workingDirectory, sst.str(), _path);
         nrOfSensors   = _com->numberOfSensorsValues();
         nrOfActuators = _com->numberOfActuatorsValues();
@@ -143,7 +145,7 @@ void Evaluate::__evaluate()
       _successfulEvaluation = false;
       stringstream sst;
       sst << _options << " " << _xml;
-      _com->init(_workingDirectory, sst.str());
+      _com->init(_workingDirectory, sst.str(), _path);
     }
   }
 }

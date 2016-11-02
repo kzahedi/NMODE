@@ -39,7 +39,10 @@ include_directories(/usr/local/include/yars)
 include(cmake/IncludePackages.cmake)
 
 add_subdirectory(src)
+option(USE_TESTS "use test cases" ON)
+if(USE_TESTS)
 add_subdirectory(tests)
+endif(USE_TESTS)
 
 CONFIGURE_FILE(
   "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
