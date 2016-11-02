@@ -742,11 +742,9 @@ void Population::readStats(string d)
 
   vector<int> indices;
 
-  cout << "Files: " << endl;
   for(vector<fs::path>::iterator i = files.begin(); i != files.end(); i++)
   {
     string t = (*i).string();
-    cout << "  " << t << endl;
     string s = boost::regex_replace(t,
                                     boost::regex("stats-([0-9]+).csv"),
                                     string("\\1")
@@ -757,14 +755,13 @@ void Population::readStats(string d)
   std::sort (indices.begin(), indices.end());
   
   _stats.clear();
-  cout << "indices (" << indices.size() << "): " << endl;
   stringstream sst;
   int index = 1;
   for(vector<int>::iterator i = indices.begin(); i != indices.end(); i++)
   {
     sst.str("");
     sst << dir.string() << "/stats-" << (index++) << ".csv";
-    cout << sst.str() << endl;
+    // cout << sst.str() << " ";
     std::ifstream input(sst.str());
     std::string line;
     getline(input, line); // first line is comments
@@ -786,6 +783,7 @@ void Population::readStats(string d)
       // edgecost.push_back(atof(toks[5].c_str()));
       nrneurons.push_back(atof(toks[6].c_str()));
       nrsynapses.push_back(atof(toks[7].c_str()));
+      // cout << toks[1] << " " << toks[6] << " " << toks[7] << endl;
       // nroffspring.push_back(atof(toks[8].c_str()));
     }
     input.close();
@@ -802,20 +800,11 @@ void Population::readStats(string d)
     double sdHiddenUnits     = __std(nrneurons);
     double sdEdges           = __std(nrsynapses);
 
-    Stats *s = new Stats(bestFitness,
-                         avgFitness,
-                         sdFitness,
-
-                         bestNrHiddenUnits,
-                         avgNrHiddenUnits,
-                         sdHiddenUnits,
-
-                         bestNrEdges,
-                         avgNrEdges,
-                         sdEdges);
+    Stats *s = new Stats(bestFitness, avgFitness, sdFitness,
+                         bestNrHiddenUnits, avgNrHiddenUnits, sdHiddenUnits,
+                         bestNrEdges, avgNrEdges, sdEdges);
     _stats.push_back(s);
   }
-  cout << "end" << endl;
 
 }
 
