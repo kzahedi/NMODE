@@ -16,6 +16,7 @@ Evaluate::Evaluate()
   lifeTime              = Data::instance()->specification()->evaluation()->lifeTime();
   _workingDirectory     = Data::instance()->specification()->simulator()->workingDirectory();
   _xml                  = Data::instance()->specification()->simulator()->xml();
+  _path                 = Data::instance()->specification()->simulator()->path();
   _options              = Data::instance()->specification()->simulator()->options();
   _population           = Population::instance();
   _successfulEvaluation = false;
