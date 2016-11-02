@@ -44,6 +44,7 @@ class Evaluate
     string         _options;
     string         _workingDirectory;
     string         _xml;
+    string         _path;
     stringstream   _message;
     bool           _successfulEvaluation;
     RNN*           _rnn;

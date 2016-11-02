@@ -29,6 +29,7 @@ class Simulator : public XsdParseNode
     string workingDirectory();
     string xml();
     string options();
+    string path();
     int    nr();
 
   private:
@@ -36,6 +37,7 @@ class Simulator : public XsdParseNode
     string _workingDirectory;
     string _xml;
     string _options;
+    string _path;
     int    _nr;
 
 };

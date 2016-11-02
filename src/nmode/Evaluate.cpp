@@ -15,6 +15,7 @@ Evaluate::Evaluate()
   nrOfActuators         = 0;
   lifeTime              = Data::instance()->specification()->evaluation()->lifeTime();
   _workingDirectory     = Data::instance()->specification()->simulator()->workingDirectory();
+  _path                 = Data::instance()->specification()->simulator()->path();
   _xml                  = Data::instance()->specification()->simulator()->xml();
   _options              = Data::instance()->specification()->simulator()->options();
   _population           = Population::instance();
@@ -77,7 +78,7 @@ void Evaluate::__evaluate()
         _com->throwException(true);
         stringstream sst;
         sst << _options << " " << _xml;
-        _com->init(_workingDirectory, sst.str());
+        _com->init(_workingDirectory, sst.str(), _path);
         nrOfSensors   = _com->numberOfSensorsValues();
         nrOfActuators = _com->numberOfActuatorsValues();
         cout << "nr of sensors:   " << nrOfSensors << endl;
