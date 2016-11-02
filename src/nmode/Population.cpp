@@ -44,6 +44,7 @@ Population::Population(XsdParseNode *parent)
   _individualId    = 0;
   _openEvaluations = 0;
   _me              = this;
+  _ext             = Data::instance()->specification()->evaluation()->logFileType();
   __getUniqueDirectoryName();
   ENP_INIT;
 }
@@ -312,8 +313,8 @@ void Population::__plotData()
   if(_stats.size() < 2) return;
   stringstream sst;
 
-  sst << _logDirectory << "/" << "stats-" << _generation << ".svg";
-  plsetopt("dev","svg");
+  sst << _logDirectory << "/" << "stats-" << _generation << "." << _ext;
+  plsetopt("dev",_ext.c_str());
   plsetopt("geometry","1800x1200");
   plsfnam (sst.str().c_str());
   plstar( 2, 3 );
@@ -326,8 +327,8 @@ void Population::__plotData()
   plend();
 
   sst.str("");
-  sst << _logDirectory << "/" << "stats.svg";
-  plsetopt("dev","svg");
+  sst << _logDirectory << "/" << "stats." << _ext;
+  plsetopt("dev",_ext.c_str());
   plsetopt("geometry","1800x1200");
   plsfnam (sst.str().c_str());
   plstar( 2, 3 );
@@ -339,10 +340,10 @@ void Population::__plotData()
   __plotAvgEdges();
   plend();
 
-  plsetopt("dev","svg");
+  plsetopt("dev",_ext.c_str());
   plsetopt("geometry","1800x400");
   sst.str("");
-  sst << _logDirectory << "/" << "fitness-" << _generation << ".svg";
+  sst << _logDirectory << "/" << "fitness-" << _generation << "." << _ext;
   plsfnam (sst.str().c_str());
   plstar( 2, 1 );
   __plotNrOfOffspring();
@@ -350,8 +351,8 @@ void Population::__plotData()
   plend();
 
   sst.str("");
-  sst << _logDirectory << "/" << "fitness.svg";
-  plsetopt("dev","svg");
+  sst << _logDirectory << "/" << "fitness." << _ext; 
+  plsetopt("dev",_ext.c_str());
   plsetopt("geometry","1800x400");
   plsfnam (sst.str().c_str());
   plstar( 2, 1 );

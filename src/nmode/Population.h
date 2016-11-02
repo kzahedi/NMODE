@@ -84,6 +84,7 @@ class Population : public Observable, public XsdParseNode
     int             _nextIndividual;
     int             _openEvaluations;
     string          _logDirectory;
+    string          _ext;
     Individuals     _individuals;
     pthread_mutex_t _mutex;
     ofstream        _output;

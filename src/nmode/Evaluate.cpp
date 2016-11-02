@@ -15,7 +15,6 @@ Evaluate::Evaluate()
   nrOfActuators         = 0;
   lifeTime              = Data::instance()->specification()->evaluation()->lifeTime();
   _workingDirectory     = Data::instance()->specification()->simulator()->workingDirectory();
-  _path                 = "/usr/people/zahedi/.local/bin/";
   _xml                  = Data::instance()->specification()->simulator()->xml();
   _options              = Data::instance()->specification()->simulator()->options();
   _population           = Population::instance();

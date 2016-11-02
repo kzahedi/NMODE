@@ -22,6 +22,13 @@ using namespace std;
 # define TAG_EDGE                   (char*)"edge"
 # define TAG_NODE                   (char*)"node"
 
+# define TAG_LOG                    (char*)"log"
+# define TAG_LOG_DEFINITION         (char*)"log_definition"
+# define TAG_FILE_TYPE              (char*)"filetype"
+# define TAG_FILE_TYPE_PDF          (char*)"pdf"
+# define TAG_FILE_TYPE_SVG          (char*)"svg"
+# define TAG_FILE_TYPE_PS           (char*)"ps"
+
 CfgEvaluation::CfgEvaluation(XsdParseNode *parent)
   : XsdParseNode(parent)
 {
@@ -74,6 +81,11 @@ void CfgEvaluation::add(ParseElement *element)
     element->set(TAG_ITERATIONS, _generations);
   }
 
+  if(element->opening(TAG_LOG))
+  {
+    element->set(TAG_FILE_TYPE, _logFileType);
+  }
+
   if(element->opening(TAG_COST))
   {
     element->set(TAG_NODE, _nodeCost);
@@ -95,6 +107,7 @@ void CfgEvaluation::createXsd(XsdSpecification *spec)
   root->add(NA(TAG_MODULE,               TAG_XSD_STRING,                      true));
   root->add(NE(TAG_LIFE_TIME,            TAG_LIFE_TIME_DEFINITION,            1, 1));
   root->add(NE(TAG_GENERATIONS,          TAG_GENERATIONS_DEFINITION,          0, 1));
+  root->add(NE(TAG_LOG,                  TAG_LOG_DEFINITION,                  0, 1));
   root->add(NE(TAG_COST,                 TAG_COST_DEFINITION,                 1, 1));
   root->add(NE(TAG_EVALUATION_PARAMETER, TAG_EVALUATION_PARAMETER_DEFINITION, 0));
   spec->add(root);
@@ -111,6 +124,13 @@ void CfgEvaluation::createXsd(XsdSpecification *spec)
   cost->add(NA(TAG_NODE, TAG_POSITIVE_DECIMAL, false));
   cost->add(NA(TAG_EDGE, TAG_POSITIVE_DECIMAL, false));
   spec->add(cost);
+
+  XsdEnumeration *log = new XsdEnumeration(TAG_LOG_DEFINITION, TAG_XSD_STRING);
+  log->add(TAG_FILE_TYPE_PDF);
+  log->add(TAG_FILE_TYPE_SVG);
+  log->add(TAG_FILE_TYPE_PS);
+  spec->add(log);
+
 }
 
 int CfgEvaluation::lifeTime()
@@ -141,4 +161,9 @@ string CfgEvaluation::module()
 void CfgEvaluation::setLifeTime(int lf)
 {
   _lifeTime = lf;
+}
+
+string CfgEvaluation::logFileType()
+{
+  return _logFileType;
 }

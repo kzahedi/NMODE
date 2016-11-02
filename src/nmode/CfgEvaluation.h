@@ -27,6 +27,7 @@ class CfgEvaluation : public XsdParseNode, public EvaluationParameterMap
     double nodeCost();
     double edgeCost();
     string module();
+    string logFileType();
 
     void setLifeTime(int);
 
@@ -36,6 +37,7 @@ class CfgEvaluation : public XsdParseNode, public EvaluationParameterMap
     double               _nodeCost;
     double               _edgeCost;
     string               _module;
+    string               _logFileType;
     EvaluationParameters _parameters;
 };
 

@@ -49,7 +49,6 @@ class Evaluate
     bool           _successfulEvaluation;
     RNN*           _rnn;
     Individual*    _individual;
-
 };
 
 typedef Evaluate* create_e();
