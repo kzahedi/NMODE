@@ -110,9 +110,10 @@ XsdSpecification* Data::xsd()
 string Data::__simulator()
 {
   stringstream sst; 
-  sst << "  <simulator wd=\""  << _SIM->workingDirectory() <<  "\"" << endl;
-  sst << "             xml=\"" << _SIM->xml() << "\"" << endl;
-  sst << "             nr=\""  << _SIM->nr() << "\"/>" << endl;
+  sst << "  <simulator wd=\""   << _SIM->workingDirectory() << "\""   << endl;
+  sst << "             xml=\""  << _SIM->xml()              << "\""   << endl;
+  sst << "             path=\"" << _SIM->path()             << "\""   << endl;
+  sst << "             nr=\""   << _SIM->nr()               << "\"/>" << endl;
   return sst.str();
 }
 
