@@ -44,7 +44,7 @@ void Evaluate::run()
     _individual->setRawFitness(fitness);
     cout << "Individual " << _individual->nr() << " / "
       <<  _population->i_size() << ": "
-      << fitness << " " << elapsed_secs << "s" << endl;
+      << fitness;
 
     double nc = EVA->nodeCost() * _rnn->nrOfNeurons();
     double ec = EVA->edgeCost() * _rnn->nrOfSynapses();
@@ -54,7 +54,12 @@ void Evaluate::run()
     _individual->setNrOfSynapses(_rnn->nrOfSynapses());
     _individual->setNrOfNeurons(_rnn->nrOfHidden());
 
-    fitness -= nc + ec;
+    if(EVA->nodeCost() > 0.0 || EVA->edgeCost() > 0.0)
+    {
+      fitness -= nc + ec;
+      cout << " -> " << fitness;
+    }
+    cout << " " << elapsed_secs << "s" << endl;
 
     _individual->setFitness(fitness);
 
@@ -87,7 +92,7 @@ void Evaluate::__evaluate()
         nrOfActuators = _com->numberOfActuatorsValues();
         // cout << "nr of sensors:   " << nrOfSensors << endl;
         // cout << "nr of actuators: " << nrOfActuators << endl;
-        // _com->printSensorMotorConfiguration();
+        _com->printSensorMotorConfiguration();
         sensorValues.resize(nrOfSensors);
         actuatorValues.resize(nrOfActuators);
       }

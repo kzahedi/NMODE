@@ -79,6 +79,9 @@ class RNN
     void setInputs(vector<double>&);
     void getOutput(vector<double>&);
 
+    void setInputs(vector<float>&);
+    void getOutput(vector<float>&);
+
     void addInputNeuron(Neuron*);
     void addOutputNeuron(Neuron*);
     void addHiddenNeuron(Neuron*);

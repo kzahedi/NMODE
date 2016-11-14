@@ -141,6 +141,16 @@ void RNN::setInputs(vector<double>& inputs)
   }
 }
 
+void RNN::setInputs(vector<float>& inputs)
+{
+  // cout << ">>> start" << endl;
+  for(int i = 0; i < (int)MIN(inputs.size(), _sensors.size()); i++)
+  {
+    _sensors[i]->setBias((double)inputs[i]);
+    // cout << "sensor neuron " << i << " set to " << inputs[i] << " = " << _sensors[i]->bias() << endl;
+  }
+}
+
 void RNN::getOutput(vector<double>& outputs)
 {
   if(outputs.size() != _actuators.size())
@@ -150,6 +160,18 @@ void RNN::getOutput(vector<double>& outputs)
   for(int i = 0; i < (int)_actuators.size(); i++)
   {
     outputs[i] = _actuators[i]->output();
+  }
+}
+
+void RNN::getOutput(vector<float>& outputs)
+{
+  if(outputs.size() != _actuators.size())
+  {
+    outputs.resize(_actuators.size());
+  }
+  for(int i = 0; i < (int)_actuators.size(); i++)
+  {
+    outputs[i] = (float)_actuators[i]->output();
   }
 }
 

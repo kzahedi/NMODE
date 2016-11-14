@@ -176,8 +176,14 @@ string Data::__evolution()
     << "delta=\""   << _MUTE->modifyDelta() << "\"/>" << endl;
   sst << "      <add    probability=\"" << _MUTE->addProbability()
     << "\" " << "maximum=\"" << _MUTE->addMaxValue()
-    << "\" " << "mode=\"" << ((_MUTE->mode() == EDGE_ADD_MODE_UNIFORM)?"uniform":"distance") 
-    << "\"/>" << endl;
+    << "\" " << "mode=\"" << ((_MUTE->mode() == EDGE_ADD_MODE_UNIFORM)?"uniform":"distance")
+    << "\"";
+  if (_MUTE->mode() == EDGE_ADD_MODE_UNIFORM)
+  {
+    sst << " minDistance=\"" << _MUTE->minDistance() << "\"";
+  }
+  sst << "/>" << endl;
+
   // sst << "      <self   probability=\"" << _MUTE->selfProbability() << "\" " << "maximum=\"" << _MUTE->selfMaxValue() << "\"/>" << endl;
   sst << "      <delete probability=\"" << _MUTE->delProbability() << "\"/>" << endl;
   sst << "    </edge>" << endl;
