@@ -19,8 +19,6 @@ void Replay::initFromDir(string dir)
   _data = Data::instance();
   _data->read(sst.str());
 
-  _pop = Population::instance();
-
   this->init(sst.str(), false);
 }
 
@@ -35,6 +33,11 @@ void Replay::init(string xml, bool read, string log)
   _pop = Population::instance();
   char buf[1024];
   getcwd(buf, 1024);
+
+  for(int i = 0; i < _pop->i_size(); i++)
+  {
+    _pop->individual(i)->setNr(i+1);
+  }
 
   string module = EVA->module();
   stringstream m;
