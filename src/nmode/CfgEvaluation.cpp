@@ -24,11 +24,14 @@ using namespace std;
 
 # define TAG_LOG                    (char*)"log"
 # define TAG_LOG_DEFINITION         (char*)"log_definition"
+# define TAG_LOG_KEEP               (char*)"keep"
 # define TAG_FILE_TYPE              (char*)"filetype"
 # define TAG_FILE_TYPE_DEFINITION   (char*)"log_filetype_definition"
 # define TAG_FILE_TYPE_PDF          (char*)"pdf"
 # define TAG_FILE_TYPE_SVG          (char*)"svg"
 # define TAG_FILE_TYPE_PS           (char*)"ps"
+
+#define TAG_TRUE_FALSE_DEFINITION  (char*)"true_definition"
 
 CfgEvaluation::CfgEvaluation(XsdParseNode *parent)
   : XsdParseNode(parent)
@@ -39,6 +42,7 @@ CfgEvaluation::CfgEvaluation(XsdParseNode *parent)
   _generations = -1;
   _logFileType = "pdf";
   _module      = "unknown";
+  _keepLogs    = false;
 }
 
 CfgEvaluation::~CfgEvaluation()
@@ -86,6 +90,7 @@ void CfgEvaluation::add(ParseElement *element)
   if(element->opening(TAG_LOG))
   {
     element->set(TAG_FILE_TYPE, _logFileType);
+    element->set(TAG_LOG_KEEP,  _keepLogs);
   }
 
   if(element->opening(TAG_COST))
@@ -128,7 +133,8 @@ void CfgEvaluation::createXsd(XsdSpecification *spec)
   spec->add(cost);
 
   XsdSequence *log = new XsdSequence(TAG_LOG_DEFINITION);
-  log->add(NA(TAG_FILE_TYPE, TAG_FILE_TYPE_DEFINITION, true));
+  log->add(NA(TAG_FILE_TYPE, TAG_FILE_TYPE_DEFINITION,  true));
+  log->add(NA(TAG_LOG_KEEP,  TAG_TRUE_FALSE_DEFINITION, false));
   spec->add(log);
 
   XsdEnumeration *filetypes = new XsdEnumeration(TAG_FILE_TYPE_DEFINITION, TAG_XSD_STRING);
@@ -172,4 +178,9 @@ void CfgEvaluation::setLifeTime(int lf)
 string CfgEvaluation::logFileType()
 {
   return _logFileType;
+}
+
+bool CfgEvaluation::keepLogs()
+{
+  return _keepLogs;
 }

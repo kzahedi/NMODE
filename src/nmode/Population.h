@@ -93,6 +93,7 @@ class Population : public Observable, public XsdParseNode
     Statistics      _stats;
     unsigned long   _start;
     unsigned long   _end;
+    bool            _keepLogs;
 
     static Population* _me;
 };
