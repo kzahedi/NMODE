@@ -24,6 +24,8 @@ class Replay : public Observer
 
     void notify(ObservableMessage *message);
 
+    void setRestart(bool r);
+
   private:
 
     // Reproduction*        _reproduction;

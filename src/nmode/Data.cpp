@@ -268,9 +268,9 @@ string Data::__toXml(Module *m)
         sst << " inactive=\"true\"";
       }
       sst << ">" << endl;
-      sst << "          <position x=\"" << (*n)->position().x
-        << "\" y=\"" << (*n)->position().y
-        << "\" z=\"" << (*n)->position().z
+      sst << "          <position x=\"" << ZERO((*n)->position().x)
+        << "\" y=\"" << ZERO((*n)->position().y)
+        << "\" z=\"" << ZERO((*n)->position().z)
         << "\"/>" << endl;
       sst << "          <transferfunction name=\"" << (*n)->transferfunction()
         << "\"/>" << endl;
@@ -281,7 +281,7 @@ string Data::__toXml(Module *m)
     {
       sst << "        <edge source=\"" << (*e)->sourceNode()->label()
         << "\" destination=\"" << (*e)->destinationNode()->label() << "\" weight=\""
-        << (*e)->weight()<< "\"/>" << endl;
+        << ZERO((*e)->weight()) << "\"/>" << endl;
     }
   }
   sst << "      </module>" << endl;

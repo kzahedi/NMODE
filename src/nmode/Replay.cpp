@@ -68,10 +68,8 @@ void Replay::init(string xml, bool read, string log)
   }
 
   Evaluate *e = create_controller();
-  boost::thread* p = new boost::thread(&Evaluate::run, e);
-  sleep(1);
   chdir(buf);
-  p->join();
+  e->run();
 }
 
 void Replay::notify(ObservableMessage *message)

@@ -58,8 +58,3 @@ INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/src/nmode/
   PATTERN "*.cpp" EXCLUDE 
   PATTERN "*.txt" EXCLUDE 
   )
-
-execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
-  ${CMAKE_SOURCE_DIR}/experiments
-  ${CMAKE_BINARY_DIR}/experiments)
-

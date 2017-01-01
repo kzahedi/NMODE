@@ -14,6 +14,9 @@
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/variables_map.hpp>
 
+#include <boost/filesystem/path.hpp>
+#include <boost/filesystem/operations.hpp>
+
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -25,6 +28,7 @@
 using namespace std;
 namespace po = boost::program_options;
 using namespace boost;
+namespace fs = boost::filesystem;
 
 int main(int argc, char** argv)
 {
@@ -116,9 +120,19 @@ int main(int argc, char** argv)
 
   if (vm.count("replay"))
   {
-    cout << "Replay directory:  " << replayDir        << endl;
+    cout << "Replay directory:  " << replayDir << endl;
     Replay *r = new Replay();
-    r->initFromDir(replayDir);
+    fs::path path(replayDir);
+    if(fs::is_directory(path))
+    {
+      r->initFromDir(replayDir);
+    }
+    else
+    {
+      r->init(replayDir);
+    }
+
+
     exit(0);
   }
 
