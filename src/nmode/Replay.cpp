@@ -74,10 +74,5 @@ void Replay::init(string xml, bool read, string log)
 
 void Replay::notify(ObservableMessage *message)
 {
-  switch(message->type())
-  {
-    case __M_NEXT_GENERATION:
-       _reproduction->reproduce();
-      break;
-  }
+  // nothing
 }

@@ -56,6 +56,7 @@ class NMODE : public XsdParseNode
     void setPopulation(Population*);
     void setCfgReproduction(CfgReproduction*);
     void setCfgVisualisation(CfgVisualisation*);
+    void overrideReadingOfPopulation();
 
   private:
     void __getChild(ParseElement *element);

@@ -100,6 +100,34 @@ void Data::read(string xmlFile)
   }
 }
 
+void Data::readForReplay(string xmlFile)
+{
+  _root->overrideReadingOfPopulation();
+  _xml = xmlFile;
+  if(xmlFile[0] != '/')
+  {
+    char buf[1024];
+    getcwd(buf, 1024);
+    stringstream sst;
+    sst << buf << "/" << xmlFile;
+    _xml = sst.str();
+  }
+
+  cout << "reading xml file: " << _xml << endl;
+  YarsXSDSaxParser *parser = new YarsXSDSaxParser();
+  parser->read(xmlFile);
+  if(parser->errors() > 0)
+  {
+    FORF(vector<string>, i, parser, w_begin(), w_end()) cout << "WARNING: " << *i << endl;
+    FORF(vector<string>, i, parser, e_begin(), e_end()) cout << "ERROR:   " << *i << endl;
+    FORF(vector<string>, i, parser, f_begin(), f_end()) cout << "FATAL:   " << *i << endl;
+    delete parser;
+    exit(-1);
+  }
+  delete parser;
+
+}
+
 XsdSpecification* Data::xsd()
 {
   XsdSpecification *spec = new XsdSpecification();

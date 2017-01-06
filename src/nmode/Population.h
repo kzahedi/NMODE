@@ -35,6 +35,8 @@ class Population : public Observable, public XsdParseNode
     Individuals::iterator i_begin();
     Individuals::iterator i_end();
     int                   i_size();
+    void                  i_resize(int s);
+    void                  reset();
     Individuals           individuals();
     Individual*           individual(int index);
     Individual*           getNextIndividual();

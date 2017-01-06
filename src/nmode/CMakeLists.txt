@@ -36,6 +36,7 @@ set(SRC
 
   Evolve.cpp
   Replay.cpp
+  ReplayEvolution.cpp
   EvaluationParameter.cpp
   Convert.cpp
 

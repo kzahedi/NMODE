@@ -26,6 +26,7 @@ class Data : public Observer
     XsdSpecification* xsd();
     void clear();
     void read(string xmlFile);
+    void readForReplay(string xmlFile);
     string xml();
     void notify(ObservableMessage *message);
 

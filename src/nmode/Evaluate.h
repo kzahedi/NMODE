@@ -15,6 +15,7 @@ class Evaluate
     Evaluate();
 
     void run();
+    void runOne(Individual*);
     void quit();
     void nogui();
 

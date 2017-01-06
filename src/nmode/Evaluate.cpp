@@ -69,6 +69,15 @@ void Evaluate::run()
   }
 }
 
+void Evaluate::runOne(Individual *individual)
+{
+  _individual = individual;
+  // cout << "evaluating " << _individual->id() << endl;
+  _rnn        = RnnFromIndividual::create(individual);
+  __evaluate();
+  delete _rnn;
+}
+
 void Evaluate::__evaluate()
 {
   _successfulEvaluation = false;
@@ -85,14 +94,15 @@ void Evaluate::__evaluate()
         _com = new YarsClientCom();
         _com->throwException(true);
         stringstream sst;
-        sst << _options << " " << _xml;
+        // sst << _options << " " << _xml;
+        sst << _options << " --capture " << _xml;
         // cout << _path << "yars " << sst.str() << endl;
         _com->init(_workingDirectory, sst.str(), _path);
         nrOfSensors   = _com->numberOfSensorsValues();
         nrOfActuators = _com->numberOfActuatorsValues();
         // cout << "nr of sensors:   " << nrOfSensors << endl;
         // cout << "nr of actuators: " << nrOfActuators << endl;
-        _com->printSensorMotorConfiguration();
+        // _com->printSensorMotorConfiguration();
         sensorValues.resize(nrOfSensors);
         actuatorValues.resize(nrOfActuators);
       }
@@ -127,7 +137,10 @@ void Evaluate::__evaluate()
 
         _message.str("");
         _message << "Generation " << _population->generation() << "\n";
-        _message << "Individual " << n << " / " << s << "\n";
+        if(s > 1)
+        {
+          _message << "Individual " << n << " / " << s << "\n";
+        }
         _message << "Fitness " << fitness;
 
         updateFitnessFunction();

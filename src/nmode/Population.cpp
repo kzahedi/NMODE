@@ -42,13 +42,9 @@ Population* Population::_me = NULL;
 Population::Population(XsdParseNode *parent)
   : XsdParseNode(parent)
 {
-  _generation      = 0;
-  _nextIndividual  = 0;
-  _individualId    = 0;
-  _openEvaluations = 0;
-  _start           = 0;
-  _end             = 0;
+  reset();
   _me              = this;
+  _generation      = 0;
   _ext             = Data::instance()->specification()->evaluation()->logFileType();
   _keepLogs = Data::instance()->specification()->evaluation()->keepLogs();
   __getUniqueDirectoryName();
@@ -58,6 +54,15 @@ Population::Population(XsdParseNode *parent)
 
 Population::~Population()
 {
+}
+
+void Population::reset()
+{
+  _nextIndividual  = 0;
+  _individualId    = 0;
+  _openEvaluations = 0;
+  _start           = 0;
+  _end             = 0;
 }
 
 void Population::add(ParseElement *element)
@@ -72,6 +77,7 @@ void Population::add(ParseElement *element)
   {
     element->set(TAG_GENERATION, _generation);
     VLOG(100) << "set generation to " << _generation;
+    cout << "set generation to " << _generation << endl;
   }
 
   if(element->opening(TAG_INDIVIDUAL))
@@ -107,6 +113,11 @@ Individuals::iterator Population::i_end()
 int Population::i_size()
 {
   return _individuals.size();
+}
+
+void Population::i_resize(int s)
+{
+  return _individuals.resize(s);
 }
 
 Individuals Population::individuals()
@@ -185,6 +196,7 @@ void Population::__calculateSelectionProbabilities()
 
 Population* Population::instance()
 {
+  if(_me == NULL) _me = new Population();
   return _me;
 }
 
@@ -712,6 +724,8 @@ void Population::cleanup()
 {
   FORC(Individuals, i, _individuals) delete (*i);
   _individuals.clear();
+  reset();
+  _generation = 0;
 }
 
 void Population::removeCurrentLogDir()

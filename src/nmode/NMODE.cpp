@@ -182,9 +182,9 @@ void NMODE::__getChild(ParseElement *element)
 
   if(element->opening(TAG_POPULATION) && _initialisationCompleted == false)
   {
-    // _population = Population::instance();
-    // _population->cleanup();
-    _population = new Population(this);
+    _population = Population::instance();
+    _population->cleanup();
+    // _population = new Population(this);
     current = _population;
     current->add(element);
     _initialisationCompleted = true;
@@ -318,3 +318,7 @@ void NMODE::setCfgVisualisation(CfgVisualisation* v)
   _visualisation = v;
 }
 
+void NMODE::overrideReadingOfPopulation()
+{
+  _initialisationCompleted = false;
+}

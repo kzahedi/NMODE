@@ -4,6 +4,7 @@
 #include <nmode/Random.h>
 #include <nmode/Evolve.h>
 #include <nmode/Replay.h>
+#include <nmode/ReplayEvolution.h>
 #include <nmode/Convert.h>
 #include <nmode/RnnFromIndividual.h>
 #include <nmode/YarsXSDGenerator.h>
@@ -71,6 +72,9 @@ int main(int argc, char** argv)
     ("continue",
      po::value<string>(&continueDir),
      "read and continue from directory")
+    ("replayFile",
+     po::value<string>(&replayDir),
+     "read and continue from directory")
     ("replay",
      po::value<string>(&replayDir),
      "read and continue from directory")
@@ -118,7 +122,7 @@ int main(int argc, char** argv)
     delete xsd;
   }
 
-  if (vm.count("replay"))
+  if (vm.count("replayFile"))
   {
     cout << "Replay directory:  " << replayDir << endl;
     Replay *r = new Replay();
@@ -133,6 +137,15 @@ int main(int argc, char** argv)
     }
 
 
+    exit(0);
+  }
+
+  if (vm.count("replay"))
+  {
+    cout << "Replay directory:  " << replayDir << endl;
+    ReplayEvolution *r = new ReplayEvolution();
+    fs::path path(replayDir);
+    r->replayEvolution(replayDir);
     exit(0);
   }
 
