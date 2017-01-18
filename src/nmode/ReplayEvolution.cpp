@@ -14,6 +14,7 @@ ReplayEvolution::ReplayEvolution()
 {
   Random::initialise();
   _population = NULL;
+  _useCapture = false;
 }
 
 void ReplayEvolution::replayEvolution(string dir)
@@ -67,11 +68,14 @@ void ReplayEvolution::replayEvolution(string dir)
   }
 
   _e = create_controller();
+  _e->setUseCapture(_useCapture);
 
   for(int i = 4; i < (int)all_matching_files.size(); i = i + 5)
   {
     replayBestIndividual(all_matching_files[i]);
   }
+
+  _e->quit();
 }
 
 void ReplayEvolution::replayBestIndividual(string xml)
@@ -95,4 +99,9 @@ void ReplayEvolution::replayBestIndividual(string xml)
 void ReplayEvolution::notify(ObservableMessage *message)
 {
   // nothing
+}
+
+void ReplayEvolution::setUseCapture(bool uc)
+{
+  _useCapture = uc;
 }

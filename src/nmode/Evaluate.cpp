@@ -20,6 +20,7 @@ Evaluate::Evaluate()
   _options              = Data::instance()->specification()->simulator()->options();
   _population           = Population::instance();
   _successfulEvaluation = false;
+  _useCapture           = false;
 
   // cout << "Options: " << _options << endl << "XML: " << _xml << endl << "PATH: " << _path << endl;
 }
@@ -94,8 +95,12 @@ void Evaluate::__evaluate()
         _com = new YarsClientCom();
         _com->throwException(true);
         stringstream sst;
-        // sst << _options << " " << _xml;
-        sst << _options << " --capture " << _xml;
+        sst << _options << " ";
+        if(_useCapture)
+        {
+          sst << " --capture ";
+        }
+        sst << _xml;
         // cout << _path << "yars " << sst.str() << endl;
         _com->init(_workingDirectory, sst.str(), _path);
         nrOfSensors   = _com->numberOfSensorsValues();
@@ -173,4 +178,9 @@ void Evaluate::__evaluate()
 void Evaluate::quit()
 {
   _com->sendQuit();
+}
+
+void Evaluate::setUseCapture(bool uc)
+{
+  _useCapture = uc;
 }

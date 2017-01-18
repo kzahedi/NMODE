@@ -77,7 +77,6 @@ void Population::add(ParseElement *element)
   {
     element->set(TAG_GENERATION, _generation);
     VLOG(100) << "set generation to " << _generation;
-    cout << "set generation to " << _generation << endl;
   }
 
   if(element->opening(TAG_INDIVIDUAL))

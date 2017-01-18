@@ -22,9 +22,10 @@ class ReplayEvolution : public Observer
     void replayBestIndividual(string xml);
     void replayEvolution(string dir);
 
-    void notify(ObservableMessage *message);
-
     void setRestart(bool r);
+    void setUseCapture(bool uc);
+
+    void notify(ObservableMessage *message);
 
   private:
 
@@ -36,6 +37,7 @@ class ReplayEvolution : public Observer
     vector<Evaluate*>      _evaluators;
     vector<boost::thread*> _threads;
     Evaluate*              _e;
+    bool                   _useCapture;
 };
 
 #endif // __REPLAY_EVOLUION_H__

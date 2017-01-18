@@ -18,6 +18,7 @@ class Evaluate
     void runOne(Individual*);
     void quit();
     void nogui();
+    void setUseCapture(bool uc);
 
     virtual void updateController()      = 0;
     virtual void updateFitnessFunction() = 0;
@@ -50,6 +51,7 @@ class Evaluate
     bool           _successfulEvaluation;
     RNN*           _rnn;
     Individual*    _individual;
+    bool           _useCapture;
 };
 
 typedef Evaluate* create_e();

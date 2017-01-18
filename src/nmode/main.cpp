@@ -46,6 +46,7 @@ int main(int argc, char** argv)
   string continueDir;
   int    individual_index;
   string replayDir;
+  bool   useCapture = false;
 
   string logdir;
   desc.add_options()
@@ -61,6 +62,8 @@ int main(int argc, char** argv)
      "nmode-log")
     ("convert,c",
      "convert file to X3D")
+    ("capture",
+     "video capture YARS")
     ("individual,i",
      po::value<int>(&individual_index)->implicit_value(0),
      "set the individual index")
@@ -101,6 +104,11 @@ int main(int argc, char** argv)
   else
   {
     FLAGS_v = 0;
+  }
+
+  if(vm.count("capture"))
+  {
+    useCapture = true;
   }
 
   if(vm.count("pdf"))
@@ -144,6 +152,7 @@ int main(int argc, char** argv)
   {
     cout << "Replay directory:  " << replayDir << endl;
     ReplayEvolution *r = new ReplayEvolution();
+    r->setUseCapture(useCapture);
     fs::path path(replayDir);
     r->replayEvolution(replayDir);
     exit(0);
