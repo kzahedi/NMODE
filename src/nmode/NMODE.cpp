@@ -136,6 +136,7 @@ void NMODE::__getChild(ParseElement *element)
       cout << XmlChangeLog::version() << ":" << endl;
       cout << XmlChangeLog::changes(_version);
       cout.unsetf(ios::floatfield);
+      cout.precision(8);
     }
     return;
   }

@@ -251,6 +251,7 @@ void Mutation::__mutateAddEdge(Module *m,
       sst << " ]";
     }
     sst << " ]";
+    sst.precision(8);
     VLOG(50) << sst.str();
   }
 
