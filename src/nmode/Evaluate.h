@@ -36,7 +36,7 @@ class Evaluate
     vector<double> actuatorValues;
     vector<double> sensorValues;
     vector<double> networkInput;
-    stringstream   log;
+    stringstream   logging;
 
   private:
 
