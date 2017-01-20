@@ -39,6 +39,7 @@ void Evaluate::run()
     _individual         = _population->getNextIndividual();
     _rnn                = RnnFromIndividual::create(_individual);
     unsigned long begin = Timer::getTime();
+    log.str("");
     __evaluate();
     unsigned long end   = Timer::getTime();
     double elapsed_secs = double(end - begin) / 1000.0;
@@ -46,6 +47,11 @@ void Evaluate::run()
     cout << "Individual " << _individual->nr() << " / "
       <<  _population->i_size() << ": "
       << fitness;
+
+    if(log.str().size() > 0)
+    {
+      cout << " (" << log.str() << ") ";
+    }
 
     double nc = EVA->nodeCost() * _rnn->nrOfNeurons();
     double ec = EVA->edgeCost() * _rnn->nrOfSynapses();
