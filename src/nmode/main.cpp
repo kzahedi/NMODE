@@ -47,6 +47,7 @@ int main(int argc, char** argv)
   int    individual_index;
   string replayDir;
   bool   useCapture = false;
+  bool   printConfiguration = false;
 
   string logdir;
   desc.add_options()
@@ -72,6 +73,8 @@ int main(int argc, char** argv)
      "set verbose logging level, defaults to 0")
     ("logstderr,l",
      "set verbose logging level, defaults to 0")
+    ("printConfiguration,C",
+     "print sensor/motor configuraiton")
     ("continue",
      po::value<string>(&continueDir),
      "read and continue from directory")
@@ -106,10 +109,8 @@ int main(int argc, char** argv)
     FLAGS_v = 0;
   }
 
-  if(vm.count("capture"))
-  {
-    useCapture = true;
-  }
+  if(vm.count("capture"))            useCapture         = true;
+  if(vm.count("printConfiguration")) printConfiguration = true;
 
   if(vm.count("pdf"))
   {
@@ -186,14 +187,14 @@ int main(int argc, char** argv)
     return 0;
   }
 
-  Evolve *evo = new Evolve();
+  Evolve *evo = new Evolve(printConfiguration);
 
   if(xml != "")
   {
     cout << endl << "XML file: " << xml << endl;
     evo->init(xml, true, log);
   }
-  if(continueDir != "") 
+  if(continueDir != "")
   {
     cout << endl << "Configuration directory: " << continueDir << endl;
     evo->initFromDir(continueDir);

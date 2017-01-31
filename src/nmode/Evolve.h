@@ -17,7 +17,7 @@ using namespace boost;
 class Evolve : public Observer
 {
   public:
-    Evolve();
+    Evolve(bool printConfiguration = false);
 
     void init(string xml, bool read = true, string log = "");
     void initFromDir(string dir);
@@ -33,6 +33,7 @@ class Evolve : public Observer
     Reproduction*          _reproduction;
     vector<Evaluate*>      _evaluators;
     vector<boost::thread*> _threads;
+    bool                   _printConfiguration;
 };
 
 #endif // __EVOLVE_H__

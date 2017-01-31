@@ -21,6 +21,7 @@ Evaluate::Evaluate()
   _population           = Population::instance();
   _successfulEvaluation = false;
   _useCapture           = false;
+  _printConfiguration   = false;
 
   // cout << "Options: " << _options << endl << "XML: " << _xml << endl << "PATH: " << _path << endl;
 }
@@ -113,7 +114,10 @@ void Evaluate::__evaluate()
         nrOfActuators = _com->numberOfActuatorsValues();
         // cout << "nr of sensors:   " << nrOfSensors << endl;
         // cout << "nr of actuators: " << nrOfActuators << endl;
-        // _com->printSensorMotorConfiguration();
+        if(_printConfiguration)
+        {
+          _com->printSensorMotorConfiguration();
+        }
         sensorValues.resize(nrOfSensors);
         actuatorValues.resize(nrOfActuators);
       }
@@ -189,4 +193,9 @@ void Evaluate::quit()
 void Evaluate::setUseCapture(bool uc)
 {
   _useCapture = uc;
+}
+
+void Evaluate::printConfiguration(bool pc)
+{
+  _printConfiguration = pc;
 }

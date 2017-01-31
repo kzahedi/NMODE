@@ -5,10 +5,11 @@
 
 #include <dlfcn.h>
 
-Evolve::Evolve()
+Evolve::Evolve(bool printConfiguration)
 {
   Random::initialise();
   _population = NULL;
+  _printConfiguration = printConfiguration;
 }
 
 void Evolve::initFromDir(string dir)
@@ -101,6 +102,7 @@ void Evolve::init(string xml, bool read, string log)
   for(int i = 0; i < nr; i++)
   {
     Evaluate *e = create_controller();
+    e->printConfiguration(_printConfiguration);
     if(i > 0) e->nogui();
     _evaluators.push_back(e);
   }

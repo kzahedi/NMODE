@@ -105,3 +105,20 @@ endif(USE_PLPLOT)
 
 install(TARGETS NMODEe LIBRARY DESTINATION lib)
 install(TARGETS nmode  RUNTIME DESTINATION bin)
+
+
+OPTION(NMODE_BUILD_GUI "Build GUI" OFF)
+if(NMODE_BUILD_GUI)
+  set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} /usr/local/Cellar/qt5/5.7.0/lib/cmake/Qt5Widgets)
+  set(Qt5Widgets_DIR /usr/local/Cellar/qt5/5.7.0/lib/cmake/Qt5Widgets)
+  set(CMAKE_INCLUDE_CURRENT_DIR ON)
+  set(CMAKE_AUTOMOC ON)
+  find_package(Qt5Widgets)
+  include_directories(${Qt5Widgets_INCLUDE_DIRS})
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS}")
+  qt5_generate_moc(gui.cpp gui.moc)
+  qt5_generate_moc(NGui.cpp NGui.moc)
+  add_executable(nmode-gui gui.cpp NGui.cpp)
+  target_link_libraries(nmode-gui Qt5::Widgets)
+endif(NMODE_BUILD_GUI)
+
