@@ -108,6 +108,7 @@ void NMODE::__getChild(ParseElement *element)
       (*e) << "XML version mismatch. The given XML is of version ";
       (*e) << _version << " but this nmode binary only supports XML version ";
       (*e) << XmlChangeLog::version() << endl;
+      (*e).unsetf(ios::fixed);
       (*e).unsetf(ios::floatfield);
       NMODEErrorHandler::push();
       exit(-1);
@@ -122,6 +123,7 @@ void NMODE::__getChild(ParseElement *element)
       (*e) << _version << " to the current version ";
       (*e) << XmlChangeLog::version() << ":" << endl;
       (*e) << XmlChangeLog::changes(_version);
+      (*e).unsetf(ios::fixed);
       (*e).unsetf(ios::floatfield);
       NMODEErrorHandler::push();
       exit(-1);
@@ -135,6 +137,7 @@ void NMODE::__getChild(ParseElement *element)
       cout << _version << " to the current version ";
       cout << XmlChangeLog::version() << ":" << endl;
       cout << XmlChangeLog::changes(_version);
+      cout.unsetf(ios::fixed);
       cout.unsetf(ios::floatfield);
       cout.precision(8);
     }

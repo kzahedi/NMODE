@@ -74,6 +74,8 @@ string XmlChangeLog::changes(Version version)
     oss.setf(ios::fixed,ios::floatfield);
     oss << (*x)->version();
     if((int)oss.str().length() > size) size = oss.str().length();
+    oss.unsetf(ios::fixed);
+    oss.unsetf(ios::floatfield);
   }
   oss.str("");
   FORP(vector<XmlChangeLogEntry*>, x, _me)

@@ -167,7 +167,6 @@ Individual* Reproduction::__cross(Individual *mom, Individual *dad)
        Random::unit() < _crossoverProbability)
     {
       VLOG(100) << "crossing module " << dad->module(i)->name();
-      // cout << "crossing module " << endl;
       child->addModule(dad->module(i)->copy());
     }
     else

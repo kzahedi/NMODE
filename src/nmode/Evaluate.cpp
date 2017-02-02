@@ -45,6 +45,8 @@ void Evaluate::run()
     unsigned long end   = Timer::getTime();
     double elapsed_secs = double(end - begin) / 1000.0;
     _individual->setRawFitness(fitness);
+    cout.precision(8);
+    cout.unsetf(ios_base::floatfield);
     cout << "Individual " << _individual->nr() << " / "
       <<  _population->i_size() << ": "
       << fitness;
@@ -151,6 +153,7 @@ void Evaluate::__evaluate()
         _rnn->getOutput(actuatorValues);
 
         _message.str("");
+        _message.unsetf(ios_base::floatfield);
         _message << "Generation " << _population->generation() << "\n";
         if(s > 1)
         {

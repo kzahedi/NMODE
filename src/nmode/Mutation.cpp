@@ -251,7 +251,7 @@ void Mutation::__mutateAddEdge(Module *m,
       sst << " ]";
     }
     sst << " ]";
-    sst.precision(8);
+    sst.unsetf(std::ios::fixed);
     VLOG(50) << sst.str();
   }
 
