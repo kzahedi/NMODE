@@ -137,7 +137,7 @@ XsdSpecification* Data::xsd()
 
 string Data::__simulator()
 {
-  stringstream sst; 
+  stringstream sst;
   sst << "  <simulator wd=\""   << _SIM->workingDirectory() << "\""   << endl;
   sst << "             xml=\""  << _SIM->xml()              << "\""   << endl;
   sst << "             path=\"" << _SIM->path()             << "\""   << endl;
@@ -147,7 +147,7 @@ string Data::__simulator()
 
 string Data::__visualisation()
 {
-  stringstream sst; 
+  stringstream sst;
   sst << "  <visualisation>" << endl;
   sst << "    <offset value=\""  << _VIS->offset() << "\"/>" << endl;
   sst << "  </visualisation>" << endl;
@@ -156,8 +156,8 @@ string Data::__visualisation()
 
 string Data::__evaluator()
 {
-  stringstream sst; 
-  sst << "  <evaluation module=\"" << _EVA->module() << "\">" << endl;
+  stringstream sst;
+  sst << "  <evaluation module=\"" << _EVA->module() << "\" iterations=\"" << EVA->iterations() << "\">" << endl;
   sst << "    <lifetime    iterations=\"" << _EVA->lifeTime()    << "\"/>" << endl;
   if(_EVA->generations() > 0)
   {
@@ -176,7 +176,7 @@ string Data::__evaluator()
 
 string Data::__reproduction()
 {
-  stringstream sst; 
+  stringstream sst;
   sst << "  <reproduction>" << endl;
   sst << "    <population size=\""          << _REP->populationSize()       << "\"/>" << endl;
   sst << "    <selection    pressure=\""    << _REP->selectionPressure()    << "\"/>" << endl;
@@ -188,7 +188,7 @@ string Data::__reproduction()
 
 string Data::__evolution()
 {
-  stringstream sst; 
+  stringstream sst;
   sst << "  <mutation>" << endl;
   sst << "    <node>" << endl;
   sst << "      <modify probability=\"" << _MUTN->modifyProbability() << "\" "
@@ -221,7 +221,7 @@ string Data::__evolution()
 
 string Data::__configuration()
 {
-  stringstream sst; 
+  stringstream sst;
 
   sst << "  <configuration>" << endl;
 
@@ -238,7 +238,7 @@ string Data::__configuration()
 
 string Data::__population()
 {
-  stringstream sst; 
+  stringstream sst;
   sst << __toXml(_root->population());
   return sst.str();
 }

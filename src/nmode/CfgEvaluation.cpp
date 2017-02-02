@@ -43,6 +43,7 @@ CfgEvaluation::CfgEvaluation(XsdParseNode *parent)
   _logFileType = "pdf";
   _module      = "unknown";
   _keepLogs    = false;
+  _iterations = 1;
 }
 
 CfgEvaluation::~CfgEvaluation()
@@ -68,7 +69,8 @@ void CfgEvaluation::add(ParseElement *element)
 
   if(element->opening(TAG_EVALUATION))
   {
-    element->set(TAG_MODULE, _module);
+    element->set(TAG_MODULE,      _module);
+    element->set(TAG_ITERATIONS, _iterations);
   }
 
   if(element->opening(TAG_LIFE_TIME))
@@ -112,6 +114,7 @@ void CfgEvaluation::createXsd(XsdSpecification *spec)
 {
   XsdSequence *root = new XsdSequence(TAG_EVALUATION_DEFINITION);
   root->add(NA(TAG_MODULE,               TAG_XSD_STRING,                      true));
+  root->add(NA(TAG_ITERATIONS,           TAG_POSITIVE_INTEGER,                false));
   root->add(NE(TAG_LIFE_TIME,            TAG_LIFE_TIME_DEFINITION,            1, 1));
   root->add(NE(TAG_GENERATIONS,          TAG_GENERATIONS_DEFINITION,          0, 1));
   root->add(NE(TAG_LOG,                  TAG_LOG_DEFINITION,                  0, 1));
@@ -183,4 +186,9 @@ string CfgEvaluation::logFileType()
 bool CfgEvaluation::keepLogs()
 {
   return _keepLogs;
+}
+
+int CfgEvaluation::iterations()
+{
+  return _iterations;
 }

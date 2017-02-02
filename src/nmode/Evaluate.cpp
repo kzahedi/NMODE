@@ -37,45 +37,58 @@ void Evaluate::run()
 {
   while(true)
   {
-    _individual         = _population->getNextIndividual();
-    _rnn                = RnnFromIndividual::create(_individual);
-    unsigned long begin = Timer::getTime();
-    logging.str("");
-    __evaluate();
-    unsigned long end   = Timer::getTime();
-    double elapsed_secs = double(end - begin) / 1000.0;
-    _individual->setRawFitness(fitness);
-    cout.precision(8);
-    cout.unsetf(ios_base::floatfield);
-    cout << "Individual " << _individual->nr() << " / "
-      <<  _population->i_size() << ": "
-      << fitness;
-
-    if(logging.str().size() > 0)
+    _individual = _population->getNextIndividual();
+    double summed_fitness = 0.0;
+    for(int i = 0; i < EVA->iterations(); i++)
     {
-      cout << " (" << logging.str() << ") ";
+      fitness = 0.0;
+      _rnn                = RnnFromIndividual::create(_individual);
+      unsigned long begin = Timer::getTime();
+      logging.str("");
+      __evaluate();
+      unsigned long end   = Timer::getTime();
+      double elapsed_secs = double(end - begin) / 1000.0;
+      cout.precision(8);
+      cout.unsetf(ios_base::floatfield);
+      cout << "Individual " << _individual->nr() << " / "
+        <<  _population->i_size() << ": "
+        << fitness;
+
+      if(logging.str().size() > 0)
+      {
+        cout << " (" << logging.str() << ") ";
+      }
+
+      cout << elapsed_secs << "s" << endl;
+      summed_fitness += fitness;
+      delete _rnn;
     }
+
+    summed_fitness /= (double)EVA->iterations();
+
+    _individual->setRawFitness(summed_fitness);
+    cout << ">>> Individual " << _individual->nr() << " / "
+      <<  _population->i_size() << ": "
+      << " Total: " << summed_fitness;
 
     double nc = EVA->nodeCost() * _rnn->nrOfNeurons();
     double ec = EVA->edgeCost() * _rnn->nrOfSynapses();
+
+    if(EVA->nodeCost() > 0.0 || EVA->edgeCost() > 0.0)
+    {
+      summed_fitness -= nc + ec;
+      cout << " -> " << summed_fitness;
+    }
+    cout << endl;
 
     _individual->setNodeCost(nc);
     _individual->setEdgeCost(ec);
     _individual->setNrOfSynapses(_rnn->nrOfSynapses());
     _individual->setNrOfNeurons(_rnn->nrOfHidden());
 
-    if(EVA->nodeCost() > 0.0 || EVA->edgeCost() > 0.0)
-    {
-      fitness -= nc + ec;
-      cout << " -> " << fitness;
-    }
-    cout << " " << elapsed_secs << "s" << endl;
-
-    _individual->setFitness(fitness);
+    _individual->setFitness(summed_fitness);
 
     _population->evaluationCompleted();
-
-    delete _rnn;
   }
 }
 

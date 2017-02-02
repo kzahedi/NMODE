@@ -7,5 +7,6 @@ XmlChangeLog::add(0, 1, 1, "minDistance attribute in <add edge>",            fal
 XmlChangeLog::add(0, 1, 2, "path attribute added to simulator section",      false);
 XmlChangeLog::add(0, 1, 3, "log file type is now an option in <evaluation>", false);
 XmlChangeLog::add(0, 1, 4, "keeping old log files is now optional in <log>", false);
+XmlChangeLog::add(0, 1, 5, "<evaluation ...> now also takes iterations",     false);
 
 #endif // __VERSIONS_H__
