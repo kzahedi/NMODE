@@ -41,6 +41,8 @@ void Evaluate::run()
     double summed_fitness = 0.0;
     double nc = 0.0;
     double ec = 0.0;
+    int nrOfSynapses = 0;
+    int nrOfNeurons = 0;
     for(int i = 0; i < EVA->iterations(); i++)
     {
       fitness = 0.0;
@@ -66,6 +68,8 @@ void Evaluate::run()
 
       nc = EVA->nodeCost() * _rnn->nrOfNeurons();
       ec = EVA->edgeCost() * _rnn->nrOfSynapses();
+      nrOfSynapses = _rnn->nrOfSynapses();
+      nrOfNeurons = _rnn->nrOfHidden();
 
       delete _rnn;
     }
@@ -87,8 +91,8 @@ void Evaluate::run()
 
     _individual->setNodeCost(nc);
     _individual->setEdgeCost(ec);
-    _individual->setNrOfSynapses(_rnn->nrOfSynapses());
-    _individual->setNrOfNeurons(_rnn->nrOfHidden());
+    _individual->setNrOfSynapses(nrOfSynapses);
+    _individual->setNrOfNeurons(nrOfNeurons);
 
     _individual->setFitness(summed_fitness);
 
