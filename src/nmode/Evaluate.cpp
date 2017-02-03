@@ -39,6 +39,8 @@ void Evaluate::run()
   {
     _individual = _population->getNextIndividual();
     double summed_fitness = 0.0;
+    double nc = 0.0;
+    double ec = 0.0;
     for(int i = 0; i < EVA->iterations(); i++)
     {
       fitness = 0.0;
@@ -61,6 +63,10 @@ void Evaluate::run()
 
       cout << elapsed_secs << "s" << endl;
       summed_fitness += fitness;
+
+      nc = EVA->nodeCost() * _rnn->nrOfNeurons();
+      ec = EVA->edgeCost() * _rnn->nrOfSynapses();
+
       delete _rnn;
     }
 
@@ -71,8 +77,6 @@ void Evaluate::run()
       <<  _population->i_size() << ": "
       << " Total: " << summed_fitness;
 
-    double nc = EVA->nodeCost() * _rnn->nrOfNeurons();
-    double ec = EVA->edgeCost() * _rnn->nrOfSynapses();
 
     if(EVA->nodeCost() > 0.0 || EVA->edgeCost() > 0.0)
     {
