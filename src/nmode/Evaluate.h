@@ -32,6 +32,7 @@ class Evaluate
 
     double         fitness;
     vector<double> fitnessComponents;
+    vector<string> fitnessComponentNames;
     int            nrOfActuators;
     int            nrOfSensors;
     int            lifeTime;

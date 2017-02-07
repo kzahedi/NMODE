@@ -327,6 +327,35 @@ void Population::serialise()
   }
   _output.close();
 
+  if(_individuals[0]->getFitnessComponents().size() > 0)
+  {
+    sst.str("");
+    sst << _logDirectory << "/" << "fitness-components-" << _generation << ".csv";
+    // cout << "Logging " << sst.str() << endl;
+    _output.open(sst.str(), std::ofstream::trunc);
+    vector<string> fcn = _individuals[0]->getFitnessComponentNames();
+    if(fcn.size() > 0)
+    {
+      _output << "# ";
+      for(int i = 0; i < fcn.size() - 1; i++)
+      {
+        _output << fcn[i] << ", ";
+      }
+      _output << fcn[fcn.size()-1] << endl;
+    }
+    FORC(Individuals, i, _individuals)
+    {
+      vector<double> fc = (*i)->getFitnessComponents();
+      for(int i = 0; i < fc.size() - 1; i++)
+      {
+        _output << fc[i] << ", ";
+      }
+      _output << fc[fc.size()-1] << endl;
+    }
+    _output.close();
+  }
+
+
 #ifdef USE_PLPLOT
   __plotData();
 #endif // USE_PLPLOT
@@ -382,7 +411,7 @@ void Population::__plotData()
   }
 
   sst.str("");
-  sst << _logDirectory << "/" << "fitness." << _ext; 
+  sst << _logDirectory << "/" << "fitness." << _ext;
   plsetopt("dev",_ext.c_str());
   plsetopt("geometry","1800x400");
   plsfnam (sst.str().c_str());
@@ -756,7 +785,7 @@ void Population::readStats(string d)
   fs::path dir(d);
   const string ext = ".csv";
   vector<fs::path> files;
-  
+
   if(!fs::exists(dir) || !fs::is_directory(dir)) return;
 
   fs::recursive_directory_iterator it(dir);
@@ -784,7 +813,7 @@ void Population::readStats(string d)
   }
 
   std::sort (indices.begin(), indices.end());
-  
+
   _stats.clear();
   stringstream sst;
   int index = 1;

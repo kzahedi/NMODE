@@ -48,6 +48,9 @@ void Evaluate::run()
     {
       fitnessComponents[i] = 0.0;
     }
+
+    unsigned long it_begin = Timer::getTime();
+
     for(int i = 0; i < EVA->iterations(); i++)
     {
       fitness = 0.0;
@@ -85,6 +88,9 @@ void Evaluate::run()
 
       delete _rnn;
     }
+    unsigned long it_end   = Timer::getTime();
+    double it_elapsed_secs = double(it_end - it_begin) / 1000.0;
+
 
     summed_fitness /= (double)EVA->iterations();
     for(int i = 0; i < (int)fitnessComponents.size(); i++)
@@ -95,8 +101,7 @@ void Evaluate::run()
     _individual->setRawFitness(summed_fitness);
     cout << "\033[1;34m";
     cout << ">>> Individual " << _individual->nr() << " / "
-      <<  _population->i_size() << ": "
-      << " Total: " << summed_fitness;
+      <<  _population->i_size() << ": Total: " << summed_fitness;
     if(summedFc.size() > 0)
     {
       cout << " (";
@@ -112,6 +117,7 @@ void Evaluate::run()
       summed_fitness -= nc + ec;
       cout << " -> " << summed_fitness;
     }
+    cout << " " << it_elapsed_secs << "s";
     cout << "\033[0m";
     cout << endl;
 
@@ -121,6 +127,8 @@ void Evaluate::run()
     _individual->setNrOfNeurons(nrOfNeurons);
 
     _individual->setFitness(summed_fitness);
+    _individual->setFitnessComponents(summedFc);
+    _individual->setFitnessComponentNames(fitnessComponentNames);
 
     _population->evaluationCompleted();
   }

@@ -63,6 +63,11 @@ class Individual : public XsdParseNode
     Individual*       copy(bool reset=false);
     bool              equal(Individual*);
 
+    void              setFitnessComponents(vector<double> &fc) {_fitnessComponents = fc;};
+    vector<double>    getFitnessComponents() {return _fitnessComponents;};
+    void              setFitnessComponentNames(vector<string> &fcn) {_fitnessComponentNames = fcn;};
+    vector<string>    getFitnessComponentNames() {return _fitnessComponentNames;};
+
   private:
     Node*   __getNonHiddenNode(string module, string label);
     Node*   __getNonHiddenNodeFromModule(Module *m, string nodeLabel);
@@ -79,6 +84,8 @@ class Individual : public XsdParseNode
     int     _nrOfOffspring;
     int     _nrOfSynapses;
     int     _nrOfNeurons;
+    vector<double> _fitnessComponents;
+    vector<string> _fitnessComponentNames;
 };
 
 typedef vector<Individual*> Individuals;
