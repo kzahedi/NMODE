@@ -90,7 +90,7 @@ void Evaluate::run()
     }
 
     _individual->setRawFitness(summed_fitness);
-    cout << "\033[1;31m";
+    cout << "\033[1;34m";
     cout << ">>> Individual " << _individual->nr() << " / "
       <<  _population->i_size() << ": "
       << " Total: " << summed_fitness;
