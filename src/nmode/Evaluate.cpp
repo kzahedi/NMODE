@@ -4,7 +4,6 @@
 #include <nmode/Timer.h>
 
 #include <ctime>
-
 #include <sstream>
 
 Evaluate::Evaluate()
@@ -56,8 +55,7 @@ void Evaluate::run()
       cout.unsetf(ios_base::floatfield);
       cout << "Individual " << _individual->nr() << " / "
         <<  _population->i_size() << ": "
-        << fitness;
-
+        << "\033[1;32m" << fitness << "\033[0m";
       if(logging.str().size() > 0)
       {
         cout << " (" << logging.str() << ") ";
@@ -77,6 +75,7 @@ void Evaluate::run()
     summed_fitness /= (double)EVA->iterations();
 
     _individual->setRawFitness(summed_fitness);
+    cout << "\033[1;31m";
     cout << ">>> Individual " << _individual->nr() << " / "
       <<  _population->i_size() << ": "
       << " Total: " << summed_fitness;
@@ -87,6 +86,7 @@ void Evaluate::run()
       summed_fitness -= nc + ec;
       cout << " -> " << summed_fitness;
     }
+    cout << "\033[0m";
     cout << endl;
 
     _individual->setNodeCost(nc);
