@@ -38,10 +38,16 @@ void Evaluate::run()
   {
     _individual = _population->getNextIndividual();
     double summed_fitness = 0.0;
+    vector<double> summedFc(fitnessComponents.size());
     double nc = 0.0;
     double ec = 0.0;
     int nrOfSynapses = 0;
     int nrOfNeurons = 0;
+    fitness = 0.0;
+    for(int i = 0; i < (int)fitnessComponents.size(); i++)
+    {
+      fitnessComponents[i] = 0.0;
+    }
     for(int i = 0; i < EVA->iterations(); i++)
     {
       fitness = 0.0;
@@ -69,17 +75,34 @@ void Evaluate::run()
       nrOfSynapses = _rnn->nrOfSynapses();
       nrOfNeurons = _rnn->nrOfHidden();
 
+      for(int i = 0; i < (int)fitnessComponents.size(); i++)
+      {
+        summedFc[i] += fitnessComponents[i];
+      }
+
       delete _rnn;
     }
 
     summed_fitness /= (double)EVA->iterations();
+    for(int i = 0; i < (int)fitnessComponents.size(); i++)
+    {
+      summedFc[i] /= (double)EVA->iterations();
+    }
 
     _individual->setRawFitness(summed_fitness);
     cout << "\033[1;31m";
     cout << ">>> Individual " << _individual->nr() << " / "
       <<  _population->i_size() << ": "
       << " Total: " << summed_fitness;
-
+    if(summedFc.size() > 0)
+    {
+      cout << " (";
+      for(int i = 0; i < summedFc.size()-1; i++)
+      {
+        cout << summedFc[i] << ", ";
+      }
+      cout << summedFc[summedFc.size() - 1] << ")";
+    }
 
     if(EVA->nodeCost() > 0.0 || EVA->edgeCost() > 0.0)
     {
@@ -118,6 +141,10 @@ void Evaluate::__evaluate()
   {
     lifeTime = Data::instance()->specification()->evaluation()->lifeTime();
     fitness  = 0.0;
+    for(int i = 0; i < (int)fitnessComponents.size(); i++)
+    {
+      fitnessComponents[i] = 0.0;
+    }
     try
     {
       if(_com == NULL)

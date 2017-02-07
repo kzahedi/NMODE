@@ -31,6 +31,7 @@ class Evaluate
   protected:
 
     double         fitness;
+    vector<double> fitnessComponents;
     int            nrOfActuators;
     int            nrOfSensors;
     int            lifeTime;
