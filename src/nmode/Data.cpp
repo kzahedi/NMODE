@@ -164,6 +164,7 @@ string Data::__evaluator()
     sst << "    <generations iterations=\"" << _EVA->generations() << "\"/>" << endl;
   }
   sst << "    <log         filetype=\"" << _EVA->logFileType() << "\"/>" << endl;
+  sst << "    <console     iterations=\"" << XML_BOOL(_EVA->logIterations()) << "\"/>" << endl;
   sst << "    <cost        node=\"" << _EVA->nodeCost() << "\" edge=\"" << _EVA->edgeCost() << "\"/>" << endl;
   for(EvaluationParameterMap::iterator i = _EVA->begin(); i != _EVA->end(); i++)
   {

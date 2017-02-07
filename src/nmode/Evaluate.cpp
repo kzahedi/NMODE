@@ -57,17 +57,20 @@ void Evaluate::run()
       __evaluate();
       unsigned long end   = Timer::getTime();
       double elapsed_secs = double(end - begin) / 1000.0;
-      cout.precision(8);
-      cout.unsetf(ios_base::floatfield);
-      cout << "Individual " << _individual->nr() << " / "
-        <<  _population->i_size() << ": "
-        << "\033[1;32m" << fitness << "\033[0m";
-      if(logging.str().size() > 0)
+      if(EVA->logIterations())
       {
-        cout << " (" << logging.str() << ") ";
-      }
+        cout.precision(8);
+        cout.unsetf(ios_base::floatfield);
+        cout << "Individual " << _individual->nr() << " / "
+          <<  _population->i_size() << ": "
+          << "\033[1;32m" << fitness << "\033[0m";
+        if(logging.str().size() > 0)
+        {
+          cout << " (" << logging.str() << ") ";
+        }
 
-      cout << elapsed_secs << "s" << endl;
+        cout << elapsed_secs << "s" << endl;
+      }
       summed_fitness += fitness;
 
       nc = EVA->nodeCost() * _rnn->nrOfNeurons();

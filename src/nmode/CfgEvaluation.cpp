@@ -24,6 +24,9 @@ using namespace std;
 
 # define TAG_LOG                    (char*)"log"
 # define TAG_LOG_DEFINITION         (char*)"log_definition"
+# define TAG_CONSOLE                (char*)"console"
+# define TAG_CONSOLE_DEFINITION     (char*)"console_definition"
+# define TAG_LOG_ITERATIONS         (char*)"iterations"
 # define TAG_LOG_KEEP               (char*)"keep"
 # define TAG_FILE_TYPE              (char*)"filetype"
 # define TAG_FILE_TYPE_DEFINITION   (char*)"log_filetype_definition"
@@ -36,14 +39,15 @@ using namespace std;
 CfgEvaluation::CfgEvaluation(XsdParseNode *parent)
   : XsdParseNode(parent)
 {
-  _lifeTime    = -1;
-  _nodeCost    = 0.0;
-  _edgeCost    = 0.0;
-  _generations = -1;
-  _logFileType = "pdf";
-  _module      = "unknown";
-  _keepLogs    = false;
-  _iterations = 1;
+  _lifeTime       = -1;
+  _nodeCost       = 0.0;
+  _edgeCost       = 0.0;
+  _generations    = -1;
+  _logFileType    = "pdf";
+  _module         = "unknown";
+  _keepLogs       = false;
+  _iterations     = 1;
+  _logIterations = false;
 }
 
 CfgEvaluation::~CfgEvaluation()
@@ -95,6 +99,11 @@ void CfgEvaluation::add(ParseElement *element)
     element->set(TAG_LOG_KEEP,  _keepLogs);
   }
 
+  if(element->opening(TAG_CONSOLE))
+  {
+    element->set(TAG_LOG_ITERATIONS, _logIterations);
+  }
+
   if(element->opening(TAG_COST))
   {
     element->set(TAG_NODE, _nodeCost);
@@ -118,6 +127,7 @@ void CfgEvaluation::createXsd(XsdSpecification *spec)
   root->add(NE(TAG_LIFE_TIME,            TAG_LIFE_TIME_DEFINITION,            1, 1));
   root->add(NE(TAG_GENERATIONS,          TAG_GENERATIONS_DEFINITION,          0, 1));
   root->add(NE(TAG_LOG,                  TAG_LOG_DEFINITION,                  0, 1));
+  root->add(NE(TAG_CONSOLE,              TAG_CONSOLE_DEFINITION,              0, 1));
   root->add(NE(TAG_COST,                 TAG_COST_DEFINITION,                 1, 1));
   root->add(NE(TAG_EVALUATION_PARAMETER, TAG_EVALUATION_PARAMETER_DEFINITION, 0));
   spec->add(root);
@@ -138,6 +148,10 @@ void CfgEvaluation::createXsd(XsdSpecification *spec)
   XsdSequence *log = new XsdSequence(TAG_LOG_DEFINITION);
   log->add(NA(TAG_FILE_TYPE, TAG_FILE_TYPE_DEFINITION,  true));
   log->add(NA(TAG_LOG_KEEP,  TAG_TRUE_FALSE_DEFINITION, false));
+  spec->add(log);
+
+  XsdSequence *console = new XsdSequence(TAG_CONSOLE_DEFINITION);
+  log->add(NA(TAG_LOG_ITERATIONS, TAG_TRUE_FALSE_DEFINITION, false));
   spec->add(log);
 
   XsdEnumeration *filetypes = new XsdEnumeration(TAG_FILE_TYPE_DEFINITION, TAG_XSD_STRING);
@@ -191,4 +205,9 @@ bool CfgEvaluation::keepLogs()
 int CfgEvaluation::iterations()
 {
   return _iterations;
+}
+
+bool CfgEvaluation::logIterations()
+{
+  return _logIterations;
 }

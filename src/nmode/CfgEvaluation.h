@@ -30,6 +30,7 @@ class CfgEvaluation : public XsdParseNode, public EvaluationParameterMap
     string module();
     string logFileType();
     bool   keepLogs();
+    bool   logIterations();
 
     void setLifeTime(int);
 
@@ -43,6 +44,7 @@ class CfgEvaluation : public XsdParseNode, public EvaluationParameterMap
     string               _logFileType;
     EvaluationParameters _parameters;
     bool                 _keepLogs;
+    bool                 _logIterations;
 };
 
 
