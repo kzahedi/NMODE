@@ -783,7 +783,7 @@ void Population::readStats(string d)
 {
   _stats.clear();
   fs::path dir(d);
-  const string ext = ".csv";
+  boost::regex rgx("stats-(\\d+)\\.csv");
   vector<fs::path> files;
 
   if(!fs::exists(dir) || !fs::is_directory(dir)) return;
@@ -793,12 +793,17 @@ void Population::readStats(string d)
 
   while(it != endit)
   {
-    if(fs::is_regular_file(*it) && it->path().extension() == ext) files.push_back(it->path().filename());
+    if(fs::is_regular_file(*it))
+    {
+      string s = it->path().filename().string();
+      if(boost::regex_match(s, rgx))
+      {
+        files.push_back(it->path().filename());
+      }
+    }
     ++it;
   }
 
-  std::regex rgx("stats-(\\d+)\\.csv");
-  std::smatch match;
 
   vector<int> indices;
 
@@ -821,7 +826,6 @@ void Population::readStats(string d)
   {
     sst.str("");
     sst << dir.string() << "/stats-" << (index++) << ".csv";
-    // cout << sst.str() << " ";
     std::ifstream input(sst.str());
     std::string line;
     getline(input, line); // first line is comments
