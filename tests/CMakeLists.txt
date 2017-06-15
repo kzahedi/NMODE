@@ -1,20 +1,23 @@
 include_directories(${PROJECT_SOURCE_DIR}/src)
 link_directories(${PROJECT_BINARY_DIR}/lib)
 
-add_executable(rnn-tests main.cpp rnn_test.cpp)
-target_link_libraries(rnn-tests NMODEe cppunit)
+set(Boost_USE_STATIC_LIBS OFF)
+find_package(Boost REQUIRED system unit_test_framework)
 
-add_executable(rnn-from-individual-tests main.cpp rnn_from_individual_test.cpp)
-target_link_libraries(rnn-from-individual-tests NMODEe cppunit)
+add_executable(rnn-tests rnn_test.cpp)
+target_link_libraries(rnn-tests NMODEe ${Boost_LIBRARIES})
 
-add_executable(xml-tests main.cpp xml_test.cpp)
-target_link_libraries(xml-tests NMODEe cppunit)
+add_executable(rnn-from-individual-tests rnn_from_individual_test.cpp)
+target_link_libraries(rnn-from-individual-tests NMODEe ${Boost_LIBRARIES})
 
-add_executable(io-tests main.cpp io_test.cpp)
-target_link_libraries(io-tests NMODEe cppunit)
+add_executable(xml-tests xml_test.cpp)
+target_link_libraries(xml-tests NMODEe ${Boost_LIBRARIES})
 
-add_executable(modules-tests main.cpp modules_test.cpp)
-target_link_libraries(modules-tests NMODEe cppunit)
+add_executable(io-tests io_test.cpp)
+target_link_libraries(io-tests NMODEe ${Boost_LIBRARIES})
+
+add_executable(modules-tests modules_test.cpp)
+target_link_libraries(modules-tests NMODEe ${Boost_LIBRARIES})
 
 ADD_TEST(rnn                 "${PROJECT_BINARY_DIR}/bin/rnn-tests")
 ADD_TEST(xml                 "${PROJECT_BINARY_DIR}/bin/xml-tests")

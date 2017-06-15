@@ -232,7 +232,7 @@ void Node::setNodeName(string nn)
   _nodeName = nn;
 }
 
-bool Node::operator==(const Node o)
+bool Node::operator==(const Node o) const
 {
   return (_position         == o._position &&
           _label            == o._label    &&
@@ -240,7 +240,7 @@ bool Node::operator==(const Node o)
           _transferfunction == o._transferfunction);
 }
 
-bool Node::operator!=(const Node o)
+bool Node::operator!=(const Node o) const
 {
   return (_position         != o._position ||
           _label            != o._label    ||

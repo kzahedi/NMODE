@@ -38,8 +38,8 @@ class Node : public XsdParseNode
      */
     virtual ~Node();
 
-    bool operator==(const Node o);
-    bool operator!=(const Node o);
+    bool operator==(const Node o) const;
+    bool operator!=(const Node o) const;
 
     // bool contains(Edge *e);
     bool contains(Node *n);

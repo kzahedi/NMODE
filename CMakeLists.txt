@@ -6,17 +6,25 @@ ENABLE_TESTING()
 
 cmake_policy(SET CMP0042 OLD)
 
-set(CMAKE_CXX_COMPILER           "g++")
+set(Boost_USE_STATIC_LIBS OFF)
+find_package(Boost REQUIRED system unit_test_framework)
+
+if(APPLE)
+  set(CMAKE_CXX_COMPILER           "/usr/local/opt/llvm/bin/clang++")
+  set(CMAKE_CXX_COMPILER_FULLPATH  "/usr/local/opt/llvm/bin/clang++")
+else(APPLE)
+  set(CMAKE_CXX_COMPILER           "g++")
+endif(APPLE)
 set(CMAKE_BUILD_TYPE             "Release")
 set(CMAKE_VERBOSE_MAKEFILE       OFF)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH    ${PROJECT_BINARY_DIR}/lib)
 
-if(APPLE AND UNIX)
-  set(CMAKE_CXX_FLAGS_DEBUG        "-g  -fPIC")
-  set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -fPIC")
-  set(CMAKE_CXX_FLAGS_DISTRIBUTION "-O3 -fPIC")
-endif(APPLE AND UNIX)
+if(APPLE)
+  set(CMAKE_CXX_FLAGS_DEBUG        "-g")
+  set(CMAKE_CXX_FLAGS_RELEASE      "-O3")
+  set(CMAKE_CXX_FLAGS_DISTRIBUTION "-O3")
+endif(APPLE)
 
 if(UNIX AND NOT APPLE)
   set(CMAKE_CXX_FLAGS_DEBUG   "-g -O0 -fpermissive -pthread -std=c++11 -fPIC")
@@ -30,7 +38,7 @@ endif(USE_MAKE_MATRIX_VIDEO)
 IF(USE_DEBUG_MODE)
   set(CMAKE_BUILD_TYPE Debug)
 ELSE(USE_DEBUG_MODE)
-  set(CMAKE_BUILD_TYPE Release) 
+  set(CMAKE_BUILD_TYPE Release)
 ENDIF(USE_DEBUG_MODE)
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
@@ -39,9 +47,10 @@ include_directories(/usr/local/include/yars)
 include(cmake/IncludePackages.cmake)
 
 add_subdirectory(src)
+
 option(USE_TESTS "use test cases" ON)
 if(USE_TESTS)
-add_subdirectory(tests)
+  add_subdirectory(tests)
 endif(USE_TESTS)
 
 CONFIGURE_FILE(
@@ -55,6 +64,6 @@ ADD_CUSTOM_TARGET(uninstall
 INSTALL(DIRECTORY ${CMAKE_SOURCE_DIR}/src/nmode/
   DESTINATION ${CMAKE_INSTALL_PREFIX}/include/nmode
   CONFIGURATIONS Release Debug
-  PATTERN "*.cpp" EXCLUDE 
-  PATTERN "*.txt" EXCLUDE 
+  PATTERN "*.cpp" EXCLUDE
+  PATTERN "*.txt" EXCLUDE
   )

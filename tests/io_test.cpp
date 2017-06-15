@@ -1,4 +1,6 @@
-#include "io_test.h"
+#define BOOST_TEST_MODULE gis_test
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
 
 #include <nmode/RNN.h>
 #include <nmode/NMODEException.h>
@@ -9,14 +11,12 @@
 
 using namespace std;
 
-// Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION( ioTest );
-
 string types[]             = {"input", "output", "hidden"};
 string transferfunctions[] = {"id", "sigm", "tanh"};
 
+BOOST_AUTO_TEST_SUITE(IO_TESTS)
 
-void ioTest::testIOModulesAndNeurons()
+void testIOModulesAndNeurons()
 {
   Random::initialise();
 
@@ -127,7 +127,7 @@ void ioTest::testIOModulesAndNeurons()
   {
     Individual* individual      = population->individual(i);
     Individual* read_individual = data->specification()->population()->individual(i);
-    CPPUNIT_ASSERT(read_individual->equal(individual));
+    BOOST_TEST(read_individual->equal(individual));
   }
 
   xml = data->xml();
@@ -143,21 +143,37 @@ void ioTest::testIOModulesAndNeurons()
   stringstream secondsst;
   secondsst << second.rdbuf();
 
-  CPPUNIT_ASSERT_EQUAL(firstsst.str(), secondsst.str());
+  BOOST_TEST(firstsst.str() == secondsst.str());
 }
 
-void ioTest::testAgain1() { testIOModulesAndNeurons(); }
-void ioTest::testAgain2() { testIOModulesAndNeurons(); }
-void ioTest::testAgain3() { testIOModulesAndNeurons(); }
-void ioTest::testAgain4() { testIOModulesAndNeurons(); }
-void ioTest::testAgain5() { testIOModulesAndNeurons(); }
-void ioTest::testAgain6() { testIOModulesAndNeurons(); }
-void ioTest::testAgain7() { testIOModulesAndNeurons(); }
-void ioTest::testAgain8() { testIOModulesAndNeurons(); }
-void ioTest::testAgain9() { testIOModulesAndNeurons(); }
+BOOST_AUTO_TEST_CASE(TEST_ONE)
+{ testIOModulesAndNeurons(); }
 
-void ioTest::tearDown()
-{
-  remove("io_test.xml");
-  remove("io_test_2.xml");
-}
+BOOST_AUTO_TEST_CASE(TEST_TWO)
+{ testIOModulesAndNeurons(); }
+
+BOOST_AUTO_TEST_CASE(TEST_THREE)
+{ testIOModulesAndNeurons(); }
+
+BOOST_AUTO_TEST_CASE(TEST_FOUR)
+{ testIOModulesAndNeurons(); }
+
+BOOST_AUTO_TEST_CASE(TEST_FIVE)
+{ testIOModulesAndNeurons(); }
+
+BOOST_AUTO_TEST_CASE(TEST_SIX)
+{ testIOModulesAndNeurons(); }
+
+BOOST_AUTO_TEST_CASE(TEST_SEVEN)
+{ testIOModulesAndNeurons(); }
+
+BOOST_AUTO_TEST_CASE(TEST_EIGHT)
+{ testIOModulesAndNeurons(); }
+
+BOOST_AUTO_TEST_CASE(TEST_NINE)
+{ testIOModulesAndNeurons(); }
+
+BOOST_AUTO_TEST_CASE(TEST_TEN)
+{ testIOModulesAndNeurons(); }
+
+BOOST_AUTO_TEST_SUITE_END()

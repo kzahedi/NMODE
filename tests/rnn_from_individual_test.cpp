@@ -1,4 +1,6 @@
-#include "rnn_from_individual_test.h"
+#define BOOST_TEST_MODULE gis_test
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
 
 #include <nmode/RNN.h>
 #include <nmode/NMODEException.h>
@@ -9,10 +11,9 @@
 
 using namespace std;
 
-// Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION( rnnFromIndividualTest );
+BOOST_AUTO_TEST_SUITE(RNN_FROM_INDIVIDUAL)
 
-void rnnFromIndividualTest::testRnnFromIndividual()
+BOOST_AUTO_TEST_CASE(TEST_RNN_FROM_INDIVIDUAL)
 {
   Module *a = new Module();
   a->setName("module 1");
@@ -79,37 +80,37 @@ void rnnFromIndividualTest::testRnnFromIndividual()
 
   RNN *rnn = RnnFromIndividual::create(i);
 
-  CPPUNIT_ASSERT_EQUAL(12, rnn->nrOfNeurons());
-  CPPUNIT_ASSERT_EQUAL(2,  rnn->nrOfHidden());
-  CPPUNIT_ASSERT_EQUAL(6,  rnn->nrOfSensors());
-  CPPUNIT_ASSERT_EQUAL(4,  rnn->nrOfActuators());
+  BOOST_TEST(12 == rnn->nrOfNeurons());
+  BOOST_TEST(2  == rnn->nrOfHidden());
+  BOOST_TEST(6  == rnn->nrOfSensors());
+  BOOST_TEST(4  == rnn->nrOfActuators());
 
   for(int i = 0; i < rnn->nrOfSensors(); i++)
   {
-    CPPUNIT_ASSERT_EQUAL(NEURON_TRANSFER_FUNCTION_ID,
-                         rnn->getSensorNeuron(i)->transferfunction());
+    BOOST_TEST(NEURON_TRANSFER_FUNCTION_ID ==
+               rnn->getSensorNeuron(i)->transferfunction());
   }
 
   for(int i = 0; i < rnn->nrOfActuators(); i++)
   {
-    CPPUNIT_ASSERT_EQUAL(NEURON_TRANSFER_FUNCTION_SIGM,
-                         rnn->getActuatorNeuron(i)->transferfunction());
+    BOOST_TEST(NEURON_TRANSFER_FUNCTION_SIGM ==
+               rnn->getActuatorNeuron(i)->transferfunction());
   }
 
   for(int i = 0; i < rnn->nrOfHidden(); i++)
   {
-    CPPUNIT_ASSERT_EQUAL(NEURON_TRANSFER_FUNCTION_TANH,
+    BOOST_TEST(NEURON_TRANSFER_FUNCTION_TANH ==
                          rnn->getHiddenNeuron(i)->transferfunction());
   }
 
   for(int i = 0; i < rnn->nrOfNeurons(); i++)
   {
-    CPPUNIT_ASSERT_EQUAL(1, rnn->getNeuron(i)->nrOfSynapses());
+    BOOST_TEST(1 == rnn->getNeuron(i)->nrOfSynapses());
   }
 
 }
 
-void rnnFromIndividualTest::testRnnFromIndividualWithConnectorNodes()
+BOOST_AUTO_TEST_CASE(RNN_FROM_INDIVIDUAL_WITH_CONNECTOR_NODES)
 {
   Module *a = new Module();
   a->setName("module 1");
@@ -239,32 +240,34 @@ void rnnFromIndividualTest::testRnnFromIndividualWithConnectorNodes()
 
   RNN *rnn = RnnFromIndividual::create(i);
 
-  CPPUNIT_ASSERT_EQUAL(12, rnn->nrOfNeurons());
-  CPPUNIT_ASSERT_EQUAL(3,  rnn->nrOfHidden());
-  CPPUNIT_ASSERT_EQUAL(5,  rnn->nrOfSensors());
-  CPPUNIT_ASSERT_EQUAL(4,  rnn->nrOfActuators());
+  BOOST_TEST(12 == rnn->nrOfNeurons());
+  BOOST_TEST(3  == rnn->nrOfHidden());
+  BOOST_TEST(5  == rnn->nrOfSensors());
+  BOOST_TEST(4  == rnn->nrOfActuators());
 
   for(int i = 0; i < rnn->nrOfSensors(); i++)
   {
-    CPPUNIT_ASSERT_EQUAL(NEURON_TRANSFER_FUNCTION_ID,
-                         rnn->getSensorNeuron(i)->transferfunction());
+    BOOST_TEST(NEURON_TRANSFER_FUNCTION_ID ==
+               rnn->getSensorNeuron(i)->transferfunction());
   }
 
   for(int i = 0; i < rnn->nrOfActuators(); i++)
   {
-    CPPUNIT_ASSERT_EQUAL(NEURON_TRANSFER_FUNCTION_SIGM,
-                         rnn->getActuatorNeuron(i)->transferfunction());
+    BOOST_TEST(NEURON_TRANSFER_FUNCTION_SIGM ==
+               rnn->getActuatorNeuron(i)->transferfunction());
   }
 
   for(int i = 0; i < rnn->nrOfHidden(); i++)
   {
-    CPPUNIT_ASSERT_EQUAL(NEURON_TRANSFER_FUNCTION_TANH,
-                         rnn->getHiddenNeuron(i)->transferfunction());
+    BOOST_TEST(NEURON_TRANSFER_FUNCTION_TANH ==
+               rnn->getHiddenNeuron(i)->transferfunction());
   }
 
   for(int i = 0; i < rnn->nrOfNeurons(); i++)
   {
-    if(i == 6 || i == 7) CPPUNIT_ASSERT_EQUAL(2, rnn->getNeuron(i)->nrOfSynapses());
-    else                 CPPUNIT_ASSERT_EQUAL(1, rnn->getNeuron(i)->nrOfSynapses());
+    if(i == 6 || i == 7) BOOST_TEST(2 == rnn->getNeuron(i)->nrOfSynapses());
+    else                 BOOST_TEST(1 == rnn->getNeuron(i)->nrOfSynapses());
   }
 }
+
+BOOST_AUTO_TEST_SUITE_END()

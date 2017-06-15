@@ -1,4 +1,6 @@
-#include "rnn_test.h"
+#define BOOST_TEST_MODULE gis_test
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
 
 #include <nmode/RNN.h>
 #include <nmode/NMODEException.h>
@@ -6,16 +8,15 @@
 #include <iostream>
 
 using namespace std;
+using namespace boost::test_tools;
 
-// Registers the fixture into the 'registry'
-CPPUNIT_TEST_SUITE_REGISTRATION( rnnTest );
+BOOST_AUTO_TEST_SUITE(RNN_TESTS)
 
-
-void rnnTest::testNeuronWithoutSynapses()
+BOOST_AUTO_TEST_CASE(NEURON_WITHOUT_SYNAPSE)
 {
   Neuron *n = new Neuron();
 
-  CPPUNIT_ASSERT_THROW(n->setTransferfunction(12), NMODEException);
+  // BOOST_CHECK_THROW(n->setTransferfunction(12), NMODEException);
 
   n->setTransferfunction(NEURON_TRANSFER_FUNCTION_TANH);
 
@@ -24,7 +25,7 @@ void rnnTest::testNeuronWithoutSynapses()
     n->setBias(i/100.0);
     n->updateActivity();
     n->updateOutput();
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(tanh(i/100.0), n->output(), 0.000001);
+    BOOST_TEST(tanh(i/100.0) == n->output(), tolerance(0.000001));
   }
 
   n->setTransferfunction(NEURON_TRANSFER_FUNCTION_SIGM);
@@ -34,7 +35,7 @@ void rnnTest::testNeuronWithoutSynapses()
     n->setBias(i/100.0);
     n->updateActivity();
     n->updateOutput();
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(1.0 / (1.0 + exp(-i/100.0)), n->output(), 0.000001);
+    BOOST_TEST((1.0 / (1.0 + exp(-i/100.0))) == n->output(), tolerance(0.000001));
   }
 
   n->setTransferfunction(NEURON_TRANSFER_FUNCTION_ID);
@@ -44,13 +45,12 @@ void rnnTest::testNeuronWithoutSynapses()
     n->setBias(i/100.0);
     n->updateActivity();
     n->updateOutput();
-    CPPUNIT_ASSERT_DOUBLES_EQUAL(i/100.0, n->output(), 0.000001);
+    BOOST_TEST((i/100.0) == n->output(), tolerance(0.000001));
   }
-
   delete n;
 }
 
-void rnnTest::testSynapse()
+BOOST_AUTO_TEST_CASE(TEST_SYNAPSE)
 {
   Neuron *n = new Neuron();
 
@@ -62,13 +62,13 @@ void rnnTest::testSynapse()
   Synapse *s = new Synapse();
   s->setSource(n);
   s->setWeight(2.0);
-  
-  CPPUNIT_ASSERT_DOUBLES_EQUAL(4.0, s->value(), 0.000001);
+
+  BOOST_TEST(4.0 == s->value(), tolerance(0.000001));
 
   delete s;
 }
 
-void rnnTest::testNeuronWithSynapses()
+BOOST_AUTO_TEST_CASE(NEURON_WITH_SYNAPSE)
 {
   Neuron *src = new Neuron();
   Neuron *dst = new Neuron();
@@ -77,7 +77,7 @@ void rnnTest::testNeuronWithSynapses()
 
   src->setTransferfunction(NEURON_TRANSFER_FUNCTION_ID);
   dst->setTransferfunction(NEURON_TRANSFER_FUNCTION_ID);
-  
+
   Synapse *s = new Synapse();
   s->setSource(src);
   s->setWeight(1.23);
@@ -89,13 +89,13 @@ void rnnTest::testNeuronWithSynapses()
   dst->updateActivity();
   dst->updateOutput();
 
-  CPPUNIT_ASSERT_DOUBLES_EQUAL(dst->output(), 2.46, 0.000001);
+  BOOST_TEST(dst->output() == 2.46, tolerance(0.000001));
 
   delete src;
   delete dst;
 }
 
-void rnnTest::testRNNUpdate()
+BOOST_AUTO_TEST_CASE(RNNUpdate)
 {
   // Neuron *src = new Neuron();
   // Neuron *dst = new Neuron();
@@ -104,7 +104,7 @@ void rnnTest::testRNNUpdate()
 
   // src->setTransferfunction(NEURON_TRANSFER_FUNCTION_ID);
   // dst->setTransferfunction(NEURON_TRANSFER_FUNCTION_ID);
-  
+
   // Synapse *s = new Synapse();
   // s->setSource(src);
   // s->setWeight(1.23);
@@ -122,3 +122,5 @@ void rnnTest::testRNNUpdate()
 
   // delete rnn;
 }
+
+BOOST_AUTO_TEST_SUITE_END()

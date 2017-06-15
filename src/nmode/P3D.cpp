@@ -155,13 +155,19 @@ double P3D::length()
   return sqrt(x * x + y * y + z * z);
 }
 
-bool P3D::operator==(const P3D a)
+// bool P3D::operator==(const P3D a)
+// {
+  // return (x == a.x) && (y == a.y) && (z == a.z);
+  // return fabs(x - a.x) < 0.000001 && fabs(y - a.y) < 0.000001 && fabs(z - a.z) < 0.000001;
+// }
+
+bool P3D::operator==(const P3D a) const
 {
   //return (x == a.x) && (y == a.y) && (z == a.z);
   return fabs(x - a.x) < 0.000001 && fabs(y - a.y) < 0.000001 && fabs(z - a.z) < 0.000001;
 }
 
-bool P3D::operator!=(const P3D a)
+bool P3D::operator!=(const P3D a) const
 {
   //return (x == a.x) && (y == a.y) && (z == a.z);
   return fabs(x - a.x) > 0.000001 || fabs(y - a.y) > 0.000001 || fabs(z - a.z) > 0.000001;
