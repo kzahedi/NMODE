@@ -3,6 +3,7 @@
 
 #include <nmode/RNN.h>
 #include <nmode/Population.h>
+#include <nmode/SimulatorCommunication.h>
 
 #include <yars/cppClientCom/YarsClientCom.h>
 
@@ -47,7 +48,8 @@ class Evaluate
     void           __evaluate();
 
     Population*    _population;
-    YarsClientCom* _com;
+    // YarsClientCom* _com;
+    SimulatorCommunication* _com;
     string         _options;
     string         _workingDirectory;
     string         _xml;

@@ -160,7 +160,8 @@ void Evaluate::__evaluate()
     {
       if(_com == NULL)
       {
-        _com = new YarsClientCom();
+        // _com = new YarsClientCom();
+        _com = new SimulatorCommunication();
         _com->throwException(true);
         stringstream sst;
         sst << _options << " ";

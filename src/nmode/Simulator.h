@@ -30,6 +30,7 @@ class Simulator : public XsdParseNode
     string xml();
     string options();
     string path();
+    string env();
     int    nr();
 
   private:
@@ -38,6 +39,7 @@ class Simulator : public XsdParseNode
     string _xml;
     string _options;
     string _path;
+    string _env;
     int    _nr;
 
 };

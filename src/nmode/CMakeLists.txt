@@ -40,6 +40,10 @@ set(SRC
   EvaluationParameter.cpp
   Convert.cpp
 
+  SimulatorCommunication.cpp
+  OpenAI.cpp
+  Com.cpp
+
   Population.cpp
   Individual.cpp
   Module.cpp
@@ -86,7 +90,8 @@ set(SRC
 )
 
 add_library(NMODEe SHARED ${SRC})
-target_link_libraries(NMODEe ${Boost_LIBRARIES} xerces-c glog YarsClientCom dl)
+target_link_libraries(NMODEe ${Boost_LIBRARIES} xerces-c glog YarsClientCom dl ${PYTHON_LIBRARIES})
+
 
 add_executable(nmode main.cpp)
 target_link_libraries(nmode NMODEe xerces-c ${Boost_LIBRARIES} glog YarsClientCom dl)
