@@ -33,11 +33,15 @@ class OpenAI
     FILE*               _openAIFD;
     pthread_t           _thread;
     Com                 _socket;
-    std::vector<double> _actuators;
-    std::vector<double> _sensors;
+    std::vector<double> _actuatorValues;
+    std::vector<double> _sensorValues;
     string              _name;
     string              _options;
+    string              _experimentName;
     string              _workingDirectory;
+    int                 _nrOfSensorValues;
+    int                 _nrOfActuatorValues;
+    double              _reward;
 
 };
 

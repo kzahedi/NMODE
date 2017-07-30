@@ -5,7 +5,6 @@
 
 void* read_stdout(void* ydf)
 {
-  cout << "hier 0" << endl;
   char buf[1];
   FILE* yarsFD = (FILE*)ydf;
   stringstream sst;
@@ -13,7 +12,6 @@ void* read_stdout(void* ydf)
   {
     fread(buf, 1, 1, yarsFD);
     sst << buf[0];
-    cout << sst.str() << endl;
     if(buf[0] == '\n')
     {
       cout << sst.str();
@@ -27,6 +25,7 @@ void* read_stdout(void* ydf)
 
 OpenAI::OpenAI()
 {
+  _reward = 0.0;
 }
 
 void OpenAI::throwException(bool  b)
@@ -35,12 +34,12 @@ void OpenAI::throwException(bool  b)
 
 int OpenAI::numberOfSensorsValues()
 {
-  return 0;
+  return _nrOfSensorValues;
 }
 
 int OpenAI::numberOfActuatorsValues()
 {
-  return 0;
+  return _nrOfActuatorValues;
 }
 
 void OpenAI::printSensorMotorConfiguration()
@@ -49,15 +48,22 @@ void OpenAI::printSensorMotorConfiguration()
 
 void OpenAI::update()
 {
+  _socket << "ACTUATORS";
+  _socket << _actuatorValues;
+  _socket << "SENSORS";
+  _socket >> _sensorValues;
+  _socket << "REWARD";
+  _socket >> _reward;
 }
 
 double OpenAI::getSensorValue(int index)
 {
-  return 0.0;
+  return _sensorValues[index];
 }
 
 void OpenAI::sendReset()
 {
+  _socket << "RESET";
 }
 
 void OpenAI::sendMessage(string msg)
@@ -66,15 +72,16 @@ void OpenAI::sendMessage(string msg)
 
 void OpenAI::setActuatorValue(int index, double value)
 {
+  _actuatorValues[index] = value;
 }
 
 void OpenAI::sendQuit()
 {
+  _socket << "QUIT";
 }
 
 void OpenAI::init(string workingDirectory, string experimentName, string path)
 {
-  // cout << "chaining to working directory: " << workingDirectory << endl;
   chdir(workingDirectory.c_str());
 
   string token;
@@ -84,14 +91,12 @@ void OpenAI::init(string workingDirectory, string experimentName, string path)
   int port = -1;
   string pstring = "port";
   stringstream sts;
-  cout << "hier hier 3" << endl;
 
+  _experimentName = experimentName;
   stringstream sst;
   // sst << path << "openai";
   sst << path << "openai.py";
-  cout << sst.str() << endl;
 #if __APPLE__
-  cout << "hier hier 0" << endl;
   if((_openAIFD = popen(sst.str().c_str(), "r")) == NULL)
 #else // __APPLE__
   if((_openAIFD = popen(sst.str().c_str(), "r")) == NULL)
@@ -104,10 +109,8 @@ void OpenAI::init(string workingDirectory, string experimentName, string path)
   sst.str("");
   while(feof(_openAIFD) == 0)
   {
-  cout << "hier hier 4" << endl;
     // fread(buf, 1, 1, _openAIFD);
     buf[0] = fgetc(_openAIFD);
-  cout << "hier hier 5" << endl;
     sts << buf[0];
     if(buf[0] == '\n')
     {
@@ -121,6 +124,7 @@ void OpenAI::init(string workingDirectory, string experimentName, string path)
     }
     else
     {
+      cout << sst.str() << endl;
       if(lookForPort)
       {
         string token = sst.str();
@@ -152,4 +156,11 @@ void OpenAI::init(string workingDirectory, string experimentName, string path)
 
 void OpenAI::init(const string host, const int port)
 {
+  _socket.connect(host, port);
+  _socket << "HalfCheetah-v1";
+  _socket >> _nrOfSensorValues ;
+  _nrOfActuatorValues = _nrOfSensorValues;
+  _sensorValues.resize(_nrOfSensorValues);
+  _actuatorValues.resize(_nrOfActuatorValues);
+  // cout << "Nr. of sensor values: " << _nrOfSensorValues << endl;
 }

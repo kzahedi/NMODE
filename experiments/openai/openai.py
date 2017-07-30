@@ -53,11 +53,13 @@ def send_string(sock, msg):
 
 def recv_string(sock):
     c = sock.recv(1).decode()
+    # sys.stdout.write("found: " + c + "\n")
+    # sys.stdout.flush()
     if c is not 's':
-        sys.stdout.write ("expected string but got type",c)
+        sys.stdout.write("expected string but got type " + str(c) + "\n")
+        sys.stdout.flush()
         exit(-1)
     l = sock.recv(4)
-    sys.stdout.write(len(l))
     l = bytearray_to_int(l)
     return sock.recv(l).decode()
 
@@ -69,15 +71,27 @@ def send_int(sock, value):
 def recv_int(sock):
     c = sock.recv(1).decode()
     if c is not 'i':
-        sys.stdout.write ("expected int but got type",c)
+        sys.stdout.write("expected int but got type " + str(c))
+        sys.stdout.write()
         exit(-1)
     return bytearray_to_int(sock.recv(8))
 
+def send_double(sock, value):
+    ib = double_to_bytearray(value)
+    m = b'd' + ib
+    sock.send(m)
+
+def recv_double(sock):
+    c = sock.recv(1).decode()
+    if c is not 'd':
+        sys.stdout.write("expected int but got type " + str(c))
+        sys.stdout.write()
+        exit(-1)
+    return bytearray_to_double(sock.recv(8))
 
 def send_doubles(sock, values):
     m = b'D'
     l = len(values)
-    sys.stdout.write(len(int_to_bytearray(l)))
     m = m + int_to_bytearray(l)
     for i in range(len(values)):
         m = m + double_to_bytearray(values[i])
@@ -86,11 +100,10 @@ def send_doubles(sock, values):
 def recv_doubles(sock):
     c = sock.recv(1).decode()
     if c is not 'D':
-        sys.stdout.write ("expected double array but got type",c)
+        sys.stdout.write("expected double array but got type " + str(c))
         exit(-1)
     l = sock.recv(4)
     l = bytearray_to_int(l)
-    sys.stdout.write("l",l)
     values = []
     for i in range(l):
         d = sock.recv(8)
@@ -107,15 +120,17 @@ nr_of_actuators = -1
 
 sock = server(4500)
 
-sys.stdout.write("waiting of experiment definition")
+# sys.stdout.write("waiting of experiment definition\n")
 exp = recv_string(sock)
-sys.stdout.write("received: " + str(exp))
+# sys.stdout.write("received: " + str(exp) + "\n")
 
-env             = gym.make(exp)
+env             = gym.make(str(exp).rstrip().lstrip())
+env.reset()
 nr_of_sensors   = len(env.action_space.low)
 nr_of_actuators = nr_of_sensors
 
-sys.stdout.write("sending nr of sensors/actuators:", nr_of_sensors)
+sys.stdout.write("sending nr of sensors/actuators: " + str(nr_of_sensors))
+sys.stdout.flush()
 send_int(sock, nr_of_sensors)
 
 A      = []
@@ -123,25 +138,35 @@ S      = []
 reward = 0
 
 while 1:
+    # sys.stdout.write("\n\nwaiting for new command\n")
+    # sys.stdout.flush()
     s = recv_string(sock)
+    # sys.stdout.write("received command " + str(s) + "\n")
+    # sys.stdout.flush()
 
-    if s is "QUIT":
-        sys.stdout.write("received quit")
+    if s == "QUIT":
+        # sys.stdout.write("received quit")
+        # sys.stdout.flush()
         socket.close(sock)
         exit(-1)
-    elif s is "SENSORS":
-        sys.stdout.write("received sensors")
-        send_doubles(sock, S)
-    elif s is "ACTUATORS":
-        sys.stdout.write("received actuators")
+    elif s == "SENSORS":
+        # sys.stdout.write("received sensors")
+        # sys.stdout.flush()
+        send_doubles(sock, S[0:nr_of_sensors])
+    elif s == "ACTUATORS":
+        # sys.stdout.write("received actuators")
+        # sys.stdout.flush()
         A = recv_doubles(sock)
-        S, reward, done, info = env.step(action)
+        S, reward, done, info = env.step(A)
         env.render()
-    elif s is "REWARD":
-        sys.stdout.write("received reward")
+    elif s == "REWARD":
+        # sys.stdout.write("received reward")
+        # sys.stdout.flush()
         send_double(sock, reward)
-    elif s is "RESET":
-        sys.stdout.write("received reset")
+    elif s == "RESET":
+        # sys.stdout.write("received reset")
+        # sys.stdout.flush()
         env.reset()
     else:
-        sys.stdout.write("unknown and", s)
+        sys.stdout.write("unknown command " + str(s))
+        sys.stdout.flush()

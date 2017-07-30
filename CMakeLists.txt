@@ -53,7 +53,6 @@ include_directories(/usr/local/include/yars)
 include(cmake/IncludePackages.cmake)
 
 add_subdirectory(src)
-add_subdirectory(experiments/openai)
 
 option(USE_TESTS "use test cases" ON)
 if(USE_TESTS)
