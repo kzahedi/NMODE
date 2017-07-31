@@ -41,7 +41,7 @@ set(SRC
   Convert.cpp
 
   SimulatorCommunication.cpp
-  OpenAI.cpp
+  OpenAICom.cpp
   Com.cpp
 
   Population.cpp

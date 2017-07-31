@@ -10,10 +10,10 @@
 
 using namespace std;
 
-class OpenAI
+class OpenAICom
 {
   public:
-    OpenAI();
+    OpenAICom();
 
     void   throwException(bool  b);
     void   init(const string host, const int port);
@@ -27,6 +27,7 @@ class OpenAI
     void   sendMessage(string   msg);
     void   setActuatorValue(int index, double value);
     void   sendQuit();
+    double reward();
 
   private:
 

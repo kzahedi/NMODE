@@ -9,6 +9,7 @@
 Evaluate::Evaluate()
 {
   fitness               = 0.0;
+  simulatorReward       = 0.0;
   _com                  = NULL;
   nrOfSensors           = 0;
   nrOfActuators         = 0;
@@ -27,6 +28,7 @@ Evaluate::Evaluate()
 
 void Evaluate::nogui()
 {
+  if(Data::instance()->specification()->simulator()->env() == "OpenAI") return;
   stringstream sst;
   sst << _options << " --nogui";
   _options = sst.str();
@@ -190,6 +192,7 @@ void Evaluate::__evaluate()
       {
         t = i;
         _com->update();
+        simulatorReward = _com->reward();
 
         for(int j = 0; j < nrOfSensors; j++)
         {

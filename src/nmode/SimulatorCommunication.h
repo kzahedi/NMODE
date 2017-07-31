@@ -2,7 +2,7 @@
 #define __SIMULATOR_COMMUNITCATION_H__
 
 #include <yars/cppClientCom/YarsClientCom.h>
-#include <nmode/OpenAI.h>
+#include <nmode/OpenAICom.h>
 
 #include <string>
 
@@ -24,11 +24,12 @@ class SimulatorCommunication
     void sendMessage(string msg);
     void setActuatorValue(int index, double value);
     void sendQuit();
+    double reward();
 
   private:
     int            _simulator;
     YarsClientCom* _yars;
-    OpenAI*        _openai;
+    OpenAICom*        _openai;
 };
 
 

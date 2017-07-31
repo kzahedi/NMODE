@@ -1,4 +1,4 @@
-#include <nmode/OpenAI.h>
+#include <nmode/OpenAICom.h>
 #include <nmode/Data.h>
 
 #include <unistd.h>
@@ -23,30 +23,30 @@ void* read_stdout(void* ydf)
 }
 
 
-OpenAI::OpenAI()
+OpenAICom::OpenAICom()
 {
   _reward = 0.0;
 }
 
-void OpenAI::throwException(bool  b)
+void OpenAICom::throwException(bool  b)
 {
 }
 
-int OpenAI::numberOfSensorsValues()
+int OpenAICom::numberOfSensorsValues()
 {
   return _nrOfSensorValues;
 }
 
-int OpenAI::numberOfActuatorsValues()
+int OpenAICom::numberOfActuatorsValues()
 {
   return _nrOfActuatorValues;
 }
 
-void OpenAI::printSensorMotorConfiguration()
+void OpenAICom::printSensorMotorConfiguration()
 {
 }
 
-void OpenAI::update()
+void OpenAICom::update()
 {
   _socket << "ACTUATORS";
   _socket << _actuatorValues;
@@ -56,31 +56,31 @@ void OpenAI::update()
   _socket >> _reward;
 }
 
-double OpenAI::getSensorValue(int index)
+double OpenAICom::getSensorValue(int index)
 {
   return _sensorValues[index];
 }
 
-void OpenAI::sendReset()
+void OpenAICom::sendReset()
 {
   _socket << "RESET";
 }
 
-void OpenAI::sendMessage(string msg)
+void OpenAICom::sendMessage(string msg)
 {
 }
 
-void OpenAI::setActuatorValue(int index, double value)
+void OpenAICom::setActuatorValue(int index, double value)
 {
   _actuatorValues[index] = value;
 }
 
-void OpenAI::sendQuit()
+void OpenAICom::sendQuit()
 {
   _socket << "QUIT";
 }
 
-void OpenAI::init(string workingDirectory, string experimentName, string path)
+void OpenAICom::init(string workingDirectory, string experimentName, string path)
 {
   chdir(workingDirectory.c_str());
 
@@ -154,13 +154,19 @@ void OpenAI::init(string workingDirectory, string experimentName, string path)
   pthread_create(&_thread, NULL, read_stdout, (void*)_openAIFD);
 }
 
-void OpenAI::init(const string host, const int port)
+void OpenAICom::init(const string host, const int port)
 {
   _socket.connect(host, port);
-  _socket << "HalfCheetah-v1";
+  // _socket << "HalfCheetah-v1";
+  _socket << _experimentName;
   _socket >> _nrOfSensorValues ;
   _nrOfActuatorValues = _nrOfSensorValues;
   _sensorValues.resize(_nrOfSensorValues);
   _actuatorValues.resize(_nrOfActuatorValues);
   // cout << "Nr. of sensor values: " << _nrOfSensorValues << endl;
+}
+
+double OpenAICom::reward()
+{
+  return _reward;
 }

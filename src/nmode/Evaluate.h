@@ -42,24 +42,24 @@ class Evaluate
     vector<double> sensorValues;
     vector<double> networkInput;
     stringstream   logging;
+    double         simulatorReward;
 
   private:
 
     void           __evaluate();
 
-    Population*    _population;
-    // YarsClientCom* _com;
+    Population*             _population;
     SimulatorCommunication* _com;
-    string         _options;
-    string         _workingDirectory;
-    string         _xml;
-    string         _path;
-    stringstream   _message;
-    bool           _successfulEvaluation;
-    RNN*           _rnn;
-    Individual*    _individual;
-    bool           _useCapture;
-    bool           _printConfiguration;
+    string                  _options;
+    string                  _workingDirectory;
+    string                  _xml;
+    string                  _path;
+    stringstream            _message;
+    bool                    _successfulEvaluation;
+    RNN*                    _rnn;
+    Individual*             _individual;
+    bool                    _useCapture;
+    bool                    _printConfiguration;
 };
 
 typedef Evaluate* create_e();

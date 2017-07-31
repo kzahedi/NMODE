@@ -12,9 +12,14 @@ SimulatorCommunication::SimulatorCommunication()
   _simulator = -1;
   if(Data::instance()->specification()->simulator()->env() == "YARS")   _simulator = USE_YARS;
   if(Data::instance()->specification()->simulator()->env() == "OpenAI") _simulator = USE_OPENAI;
+  if(_simulator == -1)
+  {
+    cerr << "unknown environment given: " << Data::instance()->specification()->simulator()->env() << endl;
+    exit(-1);
+  }
 
   IS_YARS   _yars   = new YarsClientCom();
-  IS_OPENAI _openai = new OpenAI();
+  IS_OPENAI _openai = new OpenAICom();
 
 }
 
@@ -59,6 +64,7 @@ double SimulatorCommunication::getSensorValue(int index)
 {
   IS_YARS   return _yars->getSensorValue(index);
   IS_OPENAI return _openai->getSensorValue(index);
+  return -1.0;
 }
 
 void SimulatorCommunication::sendReset()
@@ -83,5 +89,12 @@ void SimulatorCommunication::sendQuit()
 {
   IS_YARS   _yars->sendQuit();
   IS_OPENAI _openai->sendQuit();
+}
+
+double SimulatorCommunication::reward()
+{
+  IS_YARS   return 0.0;
+  IS_OPENAI return _openai->reward();
+  return -1.0;
 }
 
