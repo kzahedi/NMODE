@@ -71,10 +71,10 @@ void Evaluate::run()
           << "\033[1;32m" << fitness << "\033[0m";
         if(logging.str().size() > 0)
         {
-          cout << " (" << logging.str() << ") ";
+          cout << " (" << logging.str() << ")";
         }
 
-        cout << elapsed_secs << "s" << endl;
+        cout << " " << elapsed_secs << "s" << endl;
       }
       summed_fitness += fitness;
 

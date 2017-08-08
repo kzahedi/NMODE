@@ -20,11 +20,9 @@ set(CMAKE_VERBOSE_MAKEFILE       OFF)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(LIBRARY_OUTPUT_PATH    ${PROJECT_BINARY_DIR}/lib)
 
-if(APPLE)
-  set(CMAKE_CXX_FLAGS_DEBUG        "-g")
-  set(CMAKE_CXX_FLAGS_RELEASE      "-O3")
-  set(CMAKE_CXX_FLAGS_DISTRIBUTION "-O3")
-endif(APPLE)
+set(CMAKE_CXX_FLAGS_DEBUG        "-g")
+set(CMAKE_CXX_FLAGS_RELEASE      "-O3")
+set(CMAKE_CXX_FLAGS_DISTRIBUTION "-O3")
 
 if(UNIX AND NOT APPLE)
   set(CMAKE_CXX_FLAGS_DEBUG   "-g -O0 -fpermissive -pthread -std=c++11 -fPIC")
@@ -53,7 +51,7 @@ include_directories(/usr/local/include/yars)
 include(cmake/IncludePackages.cmake)
 
 add_subdirectory(src)
-add_subdirectory(experiments/openai)
+add_subdirectory(contrib/yars2nmode)
 
 option(USE_TESTS "use test cases" ON)
 if(USE_TESTS)

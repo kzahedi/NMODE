@@ -1,0 +1,999 @@
+<?xml version="1.0"?>
+
+<rosiml version="0.8.40">
+  <simulator frequency="200">
+    <solver iterations="250"/>
+    <!-- <control iterations="5000"/> -->
+  </simulator>
+
+  <screens>
+    <screen name="main" show="true" follow="true" capture="false">
+      <resolution name="720p"/>
+      <camera>
+        <position x="5.0" y="5.0" z="5.5"/>
+        <lookAt   x="0.0"  y="0.0"  z="2.0"/>
+      </camera>
+      <osd>
+        <time  font="Time"  size="25" colour="FFFF00"/>
+        <robot font="Robot" size="25" colour="FFFF00"/>
+      </osd>
+    </screen>
+    <sky name="YARS/CloudySky"/>
+    <cameras>
+      <orbit speed="0.0">
+        <lookAtZ p="0.0" i="0.0" d="0.0"/>
+        <fromX p="0.7" i="0.0" d="0.0"/>
+        <fromY p="0.7" i="0.0" d="0.0"/>
+        <fromZ p="0.0" i="0.0" d="0.0"/>
+      </orbit>
+    </cameras>
+    <followables>
+      <followable name="main"/>
+    </followables>
+  </screens>
+
+  <environment name="env">
+    <ground>
+      <visualisation>
+        <texture name="YARS/DryGround"/>
+      </visualisation>
+    </ground>
+
+    <!-- <ply name="cubes" filename="data/sfi_ant_obstacle.ply"> -->
+      <!-- <pose  x="0.0" y="4" z="0.0" alpha="90"/> -->
+      <!-- <visualisation> -->
+        <!-- <mesh name="SvenjaObstacle.mesh"/> -->
+        <!-- </visualisation> -->
+      <!-- <physics> -->
+        <!-- <mass kg="0"/> -->
+        <!-- <friction value="10"/> -->
+        <!-- </physics> -->
+      <!-- </ply> -->
+
+    <!-- <ply name="cubes" filename="data/cube_obstacle.ply"> -->
+      <!-- <pose  x="0.0" y="20.0" z="-0.25"/> -->
+      <!-- <visualisation> -->
+        <!-- <mesh name="CubeObstacle.mesh"/> -->
+        <!-- </visualisation> -->
+      <!-- <physics> -->
+        <!-- <mass kg="0"/> -->
+        <!-- <friction value="10"/> -->
+        <!-- </physics> -->
+      <!-- </ply> -->
+
+    <!-- <ply name="cubes right" filename="data/cube_obstacle.ply"> -->
+      <!-- <pose  x="17.5" y="20.0" z="-0.25"/> -->
+      <!-- <visualisation> -->
+        <!-- <mesh name="CubeObstacle.mesh"/> -->
+        <!-- </visualisation> -->
+      <!-- <physics> -->
+        <!-- <mass kg="0"/> -->
+        <!-- <friction value="10"/> -->
+        <!-- </physics> -->
+      <!-- </ply> -->
+
+    <!-- <ply name="cubes left" filename="data/cube_obstacle.ply"> -->
+      <!-- <pose  x="-17.5" y="20.0" z="-0.25"/> -->
+      <!-- <visualisation> -->
+        <!-- <mesh name="CubeObstacle.mesh"/> -->
+        <!-- </visualisation> -->
+      <!-- <physics> -->
+        <!-- <mass kg="0"/> -->
+        <!-- <friction value="10"/> -->
+        <!-- </physics> -->
+      <!-- </ply> -->
+
+    <box name="obstacle 1">
+      <dimension height="0.3" width="60.0" depth="1.5"/>
+      <pose x="0" y="5" z="0.15" alpha="0" beta="0" gamma="00"/>
+      <physics> <mass kg="0"/> </physics>
+    </box>
+    <box name="obstacle 2">
+      <dimension height="0.3" width="60.0" depth="1.5"/>
+      <pose x="0" y="15" z="0.15" alpha="0" beta="0" gamma="00"/>
+      <physics> <mass kg="0"/> </physics>
+    </box>
+    <box name="obstacle 3">
+      <dimension height="0.3" width="60.0" depth="1.5"/>
+      <pose x="0" y="25" z="0.15" alpha="0" beta="0" gamma="00"/>
+      <physics> <mass kg="0"/> </physics>
+    </box>
+    <box name="obstacle 4">
+      <dimension height="0.3" width="60.0" depth="1.5"/>
+      <pose x="0" y="35" z="0.15" alpha="0" beta="0" gamma="00"/>
+      <physics> <mass kg="0"/> </physics>
+    </box>
+    <box name="obstacle 5">
+      <dimension height="0.3" width="60.0" depth="1.5"/>
+      <pose x="0" y="45" z="0.15" alpha="0" beta="0" gamma="00"/>
+      <physics> <mass kg="0"/> </physics>
+    </box>
+
+    <pointLightSource name="light source 1" colour="FFFFFF" brightness="1.0" x="0.0" y="10.0" z="1.00" draw="true" size="0.05"/>
+    <pointLightSource name="light source 2" colour="FFFFFF" brightness="1.0" x="0.0" y="20.0" z="1.00" draw="true" size="0.05"/>
+    <pointLightSource name="light source 3" colour="FFFFFF" brightness="1.0" x="0.0" y="30.0" z="1.00" draw="true" size="0.05"/>
+    <pointLightSource name="light source 4" colour="FFFFFF" brightness="1.0" x="0.0" y="40.0" z="1.00" draw="true" size="0.05"/>
+    <pointLightSource name="light source 5" colour="FFFFFF" brightness="1.0" x="0.0" y="50.0" z="1.00" draw="true" size="0.05"/>
+
+  </environment>
+
+  <robots>
+    <robot name="hexapod">
+      <body selfCollide="false">
+
+        <ply name="main" filename="data/Main.ply" convex="false">
+          <pose z="0.5"/>
+          <visualisation>
+            <mesh name="data/Main.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="10.0"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+        <ply name="head" filename="data/Head.ply" convex="false">
+          <pose y="0.825276" z="0.553054"/>
+          <visualisation>
+            <mesh name="data/Head.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="10.0"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+        <ply name="rear" filename="data/Rear.ply" convex="false">
+          <pose y="-1.389205" z="0.618514"/>
+          <visualisation>
+            <mesh name="data/Rear.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="20.0"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+
+        <ply name="femur front right" filename="data/Femur_F_R.ply" convex="false">
+          <pose x="0.583046" y="0.767045" z="0.847976"/>
+          <visualisation>
+            <mesh name="data/Femur_F_R.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="2.0"/>
+            <friction value="0"/>
+          </physics>
+        </ply>
+        <ply name="tibia front right" filename="data/Tibia_F_R.ply" convex="false">
+          <pose x="0.917606" y="1.346437" z="0.913042"/>
+          <visualisation>
+            <mesh name="data/Tibia_F_R.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="1.5"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+        <ply name="tarsus front right" filename="data/Tarsus_F_R.ply" convex="false">
+          <pose x="1.30757" y="2.021959" z="0.254967"/>
+          <visualisation>
+            <mesh name="data/Tarsus_F_R.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="1.0"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+
+        <ply name="femur front left" filename="data/Femur_F_L.ply" convex="false">
+          <pose x="-0.583046" y="0.767045" z="0.847976"/>
+          <visualisation>
+            <mesh name="data/Femur_F_L.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="2.0"/>
+            <friction value="0"/>
+          </physics>
+        </ply>
+        <ply name="tibia front left" filename="data/Tibia_F_L.ply" convex="false">
+          <pose x="-0.917606" y="1.346437" z="0.913042"/>
+          <visualisation>
+            <mesh name="data/Tibia_F_L.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="1.5"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+        <ply name="tarsus front left" filename="data/Tarsus_F_L.ply" convex="false">
+          <pose x="-1.30757" y="2.021959" z="0.254967"/>
+          <visualisation>
+            <mesh name="data/Tarsus_F_L.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="1.0"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+
+        <ply name="femur centre right" filename="data/Femur_C_R.ply" convex="false">
+          <pose x="0.700179" y="0.0" z="0.859246"/>
+          <visualisation>
+            <mesh name="data/Femur_C_R.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="2.0"/>
+            <friction value="0"/>
+          </physics>
+        </ply>
+        <ply name="tibia centre right" filename="data/Tibia_C_R.ply" convex="false">
+          <pose x="1.080656" y="0.0" z="0.903537"/>
+          <visualisation>
+            <mesh name="data/Tibia_C_R.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="1.5"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+        <ply name="tarsus centre right" filename="data/Tarsus_C_R.ply" convex="false">
+          <pose x="1.613117" y="0.0" z="0.261126"/>
+          <visualisation>
+            <mesh name="data/Tarsus_C_R.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="1.0"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+
+        <ply name="femur centre left" filename="data/Femur_C_L.ply" convex="false">
+          <pose x="-0.700179" y="0.0" z="0.859246"/>
+          <visualisation>
+            <mesh name="data/Femur_C_L.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="2.0"/>
+            <friction value="0"/>
+          </physics>
+        </ply>
+        <ply name="tibia centre left" filename="data/Tibia_C_L.ply" convex="false">
+          <pose x="-1.080656" y="0.0" z="0.903537"/>
+          <visualisation>
+            <mesh name="data/Tibia_C_L.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="1.5"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+        <ply name="tarsus centre left" filename="data/Tarsus_C_L.ply" convex="false">
+          <pose x="-1.613117" y="0.0" z="0.261126"/>
+          <visualisation>
+            <mesh name="data/Tarsus_C_L.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="1.0"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+
+        <ply name="femur rear right" filename="data/Femur_R_R.ply" convex="false">
+          <pose x="0.690446" y="-0.953069" z="0.892816"/>
+          <visualisation>
+            <mesh name="data/Femur_R_R.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="4.0"/>
+            <friction value="0"/>
+          </physics>
+        </ply>
+        <ply name="tibia rear right" filename="data/Tibia_R_R.ply" convex="false">
+          <pose x="1.129061" y="-1.712857" z="0.911182"/>
+          <visualisation>
+            <mesh name="data/Tibia_R_R.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="3.0"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+        <ply name="tarsus rear right" filename="data/Tarsus_R_R.ply" convex="false">
+          <pose x="1.645274" y="-2.606881" z="0.250164"/>
+          <visualisation>
+            <mesh name="data/Tarsus_R_R.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="2.4"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+
+        <ply name="femur rear left" filename="data/Femur_R_L.ply" convex="false">
+          <pose x="-0.690446" y="-0.953069" z="0.892816"/>
+          <visualisation>
+            <mesh name="data/Femur_R_L.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="4.0"/>
+            <friction value="0"/>
+          </physics>
+        </ply>
+        <ply name="tibia rear left" filename="data/Tibia_R_L.ply" convex="false">
+          <pose x="-1.129061" y="-1.712857" z="0.911182"/>
+          <visualisation>
+            <mesh name="data/Tibia_R_L.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="3.0"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+        <ply name="tarsus rear left" filename="data/Tarsus_R_L.ply" convex="false">
+          <pose x="-1.645274" y="-2.606881" z="0.250164"/>
+          <visualisation>
+            <mesh name="data/Tarsus_R_L.mesh"/>
+          </visualisation>
+          <physics>
+            <mass kg="2.4"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+      </body>
+
+      <pose z="0.7"/>
+
+      <actuators>
+
+        <!-- fix robot
+        <fixed name="fixed">
+          <source name="main"/>
+        </fixed>
+       fix robot -->
+
+        <fixed name="main - head">
+          <source      name="main"/>
+          <destination name="head"/>
+        </fixed>
+        <fixed name="main - rear">
+          <source      name="main"/>
+          <destination name="rear"/>
+        </fixed>
+
+        <!-- <hinge name="main - head" type="angular" mode="active"> -->
+          <!-- <source      name="main"/> -->
+          <!-- <destination name="head"/> -->
+          <!-- <force       max="7.5"/> -->
+          <!-- <velocity    max="0.5"/> -->
+          <!-- <pose        x="0.0" y="0.569237" z="0.004054"/> -->
+          <!-- <deflection  min="4.5" max="5.0"/> -->
+          <!-- <mapping     min="-1"   max="1"/> -->
+          <!-- <regular     softness="1.0" damping="1.0" restitution="0.7"/> -->
+          <!-- <limit       softness="1.0" damping="1.0" restitution="0.7"/> -->
+          <!-- <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/> -->
+          <!-- <pid p="0.5" i="0.5" d="0.0" size="3"/> -->
+          <!-- </hinge> -->
+        <!-- <hinge name="main - rear" type="angular" mode="active"> -->
+          <!-- <source      name="main"/> -->
+          <!-- <destination name="rear"/> -->
+          <!-- <force       max="7.5"/> -->
+          <!-- <velocity    max="0.5"/> -->
+          <!-- <pose        x="0.0" y="-0.625146" z="-0.074238"/> -->
+          <!-- <deflection  min="5.5" max="6.0"/> -->
+          <!-- <mapping     min="-1"   max="1"/> -->
+          <!-- <regular     softness="1.0" damping="1.0" restitution="0.7"/> -->
+          <!-- <limit       softness="1.0" damping="1.0" restitution="0.7"/> -->
+          <!-- <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/> -->
+          <!-- <pid p="0.5" i="0.5" d="0.0" size="3"/> -->
+          <!-- </hinge> -->
+
+        <generic name="front left Fe-Ma" spring="true">
+          <source      name="main"/>
+          <destination name="femur front left"/>
+          <pose        x="-0.345967" y="0.356388" z="-0.094383" gamma="30"/>
+          <rotational>
+            <x type="angular" mode="active">
+              <force      max="7.5"/>
+              <velocity   max="0.5"/>
+              <deflection min="-5.0" max="20.0"/>
+              <mapping    min="-1"  max="1"/>
+              <spring     damping="1.0" stiffness=".1"/>
+            </x>
+            <z type="angular" mode="active">
+              <force      max="7.5"/>
+              <velocity   max="0.5"/>
+              <deflection min="-25" max="35"/>
+              <mapping    min="-1"  max="1"/>
+              <spring     damping="1.0" stiffness=".1"/>
+            </z>
+          </rotational>
+        </generic>
+        <hinge name="front left Fe-Ti" type="angular" mode="active">
+          <source      name="femur front left"/>
+          <destination name="tibia front left"/>
+          <force       max="7.5"/>
+          <velocity    max="0.5"/>
+          <pose        x="-0.285346" y="0.494232" z="0.468772" gamma="30"/>
+          <deflection  min="-15.0" max="10.0"/>
+          <mapping     min="-1"  max="1"/>
+        </hinge>
+        <hinge name="front left Ti-Ta" type="angular" mode="active">
+          <source      name="tibia front left"/>
+          <destination name="tarsus front left"/>
+          <force       max="7.5"/>
+          <velocity    max="0.5"/>
+          <pose        x="-0.069505" y="0.120302" z="-0.476651" gamma="30"/>
+          <deflection  min="-30.0" max="5.0"/>
+          <mapping     min="1"   max="-1"/>
+        </hinge>
+
+
+
+
+
+
+        <generic name="front right Fe-Ma" spring="true">
+          <source      name="main"/>
+          <destination name="femur front right"/>
+          <pose        x="0.345967" y="0.356388" z="-0.094383" gamma="-30"/>
+          <rotational>
+            <x type="angular" mode="active">
+              <force      max="7.5"/>
+              <velocity   max="0.5"/>
+              <deflection min="-5.0" max="20.0"/>
+              <mapping    min="-1"  max="1"/>
+              <spring     damping="1.0" stiffness=".1"/>
+            </x>
+            <z type="angular" mode="active">
+              <force      max="7.5"/>
+              <velocity   max="0.5"/>
+              <deflection min="-35" max="25"/>
+              <mapping    min="1"  max="-1"/>
+              <spring     damping="1.0" stiffness=".1"/>
+            </z>
+          </rotational>
+        </generic>
+        <hinge name="front right Fe-Ti" type="angular" mode="active">
+          <source      name="femur front right"/>
+          <destination name="tibia front right"/>
+          <force       max="7.5"/>
+          <velocity    max="0.5"/>
+          <pose        x="0.285346" y="0.494232" z="0.468772" gamma="-30"/>
+          <deflection  min="-15.0" max="10.0"/>
+          <mapping     min="-1"  max="1"/>
+        </hinge>
+        <hinge name="front right Ti-Ta" type="angular" mode="active">
+          <source      name="tibia front right"/>
+          <destination name="tarsus front right"/>
+          <force       max="7.5"/>
+          <velocity    max="0.5"/>
+          <pose        x="0.069505" y="0.120302" z="-0.476651" gamma="-30"/>
+          <deflection  min="-30.0" max="5.0"/>
+          <mapping     min="1"   max="-1"/>
+        </hinge>
+
+
+
+
+        <generic name="centre left Fe-Ma" spring="true">
+          <source      name="main"/>
+          <destination name="femur centre left"/>
+          <pose        x="-0.373759" y="0.0" z="-0.15891"/>
+          <rotational>
+            <y type="angular" mode="active">
+              <force      max="7.5"/>
+              <velocity   max="0.5"/>
+              <deflection min="-0.5" max="45.0"/>
+              <mapping    min="-1"  max="1"/>
+              <spring     damping="1.0" stiffness=".1"/>
+            </y>
+            <z type="angular" mode="active">
+              <force      max="7.5"/>
+              <velocity   max="0.5"/>
+              <deflection min="-45" max="45"/>
+              <mapping    min="-1"  max="1"/>
+              <spring     damping="1.0" stiffness=".1"/>
+            </z>
+          </rotational>
+        </generic>
+        <hinge name="centre left Ti-Ta" type="angular" mode="active">
+          <source      name="tibia centre left"/>
+          <destination name="tarsus centre left"/>
+          <force       max="7.5"/>
+          <velocity    max="0.5"/>
+          <pose        x="-0.008504" y="0.0" z="-0.471905" gamma="90"/>
+          <deflection  min="-30.0" max="5.0"/>
+          <mapping     min="1"   max="-1"/>
+        </hinge>
+        <hinge name="centre left Fe-Ti" type="angular" mode="active">
+          <source      name="femur centre left"/>
+          <destination name="tibia centre left"/>
+          <force       max="7.5"/>
+          <velocity    max="0.5"/>
+          <pose        x="-0.385284" y="0.0" z="0.464624" gamma="90"/>
+          <deflection  min="-2.5" max="45.0"/>
+          <mapping     min="-1"   max="1"/>
+        </hinge>
+
+
+
+
+        <generic name="centre right Fe-Ma" spring="true">
+          <source      name="main"/>
+          <destination name="femur centre right"/>
+          <pose        x="0.373759" y="0.0" z="-0.15891"/>
+          <rotational>
+            <y type="angular" mode="active">
+              <force      max="7.5"/>
+              <velocity   max="0.5"/>
+              <deflection min="-45.0" max="0.5"/>
+              <mapping    min="1"  max="-1"/>
+              <spring     damping="1.0" stiffness=".1"/>
+            </y>
+            <z type="angular" mode="active">
+              <force      max="7.5"/>
+              <velocity   max="0.5"/>
+              <deflection min="-45" max="45"/>
+              <mapping    min="1"  max="-1"/>
+              <spring     damping="1.0" stiffness=".1"/>
+            </z>
+          </rotational>
+        </generic>
+        <hinge name="centre right Ti-Ta" type="angular" mode="active">
+          <source      name="tibia centre right"/>
+          <destination name="tarsus centre right"/>
+          <force       max="7.5"/>
+          <velocity    max="0.5"/>
+          <pose        x="0.008504" y="0.0" z="-0.471905" gamma="90"/>
+          <deflection  min="-5.0" max="30.0"/>
+          <mapping     min="-1"   max="1"/>
+        </hinge>
+        <hinge name="centre right Fe-Ti" type="angular" mode="active">
+          <source      name="femur centre right"/>
+          <destination name="tibia centre right"/>
+          <force       max="7.5"/>
+          <velocity    max="0.5"/>
+          <pose        x="0.385284" y="0.0" z="0.464624" gamma="-90"/>
+          <deflection  min="-2.5" max="45.0"/>
+          <mapping     min="-1"   max="1"/>
+        </hinge>
+
+
+        <generic name="rear left Fe-Ma" spring="true">
+          <source      name="main"/>
+          <destination name="femur rear left"/>
+          <pose        x="-0.350748" y="-0.364688" z="-0.163432" gamma="-120"/>
+          <rotational>
+            <y type="angular" mode="active">
+              <force      max="7.5"/>
+              <velocity   max="0.5"/>
+              <deflection min="-20.0" max="5.0"/>
+              <mapping    min="1"  max="-1"/>
+              <spring     damping="1.0" stiffness=".1"/>
+            </y>
+            <z type="angular" mode="active">
+              <force      max="7.5"/>
+              <velocity   max="0.5"/>
+              <deflection min="-20" max="30"/>
+              <mapping    min="-1"  max="1"/>
+              <spring     damping="1.0" stiffness=".1"/>
+            </z>
+          </rotational>
+        </generic>
+        <hinge name="rear left Fe-Ti" type="angular" mode="active">
+          <source      name="femur rear left"/>
+          <destination name="tibia rear left"/>
+          <force       max="7.5"/>
+          <velocity    max="0.5"/>
+          <pose        x="-0.354114" y="-0.613342" z="0.42241" gamma="-30"/>
+          <deflection  min="-5.0" max="27.5"/>
+          <mapping     min="1"   max="-1"/>
+        </hinge>
+        <hinge name="rear left Ti-Ta" type="angular" mode="active">
+          <source      name="tibia rear left"/>
+          <destination name="tarsus rear left"/>
+          <force       max="7.5"/>
+          <velocity    max="0.5"/>
+          <pose        x="-0.10703" y="-0.185465" z="-0.465533" gamma="-30"/>
+          <deflection  min="-25.0" max="20.0"/>
+          <mapping     min="-1"   max="1"/>
+        </hinge>
+
+
+
+
+        <generic name="rear right Fe-Ma" spring="true">
+          <source      name="main"/>
+          <destination name="femur rear right"/>
+          <pose        x="0.350748" y="-0.364688" z="-0.163432" gamma="120"/>
+          <rotational>
+            <y type="angular" mode="active">
+              <force      max="7.5"/>
+              <velocity   max="0.5"/>
+              <deflection min="-5.0" max="20.0"/>
+              <mapping    min="-1"  max="1"/>
+              <spring     damping="1.0" stiffness=".1"/>
+            </y>
+            <z type="angular" mode="active">
+              <force      max="7.5"/>
+              <velocity   max="0.5"/>
+              <deflection min="-30" max="20"/>
+              <mapping    min="1"  max="-1"/>
+              <spring     damping="1.0" stiffness=".1"/>
+            </z>
+          </rotational>
+        </generic>
+        <hinge name="rear right Fe-Ti" type="angular" mode="active">
+          <source      name="femur rear right"/>
+          <destination name="tibia rear right"/>
+          <force       max="7.5"/>
+          <velocity    max="0.5"/>
+          <pose        x="0.354114" y="-0.613342" z="0.42241" gamma="30"/>
+          <deflection  min="-5.0" max="27.5"/>
+          <mapping     min="1"   max="-1"/>
+        </hinge>
+        <hinge name="rear right Ti-Ta" type="angular" mode="active">
+          <source      name="tibia rear right"/>
+          <destination name="tarsus rear right"/>
+          <force       max="7.5"/>
+          <velocity    max="0.5"/>
+          <pose        x="0.10703" y="-0.185465" z="-0.465533" gamma="30"/>
+          <deflection  min="-25.0" max="20.0"/>
+          <mapping     min="-1"  max="1"/>
+        </hinge>
+      </actuators>
+
+
+
+      <sensors>
+        <generic  name="sensor front left Fe-Ma">
+          <object  name="front left Fe-Ma"/>
+          <x type="angular">
+            <deflection>
+              <domain min="-5.0" max="20.0"/>
+              <mapping min="-1" max="1"/>
+            </deflection>
+          </x>
+          <z type="angular">
+            <deflection>
+              <domain  min="-25" max="35"/>
+              <mapping min="-1" max="1"/>
+            </deflection>
+          </z>
+        </generic>
+        <deflection  name="sensor front left Fe-Ti">
+          <object    name="front left Fe-Ti"/>
+          <domain    min="-15.0" max="10.0"/>
+          <mapping   min="-1"  max="1"/>
+        </deflection>
+        <deflection  name="sensor front left Ti-Ta">
+          <object    name="front left Ti-Ta"/>
+          <domain    min="-30.0" max="5.0"/>
+          <mapping   min="1"   max="-1"/>
+        </deflection>
+        <binaryContact name="contact binary front left tarsus">
+          <object  name="tarsus front left"/>
+        </binaryContact>
+
+
+
+        <generic  name="sensor front right Fe-Ma">
+          <object  name="front right Fe-Ma"/>
+          <x type="angular">
+            <deflection>
+              <domain min="-5.0" max="20.0"/>
+              <mapping min="-1" max="1"/>
+            </deflection>
+          </x>
+          <z type="angular">
+            <deflection>
+              <domain  min="-35" max="25"/>
+              <mapping min="1" max="-1"/>
+            </deflection>
+          </z>
+        </generic>
+        <deflection  name="sensor front right Fe-Ti">
+          <object    name="front right Fe-Ti"/>
+          <domain    min="-15.0" max="10.0"/>
+          <mapping   min="-1"  max="1"/>
+        </deflection>
+        <deflection  name="sensor front right Ti-Ta">
+          <object    name="front right Ti-Ta"/>
+          <domain    min="-30.0" max="5.0"/>
+          <mapping   min="1"   max="-1"/>
+        </deflection>
+        <binaryContact name="contact binary front right tarsus">
+          <object  name="tarsus front right"/>
+        </binaryContact>
+
+
+
+        <generic  name="sensor centre left Fe-Ma">
+          <object  name="centre left Fe-Ma"/>
+          <y type="angular">
+            <deflection>
+              <domain min="-0.5" max="45.0"/>
+              <mapping min="-1" max="1"/>
+            </deflection>
+          </y>
+          <z type="angular">
+            <deflection>
+              <domain  min="-45" max="45"/>
+              <mapping min="-1" max="1"/>
+            </deflection>
+          </z>
+        </generic>
+        <deflection  name="sensor centre left Fe-Ti">
+          <object    name="centre left Fe-Ti"/>
+          <domain    min="-2.5" max="45.0"/>
+          <mapping   min="-1"  max="1"/>
+        </deflection>
+        <deflection  name="sensor centre left Ti-Ta">
+          <object    name="centre left Ti-Ta"/>
+          <domain    min="-30.0" max="5.0"/>
+          <mapping   min="1"   max="-1"/>
+        </deflection>
+        <binaryContact name="contact binary centre left tarsus">
+          <object  name="tarsus centre left"/>
+        </binaryContact>
+
+
+
+        <generic  name="sensor centre right Fe-Ma">
+          <object  name="centre right Fe-Ma"/>
+          <y type="angular">
+            <deflection>
+              <domain min="-45.0" max="0.5"/>
+              <mapping min="1" max="-1"/>
+            </deflection>
+          </y>
+          <z type="angular">
+            <deflection>
+              <domain  min="-45" max="45"/>
+              <mapping min="1" max="-1"/>
+            </deflection>
+          </z>
+        </generic>
+        <deflection  name="sensor centre right Fe-Ti">
+          <object    name="centre right Fe-Ti"/>
+          <domain    min="-2.5" max="45.0"/>
+          <mapping   min="-1"  max="1"/>
+        </deflection>
+        <deflection  name="sensor centre right Ti-Ta">
+          <object    name="centre right Ti-Ta"/>
+          <domain    min="-5.0" max="30.0"/>
+          <mapping   min="-1"   max="1"/>
+        </deflection>
+        <binaryContact name="contact binary centre right tarsus">
+          <object  name="tarsus centre right"/>
+        </binaryContact>
+
+
+
+        <generic  name="sensor rear left Fe-Ma">
+          <object  name="rear left Fe-Ma"/>
+          <y type="angular">
+            <deflection>
+              <domain min="-20.0" max="5.0"/>
+              <mapping min="1" max="-1"/>
+            </deflection>
+          </y>
+          <z type="angular">
+            <deflection>
+              <domain  min="-20" max="10"/>
+              <mapping min="-1" max="1"/>
+            </deflection>
+          </z>
+        </generic>
+        <deflection  name="sensor rear left Fe-Ti">
+          <object    name="rear left Fe-Ti"/>
+          <domain    min="-5.0" max="27.5"/>
+          <mapping   min="1"  max="-1"/>
+        </deflection>
+        <deflection  name="sensor rear left Ti-Ta">
+          <object    name="rear left Ti-Ta"/>
+          <domain    min="-25.0" max="20.0"/>
+          <mapping   min="-1"   max="1"/>
+        </deflection>
+        <binaryContact name="contact binary rear left tarsus">
+          <object  name="tarsus rear left"/>
+        </binaryContact>
+
+
+
+        <generic  name="sensor rear right Fe-Ma">
+          <object  name="rear right Fe-Ma"/>
+          <y type="angular">
+            <deflection>
+              <domain min="-5.0" max="20.0"/>
+              <mapping min="-1" max="1"/>
+            </deflection>
+          </y>
+          <z type="angular">
+            <deflection>
+              <domain  min="-30" max="20"/>
+              <mapping min="1" max="-1"/>
+            </deflection>
+          </z>
+        </generic>
+        <deflection  name="sensor rear right Fe-Ti">
+          <object    name="rear right Fe-Ti"/>
+          <domain    min="-5.0" max="27.5"/>
+          <mapping   min="1"   max="-1"/>
+        </deflection>
+        <deflection  name="sensor rear right Ti-Ta">
+          <object    name="rear right Ti-Ta"/>
+          <domain    min="-25.0" max="20.0"/>
+          <mapping   min="-1"  max="1"/>
+        </deflection>
+        <binaryContact name="contact binary rear right tarsus">
+          <object  name="tarsus rear right"/>
+        </binaryContact>
+
+        <ldr name="ldr left" opening="70">
+          <object        name="head"/>
+          <pose          x="0.2"   y="0.05" z="0.3" alpha="-90" beta="90"/>
+          <colour        value="FF0000"/>
+          <mapping       min="-1" max="1"/>
+          <noise module="white">
+            <parameter name="sigma" value="0.4"/>
+            <parameter name="mean"  value="0.0"/>
+          </noise>
+        </ldr>
+        <ldr name="ldr right" opening="70">
+          <object        name="head"/>
+          <pose          x="-0.2"   y="0.05" z="0.3" alpha="-90" beta="90"/>
+          <colour        value="FF0000"/>
+          <mapping       min="-1" max="1"/>
+          <noise module="white">
+            <parameter name="sigma" value="0.4"/>
+            <parameter name="mean"  value="0.0"/>
+          </noise>
+        </ldr>
+
+
+        <binaryContact name="head contact">
+          <object  name="head"/>
+        </binaryContact>
+        <binaryContact name="main contact">
+          <object  name="main"/>
+        </binaryContact>
+        <binaryContact name="rear contact">
+          <object  name="rear"/>
+        </binaryContact>
+
+        <position name="xyz position main">
+          <object name="main"/>
+          <coordinates x="true" y="true" z="true"/>
+        </position>
+        <orientation name="xyz orientation main">
+          <object name="main"/>
+          <coordinates x="true" y="true" z="true"/>
+        </orientation>
+
+      </sensors>
+
+      <controller module="TCPIP" frequency="50">
+      </controller>
+    </robot>
+  </robots>
+
+  <traces>
+    <trace target="main" length="5" max="100" particles="false">
+      <init  colour="7efaca" size="0.05"/>
+      <final colour="7efaca00" size="0.00"/>
+      <offset z="1.0" local="true"/>
+    </trace>
+  </traces>
+
+  <!-- <logging> -->
+    <!-- <sensor target="sensor front left Fe-Ma"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="sensor front left Fe-Ti"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="sensor front left Ti-Ta"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="contact binary front left tarsus"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="sensor front right Fe-Ma"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="sensor front right Fe-Ti"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="sensor front right Ti-Ta"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="contact binary front right tarsus"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="sensor centre left Fe-Ma"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="sensor centre left Fe-Ti"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="sensor centre left Ti-Ta"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="contact binary centre left tarsus"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="sensor centre right Fe-Ma"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="sensor centre right Fe-Ti"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="sensor centre right Ti-Ta"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="contact binary centre right tarsus"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="sensor rear left Fe-Ma"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="sensor rear left Fe-Ti"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="sensor rear left Ti-Ta"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="contact binary rear left tarsus"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="sensor rear right Fe-Ma"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="sensor rear right Fe-Ti"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="sensor rear right Ti-Ta"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="contact binary rear right tarsus"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="xyz position main"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+    <!-- <sensor target="xyz orientation main"> -->
+      <!-- <external/> -->
+      <!-- </sensor> -->
+
+    <!-- <csv name="log" date="false"> -->
+      <!-- <target name="sensor front left Fe-Ma"/> -->
+      <!-- <target name="sensor front left Fe-Ti"/> -->
+      <!-- <target name="sensor front left Ti-Ta"/> -->
+      <!-- <target name="contact binary front left tarsus"/> -->
+      <!-- <target name="sensor front right Fe-Ma"/> -->
+      <!-- <target name="sensor front right Fe-Ti"/> -->
+      <!-- <target name="sensor front right Ti-Ta"/> -->
+      <!-- <target name="contact binary front right tarsus"/> -->
+      <!-- <target name="sensor centre left Fe-Ma"/> -->
+      <!-- <target name="sensor centre left Fe-Ti"/> -->
+      <!-- <target name="sensor centre left Ti-Ta"/> -->
+      <!-- <target name="contact binary centre left tarsus"/> -->
+      <!-- <target name="sensor centre right Fe-Ma"/> -->
+      <!-- <target name="sensor centre right Fe-Ti"/> -->
+      <!-- <target name="sensor centre right Ti-Ta"/> -->
+      <!-- <target name="contact binary centre right tarsus"/> -->
+      <!-- <target name="sensor rear left Fe-Ma"/> -->
+      <!-- <target name="sensor rear left Fe-Ti"/> -->
+      <!-- <target name="sensor rear left Ti-Ta"/> -->
+      <!-- <target name="contact binary rear left tarsus"/> -->
+      <!-- <target name="sensor rear right Fe-Ma"/> -->
+      <!-- <target name="sensor rear right Fe-Ti"/> -->
+      <!-- <target name="sensor rear right Ti-Ta"/> -->
+      <!-- <target name="contact binary rear right tarsus"/> -->
+      <!-- <target name="xyz position main"/> -->
+      <!-- <target name="xyz orientation main"/> -->
+      <!-- </csv> -->
+    <!-- </logging> -->
+
+</rosiml>
+
+

@@ -6,12 +6,14 @@
 # define IS_OPENAI if(_simulator == USE_OPENAI)
 # define USE_YARS   1000
 # define USE_OPENAI 1001
+# define USE_NONE   1002
 
 SimulatorCommunication::SimulatorCommunication()
 {
   _simulator = -1;
   if(Data::instance()->specification()->simulator()->env() == "YARS")   _simulator = USE_YARS;
   if(Data::instance()->specification()->simulator()->env() == "OpenAI") _simulator = USE_OPENAI;
+  if(Data::instance()->specification()->simulator()->env() == "none")   _simulator = USE_NONE;
   if(_simulator == -1)
   {
     cerr << "unknown environment given: " << Data::instance()->specification()->simulator()->env() << endl;
@@ -25,7 +27,7 @@ SimulatorCommunication::SimulatorCommunication()
 
 void SimulatorCommunication::throwException(bool b)
 {
-  IS_YARS   _yars->throwException(b);
+  IS_YARS _yars->throwException(b);
 }
 
 void SimulatorCommunication::init(string wd, string opt, string path)
@@ -50,8 +52,7 @@ int SimulatorCommunication::numberOfActuatorsValues()
 
 void SimulatorCommunication::printSensorMotorConfiguration()
 {
-  IS_YARS
-    _yars->printSensorMotorConfiguration();
+  IS_YARS _yars->printSensorMotorConfiguration();
 }
 
 void SimulatorCommunication::update()
@@ -95,6 +96,6 @@ double SimulatorCommunication::reward()
 {
   IS_YARS   return 0.0;
   IS_OPENAI return _openai->reward();
-  return -1.0;
+  return 0.0;
 }
 

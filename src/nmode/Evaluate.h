@@ -60,6 +60,8 @@ class Evaluate
     Individual*             _individual;
     bool                    _useCapture;
     bool                    _printConfiguration;
+    stringstream            _isst;
+    stringstream            _gsst;
 };
 
 typedef Evaluate* create_e();
