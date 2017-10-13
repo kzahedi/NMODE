@@ -30,12 +30,12 @@ namespace fs = boost::filesystem;
 # include <plplot.h>
 # include <plConfig.h>
 # include <plevent.h>
-#endif // USE_PLPLOT
 
 static PLFLT pos[]   = { 0.0, 0.25, 0.5, 0.75, 1.0 };
 static PLFLT red[]   = { 0.0, 0.25, 0.5, 1.0, 1.0 };
 static PLFLT green[] = { 1.0, 0.5, 0.5, 0.5, 1.0 };
 static PLFLT blue[]  = { 1.0, 1.0, 0.5, 0.25, 0.0 };
+#endif // USE_PLPLOT
 
 Population* Population::_me = NULL;
 
