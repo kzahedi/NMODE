@@ -1,0 +1,31 @@
+Time
+{
+    type       truetype
+    source     FreeSansBold.otf
+    size       22
+    resolution 96
+}
+
+Robot
+{
+    type       truetype
+    source     FreeSansBold.otf
+    size       22
+    resolution 96
+}
+
+Legend
+{
+    type       truetype
+    source     FreeSansBold.otf
+    size       24
+    resolution 96
+}
+
+MyFont
+{
+    type       truetype
+    source     arial.ttf
+    size       16
+    resolution 72
+}

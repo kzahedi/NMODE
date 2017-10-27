@@ -1,0 +1,98 @@
+particle_system YARS/TraceParticles
+{
+	material        YARS/Flare
+	particle_width  0.10
+	particle_height 0.10
+	cull_each       false
+	quota           100
+	billboard_type  point
+
+	// Area emitter
+	emitter Ellipsoid
+	{
+			angle            30
+			emission_rate    10
+			time_to_live_min 3
+			time_to_live_max 10
+			direction        0 0.1 0
+			velocity         0.001
+			colour           0.5 0.5 0.5
+			width            0.03
+			height           0.03
+			depth            0.03
+	}
+
+	// Fader
+	affector ColourFader
+	{
+		red -0.010
+		green -0.010
+		blue -0.010
+	}
+}
+
+particle_system YARS/TraceParticles2
+{
+	material        YARS/Flare2
+	particle_width  0.10
+	particle_height 0.10
+	cull_each       false
+	quota           100
+	billboard_type  point
+
+	// Area emitter
+	emitter Ellipsoid
+	{
+			angle            30
+			emission_rate    30
+			time_to_live_min 3
+			time_to_live_max 10
+			direction        0 0.1 0
+			velocity         0.001
+			colour           0.5 0.5 0.5
+			width            0.03
+			height           0.03
+			depth            0.03
+	}
+
+	// Fader
+	affector ColourFader
+	{
+		red -0.010
+		green -0.010
+		blue -0.010
+	}
+}
+
+particle_system YARS/TraceParticles3
+{
+	material        YARS/Flare3
+	particle_width  0.10
+	particle_height 0.10
+	cull_each       false
+	quota           100
+	billboard_type  point
+
+	// Area emitter
+	emitter Ellipsoid
+	{
+			angle            30
+			emission_rate    30
+			time_to_live_min 3
+			time_to_live_max 10
+			direction        0 0.1 0
+			velocity         0.001
+			colour           0.5 0.5 0.5
+			width            0.03
+			height           0.03
+			depth            0.03
+	}
+
+	// Fader
+	affector ColourFader
+	{
+		red -0.010
+		green -0.010
+		blue -0.010
+	}
+}

@@ -90,7 +90,8 @@ set(SRC
 )
 
 add_library(NMODEe SHARED ${SRC})
-target_link_libraries(NMODEe ${Boost_LIBRARIES} xerces-c glog YarsClientCom dl ${PYTHON_LIBRARIES})
+target_link_libraries(NMODEe ${Boost_LIBRARIES} xerces-c glog YarsClientCom dl)
+# ${PYTHON_LIBRARIES})
 
 
 add_executable(nmode main.cpp)

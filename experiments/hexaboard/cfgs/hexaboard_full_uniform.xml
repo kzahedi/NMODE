@@ -1,0 +1,198 @@
+<nmode version="0.2.0">
+  <simulator wd="."
+    experiment="xml/hexaboard.xml"
+    nr="2"/>
+
+  <visualisation>
+    <offset value="30"/>
+  </visualisation>
+
+  <evaluation module="Hexaboard">
+    <lifetime    iterations="600"/>
+    <generations iterations="500"/>
+    <log         filetype="svg"/>
+    <cost        node="0" edge="0"/>
+  </evaluation>
+
+  <reproduction>
+    <population size="100"/>
+    <selection  pressure="0.1"/>
+    <elite      pressure="11.2"/>
+    <crossover  probability="0.1"/>
+  </reproduction>
+
+  <mutation>
+    <node>
+      <modify probability="0.01" maximum="1" delta="0.01"/>
+      <add    probability="0.0"  maximum="0"/>
+      <delete probability="0.0"/>
+    </node>
+    <edge>
+      <modify probability="0.9"  maximum="5" delta="1"/>
+      <add    probability="0.1" maximum="1" minDistance="0.1" mode="uniform"/>
+      <delete probability="0.1"/>
+    </edge>
+  </mutation>
+
+  <configuration>
+    <module name="full">
+
+      <node type="sensor" label="leg 1 angular sensor x">
+        <position x="2" y="1" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="sensor" label="leg 1 angular sensor y">
+        <position x="3" y="1" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="sensor" label="leg 1 binary contact">
+        <position x="4" y="1" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="actuator" label="leg 1 angular position x">
+        <position x="2" y="-1" z="0"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="actuator" label="leg 1 angular position y">
+        <position x="3" y="-1" z="0"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+
+      <node type="sensor" label="leg 2 angular sensor x">
+        <position x="-2" y="1" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="sensor" label="leg 2 angular sensor y">
+        <position x="-3" y="1" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="sensor" label="leg 2 binary contact">
+        <position x="-4" y="1" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="actuator" label="leg 2 angular position x">
+        <position x="-2" y="-1" z="0"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="actuator" label="leg 2 angular position y">
+        <position x="-3" y="-1" z="0"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+
+      <node type="sensor" label="leg 3 angular sensor x">
+        <position x="2" y="-3" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="sensor" label="leg 3 angular sensor y">
+        <position x="3" y="-3" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="sensor" label="leg 3 binary contact">
+        <position x="4" y="-3" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="actuator" label="leg 3 angular position x">
+        <position x="2" y="-5" z="0"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="actuator" label="leg 3 angular position y">
+        <position x="3" y="-5" z="0"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+
+      <node type="sensor" label="leg 4 angular sensor x">
+        <position x="-2" y="-3" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="sensor" label="leg 4 angular sensor y">
+        <position x="-3" y="-3" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="sensor" label="leg 4 binary contact">
+        <position x="-4" y="-3" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="actuator" label="leg 4 angular position x">
+        <position x="-2" y="-5" z="0"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="actuator" label="leg 4 angular position y">
+        <position x="-3" y="-5" z="0"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+
+      <node type="sensor" label="leg 5 angular sensor x">
+        <position x="2" y="-7" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="sensor" label="leg 5 angular sensor y">
+        <position x="3" y="-7" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="sensor" label="leg 5 binary contact">
+        <position x="4" y="-7" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="actuator" label="leg 5 angular position x">
+        <position x="2" y="-9" z="0"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="actuator" label="leg 5 angular position y">
+        <position x="3" y="-9" z="0"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+
+      <node type="sensor" label="leg 6 angular sensor x">
+        <position x="-2" y="-7" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="sensor" label="leg 6 angular sensor y">
+        <position x="-3" y="-7" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="sensor" label="leg 6 binary contact">
+        <position x="-4" y="-7" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="actuator" label="leg 6 angular position x">
+        <position x="-2" y="-9" z="0"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="actuator" label="leg 6 angular position y">
+        <position x="-3" y="-9" z="0"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+    </module>
+  </configuration>
+
+</nmode>

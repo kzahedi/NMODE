@@ -39,11 +39,11 @@ ELSE(USE_DEBUG_MODE)
   set(CMAKE_BUILD_TYPE Release)
 ENDIF(USE_DEBUG_MODE)
 
-find_package(PythonLibs 3 REQUIRED)
+find_package(PythonLibs 3)
 IF(PYTHONLIBS_FOUND)
   include_directories(${PYTHON_INCLUDE_PATH})
+  message("Python: ${PYTHON_INCLUDE_PATH}")
 ENDIF(PYTHONLIBS_FOUND)
-message("Python: ${PYTHON_INCLUDE_PATH}")
 
 include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(/usr/local/include/yars)
@@ -51,7 +51,7 @@ include_directories(/usr/local/include/yars)
 include(cmake/IncludePackages.cmake)
 
 add_subdirectory(src)
-add_subdirectory(contrib/yars2nmode)
+# add_subdirectory(contrib/yars2nmode)
 
 option(USE_TESTS "use test cases" ON)
 if(USE_TESTS)

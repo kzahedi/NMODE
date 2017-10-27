@@ -1,0 +1,170 @@
+<nmode version="0.2.0">
+  <simulator wd="."
+    experiment="xml/hexaboard.xml"
+    nr="2"/>
+
+  <visualisation>
+    <offset value="30"/>
+  </visualisation>
+
+  <evaluation module="Hexaboard">
+    <lifetime    iterations="600"/>
+    <generations iterations="500"/>
+    <log         filetype="svg"/>
+    <cost        node="0" edge="0"/>
+  </evaluation>
+
+  <reproduction>
+    <population size="100"/>
+    <selection  pressure="0.1"/>
+    <elite      pressure="11.2"/>
+    <crossover  probability="0.1"/>
+  </reproduction>
+
+  <mutation>
+    <node>
+      <modify probability="0.01" maximum="1" delta="0.01"/>
+      <add    probability="0.0"  maximum="0"/>
+      <delete probability="0.0"/>
+    </node>
+    <edge>
+      <modify probability="0.9"  maximum="5" delta="1"/>
+      <add    probability="0.1" maximum="1" minDistance="0.1" mode="uniform"/>
+      <delete probability="0.1"/>
+    </edge>
+  </mutation>
+
+  <configuration>
+    <module name="leg 1">
+      <node type="sensor" label="angular sensor x">
+        <position x="2" y="1" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="sensor" label="angular sensor y">
+        <position x="3" y="1" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="sensor" label="binary contact">
+        <position x="4" y="1" z="0"/>
+        <transferfunction name="id"/>
+        <bias value="0"/>
+      </node>
+      <node type="actuator" label="angular position x">
+        <position x="2" y="-1" z="0"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="actuator" label="angular position y">
+        <position x="3" y="-1" z="0"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="input" label="input 1">
+        <position x="1" y="0" z="0.5"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="output" label="output 1">
+        <position x="1" y="0" z="-0.5"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+    </module>
+    <module name="leg 2">
+      <copy      name="leg 1"/>
+      <mirror    x="true" y="false" z="false"/>
+      <rotate    x="0" y="-0" z="0"/>
+      <translate x="0" y="0" z="0"/>
+    </module>
+    <module name="leg 3">
+      <copy      name="leg 1"/>
+      <mirror    x="false" y="false" z="false"/>
+      <rotate    x="0" y="-0" z="0"/>
+      <translate x="0" y="-4" z="0"/>
+    </module>
+    <module name="leg 4">
+      <copy      name="leg 1"/>
+      <mirror    x="true" y="false" z="false"/>
+      <rotate    x="0" y="-0" z="0"/>
+      <translate x="0" y="-4" z="0"/>
+    </module>
+    <module name="leg 5">
+      <copy      name="leg 1"/>
+      <mirror    x="false" y="false" z="false"/>
+      <rotate    x="0" y="-0" z="0"/>
+      <translate x="0" y="-8" z="0"/>
+    </module>
+    <module name="leg 6">
+      <copy      name="leg 1"/>
+      <mirror    x="true" y="false" z="false"/>
+      <rotate    x="0" y="-0" z="0"/>
+      <translate x="0" y="-8" z="0"/>
+    </module>
+    <module name="cpg">
+      <node type="connector" label="leg 1/input 1">
+        <position x="1" y="0" z="0.5"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="connector" label="leg 1/output 1">
+        <position x="1" y="0" z="-0.5"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="connector" label="leg 2/input 1">
+        <position x="-1" y="0" z="0.5"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="connector" label="leg 2/output 1">
+        <position x="-1" y="0" z="-0.5"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="connector" label="leg 3/input 1">
+        <position x="1" y="-4" z="0.5"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="connector" label="leg 3/output 1">
+        <position x="1" y="-4" z="-0.5"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="connector" label="leg 4/input 1">
+        <position x="-1" y="-4" z="0.5"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="connector" label="leg 4/output 1">
+        <position x="-1" y="-4" z="-0.5"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="connector" label="leg 5/input 1">
+        <position x="1" y="-8" z="0.5"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="connector" label="leg 5/output 1">
+        <position x="1" y="-8" z="-0.5"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="connector" label="leg 6/input 1">
+        <position x="-1" y="-8" z="0.5"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+      <node type="connector" label="leg 6/output 1">
+        <position x="-1" y="-8" z="-0.5"/>
+        <transferfunction name="tanh"/>
+        <bias value="0"/>
+      </node>
+    </module>
+  </configuration>
+
+</nmode>
+

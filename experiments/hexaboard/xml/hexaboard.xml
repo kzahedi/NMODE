@@ -1,0 +1,675 @@
+<?xml version="1.0"?>
+<rosiml version="0.8.39">
+  <simulator frequency="100">
+    <solver iterations="100"/>
+    <!-- <control iterations="5"/> -->
+    <!-- <control iterations="3000"/> -->
+    <!-- <control iterations="6000"/> -->
+    <!-- <control iterations="12000"/> -->
+    <!-- <control iterations="20000"/> -->
+    <!-- <control iterations="90000"/> -->
+    <!-- <control iterations="250000"/> -->
+    <!-- <control iterations="1000000"/> -->
+  </simulator>
+
+  <screens>
+    <screen name="main" show="true" follow="true" capture="false">
+      <!-- <size width="800" height="600"/> -->
+      <size width="400" height="300"/>
+      <camera>
+        <!-- <position x="5.00" y="-5.00" z="2.5"/> -->
+        <position x="7.00" y="0.00" z="2.0"/>
+        <lookAt   x="0.0"  y="0.0"  z="1.0"/>
+      </camera>
+      <osd>
+        <time  font="Time"  size="25" colour="800040"/>
+        <robot font="Robot" size="25" colour="FFFF00"/>
+      </osd>
+    </screen>
+    <sky name="YARS/CloudySky"/>
+    <cameras>
+      <!-- <orbit speed="-0.5"> -->
+      <orbit speed="-0.0">
+        <lookAtX p="0.25" i="0.001"  d="0.002"/>
+        <lookAtY p="0.25" i="0.001"  d="0.002"/>
+        <lookAtZ p="0.0"  i="0.0000" d="0.000"/>
+        <!-- <fromX   p="0.50" i="0.0001" d="0.0002"/> -->
+        <!-- <fromY   p="0.50" i="0.0001" d="0.0002"/> -->
+        <fromZ   p="0.00" i="0.0" d="0.0"/>
+      </orbit>
+    </cameras>
+    <followables>
+      <followable name="main body"/>
+    </followables>
+    <!-- <visualise> -->
+      <!-- <joints radius="0.01" height="1.0" x="YARS/Red" y="YARS/Green" z="YARS/Blue"/> -->
+      <!-- </visualise> -->
+  </screens>
+
+  <environment name="env">
+
+    <ground>
+      <visualisation>
+        <texture name="YARS/DryGround"/>
+        <!-- <mesh name="UluruMesh.mesh"> -->
+          <!-- <scale x="40.0"   y="40.0" z="40.0"/> -->
+          <!-- <pose  x="-250.0" y="0.0" z="13.0"/> -->
+        <!-- </mesh> -->
+        <!-- <mesh name="MonumentValley.mesh"> -->
+          <!-- <scale x="7.5" y="7.5"   z="7.5"/> -->
+          <!-- <pose  x="0.0"  y="-250.0"  z="-0.0" gamma="180"/> -->
+        <!-- </mesh> -->
+        <!-- <mesh name="MonumentValley2.mesh"> -->
+          <!-- <scale x="10.0"   y="10.0" z="10.0"/> -->
+          <!-- <pose  x="250.0" y="0.0" z="-0.0" gamma="90"/> -->
+        <!-- </mesh> -->
+        <!-- <mesh name="AyersMesh.mesh"> -->
+          <!-- <scale x="20.0"  y="20.0"   z="20.0"/> -->
+          <!-- <pose  x="0.0"   y="250.0" z="-5.0" gamma="90"/> -->
+        <!-- </mesh> -->
+      </visualisation>
+    </ground>
+
+    <box name="obstacle 1">
+      <dimension height="0.2" width="20.0" depth="0.2"/>
+      <pose x="0" y="5" z="0.10" alpha="0" beta="0" gamma="00"/>
+      <physics> <mass kg="0"/> </physics>
+    </box>
+    <box name="obstacle 2">
+      <dimension height="0.2" width="20.0" depth="0.2"/>
+      <pose x="0" y="10" z="0.10" alpha="0" beta="0" gamma="00"/>
+      <physics> <mass kg="0"/> </physics>
+    </box>
+    <box name="obstacle 3">
+      <dimension height="0.2" width="20.0" depth="0.2"/>
+      <pose x="0" y="15" z="0.10" alpha="0" beta="0" gamma="00"/>
+      <physics> <mass kg="0"/> </physics>
+    </box>
+    <box name="obstacle 4">
+      <dimension height="0.2" width="20.0" depth="0.2"/>
+      <pose x="0" y="20" z="0.10" alpha="0" beta="0" gamma="00"/>
+      <physics> <mass kg="0"/> </physics>
+    </box>
+    <box name="obstacle 5">
+      <dimension height="0.2" width="20.0" depth="0.2"/>
+      <pose x="0" y="25" z="0.10" alpha="0" beta="0" gamma="00"/>
+      <physics> <mass kg="0"/> </physics>
+    </box>
+
+  </environment>
+
+  <robots>
+    <robot name="hexapod">
+      <body selfCollide="true">
+
+        <ply name="main body" filename="meshes/main_body.ply" convex="false">
+          <pose x="0.0" y="0.0" z="0.449429"/>
+          <visualisation>
+            <mesh name="MainBodyMesh.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg="2"/>
+            <friction value="50"/>
+          </physics>
+        </ply>
+
+        <ply name="rear right femur" filename="meshes/femur_right.ply" convex="false">
+          <pose x="0.700179" y="-2.0" z="0.851405"/>
+          <visualisation>
+            <mesh name="RearFemurMesh_R.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg=".2"/>
+            <friction value="0"/>
+          </physics>
+        </ply>
+        <ply name="rear right tibia" filename="meshes/tibia_right.ply" convex="false">
+          <pose x="1.080657" y="-2.0" z="0.851405"/>
+          <visualisation>
+            <mesh name="RearTibiaMesh_R.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg=".15"/>
+            <friction value="0"/>
+          </physics>
+        </ply>
+        <ply name="rear right tarsus" filename="meshes/tarsus_right.ply" convex="false">
+          <pose x="1.613118" y="-2.0" z="0.208994"/>
+          <visualisation>
+            <mesh name="RearTarsusMesh_R.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg=".1"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+
+        <ply name="centre right femur" filename="meshes/femur_right.ply" convex="false">
+          <pose x="0.700179" y="0.0" z="0.851405"/>
+          <visualisation>
+            <mesh name="CentreFemurMesh_R.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg=".2"/>
+            <friction value="0"/>
+          </physics>
+        </ply>
+        <ply name="centre right tibia" filename="meshes/tibia_right.ply" convex="false">
+          <pose x="1.080657" y="0.0" z="0.851405"/>
+          <visualisation>
+            <mesh name="CentreTibiaMesh_R.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg=".15"/>
+            <friction value="0"/>
+          </physics>
+        </ply>
+        <ply name="centre right tarsus" filename="meshes/tarsus_right.ply" convex="false">
+          <pose x="1.613118" y="0.0" z="0.208994"/>
+          <visualisation>
+            <mesh name="CentreTarsusMesh_R.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg=".1"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+
+        <ply name="front right femur" filename="meshes/femur_right.ply" convex="false">
+          <pose x="0.700179" y="2.0" z="0.851405"/>
+          <visualisation>
+            <mesh name="FrontFemurMesh_R.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg=".2"/>
+            <friction value="0"/>
+          </physics>
+        </ply>
+
+        <ply name="front right tibia" filename="meshes/tibia_right.ply" convex="false">
+          <pose x="1.080657" y="2.0" z="0.851405"/>
+          <visualisation>
+            <mesh name="FrontTibiaMesh_R.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg=".15"/>
+            <friction value="0"/>
+          </physics>
+        </ply>
+
+        <ply name="front right tarsus" filename="meshes/tarsus_right.ply" convex="false">
+          <pose x="1.613118" y="2.0" z="0.208994"/>
+          <visualisation>
+            <mesh name="FrontTarsusMesh_R.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg=".1"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+
+        <ply name="rear left femur" filename="meshes/femur_left.ply" convex="false">
+          <pose x="-0.700179" y="-2.0" z="0.851405"/>
+          <visualisation>
+            <mesh name="RearFemurMesh_L.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg=".2"/>
+            <friction value="0"/>
+          </physics>
+        </ply>
+        <ply name="rear left tibia" filename="meshes/tibia_left.ply" convex="false">
+          <pose x="-1.080657" y="-2.0" z="0.851405"/>
+          <visualisation>
+            <mesh name="RearTibiaMesh_L.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg=".15"/>
+            <friction value="0"/>
+          </physics>
+        </ply>
+        <ply name="rear left tarsus" filename="meshes/tarsus_left.ply" convex="false">
+          <pose x="-1.613118" y="-2.0" z="0.208994"/>
+          <visualisation>
+            <mesh name="RearTarsusMesh_L.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg=".1"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+
+        <ply name="centre left femur" filename="meshes/femur_left.ply" convex="false">
+          <pose x="-0.700179" y="0.0" z="0.851405"/>
+          <visualisation>
+            <mesh name="CentreFemurMesh_L.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg=".2"/>
+            <friction value="0"/>
+          </physics>
+        </ply>
+        <ply name="centre left tibia" filename="meshes/tibia_left.ply" convex="false">
+          <pose x="-1.080657" y="0.0" z="0.851405"/>
+          <visualisation>
+            <mesh name="CentreTibiaMesh_L.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg=".15"/>
+            <friction value="0"/>
+          </physics>
+        </ply>
+        <ply name="centre left tarsus" filename="meshes/tarsus_left.ply" convex="false">
+          <pose x="-1.613118" y="0.0" z="0.208994"/>
+          <visualisation>
+            <mesh name="CentreTarsusMesh_L.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg=".1"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+
+        <ply name="front left femur" filename="meshes/femur_left.ply" convex="false">
+          <pose x="-0.700179" y="2.0" z="0.851405"/>
+          <visualisation>
+            <mesh name="FrontFemurMesh_L.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg=".2"/>
+            <friction value="0"/>
+          </physics>
+        </ply>
+        <ply name="front left tibia" filename="meshes/tibia_left.ply" convex="false">
+          <pose x="-1.080657" y="2.0" z="0.851405"/>
+          <visualisation>
+            <mesh name="FrontTibiaMesh_L.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg=".15"/>
+            <friction value="0"/>
+          </physics>
+        </ply>
+        <ply name="front left tarsus" filename="meshes/tarsus_left.ply" convex="false">
+          <pose x="-1.613118" y="2.0" z="0.208994"/>
+          <visualisation>
+            <mesh name="FrontTarsusMesh_L.mesh">
+              <pose  x="0.0" y="0.0" z="0.0"/>
+            </mesh>
+          </visualisation>
+          <physics>
+            <mass kg=".1"/>
+            <friction value="1.0"/>
+          </physics>
+        </ply>
+      </body>
+
+      <actuators>
+        <hinge name="front right z-axis" type="angular" mode="active">
+          <source      name="front right femur"/>
+          <destination name="main body"/>
+          <force       max="20.0"/>
+          <velocity    max="0.75"/>
+          <pose        x="-0.275206" y="0.0" z="-0.398469" beta="90"/>
+          <deflection  min="-35" max="35"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="0.9" i="0.0" d="0.0" size="1"/>
+        </hinge>
+        <hinge name="front right y-axis" type="angular" mode="active">
+          <source      name="front right femur"/>
+          <destination name="front right tibia"/>
+          <force       max="20.0"/>
+          <velocity    max="0.75"/>
+          <pose        x="0.353679" y="0.0" z="0.464797" gamma="90"/>
+          <deflection  min="-15" max="25"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="0.9" i="0.0" d="0.0" size="1"/>
+        </hinge>
+
+        <hinge name="front left z-axis" type="angular" mode="active">
+          <source      name="front left femur"/>
+          <destination name="main body"/>
+          <force       max="20.0"/>
+          <velocity    max="0.75"/>
+          <pose        x="0.275206" y="0.0" z="-0.398469" beta="-90"/>
+          <deflection  min="-35" max="35"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="0.9" i="0.0" d="0.0" size="1"/>
+        </hinge>
+        <hinge name="front left y-axis" type="angular" mode="active">
+          <source      name="front left femur"/>
+          <destination name="front left tibia"/>
+          <force       max="20.0"/>
+          <velocity    max="0.75"/>
+          <pose        x="-0.353679" y="0.0" z="0.464797" gamma="-90"/>
+          <deflection  min="-15" max="25"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="0.9" i="0.0" d="0.0" size="1"/>
+        </hinge>
+
+        <hinge name="centre right z-axis" type="angular" mode="active">
+          <source      name="centre right femur"/>
+          <destination name="main body"/>
+          <force       max="20.0"/>
+          <velocity    max="0.75"/>
+          <pose        x="-0.275206" y="0.0" z="-0.398469" beta="90"/>
+          <deflection  min="-35" max="35"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="0.9" i="0.0" d="0.0" size="1"/>
+        </hinge>
+        <hinge name="centre right y-axis" type="angular" mode="active">
+          <source      name="centre right femur"/>
+          <destination name="centre right tibia"/>
+          <force       max="20.0"/>
+          <velocity    max="0.75"/>
+          <pose        x="0.353679" y="0.0" z="0.464797" gamma="90"/>
+          <deflection  min="-15" max="25"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="0.9" i="0.0" d="0.0" size="1"/>
+        </hinge>
+
+        <hinge name="centre left z-axis" type="angular" mode="active">
+          <source      name="centre left femur"/>
+          <destination name="main body"/>
+          <force       max="20.0"/>
+          <velocity    max="0.75"/>
+          <pose        x="0.275206" y="0.0" z="-0.398469" beta="-90"/>
+          <deflection  min="-35" max="35"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="0.9" i="0.0" d="0.0" size="1"/>
+        </hinge>
+        <hinge name="centre left y-axis" type="angular" mode="active">
+          <source      name="centre left femur"/>
+          <destination name="centre left tibia"/>
+          <force       max="20.0"/>
+          <velocity    max="0.75"/>
+          <pose        x="-0.353679" y="0.0" z="0.464797" gamma="-90"/>
+          <deflection  min="-15" max="25"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="0.9" i="0.0" d="0.0" size="1"/>
+        </hinge>
+
+        <hinge name="rear right z-axis" type="angular" mode="active">
+          <source      name="rear right femur"/>
+          <destination name="main body"/>
+          <force       max="20.0"/>
+          <velocity    max="0.75"/>
+          <pose        x="-0.275206" y="0.0" z="-0.398469" beta="90"/>
+          <deflection  min="-35" max="35"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="0.9" i="0.0" d="0.0" size="1"/>
+        </hinge>
+        <hinge name="rear right y-axis" type="angular" mode="active">
+          <source      name="rear right femur"/>
+          <destination name="rear right tibia"/>
+          <force       max="20.0"/>
+          <velocity    max="0.75"/>
+          <pose        x="0.353679" y="0.0" z="0.464797" gamma="90"/>
+          <deflection  min="-15" max="25"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="0.9" i="0.0" d="0.0" size="1"/>
+        </hinge>
+
+        <hinge name="rear left z-axis" type="angular" mode="active">
+          <source      name="rear left femur"/>
+          <destination name="main body"/>
+          <force       max="20.0"/>
+          <velocity    max="0.75"/>
+          <pose        x="0.275206" y="0.0" z="-0.398469" beta="-90"/>
+          <deflection  min="-35" max="35"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="0.9" i="0.0" d="0.0" size="1"/>
+        </hinge>
+        <hinge name="rear left y-axis" type="angular" mode="active">
+          <source      name="rear left femur"/>
+          <destination name="rear left tibia"/>
+          <force       max="20.0"/>
+          <velocity    max="0.75"/>
+          <pose        x="-0.353679" y="0.0" z="0.464797" gamma="-90"/>
+          <deflection  min="-15" max="25"/>
+          <mapping     min="-1"  max="1"/>
+          <regular     softness="1.0" damping="1.0" restitution="0.7"/>
+          <limit       softness="1.0" damping="1.0" restitution="0.7"/>
+          <orthogonal  softness="1.0" damping="1.0" restitution="0.7"/>
+          <pid         p="0.9" i="0.0" d="0.0" size="1"/>
+        </hinge>
+
+        <fixed name="front left ti-ta fixed">
+          <source      name="front left tibia"/>
+          <destination name="front left tarsus"/>
+        </fixed>
+
+        <fixed name="centre left ti-ta fixed">
+          <source      name="centre left tibia"/>
+          <destination name="centre left tarsus"/>
+        </fixed>
+
+        <fixed name="rear left ti-ta fixed">
+          <source      name="rear left tibia"/>
+          <destination name="rear left tarsus"/>
+        </fixed>
+
+        <fixed name="front right ti-ta fixed">
+          <source      name="front right tibia"/>
+          <destination name="front right tarsus"/>
+        </fixed>
+
+        <fixed name="centre right ti-ta fixed">
+          <source      name="centre right tibia"/>
+          <destination name="centre right tarsus"/>
+        </fixed>
+
+        <fixed name="rear right ti-ta fixed">
+          <source      name="rear right tibia"/>
+          <destination name="rear right tarsus"/>
+        </fixed>
+
+
+      </actuators>
+
+      <sensors>
+        <deflection name="front right z-axis sensor">
+          <object   name="front right z-axis"/>
+          <domain   min="-35" max="35"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+        <deflection name="front right y-axis sensor">
+          <object   name="front right y-axis"/>
+          <domain   min="-15" max="25"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+        <binaryContact name="front right tarsus contact">
+          <object name="front right tarsus"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
+        <deflection name="front left z-axis sensor">
+          <object   name="front left z-axis"/>
+          <domain   min="-35" max="35"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+        <deflection name="front left y-axis sensor">
+          <object   name="front left y-axis"/>
+          <domain   min="-15" max="25"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+        <binaryContact name="front left tarsus contact">
+          <object name="front left tarsus"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
+        <deflection name="centre right z-axis sensor">
+          <object   name="centre right z-axis"/>
+          <domain   min="-35" max="35"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+        <deflection name="centre right y-axis sensor">
+          <object   name="centre right y-axis"/>
+          <domain   min="-15" max="25"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+        <binaryContact name="centre right tarsus contact">
+          <object name="centre right tarsus"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
+        <deflection name="centre left z-axis sensor">
+          <object   name="centre left z-axis"/>
+          <domain   min="-35" max="35"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+        <deflection name="centre left y-axis sensor">
+          <object   name="centre left y-axis"/>
+          <domain   min="-15" max="25"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+        <binaryContact name="centre left tarsus contact">
+          <object name="centre left tarsus"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
+        <deflection name="rear right z-axis sensor">
+          <object   name="rear right z-axis"/>
+          <domain   min="-35" max="35"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+        <deflection name="rear right y-axis sensor">
+          <object   name="rear right y-axis"/>
+          <domain   min="-15" max="25"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+        <binaryContact name="rear right tarsus contact">
+          <object name="rear right tarsus"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
+        <deflection name="rear left z-axis sensor">
+          <object   name="rear left z-axis"/>
+          <domain   min="-35" max="35"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+        <deflection name="rear left y-axis sensor">
+          <object   name="rear left y-axis"/>
+          <domain   min="-15" max="25"/>
+          <mapping  min="-1"  max="1"/>
+        </deflection>
+        <binaryContact name="rear left tarsus contact">
+          <object name="rear left tarsus"/>
+          <domain min="-1" max="1"/>
+        </binaryContact>
+
+        <position name="xyz position main">
+          <object name="main body"/>
+          <coordinates x="true" y="true" z="true"/>
+        </position>
+        <orientation name="xyz orientation main">
+          <object name="main body"/>
+          <coordinates x="true" y="true" z="true"/>
+        </orientation>
+      </sensors>
+
+      <controller module="TCPIP" frequency="10">
+      </controller>
+
+    </robot>
+  </robots>
+
+  <traces>
+    <trace target="main body" length="15" max="1000" time="60" particles="false">
+      <init  colour="FF0000" size="0.05"/>
+      <final colour="FF000000" size="0.00"/>
+      <offset z="0.0" local="true"/>
+    </trace>
+    <trace target="front left femur" length="15" max="1000" time="60" particles="false">
+      <init  colour="00FF00" size="0.05"/>
+      <final colour="00FF0000" size="0.00"/>
+      <offset z="0.0" local="true"/>
+    </trace>
+    <trace target="front left tarsus" length="15" max="1000" time="60" particles="false">
+      <init  colour="0000FF" size="0.05"/>
+      <final colour="0000FF00" size="0.00"/>
+      <offset z="0.0" local="true"/>
+    </trace>
+
+    <trace target="front right femur" length="15" max="1000" time="60" particles="false">
+      <init  colour="F0FF00" size="0.05"/>
+      <final colour="F0FF0000" size="0.00"/>
+      <offset z="0.0" local="true"/>
+    </trace>
+    <trace target="front right tarsus" length="15" max="1000" time="60" particles="false">
+      <init  colour="F000FF" size="0.05"/>
+      <final colour="F000FF00" size="0.00"/>
+      <offset z="0.0" local="true"/>
+    </trace>
+  </traces>
+
+</rosiml>
