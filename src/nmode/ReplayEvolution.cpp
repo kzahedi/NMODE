@@ -39,6 +39,18 @@ void ReplayEvolution::replayEvolution(string dir)
   _data = Data::instance();
   _data->readForReplay(all_matching_files[0]);
 
+  __createEvaluator();
+
+  for(int i = 4; i < (int)all_matching_files.size(); i = i + 5)
+  {
+    replayBestIndividual(all_matching_files[i]);
+  }
+
+  _e->quit();
+}
+
+void ReplayEvolution::__createEvaluator()
+{
   string module = EVA->module();
   stringstream m;
 #ifdef __APPLE__
@@ -46,6 +58,7 @@ void ReplayEvolution::replayEvolution(string dir)
 #else // __APPLE__
   m << "lib/lib" << module << ".so";
 #endif // __APPLE__
+
 
   void *controllerLib = dlopen(m.str().c_str(),RTLD_LAZY);
 
@@ -69,17 +82,14 @@ void ReplayEvolution::replayEvolution(string dir)
 
   _e = create_controller();
   _e->setUseCapture(_useCapture);
-
-  for(int i = 4; i < (int)all_matching_files.size(); i = i + 5)
-  {
-    replayBestIndividual(all_matching_files[i]);
-  }
-
-  _e->quit();
 }
 
 void ReplayEvolution::replayBestIndividual(string xml)
 {
+  _data = Data::instance();
+  _data->readForReplay(xml);
+
+  __createEvaluator();
   _data = Data::instance();
   _data->readForReplay(xml);
 
@@ -94,6 +104,7 @@ void ReplayEvolution::replayBestIndividual(string xml)
   }
 
   _e->runOne(_pop->individual(0));
+  _e->quit();
 }
 
 void ReplayEvolution::notify(ObservableMessage *message)

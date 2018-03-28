@@ -8,3 +8,7 @@ tags
 *.log
 
 *.log
+
+.DS_Store
+
+build

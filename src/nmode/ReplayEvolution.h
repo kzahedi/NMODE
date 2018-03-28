@@ -28,6 +28,7 @@ class ReplayEvolution : public Observer
     void notify(ObservableMessage *message);
 
   private:
+    void __createEvaluator();
 
     // Reproduction*        _reproduction;
     Population*            _population;

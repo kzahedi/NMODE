@@ -46,6 +46,7 @@ int main(int argc, char** argv)
   string continueDir;
   int    individual_index;
   string replayDir;
+  string replayBest;
   bool   useCapture = false;
   bool   printConfiguration = false;
 
@@ -80,10 +81,13 @@ int main(int argc, char** argv)
      "read and continue from directory")
     ("replayFile",
      po::value<string>(&replayDir),
-     "read and continue from directory")
+     "read from file")
+    ("replayBest",
+     po::value<string>(&replayBest),
+     "read last_generation.xml from directory and play the best individual")
     ("replay",
      po::value<string>(&replayDir),
-     "read and continue from directory")
+     "read from directory")
     ("logdir,L",
      po::value<string>(&logdir),
      "set verbose logging level, defaults to 0");
@@ -154,8 +158,17 @@ int main(int argc, char** argv)
     cout << "Replay directory:  " << replayDir << endl;
     ReplayEvolution *r = new ReplayEvolution();
     r->setUseCapture(useCapture);
-    fs::path path(replayDir);
     r->replayEvolution(replayDir);
+    exit(0);
+  }
+
+  if (vm.count("replayBest"))
+  {
+    cout << "Replay directory:  " << replayDir << endl;
+    ReplayEvolution *r = new ReplayEvolution();
+    r->setUseCapture(useCapture);
+    string best = replayBest + "/" + "last_generation.xml";
+    r->replayBestIndividual(best);
     exit(0);
   }
 
