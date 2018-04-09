@@ -20,6 +20,7 @@ class Evaluate
     void quit();
     void nogui();
     void setUseCapture(bool uc);
+    void setCaptureName(string cn);
 
     void printConfiguration(bool pc);
 
@@ -59,6 +60,7 @@ class Evaluate
     RNN*                    _rnn;
     Individual*             _individual;
     bool                    _useCapture;
+    string                  _captureName;
     bool                    _printConfiguration;
     stringstream            _isst;
     stringstream            _gsst;

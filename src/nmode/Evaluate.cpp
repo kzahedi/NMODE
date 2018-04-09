@@ -22,6 +22,7 @@ Evaluate::Evaluate()
   _successfulEvaluation = false;
   _useCapture           = false;
   _printConfiguration   = false;
+  _captureName          = "";
 
   // cout << "Options: " << _options << endl << "XML: " << _xml << endl << "PATH: " << _path << endl;
 }
@@ -171,6 +172,10 @@ void Evaluate::__evaluate()
         {
           sst << " --capture ";
         }
+        if(_captureName.length() > 0)
+        {
+          sst << " --captureName " << _captureName << " ";
+        }
         sst << _xml;
         // cout << _path << "yars " << sst.str() << endl;
         _com->init(_workingDirectory, sst.str(), _path);
@@ -264,4 +269,9 @@ void Evaluate::setUseCapture(bool uc)
 void Evaluate::printConfiguration(bool pc)
 {
   _printConfiguration = pc;
+}
+
+void Evaluate::setCaptureName(string cn)
+{
+  _captureName = cn;
 }

@@ -24,6 +24,7 @@ class ReplayEvolution : public Observer
 
     void setRestart(bool r);
     void setUseCapture(bool uc);
+    void setCaptureName(string cn);
 
     void notify(ObservableMessage *message);
 
@@ -39,6 +40,7 @@ class ReplayEvolution : public Observer
     vector<boost::thread*> _threads;
     Evaluate*              _e;
     bool                   _useCapture;
+    string                 _captureName;
 };
 
 #endif // __REPLAY_EVOLUION_H__

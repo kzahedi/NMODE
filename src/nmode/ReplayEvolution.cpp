@@ -13,8 +13,9 @@
 ReplayEvolution::ReplayEvolution()
 {
   Random::initialise();
-  _population = NULL;
-  _useCapture = false;
+  _population  = NULL;
+  _useCapture  = false;
+  _captureName = "";
 }
 
 void ReplayEvolution::replayEvolution(string dir)
@@ -82,6 +83,7 @@ void ReplayEvolution::__createEvaluator()
 
   _e = create_controller();
   _e->setUseCapture(_useCapture);
+  _e->setCaptureName(_captureName);
 }
 
 void ReplayEvolution::replayBestIndividual(string xml)
@@ -115,4 +117,9 @@ void ReplayEvolution::notify(ObservableMessage *message)
 void ReplayEvolution::setUseCapture(bool uc)
 {
   _useCapture = uc;
+}
+
+void ReplayEvolution::setCaptureName(string cn)
+{
+  _captureName = cn;
 }

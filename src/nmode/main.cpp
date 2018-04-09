@@ -47,6 +47,7 @@ int main(int argc, char** argv)
   int    individual_index;
   string replayDir;
   string replayBest;
+  string captureName;
   bool   useCapture = false;
   bool   printConfiguration = false;
 
@@ -66,6 +67,9 @@ int main(int argc, char** argv)
      "convert file to X3D")
     ("capture",
      "video capture YARS")
+    ("captureName",
+     po::value<string>(&captureName),
+     "set video capture name in kkYARS")
     ("individual,i",
      po::value<int>(&individual_index)->implicit_value(0),
      "set the individual index")
@@ -158,6 +162,7 @@ int main(int argc, char** argv)
     cout << "Replay directory:  " << replayDir << endl;
     ReplayEvolution *r = new ReplayEvolution();
     r->setUseCapture(useCapture);
+    if(useCapture) r->setCaptureName(captureName);
     r->replayEvolution(replayDir);
     exit(0);
   }
@@ -167,6 +172,7 @@ int main(int argc, char** argv)
     cout << "Replay directory:  " << replayDir << endl;
     ReplayEvolution *r = new ReplayEvolution();
     r->setUseCapture(useCapture);
+    if(useCapture) r->setCaptureName(captureName);
     string best = replayBest + "/" + "last_generation.xml";
     r->replayBestIndividual(best);
     exit(0);
