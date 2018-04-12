@@ -75,3 +75,8 @@ Module* Configuration::module(int index)
 {
   return _individual->module(index);
 }
+
+Individual* Configuration::individual()
+{
+  return _individual;
+}

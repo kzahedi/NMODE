@@ -31,11 +31,12 @@ class Population : public Observable, public XsdParseNode
     void add(ParseElement *element);
     static void createXsd(XsdSpecification *spec);
 
-    
+
     Individuals::iterator i_begin();
     Individuals::iterator i_end();
     int                   i_size();
     void                  i_resize(int s);
+    void                  i_remove(Individual* i);
     void                  reset();
     Individuals           individuals();
     Individual*           individual(int index);
@@ -43,21 +44,19 @@ class Population : public Observable, public XsdParseNode
     int                   generation();
     void                  setGeneration(int);
     void                  addIndividual(Individual*);
-    void                  sortByFitness();
     void                  incGeneration();
     void                  resize(int);
     void                  evaluationCompleted();
     void                  reproductionCompleted();
     void                  serialise();
     void                  incAge();
-    void                  calculateNrOfOffspring();
     void                  cleanup();
     void                  setInactive(int module, int node, bool value);
 
     void                  removeCurrentLogDir();
     void                  setCurrentLogDir(string);
     void                  plotLast();
-    
+
     void                  readStats(string);
 
     static Population*    instance();
@@ -65,8 +64,11 @@ class Population : public Observable, public XsdParseNode
     void                  removeFirstIndividual();
 
   private:
-    void            __getUniqueDirectoryName();
-    void            __calculateSelectionProbabilities();
+    void   __getUniqueDirectoryName();
+    void   __calculateStats();
+    double __mean(vector<double> &v);
+    double __std(vector<double>  &v);
+
 #ifdef USE_PLPLOT
     void __plotData();
     void __plotMaxFitness();
@@ -79,9 +81,6 @@ class Population : public Observable, public XsdParseNode
     void __plfbox( PLFLT x0, PLFLT y0 );
     void __plotFitness();
 #endif // USE_PLPLOT
-    void            __calculateStats();
-    double          __mean(vector<double> &v);
-    double          __std(vector<double> &v);
 
     int             _generation;
     int             _individualId;

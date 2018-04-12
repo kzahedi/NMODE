@@ -28,6 +28,7 @@ class Configuration : public XsdParseNode
     int               m_size();
     Modules           modules();
     Module*           module(int index);
+    Individual*       individual();
 
     static void createXsd(XsdSpecification *spec);
 

@@ -1,4 +1,4 @@
-<nmode version="0.2.0">
+<nmode version="0.3.0">
   <simulator wd="."
     experiment="xml/hexaboard.xml"
     nr="2"/>
@@ -10,14 +10,12 @@
   <evaluation module="Hexaboard">
     <lifetime    iterations="600"/>
     <generations iterations="500"/>
-    <log         filetype="svg"/>
+    <log         filetype="pdf"/>
     <cost        node="0" edge="0"/>
   </evaluation>
 
   <reproduction>
-    <population size="100"/>
-    <selection  pressure="0.1"/>
-    <elite      pressure="11.2"/>
+    <population size="30" tournament="0.3"/>
     <crossover  probability="0.1"/>
   </reproduction>
 

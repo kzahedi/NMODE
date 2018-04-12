@@ -32,7 +32,7 @@ class Individual : public XsdParseNode
     int               id();
 
     void              incAge();
-    void              resetAge();
+    void              setAge(int);
     int               age();
 
     int               nrOfOffspring();
@@ -68,24 +68,33 @@ class Individual : public XsdParseNode
     void              setFitnessComponentNames(vector<string> &fcn) {_fitnessComponentNames = fcn;};
     vector<string>    getFitnessComponentNames() {return _fitnessComponentNames;};
 
+    void              setSelected(bool);
+    bool              isSelected();
+
+    void              setEvaluated(bool);
+    bool              isEvaluated();
+
+
   private:
     Node*   __getNonHiddenNode(string module, string label);
     Node*   __getNonHiddenNodeFromModule(Module *m, string nodeLabel);
 
-    int     _id;
-    int     _nr;
-    int     _age;
-    double  _fitness;
-    Modules _modules;
-    double  _reproductionFactor;
-    double  _rawFitness;
-    double  _edgeCost;
-    double  _nodeCost;
-    int     _nrOfOffspring;
-    int     _nrOfSynapses;
-    int     _nrOfNeurons;
+    int            _id;
+    int            _nr;
+    int            _age;
+    double         _fitness;
+    Modules        _modules;
+    double         _reproductionFactor;
+    double         _rawFitness;
+    double         _edgeCost;
+    double         _nodeCost;
+    int            _nrOfOffspring;
+    int            _nrOfSynapses;
+    int            _nrOfNeurons;
     vector<double> _fitnessComponents;
     vector<string> _fitnessComponentNames;
+    bool           _selected;
+    bool           _evaluated;
 };
 
 typedef vector<Individual*> Individuals;

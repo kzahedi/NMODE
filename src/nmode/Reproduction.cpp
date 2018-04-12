@@ -8,15 +8,16 @@
 
 #include <glog/logging.h>
 
+# define AGE(i)     paretoFront[i]->age()
+# define FITNESS(i) paretoFront[i]->fitness()
+
 Reproduction::Reproduction()
 {
   _pairingMethod        = PAIRING_METHOD_RANDOM;
-  _selectionMethod      = SELECTION_METHOD_RANK;
   _population           = Population::instance();
   _crossoverProbability = Data::instance()->specification()->reproduction()->crossoverProbability();
   _mutation             = new Mutation();
   _populationSize       = Data::instance()->specification()->reproduction()->populationSize();
-  _selectionPressure    = Data::instance()->specification()->reproduction()->selectionPressure();
 }
 
 Reproduction::~Reproduction()
@@ -26,12 +27,17 @@ Reproduction::~Reproduction()
 
 void Reproduction::firstReproduction()
 {
+  // Individual *ind = CFG->individual()->copy();
+  // _population->addIndividual(ind);
   _population->incGeneration();
-  _population->calculateNrOfOffspring();
   _population->serialise();
   _population->plotLast();
+  for(int i = 0; i < _population->i_size(); i++)
+  {
+    _population->individual(i)->setNrOfOffspring(5);
+  }
   __randomPairing();
-  _populationSize = Data::instance()->specification()->reproduction()->populationSize() + 1;
+  _populationSize = REP->populationSize() + 1;
   while(_population->i_size() < _populationSize)
   {
     __createOffspring();
@@ -42,18 +48,10 @@ void Reproduction::firstReproduction()
 
 void Reproduction::reproduce()
 {
-  switch(_selectionMethod)
-  {
-    case SELECTION_METHOD_RANK:
-      VLOG(100) << "using rank based selection";
-      __select();
-      break;
-  }
-
+  __select();
   __adaptNodeConfigurationFromCfg();
 
   _population->incGeneration();
-  _population->calculateNrOfOffspring();
   _population->serialise();
   _population->plotLast();
 
@@ -74,20 +72,81 @@ void Reproduction::reproduce()
     __createOffspring();
   }
 
+  __createRandomOffspring();
+
   _population->reproductionCompleted();
+}
+
+void Reproduction::__createRandomOffspring()
+{
+  Individual *ind = CFG->individual()->copy();
+  ind->setAge(0);
+  _mutation->mutate(ind);
+  _population->addIndividual(ind);
 }
 
 void Reproduction::__select()
 {
-  _selectionPressure = REP->selectionPressure();
-  int nrOfParents = int(_population->i_size() * _selectionPressure + 0.5);
-  nrOfParents = MAX(1, nrOfParents);
-  nrOfParents = MIN(nrOfParents, _population->i_size());
+  Individuals paretoFront;
 
-  VLOG(100) << "number of parents: " << nrOfParents;
+  int populationSize = REP->populationSize();
+  int populationSizeCmp = _population->i_size();
+  int tournamentSize = (int)(REP->tournamentPercentage() * populationSize);
+  int nrOfSelectedIndividuals = MAX(5, tournamentSize);
 
-  _population->sortByFitness();
-  _population->resize(nrOfParents);
+  while(populationSize < populationSizeCmp)
+  {
+    while(paretoFront.size() < nrOfSelectedIndividuals)
+    {
+      int randomIndex = Random::randi(0, populationSize);
+      Individual* i = _population->individual(randomIndex);
+      bool found = false;
+      FORC(Individuals, ind, paretoFront)
+      {
+        if((*ind)->id() == i->id())
+        {
+          found = true;
+          break;
+        }
+      }
+      if(found == false)
+      {
+        paretoFront.push_back(i);
+      }
+    }
+
+    for(int i = 0; i < paretoFront.size(); i++)
+      paretoFront[i]->setSelected(false);
+
+    for(int i = 0; i < paretoFront.size(); i++)
+    {
+      for(int j = 0; j < paretoFront.size(); j++)
+      {
+        if(i != j)
+        {
+          bool dominantInAge     = paretoFront[j]->age()     <  paretoFront[i]->age();
+          bool dominantInFitness = paretoFront[j]->fitness() >= paretoFront[i]->fitness();
+          if(AGE(i) <  AGE(j) && FITNESS(i) >= FITNESS(j)) paretoFront[j]->setSelected(true);
+          if(AGE(i) == AGE(j) && FITNESS(i) >= FITNESS(j)) paretoFront[j]->setSelected(true);
+        }
+      }
+    }
+
+    FORC(Individuals, ind, paretoFront)
+    {
+      cout << "Individual: " << (*ind)->id()
+        << " Fitness: " << (*ind)->fitness()
+        << " Age: " << (*ind)->age()
+        << " Selected: " << (((*ind)->isSelected()?"true":"false")) << endl;
+    }
+
+    FORC(Individuals, ind, paretoFront)
+      if((*ind)->isSelected() == true) // selected for removal
+        _population->i_remove(*ind);
+
+    populationSizeCmp = _population->i_size();
+  }
+
   _population->incAge();
 }
 
@@ -146,12 +205,15 @@ void Reproduction::__createOffspring()
   if(_crossoverProbability > 0.0)
   {
     child = __cross(p->mom, p->dad);
+    child->setAge(MAX(p->mom->age(), p->dad->age()));
+    // child->setAge(0);
   }
   else
   {
     child = p->mom->copy(true);
-    child->resetAge();
+    child->setAge(p->mom->age());
   }
+  child->setEvaluated(false);
 
   _mutation->mutate(child);
   _population->addIndividual(child);

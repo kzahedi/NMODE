@@ -132,6 +132,7 @@ void Evaluate::run()
     _individual->setFitness(summed_fitness);
     _individual->setFitnessComponents(summedFc);
     _individual->setFitnessComponentNames(fitnessComponentNames);
+    _individual->setEvaluated(true);
 
     _population->evaluationCompleted();
   }

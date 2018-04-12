@@ -21,7 +21,7 @@
 #define _MUTE _root->mutation()->edge()
 #define _VIS  _root->visualisation()
 
-#define CFG "cfg.xml"
+#define CFG_FILE "cfg.xml"
 
 
 Data* Data::_me = NULL;
@@ -180,9 +180,8 @@ string Data::__reproduction()
 {
   stringstream sst;
   sst << "  <reproduction>" << endl;
-  sst << "    <population size=\""          << _REP->populationSize()       << "\"/>" << endl;
-  sst << "    <selection    pressure=\""    << _REP->selectionPressure()    << "\"/>" << endl;
-  sst << "    <elite        pressure=\""    << _REP->elitePressure()        << "\"/>" << endl;
+  sst << "    <population size=\""          << _REP->populationSize()       << "\"" << endl;
+  sst << "                tournament=\""    << REP->tournamentPercentage()  << "\"/>" << endl;
   sst << "    <crossover    probability=\"" << _REP->crossoverProbability() << "\"/>" << endl;
   sst << "  </reproduction>"                << endl;
   return sst.str();
@@ -353,7 +352,7 @@ void Data::notify(ObservableMessage *message)
   switch(message->type())
   {
     case __M_NEXT_GENERATION:
-      read(CFG);
+      read(CFG_FILE);
       break;
   }
 }
@@ -361,7 +360,7 @@ void Data::notify(ObservableMessage *message)
 void Data::__writeCfg()
 {
   ofstream output;
-  output.open(CFG);
+  output.open(CFG_FILE);
   output << "<?xml version=\"1.0\"?>" << endl << endl;
   output << "<nmode version=\""     << XmlChangeLog::version() << "\">" << endl;
   output << __simulator() << endl;

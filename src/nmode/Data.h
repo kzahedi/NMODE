@@ -13,6 +13,7 @@
 #define SIM Data::instance()->specification()->simulator()
 #define EVA Data::instance()->specification()->evaluation()
 #define VIS Data::instance()->specification()->visualisation()
+#define CFG Data::instance()->specification()->configuration()
 
 using namespace std;
 

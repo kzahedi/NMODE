@@ -21,13 +21,15 @@ Individual::Individual(XsdParseNode *parent)
   _nr                 = -1;
   _fitness            = 0.0;
   _reproductionFactor = 0.0;
-  _age                = 0;
+  _age                = 1;
   _nrOfOffspring      = 0;
   _rawFitness         = 0.0;
   _edgeCost           = 0.0;
   _nodeCost           = 0.0;
   _nrOfSynapses       = 0;
   _nrOfNeurons        = 0;
+  _selected           = false;
+  _evaluated          = false;
 }
 
 Individual::~Individual()
@@ -275,9 +277,9 @@ void Individual::incAge()
   _age++;
 }
 
-void Individual::resetAge()
+void Individual::setAge(int age)
 {
-  _age = 0;
+  _age = age;
 }
 
 int Individual::age()
@@ -355,7 +357,6 @@ void Individual::setNr(int nr)
   _nr = nr;
 }
 
-
 bool Individual::equal(Individual* other)
 {
   EQUAL_TEST(_id,             other->id(),           "Individual: ID mismatch");
@@ -370,4 +371,25 @@ bool Individual::equal(Individual* other)
     if(_modules[i]->equal(other->module(i)) == false) return false;
   }
   return true;
+}
+
+void Individual::setSelected(bool b)
+{
+  _selected = b;
+}
+
+bool Individual::isSelected()
+{
+  return _selected;
+}
+
+
+void Individual::setEvaluated(bool b)
+{
+  _evaluated = b;
+}
+
+bool Individual::isEvaluated()
+{
+  return _evaluated;
 }

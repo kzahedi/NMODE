@@ -43,10 +43,10 @@ Population::Population(XsdParseNode *parent)
   : XsdParseNode(parent)
 {
   reset();
-  _me              = this;
-  _generation      = 0;
-  _ext             = Data::instance()->specification()->evaluation()->logFileType();
-  _keepLogs = Data::instance()->specification()->evaluation()->keepLogs();
+  _me         = this;
+  _generation = 0;
+  _ext        = Data::instance()->specification()->evaluation()->logFileType();
+  _keepLogs   = Data::instance()->specification()->evaluation()->keepLogs();
   __getUniqueDirectoryName();
   ENP_INIT;
 }
@@ -119,6 +119,18 @@ void Population::i_resize(int s)
   return _individuals.resize(s);
 }
 
+void Population::i_remove(Individual* i)
+{
+  FORC(Individuals, c, _individuals)
+  {
+    if((*c)->id() == i->id())
+    {
+      _individuals.erase(c);
+      return;
+    }
+  }
+}
+
 Individuals Population::individuals()
 {
   return _individuals;
@@ -143,11 +155,6 @@ void Population::addIndividual(Individual *i)
 
 bool fnSortByFitness(Individual *a, Individual *b) {return (a->fitness() > b->fitness());}
 
-void Population::sortByFitness()
-{
-  sort(_individuals.begin(), _individuals.end(), fnSortByFitness);
-}
-
 void Population::incGeneration()
 {
   _generation++;
@@ -158,40 +165,6 @@ void Population::incGeneration()
   }
 }
 
-
-void Population::__calculateSelectionProbabilities()
-{
-  double sum = 0.0;
-  double min = _individuals[0]->fitness();
-  double rp  = REP->elitePressure();
-  double max = _individuals[0]->fitness();
-  vector<double> fitness(_individuals.size());
-
-  FORI(0, _individuals.size(), i) fitness[i] = _individuals[i]->fitness();
-  FORI(0, fitness.size(), i)      if(min > fitness[i]) min = fitness[i];
-  FORI(0, fitness.size(), i)      if(fitness[i] > max) max = fitness[i];
-  if(min < 0.0)
-  {
-    FORI(0, fitness.size(), i) fitness[i] -= min;
-    FORI(0, fitness.size(), i) fitness[i] += 0.1 * (max - min);
-  }
-
-  FORI(0, fitness.size(), i) sum += fitness[i];
-  if(sum > 0.00001)
-  {
-    FORI(0, fitness.size(), i) fitness[i] = fitness[i] / sum;
-  }
-  else
-  {
-    FORI(0, fitness.size(), i) fitness[i] = 1.0 / ((float)_individuals.size());
-  }
-
-  FORI(0, fitness.size(), i) fitness[i] = pow(fitness[i], rp);
-  sum = 0.0;
-  FORI(0, fitness.size(), i) sum += fitness[i];
-  FORI(0, fitness.size(), i) fitness[i] /= sum;
-  FORI(0, fitness.size(), i) _individuals[i]->setReproductionFactor(fitness[i]);
-}
 
 Population* Population::instance()
 {
@@ -218,6 +191,8 @@ Individual* Population::getNextIndividual()
     while(_openEvaluations > 0) usleep(500); // wait for the others to complete
     notifyObservers(_m_next_generation);
   }
+
+  while(_individuals[_nextIndividual]->isEvaluated()) _nextIndividual++;
 
   Individual *i = _individuals[_nextIndividual];
   _nextIndividual++;
@@ -732,22 +707,6 @@ void Population::incAge()
   FORC(Individuals, i, _individuals) (*i)->incAge();
 }
 
-void Population::calculateNrOfOffspring()
-{
-  __calculateSelectionProbabilities();
-  int populationSize = REP->populationSize() - _individuals.size();
-  if(populationSize <= 0)
-  {
-    cout << "No offspring will be generated!" << endl;
-    return;
-  }
-  FORC(Individuals, i, _individuals)
-  {
-    int offspring = (int)((*i)->reproductionFactor() * populationSize + 0.5);
-    (*i)->setNrOfOffspring(offspring);
-  }
-}
-
 void Population::cleanup()
 {
   FORC(Individuals, i, _individuals) delete (*i);
@@ -905,3 +864,4 @@ double Population::__std(vector<double> &v)
   }
   return (s / ((float) v.size()));
 }
+

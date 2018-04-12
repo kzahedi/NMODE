@@ -25,6 +25,7 @@ using namespace std;
 #define TAG_UNIT_INTERVAL             (char*)"unit_interval_definition"
 #define TAG_POSITIVE_NON_ZERO_DECIMAL (char*)"positive_non_zero_decimal_definition"
 #define TAG_POSITIVE_DECIMAL          (char*)"positive_decimal_definition"
+#define TAG_PERCENTAGE                (char*)"percentage_definition"
 #define TAG_NAME_DEFINITION           (char*)"name_definition"
 
 #define TAG_TRUE_FALSE_DEFINITION     (char*)"true_definition"

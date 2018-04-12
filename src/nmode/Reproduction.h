@@ -40,6 +40,7 @@ class Reproduction
     void        __select();
     void        __randomPairing();
     void        __createOffspring();
+    void        __createRandomOffspring();
     void        __adaptNodeConfigurationFromCfg();
     Individual* __getRandomMate();
     Parents*    __randomlySelectParent();
@@ -48,7 +49,6 @@ class Reproduction
     double        _selectionPressure;
     double        _crossoverProbability;
     int           _pairingMethod;
-    int           _selectionMethod;
     int           _populationSize;
     ListOfParents _parents;
     Population*   _population;

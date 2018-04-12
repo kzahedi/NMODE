@@ -16,6 +16,24 @@ material YARS/ProximitySensor
   }
 }
 
+material YARS/LDRSensor
+{
+  technique
+  {
+    pass
+    {
+      scene_blend alpha_blend
+      depth_write off
+
+      texture_unit
+      {
+        colour_op_ex source1 src_manual src_current 1 0.93 0.03
+        alpha_op_ex source1 src_manual src_current 0.5
+      }
+    }
+  }
+}
+
 material YARS/Gray
 {
   technique
@@ -345,6 +363,8 @@ material YARS/DryGround
         texture ground.jpg
         scale 0.5 0.5
         filtering trilinear
+        scroll 0.0 0.0
+        scroll_anim 0.0 0.0
       }
     }   
   }
