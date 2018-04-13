@@ -20,9 +20,7 @@ Individual::Individual(XsdParseNode *parent)
   _id                 = 1;
   _nr                 = -1;
   _fitness            = 0.0;
-  _reproductionFactor = 0.0;
   _age                = 1;
-  _nrOfOffspring      = 0;
   _rawFitness         = 0.0;
   _edgeCost           = 0.0;
   _nodeCost           = 0.0;
@@ -57,8 +55,7 @@ void Individual::add(ParseElement *element)
     VLOG(100) << "opening <Individual> " << element->name();
     element->set(TAG_ID,        _id);
     element->set(TAG_FITNESS,   _fitness);
-    element->set(TAG_OFFSPRING, _nrOfOffspring);
-    VLOG(100) << "setting id = " << _id << " fitness = " << _fitness << " offspring = " << _nrOfOffspring;
+    VLOG(100) << "setting id = " << _id << " fitness = " << _fitness;
   }
 
   if(element->opening(TAG_MODULE))
@@ -232,40 +229,26 @@ void Individual::linkConnectorNodes() throw(NMODEException)
   }
 }
 
-double Individual::reproductionFactor()
-{
-  return _reproductionFactor;
-}
-
-void Individual::setReproductionFactor(double f)
-{
-  _reproductionFactor = f;
-}
-
 Individual* Individual::copy(bool reset)
 {
   Individual *copy = new Individual();
   if(reset)
   {
-    copy->_fitness            = 0.0;
-    copy->_reproductionFactor = 0.0;
-    copy->_id                 = -1;
-    copy->_age                = 0;
-    copy->_nrOfOffspring      = 0;
-    copy->_rawFitness         = 0.0;
-    copy->_edgeCost           = 0.0;
-    copy->_nodeCost           = 0.0;
+    copy->_fitness       = 0.0;
+    copy->_id            = -1;
+    copy->_age           = 0;
+    copy->_rawFitness    = 0.0;
+    copy->_edgeCost      = 0.0;
+    copy->_nodeCost      = 0.0;
   }
   else
   {
-    copy->_fitness            = _fitness;
-    copy->_reproductionFactor = _reproductionFactor;
-    copy->_id                 = _id;
-    copy->_age                = _age;
-    copy->_nrOfOffspring      = _nrOfOffspring;
-    copy->_rawFitness         = _rawFitness;
-    copy->_edgeCost           = _edgeCost;
-    copy->_nodeCost           = _nodeCost;
+    copy->_fitness       = _fitness;
+    copy->_id            = _id;
+    copy->_age           = _age;
+    copy->_rawFitness    = _rawFitness;
+    copy->_edgeCost      = _edgeCost;
+    copy->_nodeCost      = _nodeCost;
   }
 
   FORC(Modules, m, _modules) copy->addModule((*m)->copy());
@@ -317,11 +300,6 @@ void Individual::setEdgeCost(double c)
   _edgeCost = c;
 }
 
-int Individual::nrOfOffspring()
-{
-  return _nrOfOffspring;
-}
-
 int  Individual::nrOfSynapses()
 {
   return _nrOfSynapses;
@@ -340,11 +318,6 @@ int Individual::nrOfNeurons()
 void Individual::setNrOfNeurons(int nr)
 {
   _nrOfNeurons = nr;
-}
-
-void Individual::setNrOfOffspring(int o)
-{
-  _nrOfOffspring = o;
 }
 
 int Individual::nr()

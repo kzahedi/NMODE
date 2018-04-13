@@ -68,7 +68,7 @@ void Evaluate::run()
         cout.precision(8);
         cout.unsetf(ios_base::floatfield);
         cout << "Individual " << _individual->nr() << " / "
-          <<  _population->i_size() << ": "
+          <<  _population->i_size() << ", age " << _individual->age() << ": "
           << "\033[1;32m" << fitness << "\033[0m";
         if(logging.str().size() > 0)
         {
@@ -103,8 +103,9 @@ void Evaluate::run()
 
     _individual->setRawFitness(summed_fitness);
     cout << "\033[1;34m";
-    cout << ">>> Individual " << _individual->nr() << " / "
-      <<  _population->i_size() << ": Total: " << summed_fitness;
+    cout << ">>> Individual " << _individual->nr()
+      << " / " <<  _population->i_size()
+      << " (age " << _individual->age() << "): Total: " << summed_fitness;
     if(summedFc.size() > 0)
     {
       cout << " (";

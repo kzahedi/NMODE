@@ -296,8 +296,7 @@ void Population::serialise()
     _output
       << (*i)->id()            << "," << (*i)->fitness()      << "," << (*i)->age()      << ","
       << (*i)->rawFitness()    << "," << (*i)->nodeCost()     << "," << (*i)->edgeCost() << ","
-      << (*i)->nrOfNeurons()   << "," << (*i)->nrOfSynapses() << ","
-      << (*i)->nrOfOffspring() << "," << (*i)->reproductionFactor()
+      << (*i)->nrOfNeurons()   << "," << (*i)->nrOfSynapses()
       << endl;
   }
   _output.close();

@@ -35,9 +35,6 @@ class Individual : public XsdParseNode
     void              setAge(int);
     int               age();
 
-    int               nrOfOffspring();
-    void              setNrOfOffspring(int);
-
     int               nrOfSynapses();
     void              setNrOfSynapses(int);
 
@@ -53,9 +50,6 @@ class Individual : public XsdParseNode
     void              addModule(Module*);
     Individual*       getRealisation();
     void              linkConnectorNodes() throw(NMODEException);
-
-    double            reproductionFactor();
-    void              setReproductionFactor(double);
 
     int               nr();
     void              setNr(int);
@@ -84,11 +78,9 @@ class Individual : public XsdParseNode
     int            _age;
     double         _fitness;
     Modules        _modules;
-    double         _reproductionFactor;
     double         _rawFitness;
     double         _edgeCost;
     double         _nodeCost;
-    int            _nrOfOffspring;
     int            _nrOfSynapses;
     int            _nrOfNeurons;
     vector<double> _fitnessComponents;

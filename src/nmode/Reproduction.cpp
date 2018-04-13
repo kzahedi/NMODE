@@ -11,6 +11,11 @@
 # define AGE(i)     paretoFront[i]->age()
 # define FITNESS(i) paretoFront[i]->fitness()
 
+# define PRINT_POPULATIO_AGE \
+  FORF(Individuals, i, _population, i_begin(), i_end()) \
+    cout << (*i)->id() << " age: " << (*i)->age() << endl;
+
+
 Reproduction::Reproduction()
 {
   _pairingMethod        = PAIRING_METHOD_RANDOM;
@@ -32,10 +37,6 @@ void Reproduction::firstReproduction()
   _population->incGeneration();
   _population->serialise();
   _population->plotLast();
-  for(int i = 0; i < _population->i_size(); i++)
-  {
-    _population->individual(i)->setNrOfOffspring(5);
-  }
   __randomPairing();
   _populationSize = REP->populationSize() + 1;
   while(_population->i_size() < _populationSize)
@@ -48,6 +49,7 @@ void Reproduction::firstReproduction()
 
 void Reproduction::reproduce()
 {
+  PRINT_POPULATIO_AGE;
   __select();
   __adaptNodeConfigurationFromCfg();
 
@@ -67,14 +69,17 @@ void Reproduction::reproduce()
 
   _populationSize = Data::instance()->specification()->reproduction()->populationSize();
 
-  while(_population->i_size() < _populationSize)
+  while(_population->i_size() < _populationSize-1)
   {
     __createOffspring();
   }
 
   __createRandomOffspring();
 
+  _population->incAge();
+
   _population->reproductionCompleted();
+  PRINT_POPULATIO_AGE;
 }
 
 void Reproduction::__createRandomOffspring()
@@ -82,6 +87,7 @@ void Reproduction::__createRandomOffspring()
   Individual *ind = CFG->individual()->copy();
   ind->setAge(0);
   _mutation->mutate(ind);
+  ind->setEvaluated(false);
   _population->addIndividual(ind);
 }
 
@@ -89,9 +95,9 @@ void Reproduction::__select()
 {
   Individuals paretoFront;
 
-  int populationSize = REP->populationSize();
-  int populationSizeCmp = _population->i_size();
-  int tournamentSize = (int)(REP->tournamentPercentage() * populationSize);
+  int populationSize          = REP->populationSize();
+  int populationSizeCmp       = _population->i_size();
+  int tournamentSize          = populationSize;
   int nrOfSelectedIndividuals = MAX(5, tournamentSize);
 
   while(populationSize < populationSizeCmp)
@@ -132,13 +138,13 @@ void Reproduction::__select()
       }
     }
 
-    FORC(Individuals, ind, paretoFront)
-    {
-      cout << "Individual: " << (*ind)->id()
-        << " Fitness: " << (*ind)->fitness()
-        << " Age: " << (*ind)->age()
-        << " Selected: " << (((*ind)->isSelected()?"true":"false")) << endl;
-    }
+    // FORC(Individuals, ind, paretoFront)
+    // {
+      // cout << "Individual: " << (*ind)->id()
+        // << " Fitness: " << (*ind)->fitness()
+        // << " Age: " << (*ind)->age()
+        // << " Selected: " << (((*ind)->isSelected()?"true":"false")) << endl;
+    // }
 
     FORC(Individuals, ind, paretoFront)
       if((*ind)->isSelected() == true) // selected for removal
@@ -147,47 +153,42 @@ void Reproduction::__select()
     populationSizeCmp = _population->i_size();
   }
 
-  _population->incAge();
 }
 
 void Reproduction::__randomPairing()
 {
-  FORF(Individuals, i, _population, i_begin(), i_end())
+  // -1 for the new random individual
+  int nrOfPairings = REP->populationSize() - _population->i_size() - 1;
+  if(_population->i_size() == 1)
   {
-    for(int j = 0; j < (*i)->nrOfOffspring(); j++)
+    for(int i = 0; i < nrOfPairings; i++)
     {
-      Individual *mom = *i;
-      Individual *dad = NULL;
-      if(_population->i_size() > 1)
-      {
-        int n = 0;
-        do { dad = __getRandomMate(); } while (dad == mom && (n++ < 100));
-      }
-      else
-      {
-        dad = mom;
-      }
-      Parents *parents = new Parents(mom, dad);
+      Individual *ind = _population->individual(0);
+      Parents *parents = new Parents(ind, ind);
       _parents.push_back(parents);
     }
+    return;
+  }
+
+  // if there is more than one in the population
+  for(int i = 0; i < nrOfPairings; i++)
+  {
+    Individual *mom = NULL;
+    Individual *dad = NULL;
+    while(mom == dad)
+    {
+      mom = __getRandomMate();
+      dad = __getRandomMate();
+    }
+    Parents *parents = new Parents(mom, dad);
+    _parents.push_back(parents);
   }
 }
 
 Individual* Reproduction::__getRandomMate()
 {
-  // int index = (int)(Random::unit() * _population->i_size());
-  // return _population->individual(index);
-  double dice = Random::unit();
-  double s = 0.0;
-  FORF(Individuals, i, _population, i_begin(), i_end())
-  {
-    s += (*i)->reproductionFactor();
-    if(dice < s)
-    {
-      return *i;
-    }
-  }
-  return NULL;
+  int index = Random::randi(0, _population->i_size()-1);
+  return _population->individual(index);
 }
 
 
@@ -206,16 +207,22 @@ void Reproduction::__createOffspring()
   {
     child = __cross(p->mom, p->dad);
     child->setAge(MAX(p->mom->age(), p->dad->age()));
-    // child->setAge(0);
+    // cout << "mom's age: " << p->mom->age() << " id " << p->mom->id() << endl;
+    // cout << "dad's age: " << p->dad->age() << " id " << p->dad->id() << endl;
+    child->setEvaluated(false);
   }
   else
   {
     child = p->mom->copy(true);
     child->setAge(p->mom->age());
+    // cout << "mom's age: " << p->mom->age() << endl;
+    child->setEvaluated(false);
   }
-  child->setEvaluated(false);
+
+  // cout << "Child: " << child->age() << endl;
 
   _mutation->mutate(child);
+
   _population->addIndividual(child);
 }
 
