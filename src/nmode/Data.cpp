@@ -322,6 +322,7 @@ string Data::__toXml(Individual *i)
   stringstream sst;
   sst << "    <individual"
     << " id=\""      << i->id()      << "\""
+    << " age=\""     << i->age()     << "\""
     << " fitness=\"" << i->fitness() << "\""
     << ">" << endl;
 

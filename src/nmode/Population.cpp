@@ -155,6 +155,11 @@ void Population::addIndividual(Individual *i)
 
 bool fnSortByFitness(Individual *a, Individual *b) {return (a->fitness() > b->fitness());}
 
+void Population::sortByFitness()
+{
+ sort(_individuals.begin(), _individuals.end(), fnSortByFitness);
+}
+
 void Population::incGeneration()
 {
   _generation++;
@@ -250,6 +255,8 @@ void Population::__getUniqueDirectoryName()
 
 void Population::serialise()
 {
+
+  sortByFitness();
 
   if(boost::filesystem::exists(fs::path(_logDirectory)) == false)
   {

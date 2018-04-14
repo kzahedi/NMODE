@@ -15,7 +15,7 @@
   </evaluation>
 
   <reproduction>
-    <population size="10" tournament="0.3"/>
+    <population size="30" tournament="0.3"/>
     <crossover  probability="0.1"/>
   </reproduction>
 

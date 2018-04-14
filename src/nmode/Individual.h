@@ -62,8 +62,8 @@ class Individual : public XsdParseNode
     void              setFitnessComponentNames(vector<string> &fcn) {_fitnessComponentNames = fcn;};
     vector<string>    getFitnessComponentNames() {return _fitnessComponentNames;};
 
-    void              setSelected(bool);
-    bool              isSelected();
+    void              setDominated(bool);
+    bool              isDominated();
 
     void              setEvaluated(bool);
     bool              isEvaluated();
@@ -85,7 +85,7 @@ class Individual : public XsdParseNode
     int            _nrOfNeurons;
     vector<double> _fitnessComponents;
     vector<string> _fitnessComponentNames;
-    bool           _selected;
+    bool           _dominated;
     bool           _evaluated;
 };
 

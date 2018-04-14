@@ -57,6 +57,8 @@ class Population : public Observable, public XsdParseNode
     void                  setCurrentLogDir(string);
     void                  plotLast();
 
+    void                  sortByFitness();
+
     void                  readStats(string);
 
     static Population*    instance();

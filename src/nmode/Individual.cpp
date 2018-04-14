@@ -10,6 +10,7 @@ using namespace boost;
 using namespace boost::algorithm;
 
 #define TAG_ID        (char*)"id"
+#define TAG_AGE       (char*)"age"
 #define TAG_FITNESS   (char*)"fitness"
 #define TAG_OFFSPRING (char*)"offspring"
 #define TAG_CONNECTOR (char*)"connector"
@@ -26,7 +27,7 @@ Individual::Individual(XsdParseNode *parent)
   _nodeCost           = 0.0;
   _nrOfSynapses       = 0;
   _nrOfNeurons        = 0;
-  _selected           = false;
+  _dominated          = false;
   _evaluated          = false;
 }
 
@@ -55,6 +56,7 @@ void Individual::add(ParseElement *element)
     VLOG(100) << "opening <Individual> " << element->name();
     element->set(TAG_ID,        _id);
     element->set(TAG_FITNESS,   _fitness);
+    element->set(TAG_AGE,       _age);
     VLOG(100) << "setting id = " << _id << " fitness = " << _fitness;
   }
 
@@ -71,6 +73,7 @@ void Individual::createXsd(XsdSpecification *spec)
 {
   XsdSequence *_root = new XsdSequence(TAG_INDIVIDUAL_DEFINITION);
   _root->add(NA(TAG_ID,        TAG_POSITIVE_INTEGER,  false));
+  _root->add(NA(TAG_AGE,       TAG_POSITIVE_INTEGER,  false));
   _root->add(NA(TAG_FITNESS,   TAG_XSD_DECIMAL,       false));
   _root->add(NA(TAG_OFFSPRING, TAG_POSITIVE_INTEGER,  false));
   _root->add(NE(TAG_MODULE,    TAG_MODULE_DEFINITION, 1, TAG_XSD_UNBOUNDED));
@@ -346,14 +349,14 @@ bool Individual::equal(Individual* other)
   return true;
 }
 
-void Individual::setSelected(bool b)
+void Individual::setDominated(bool b)
 {
-  _selected = b;
+  _dominated = b;
 }
 
-bool Individual::isSelected()
+bool Individual::isDominated()
 {
-  return _selected;
+  return _dominated;
 }
 
 

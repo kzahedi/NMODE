@@ -11,11 +11,6 @@
 # define AGE(i)     paretoFront[i]->age()
 # define FITNESS(i) paretoFront[i]->fitness()
 
-# define PRINT_POPULATIO_AGE \
-  FORF(Individuals, i, _population, i_begin(), i_end()) \
-    cout << (*i)->id() << " age: " << (*i)->age() << endl;
-
-
 Reproduction::Reproduction()
 {
   _pairingMethod        = PAIRING_METHOD_RANDOM;
@@ -49,7 +44,6 @@ void Reproduction::firstReproduction()
 
 void Reproduction::reproduce()
 {
-  PRINT_POPULATIO_AGE;
   __select();
   __adaptNodeConfigurationFromCfg();
 
@@ -79,7 +73,6 @@ void Reproduction::reproduce()
   _population->incAge();
 
   _population->reproductionCompleted();
-  PRINT_POPULATIO_AGE;
 }
 
 void Reproduction::__createRandomOffspring()
@@ -97,7 +90,7 @@ void Reproduction::__select()
 
   int populationSize          = REP->populationSize();
   int populationSizeCmp       = _population->i_size();
-  int tournamentSize          = populationSize;
+  int tournamentSize          = (int)(populationSize * REP->tournamentPercentage());
   int nrOfSelectedIndividuals = MAX(5, tournamentSize);
 
   while(populationSize < populationSizeCmp)
@@ -122,7 +115,7 @@ void Reproduction::__select()
     }
 
     for(int i = 0; i < paretoFront.size(); i++)
-      paretoFront[i]->setSelected(false);
+      paretoFront[i]->setDominated(false);
 
     for(int i = 0; i < paretoFront.size(); i++)
     {
@@ -130,10 +123,8 @@ void Reproduction::__select()
       {
         if(i != j)
         {
-          bool dominantInAge     = paretoFront[j]->age()     <  paretoFront[i]->age();
-          bool dominantInFitness = paretoFront[j]->fitness() >= paretoFront[i]->fitness();
-          if(AGE(i) <  AGE(j) && FITNESS(i) >= FITNESS(j)) paretoFront[j]->setSelected(true);
-          if(AGE(i) == AGE(j) && FITNESS(i) >= FITNESS(j)) paretoFront[j]->setSelected(true);
+          if(AGE(i) <  AGE(j) && FITNESS(i) >= FITNESS(j)) paretoFront[j]->setDominated(true);
+          if(AGE(i) == AGE(j) && FITNESS(i) >= FITNESS(j)) paretoFront[j]->setDominated(true);
         }
       }
     }
@@ -143,11 +134,11 @@ void Reproduction::__select()
       // cout << "Individual: " << (*ind)->id()
         // << " Fitness: " << (*ind)->fitness()
         // << " Age: " << (*ind)->age()
-        // << " Selected: " << (((*ind)->isSelected()?"true":"false")) << endl;
+        // << " Dominated: " << (((*ind)->isDominated()?"true":"false")) << endl;
     // }
 
     FORC(Individuals, ind, paretoFront)
-      if((*ind)->isSelected() == true) // selected for removal
+      if((*ind)->isDominated() == true) // selected for removal
         _population->i_remove(*ind);
 
     populationSizeCmp = _population->i_size();
