@@ -129,13 +129,13 @@ void Reproduction::__select()
       }
     }
 
-    // FORC(Individuals, ind, paretoFront)
-    // {
-      // cout << "Individual: " << (*ind)->id()
-        // << " Fitness: " << (*ind)->fitness()
-        // << " Age: " << (*ind)->age()
-        // << " Dominated: " << (((*ind)->isDominated()?"true":"false")) << endl;
-    // }
+    FORC(Individuals, ind, paretoFront)
+    {
+      cout << "Individual: " << (*ind)->id()
+        << " Dominated: " << (((*ind)->isDominated()?"true":"false"))
+        << " Fitness: " << (*ind)->fitness()
+        << " Age: " << (*ind)->age() << endl;
+    }
 
     FORC(Individuals, ind, paretoFront)
       if((*ind)->isDominated() == true) // selected for removal
