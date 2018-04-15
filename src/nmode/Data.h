@@ -30,6 +30,7 @@ class Data : public Observer
     void readForReplay(string xmlFile);
     string xml();
     void notify(ObservableMessage *message);
+    bool changed();
 
   private:
     Data();
@@ -52,6 +53,7 @@ class Data : public Observer
     NMODE*       _root;
     string       _xml;
     bool         _initialisationCompleted;
+    bool         _changed;
 };
 
 #endif // __DATA_H__

@@ -8,8 +8,9 @@ using namespace std;
 CfgMutation::CfgMutation(XsdParseNode *parent)
   : XsdParseNode(parent)
 {
-  _node = NULL;
-  _edge = NULL;
+  _node    = NULL;
+  _edge    = NULL;
+  _changed = false;
 }
 
 CfgMutation::~CfgMutation()
@@ -23,6 +24,7 @@ void CfgMutation::add(ParseElement *element)
   VLOG(100) << "parsing: " << element->name();
   if(element->closing(TAG_MUTATION))
   {
+    _changed = _node->changed() || _edge->changed();
     current = parent;
     return;
   }

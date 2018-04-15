@@ -224,11 +224,7 @@ void Evaluate::__evaluate()
 
         _message.str("");
         _message.unsetf(ios_base::floatfield);
-        _message << "Generation " << _population->generation() << "\n";
-        if(s > 1)
-        {
-          _message << "Individual " << n << " / " << s << "\n";
-        }
+        _message << "Individual " << _individual->id() << " (age: " << _individual->age() << ")\n";
         _message << "Fitness " << fitness;
 
         updateFitnessFunction();

@@ -47,7 +47,8 @@ CfgEvaluation::CfgEvaluation(XsdParseNode *parent)
   _module         = "unknown";
   _keepLogs       = false;
   _iterations     = 1;
-  _logIterations = false;
+  _logIterations  = false;
+  _changed        = false;
 }
 
 CfgEvaluation::~CfgEvaluation()
@@ -73,17 +74,15 @@ void CfgEvaluation::add(ParseElement *element)
 
   if(element->opening(TAG_EVALUATION))
   {
+    _changed = false;
     element->set(TAG_MODULE,      _module);
-    element->set(TAG_ITERATIONS, _iterations);
   }
 
   if(element->opening(TAG_LIFE_TIME))
   {
-    element->set(TAG_ITERATIONS, _lifeTime);
-    FORC(EvaluationParameters, p, _parameters)
-    {
-      delete *p;
-    }
+    _changed |= element->set(TAG_ITERATIONS, _lifeTime);
+    _parameters.clear();
+    FORC(EvaluationParameters, p, _parameters) delete *p;
     _parameters.clear();
     EvaluationParameterMap::clear();
   }
@@ -210,4 +209,9 @@ int CfgEvaluation::iterations()
 bool CfgEvaluation::logIterations()
 {
   return _logIterations;
+}
+
+bool CfgEvaluation::changed()
+{
+  return _changed;
 }

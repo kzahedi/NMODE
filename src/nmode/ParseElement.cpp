@@ -70,43 +70,63 @@ bool ParseElement::closing(char *name)
   return closing(string(name));
 }
 
-void ParseElement::set(string name, double &value)
+bool ParseElement::set(string name, double &value)
 {
   if(attribute(name) != NULL)
   {
-    value = attribute(name)->realValue();
+    double tmp = attribute(name)->realValue();
+    if(tmp == value) return false;
+    value = tmp;
+    return true;
   }
+  return false;
 }
 
-void ParseElement::set(string name, string &value)
+bool ParseElement::set(string name, string &value)
 {
   if(attribute(name) != NULL)
   {
-    value = attribute(name)->value();
+    string tmp = attribute(name)->value();
+    if(tmp == value) return false;
+    value = tmp;
+    return true;
   }
+  return false;
 }
 
-void ParseElement::set(string name, bool &value)
+bool ParseElement::set(string name, bool &value)
 {
   if(attribute(name) != NULL)
   {
-    value = attribute(name)->boolValue();
+    bool tmp = attribute(name)->boolValue();
+    if(tmp == value) return false;
+    value = tmp;
+    return true;
   }
+  return false;
 }
 
-void ParseElement::set(string name, int &value)
+bool ParseElement::set(string name, int &value)
 {
   if(attribute(name) != NULL)
   {
-    value = attribute(name)->intValue();
+    int tmp = attribute(name)->intValue();
+    if(tmp == value) return false;
+    value = tmp;
+    return true;
   }
+  return false;
 }
 
-void ParseElement::set(string name, unsigned long &value)
+bool ParseElement::set(string name, unsigned long &value)
 {
   if(attribute(name) != NULL)
   {
-    value = attribute(name)->unsignedlongValue();
+    unsigned long tmp = attribute(name)->unsignedlongValue();
+    if(tmp == value) return false;
+    value = tmp;
+    return true;
   }
+  return false;
 }
 

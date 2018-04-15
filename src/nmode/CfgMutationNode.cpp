@@ -25,6 +25,7 @@ CfgMutationNode::CfgMutationNode(XsdParseNode *parent)
   _addProbability    = 0.01;
   _addMaxValue       = 1.0;
   _delProbability    = 0.1;
+  _changed           = false;
 }
 
 CfgMutationNode::~CfgMutationNode()
@@ -34,6 +35,12 @@ CfgMutationNode::~CfgMutationNode()
 
 void CfgMutationNode::add(ParseElement *element)
 {
+  if(element->opening(TAG_MUTATION_NODE))
+  {
+    current = parent;
+    _changed = false;
+  }
+
   if(element->closing(TAG_MUTATION_NODE))
   {
     current = parent;
@@ -45,20 +52,20 @@ void CfgMutationNode::add(ParseElement *element)
 
   if(element->opening(TAG_MODIFY))
   {
-    element->set(TAG_PROBABILITY, _modifyProbability);
-    element->set(TAG_MAX,         _modifyMaxValue);
-    element->set(TAG_DELTA,       _modifyDelta);
+    _changed |= element->set(TAG_PROBABILITY, _modifyProbability);
+    _changed |= element->set(TAG_MAX,         _modifyMaxValue);
+    _changed |= element->set(TAG_DELTA,       _modifyDelta);
   }
 
   if(element->opening(TAG_ADD))
   {
-    element->set(TAG_PROBABILITY, _addProbability);
-    element->set(TAG_MAX,         _addMaxValue);
+    _changed |= element->set(TAG_PROBABILITY, _addProbability);
+    _changed |= element->set(TAG_MAX,         _addMaxValue);
   }
 
   if(element->opening(TAG_DEL))
   {
-    element->set(TAG_PROBABILITY, _delProbability);
+    _changed |= element->set(TAG_PROBABILITY, _delProbability);
   }
 
 }
@@ -76,7 +83,7 @@ void CfgMutationNode::createXsd(XsdSpecification *spec)
   modify->add(NA(TAG_MAX,         TAG_POSITIVE_DECIMAL, true));
   modify->add(NA(TAG_DELTA,       TAG_POSITIVE_DECIMAL, true));
   spec->add(modify);
-  
+
   XsdSequence *add = new XsdSequence(TAG_ADD_DEFINITION);
   add->add(NA(TAG_PROBABILITY, TAG_UNIT_INTERVAL, true));
   add->add(NA(TAG_MAX,         TAG_POSITIVE_DECIMAL, true));

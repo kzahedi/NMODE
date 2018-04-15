@@ -37,8 +37,9 @@ Data* Data::instance()
 
 Data::Data()
 {
-  _root = new NMODE(NULL);
+  _root                    = new NMODE(NULL);
   _initialisationCompleted = false;
+  _changed                 = false;
 }
 
 Data::~Data()
@@ -87,6 +88,8 @@ void Data::read(string xmlFile)
   }
   delete parser;
 
+  _changed = _root->changed();
+
   __writeCfg();
 
   if(_initialisationCompleted == false)
@@ -125,7 +128,6 @@ void Data::readForReplay(string xmlFile)
     exit(-1);
   }
   delete parser;
-
 }
 
 XsdSpecification* Data::xsd()
@@ -374,3 +376,7 @@ void Data::__writeCfg()
   output.close();
 }
 
+bool Data::changed()
+{
+  return _changed;
+}

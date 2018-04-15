@@ -20,7 +20,7 @@ NMODE::NMODE(XsdParseNode *parent)
 {
 
 #include "ChangeLog.h" // do not move from here
-  
+
   _simulator     = NULL;
   _mutation      = NULL;
   _configuration = NULL;
@@ -28,6 +28,7 @@ NMODE::NMODE(XsdParseNode *parent)
   _evaluation    = NULL;
   _reproduction  = NULL;
   _visualisation = NULL;
+  _changed       = false;
 
   _initialisationCompleted = false;
 }
@@ -40,6 +41,8 @@ NMODE::~NMODE()
 void NMODE::add(ParseElement *element)
 {
   if(current == NULL) current = this;
+  if(element->opening(TAG_NMODE)) _changed = false;
+  if(element->closing(TAG_NMODE)) _changed = _evaluation->changed();
   if(current == this)
   {
     __getChild(element);
@@ -48,7 +51,6 @@ void NMODE::add(ParseElement *element)
   {
     current->add(element);
   }
-
 }
 
 Version NMODE::version()
@@ -325,4 +327,9 @@ void NMODE::setCfgVisualisation(CfgVisualisation* v)
 void NMODE::overrideReadingOfPopulation()
 {
   _initialisationCompleted = false;
+}
+
+bool NMODE::changed()
+{
+  return _changed;
 }

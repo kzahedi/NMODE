@@ -37,9 +37,12 @@ class CfgMutation : public XsdParseNode
 
     CfgMutation* copy();
 
+    bool changed(){return _changed;};
+
   private:
     CfgMutationNode *_node;
     CfgMutationEdge *_edge;
+    bool             _changed;
 
 };
 

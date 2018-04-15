@@ -33,6 +33,7 @@ class CfgMutationNode : public XsdParseNode
     double addProbability();
     double addMaxValue();
     double delProbability();
+    bool   changed() {return _changed;};
 
     CfgMutationNode* copy();
 
@@ -56,6 +57,7 @@ class CfgMutationNode : public XsdParseNode
     double _addProbability;
     double _addMaxValue;
     double _delProbability;
+    bool   _changed;
 
 
 };

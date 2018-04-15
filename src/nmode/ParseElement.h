@@ -121,11 +121,11 @@ class ParseElement : public std::vector<ParseAttribute*>
      */
     bool closing(string name);
 
-    void set(string name, double &value);
-    void set(string name, string &value);
-    void set(string name, bool &value);
-    void set(string name, int &value);
-    void set(string name, unsigned long &value);
+    bool set(string name, double &value);
+    bool set(string name, string &value);
+    bool set(string name, bool &value);
+    bool set(string name, int &value);
+    bool set(string name, unsigned long &value);
 
     friend std::ostream& operator<<(std::ostream& str, const ParseElement& d)
     {

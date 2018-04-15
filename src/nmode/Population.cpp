@@ -197,7 +197,10 @@ Individual* Population::getNextIndividual()
     notifyObservers(_m_next_generation);
   }
 
-  while(_individuals[_nextIndividual]->isEvaluated()) _nextIndividual++;
+  // if(Data::instance()->changed() == false)
+  {
+    while(_individuals[_nextIndividual]->isEvaluated()) _nextIndividual++;
+  }
 
   Individual *i = _individuals[_nextIndividual];
   _nextIndividual++;

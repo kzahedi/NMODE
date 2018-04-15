@@ -36,6 +36,7 @@ class CfgMutationEdge : public XsdParseNode
     double minDistance();
 
     int    mode();
+    bool   changed() {return false;};
 
     CfgMutationEdge* copy();
 

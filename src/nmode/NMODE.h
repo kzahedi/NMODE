@@ -12,8 +12,8 @@
 #include <nmode/Simulator.h>
 #include <nmode/Population.h>
 
-# define TAG_NMODE                        (char*)"nmode"
-# define TAG_NODE_DEFINITION             (char*)"enp_definition"
+# define TAG_NMODE                      (char*)"nmode"
+# define TAG_NODE_DEFINITION            (char*)"enp_definition"
 # define TAG_VERSION_REGULAR_EXPRESSION (char*)"[0-9]+.[0-9]+.[0-9]+"
 
 class NMODE : public XsdParseNode
@@ -57,6 +57,7 @@ class NMODE : public XsdParseNode
     void setCfgReproduction(CfgReproduction*);
     void setCfgVisualisation(CfgVisualisation*);
     void overrideReadingOfPopulation();
+    bool changed();
 
   private:
     void __getChild(ParseElement *element);
@@ -71,6 +72,7 @@ class NMODE : public XsdParseNode
     CfgReproduction*  _reproduction;
     CfgVisualisation* _visualisation;
     bool              _initialisationCompleted;
+    bool              _changed;
 
 };
 
