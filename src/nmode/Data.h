@@ -50,7 +50,7 @@ class Data : public Observer
     void   __writeCfg();
 
     static Data* _me;
-    NMODE*       _root;
+    NMODE*       _nmode;
     string       _xml;
     bool         _initialisationCompleted;
     bool         _changed;

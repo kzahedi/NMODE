@@ -180,8 +180,7 @@ void NMODE::__getChild(ParseElement *element)
 
   if(element->opening(TAG_EVALUATION))
   {
-    if(_evaluation != NULL) delete _evaluation;
-    _evaluation = new CfgEvaluation(this);
+    if(_evaluation == NULL) _evaluation = new CfgEvaluation(this);
     current = _evaluation;
     current->add(element);
   }

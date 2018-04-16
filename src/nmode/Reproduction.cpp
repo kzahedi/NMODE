@@ -91,10 +91,12 @@ void Reproduction::__select()
   int populationSize          = REP->populationSize();
   int populationSizeCmp       = _population->i_size();
   int tournamentSize          = (int)(populationSize * REP->tournamentPercentage());
-  int nrOfSelectedIndividuals = MAX(5, tournamentSize);
+  int nrOfSelectedIndividuals = MAX(2, tournamentSize);
 
-  while(populationSize < populationSizeCmp)
+  int index = 0;
+  while(populationSize < populationSizeCmp && index < 10)
   {
+    index++;
     while(paretoFront.size() < nrOfSelectedIndividuals)
     {
       int randomIndex = Random::randi(0, populationSize);

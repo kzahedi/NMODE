@@ -14,12 +14,12 @@
 #define XML_BOOL(a) (a?"true":"false")
 #define ZERO(a)     ((fabs(a)<0.0000000000001)?0:a)
 
-#define _SIM  _root->simulator()
-#define _EVA  _root->evaluation()
-#define _REP  _root->reproduction()
-#define _MUTN _root->mutation()->node()
-#define _MUTE _root->mutation()->edge()
-#define _VIS  _root->visualisation()
+#define _SIM  _nmode->simulator()
+#define _EVA  _nmode->evaluation()
+#define _REP  _nmode->reproduction()
+#define _MUTN _nmode->mutation()->node()
+#define _MUTE _nmode->mutation()->edge()
+#define _VIS  _nmode->visualisation()
 
 #define CFG_FILE "cfg.xml"
 
@@ -37,19 +37,19 @@ Data* Data::instance()
 
 Data::Data()
 {
-  _root                    = new NMODE(NULL);
+  _nmode                    = new NMODE(NULL);
   _initialisationCompleted = false;
   _changed                 = false;
 }
 
 Data::~Data()
 {
-  delete _root;
+  delete _nmode;
 }
 
 NMODE* Data::specification()
 {
-  return _root;
+  return _nmode;
 }
 
 void Data::clear()
@@ -88,24 +88,24 @@ void Data::read(string xmlFile)
   }
   delete parser;
 
-  _changed = _root->changed();
+  _changed = _nmode->changed();
 
   __writeCfg();
 
   if(_initialisationCompleted == false)
   {
-    if(_root->population() == NULL)
+    if(_nmode->population() == NULL)
     {
-      _root->initialiseFirstPopulationFromConfiguration();
+      _nmode->initialiseFirstPopulationFromConfiguration();
     }
-    _root->population()->addObserver(this);
+    _nmode->population()->addObserver(this);
     _initialisationCompleted = true;
   }
 }
 
 void Data::readForReplay(string xmlFile)
 {
-  _root->overrideReadingOfPopulation();
+  _nmode->overrideReadingOfPopulation();
   _xml = xmlFile;
   if(xmlFile[0] != '/')
   {
@@ -229,8 +229,8 @@ string Data::__configuration()
   sst << "  <configuration>" << endl;
 
   for(Modules::iterator
-      m = _root->configuration()->m_begin();
-      m != _root->configuration()->m_end();
+      m = _nmode->configuration()->m_begin();
+      m != _nmode->configuration()->m_end();
       m++)
   {
     sst << __toXml(*m);
@@ -242,7 +242,7 @@ string Data::__configuration()
 string Data::__population()
 {
   stringstream sst;
-  sst << __toXml(_root->population());
+  sst << __toXml(_nmode->population());
   return sst.str();
 }
 

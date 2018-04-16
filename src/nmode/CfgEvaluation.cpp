@@ -75,7 +75,7 @@ void CfgEvaluation::add(ParseElement *element)
   if(element->opening(TAG_EVALUATION))
   {
     _changed = false;
-    element->set(TAG_MODULE,      _module);
+    element->set(TAG_MODULE, _module);
   }
 
   if(element->opening(TAG_LIFE_TIME))
