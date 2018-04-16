@@ -45,6 +45,7 @@ int main(int argc, char** argv)
   string log;
   string continueDir;
   int    individual_index;
+  int    cpus;
   string replayDir;
   string replayBest;
   string captureName;
@@ -73,6 +74,9 @@ int main(int argc, char** argv)
     ("individual,i",
      po::value<int>(&individual_index)->implicit_value(0),
      "set the individual index")
+    ("cpus",
+     po::value<int>(&cpus)->implicit_value(-1),
+     "override number of cpus given in the xml file")
     ("verbosity,v",
      po::value<int>(),
      "set verbose logging level, defaults to 0")
@@ -119,6 +123,10 @@ int main(int argc, char** argv)
 
   if(vm.count("capture"))            useCapture         = true;
   if(vm.count("printConfiguration")) printConfiguration = true;
+  if(vm.count("cpus"))
+  {
+    Data::instance()->specification()->overrideCpus(cpus);
+  }
 
   if(vm.count("pdf"))
   {

@@ -37,7 +37,7 @@ Data* Data::instance()
 
 Data::Data()
 {
-  _nmode                    = new NMODE(NULL);
+  _nmode                   = new NMODE(NULL);
   _initialisationCompleted = false;
   _changed                 = false;
 }

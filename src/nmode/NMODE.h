@@ -58,6 +58,7 @@ class NMODE : public XsdParseNode
     void setCfgVisualisation(CfgVisualisation*);
     void overrideReadingOfPopulation();
     bool changed();
+    void overrideCpus(int cpus);
 
   private:
     void __getChild(ParseElement *element);
@@ -73,6 +74,7 @@ class NMODE : public XsdParseNode
     CfgVisualisation* _visualisation;
     bool              _initialisationCompleted;
     bool              _changed;
+    int               _cpus;
 
 };
 

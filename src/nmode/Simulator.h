@@ -26,6 +26,8 @@ class Simulator : public XsdParseNode
 
     static void createXsd(XsdSpecification *spec);
 
+    void overrideCpus(int cpus);
+
     string workingDirectory();
     string xml();
     string options();
@@ -41,6 +43,7 @@ class Simulator : public XsdParseNode
     string _path;
     string _env;
     int    _nr;
+    int    _overrideCpus;
 
 };
 

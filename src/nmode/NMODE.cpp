@@ -29,6 +29,7 @@ NMODE::NMODE(XsdParseNode *parent)
   _reproduction  = NULL;
   _visualisation = NULL;
   _changed       = false;
+  _cpus          = -1;
 
   _initialisationCompleted = false;
 }
@@ -36,6 +37,11 @@ NMODE::NMODE(XsdParseNode *parent)
 NMODE::~NMODE()
 {
   // nothing to be done
+}
+
+void NMODE::overrideCpus(int cpus)
+{
+  _cpus = cpus;
 }
 
 void NMODE::add(ParseElement *element)
@@ -206,6 +212,10 @@ void NMODE::__getChild(ParseElement *element)
   if(element->closing(TAG_NMODE))
   {
     __applyConfigurationToModules();
+    if(_cpus > 0)
+    {
+      _simulator->overrideCpus(_cpus);
+    }
   }
 }
 

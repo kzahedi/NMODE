@@ -28,9 +28,10 @@ class Data : public Observer
     void clear();
     void read(string xmlFile);
     void readForReplay(string xmlFile);
-    string xml();
     void notify(ObservableMessage *message);
     bool changed();
+
+    string xml();
 
   private:
     Data();

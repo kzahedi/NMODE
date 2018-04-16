@@ -24,6 +24,7 @@ Simulator::Simulator(XsdParseNode *parent)
   _options          = "";
   _nr               = 1;
   _env              = TAG_YARS;
+  _overrideCpus     = -1;
 }
 
 Simulator::~Simulator()
@@ -81,6 +82,7 @@ string Simulator::xml()
 
 int Simulator::nr()
 {
+  if(_overrideCpus > 0) return _overrideCpus;
   return _nr;
 }
 
@@ -97,4 +99,9 @@ string Simulator::path()
 string Simulator::env()
 {
   return _env;
+}
+
+void Simulator::overrideCpus(int cpus)
+{
+  _overrideCpus = cpus;
 }
