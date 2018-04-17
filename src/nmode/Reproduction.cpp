@@ -94,7 +94,8 @@ void Reproduction::__select()
   int nrOfSelectedIndividuals = MAX(2, tournamentSize);
 
   int index = 0;
-  while(populationSize < populationSizeCmp && index < 10)
+  cout << populationSize << " vs. " << populationSizeCmp << endl;
+  while(populationSize <= populationSizeCmp && index < 30)
   {
     index++;
     while(paretoFront.size() < nrOfSelectedIndividuals)
