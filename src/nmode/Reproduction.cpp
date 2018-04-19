@@ -94,9 +94,9 @@ void Reproduction::__select()
   int nrOfSelectedIndividuals = MAX(2, tournamentSize);
 
   int index = 0;
-  cout << populationSize << " vs. " << populationSizeCmp << endl;
   while(populationSize <= populationSizeCmp && index < 30)
   {
+    cout << populationSize << " vs. " << populationSizeCmp << endl;
     index++;
     if (REP->tournamentPercentage() < 1.0)
     {
