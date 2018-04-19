@@ -121,8 +121,10 @@ void Reproduction::__select()
     }
     else
     {
-      FORC(Individuals, ind, paretoFront)
-        paretoFront.push_back(*ind);
+      for(int i = 0; i < _population->i_size(); i++)
+      {
+        paretoFront.push_back(_population->individual(i));
+      }
     }
 
 
