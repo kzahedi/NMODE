@@ -90,7 +90,7 @@ void Reproduction::__select()
 
   int populationSize          = REP->populationSize();
   int populationSizeCmp       = _population->i_size();
-  int tournamentSize          = (int)(populationSize * REP->tournamentPercentage());
+  int tournamentSize          = (int)(((float)populationSize) * REP->tournamentPercentage());
   int nrOfSelectedIndividuals = MAX(2, tournamentSize);
 
   int index = 0;
@@ -98,24 +98,33 @@ void Reproduction::__select()
   while(populationSize <= populationSizeCmp && index < 30)
   {
     index++;
-    while(paretoFront.size() < nrOfSelectedIndividuals)
+    if (REP->tournamentPercentage() < 1.0)
     {
-      int randomIndex = Random::randi(0, populationSize);
-      Individual* i = _population->individual(randomIndex);
-      bool found = false;
-      FORC(Individuals, ind, paretoFront)
+      while(paretoFront.size() < nrOfSelectedIndividuals)
       {
-        if((*ind)->id() == i->id())
+        int randomIndex = Random::randi(0, populationSize);
+        Individual* i = _population->individual(randomIndex);
+        bool found = false;
+        FORC(Individuals, ind, paretoFront)
         {
-          found = true;
-          break;
+          if((*ind)->id() == i->id())
+          {
+            found = true;
+            break;
+          }
+        }
+        if(found == false)
+        {
+          paretoFront.push_back(i);
         }
       }
-      if(found == false)
-      {
-        paretoFront.push_back(i);
-      }
     }
+    else
+    {
+      FORC(Individuals, ind, paretoFront)
+        paretoFront.push_back(*ind);
+    }
+
 
     for(int i = 0; i < paretoFront.size(); i++)
       paretoFront[i]->setDominated(false);
