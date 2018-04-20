@@ -94,14 +94,18 @@ void Reproduction::__select()
   int nrOfSelectedIndividuals = MAX(2, tournamentSize);
 
   int index = 0;
+  cout << "hier 0" << endl;
   while(populationSize <= populationSizeCmp && index < 30)
   {
+  cout << "hier 1" << endl;
     cout << populationSize << " vs. " << populationSizeCmp << endl;
     index++;
     if (REP->tournamentPercentage() < 1.0)
     {
+  cout << "hier 2" << endl;
       while(paretoFront.size() < nrOfSelectedIndividuals)
       {
+  cout << "hier 3" << endl;
         int randomIndex = Random::randi(0, populationSize);
         Individual* i = _population->individual(randomIndex);
         bool found = false;
@@ -115,16 +119,20 @@ void Reproduction::__select()
         }
         if(found == false)
         {
+  cout << "hier 4" << endl;
           paretoFront.push_back(i);
         }
       }
     }
     else
     {
+  cout << "hier 5" << endl;
       for(int i = 0; i < _population->i_size(); i++)
       {
+  cout << "hier 6" << endl;
         paretoFront.push_back(_population->individual(i));
       }
+  cout << "hier 7" << endl;
     }
 
 
@@ -133,10 +141,13 @@ void Reproduction::__select()
 
     for(int i = 0; i < paretoFront.size(); i++)
     {
+  cout << "hier 8" << endl;
       for(int j = 0; j < paretoFront.size(); j++)
       {
+  cout << "hier 9" << endl;
         if(i != j)
         {
+  cout << "hier 10" << endl;
           if(AGE(i) <  AGE(j) && FITNESS(i) >= FITNESS(j)) paretoFront[j]->setDominated(true);
           if(AGE(i) == AGE(j) && FITNESS(i) >= FITNESS(j)) paretoFront[j]->setDominated(true);
         }
