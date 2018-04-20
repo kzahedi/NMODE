@@ -156,6 +156,7 @@ void Reproduction::__select()
         _population->i_remove(*ind);
 
     populationSizeCmp = _population->i_size();
+  }
 
 }
 
