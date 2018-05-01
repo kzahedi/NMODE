@@ -342,7 +342,8 @@ string Data::__toXml(Population *pop)
   sst <<"  <population generation=\"" << pop->generation() << "\">" << endl;
 
   // for(Individuals::const_iterator i  = pop->i_begin(); i != pop->i_end(); i++)
-  for(int i = 0; i < REP->loggingSize(); i++)
+  int size = MIN(pop->i_size(), REP->loggingSize());
+  for(int i = 0; i < size; i++)
   {
     sst << __toXml(pop->individual(i));
   }
