@@ -16,7 +16,6 @@
 
 #define _SIM  _nmode->simulator()
 #define _EVA  _nmode->evaluation()
-#define _REP  _nmode->reproduction()
 #define _MUTN _nmode->mutation()->node()
 #define _MUTE _nmode->mutation()->edge()
 #define _VIS  _nmode->visualisation()
@@ -182,9 +181,10 @@ string Data::__reproduction()
 {
   stringstream sst;
   sst << "  <reproduction>" << endl;
-  sst << "    <population size=\""          << _REP->populationSize()       << "\"" << endl;
-  sst << "                tournament=\""    << REP->tournamentPercentage()  << "\"/>" << endl;
-  sst << "    <crossover    probability=\"" << _REP->crossoverProbability() << "\"/>" << endl;
+  sst << "    <population size=\""          << REP->populationSize()       << "\"" << endl;
+  sst << "                tournament=\""    << REP->tournamentPercentage()  << "\"" << endl;
+  sst << "                log=\""           << REP->loggingSize()           << "\"/>" << endl;
+  sst << "    <crossover    probability=\"" << REP->crossoverProbability() << "\"/>" << endl;
   sst << "  </reproduction>"                << endl;
   return sst.str();
 }
@@ -341,9 +341,10 @@ string Data::__toXml(Population *pop)
   stringstream sst;
   sst <<"  <population generation=\"" << pop->generation() << "\">" << endl;
 
-  for(Individuals::const_iterator i  = pop->i_begin(); i != pop->i_end(); i++)
+  // for(Individuals::const_iterator i  = pop->i_begin(); i != pop->i_end(); i++)
+  for(int i = 0; i < REP->loggingSize(); i++)
   {
-    sst << __toXml(*i);
+    sst << __toXml(pop->individual(i));
   }
   sst <<"  </population>" << endl;
 

@@ -16,11 +16,13 @@ class CfgReproduction : public XsdParseNode
     static void createXsd(XsdSpecification *spec);
 
     int    populationSize();
+    int    loggingSize();
     double crossoverProbability();
     double tournamentPercentage();
 
   private:
     int    _populationSize;
+    int    _loggingSize;
     double _crossoverProbability;
     double _tournament;
 };

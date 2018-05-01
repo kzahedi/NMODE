@@ -10,5 +10,6 @@ XmlChangeLog::add(0, 1, 4, "keeping old log files is now optional in <log>",    
 XmlChangeLog::add(0, 1, 5, "<evaluation ...> now also takes iterations",                 false);
 XmlChangeLog::add(0, 2, 0, "added support for OpenAI",                                   false);
 XmlChangeLog::add(0, 3, 0, "changed from rank based to Age-Fitness Pareto Optimisation", false);
+XmlChangeLog::add(0, 3, 1, "number of logged individuals",                               false);
 
 #endif // __VERSIONS_H__
