@@ -16,24 +16,23 @@ using namespace boost;
 
 class Evolve : public Observer
 {
-  public:
-    Evolve(bool printConfiguration = false);
+public:
+  Evolve(bool printConfiguration = false);
 
-    void init(string xml, bool read = true, string log = "");
-    void initFromDir(string dir);
+  void init(string xml, bool read = true, string log = "");
+  void initFromDir(string dir);
 
-    void notify(ObservableMessage *message);
+  void notify(ObservableMessage *message);
 
-  private:
-
-    // Reproduction*        _reproduction;
-    Population*            _population;
-    Data*                  _data;
-    Population*            _pop;
-    Reproduction*          _reproduction;
-    vector<Evaluate*>      _evaluators;
-    vector<boost::thread*> _threads;
-    bool                   _printConfiguration;
+private:
+  // Reproduction*        _reproduction;
+  Population *_population;
+  Data *_data;
+  Population *_pop;
+  Reproduction *_reproduction;
+  vector<Evaluate *> _evaluators;
+  vector<boost::thread *> _threads;
+  bool _printConfiguration;
 };
 
 #endif // __EVOLVE_H__

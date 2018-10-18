@@ -1,4 +1,4 @@
-<nmode version="0.2.0">
+<nmode version="0.3.0">
   <simulator wd="."
     experiment="xml/hexaboard.xml"
     nr="2"/>
@@ -14,12 +14,12 @@
     <cost        node="0" edge="0"/>
   </evaluation>
 
-  <reproduction>
-    <population size="100"/>
-    <selection  pressure="0.1"/>
-    <elite      pressure="11.2"/>
-    <crossover  probability="0.1"/>
-  </reproduction>
+ <reproduction>
+      <population size="500"
+                  tournament="1"
+                  log="50"/>
+      <crossover  probability="0.1"/>
+    </reproduction>
 
   <mutation>
     <node>

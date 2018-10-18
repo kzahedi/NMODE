@@ -1,16 +1,10 @@
 
 tags
-
 .vimprj/settings.vim
-
 *.ttf
-
 *.log
-
 *.log
-
 .DS_Store
-
 build
-
 experiments
+.vscode

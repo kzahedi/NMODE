@@ -29,7 +29,10 @@ class SimulatorCommunication
   private:
     int            _simulator;
     YarsClientCom* _yars;
-    OpenAICom*        _openai;
+    OpenAICom*     _openai;
+    string         _opt;
+    string         _wd;
+    string         _path;
 };
 
 

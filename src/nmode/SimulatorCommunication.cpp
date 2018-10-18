@@ -32,6 +32,9 @@ void SimulatorCommunication::throwException(bool b)
 
 void SimulatorCommunication::init(string wd, string opt, string path)
 {
+  _wd = wd;
+  _opt = opt;
+  _path = path;
   IS_YARS   _yars->init(wd,   opt, path);
   IS_OPENAI _openai->init(wd, opt, path);
 }
@@ -70,7 +73,12 @@ double SimulatorCommunication::getSensorValue(int index)
 
 void SimulatorCommunication::sendReset()
 {
-  IS_YARS   _yars->sendReset();
+  // IS_YARS   _yars->sendReset(); // reset current not working
+  IS_YARS
+  {
+    _yars->sendQuit();
+    _yars->init(_wd, _opt, _path);
+  }
   IS_OPENAI _openai->sendReset();
 }
 

@@ -112,7 +112,6 @@ endif(USE_PLPLOT)
 install(TARGETS NMODEe LIBRARY DESTINATION lib)
 install(TARGETS nmode  RUNTIME DESTINATION bin)
 
-
 OPTION(NMODE_BUILD_GUI "Build GUI" OFF)
 if(NMODE_BUILD_GUI)
   set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} /usr/local/Cellar/qt5/5.7.0/lib/cmake/Qt5Widgets)
