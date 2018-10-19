@@ -15,7 +15,8 @@ Evolve::Evolve(bool printConfiguration)
 void Evolve::initFromDir(string dir)
 {
   stringstream sst;
-  sst << dir << "/" << "last_generation.xml";
+  sst << dir << "/"
+      << "last_generation.xml";
 
   _data = Data::instance();
   _data->read(sst.str());
@@ -32,38 +33,36 @@ void Evolve::initFromDir(string dir)
 
 // void Evolve::initFromDir(string dir)
 // {
-  // stringstream sst;
-  // sst << dir << "/" << "last_generation.xml";
+// stringstream sst;
+// sst << dir << "/" << "last_generation.xml";
 
-  // _data = Data::instance();
-  // _data->read(sst.str());
+// _data = Data::instance();
+// _data->read(sst.str());
 
-  // _pop = Population::instance();
-  // _pop->removeCurrentLogDir();
-  // _pop->setCurrentLogDir(dir);
-  // _pop->readStats(dir);
+// _pop = Population::instance();
+// _pop->removeCurrentLogDir();
+// _pop->setCurrentLogDir(dir);
+// _pop->readStats(dir);
 
-  // _pop->setGeneration(_pop->generation() - 1);
+// _pop->setGeneration(_pop->generation() - 1);
 
-  // this->init(sst.str(), false);
+// this->init(sst.str(), false);
 // }
-
-
 
 void Evolve::init(string xml, bool read, string log)
 {
-  if(read == true)
+  if (read == true)
   {
     _data = Data::instance();
     _data->read(xml);
   }
 
-  _pop          = Population::instance();
-  if(log != "") _pop->setCurrentLogDir(log);
+  _pop = Population::instance();
+  if (log != "")
+    _pop->setCurrentLogDir(log);
   _reproduction = new Reproduction();
   // the initial population is always open to reproduction
   _reproduction->firstReproduction();
-
 
   _pop->addObserver(this);
   char buf[1024];
@@ -75,13 +74,13 @@ void Evolve::init(string xml, bool read, string log)
   stringstream m;
 #ifdef __APPLE__
   m << "lib/lib" << module << ".dylib";
-#else // __APPLE__
+#else  // __APPLE__
   m << "lib/lib" << module << ".so";
 #endif // __APPLE__
 
-  void *controllerLib = dlopen(m.str().c_str(),RTLD_LAZY);
+  void *controllerLib = dlopen(m.str().c_str(), RTLD_LAZY);
 
-  if(!controllerLib)
+  if (!controllerLib)
   {
     cout << "failed to load \"" << m.str() << "\" with error message \"" << dlerror() << endl;
     exit(-1);
@@ -90,26 +89,29 @@ void Evolve::init(string xml, bool read, string log)
 
   dlerror();
 
-  create_e* create_controller = (create_e*)dlsym(controllerLib,"create");
+  create_e *create_controller = (create_e *)dlsym(controllerLib, "create");
 
   dlerror(); // TODO: error handling
-  if(!controllerLib)
+  if (!controllerLib)
   {
     cout << "Robot::Cannot load symbol create" << endl;
     exit(-1);
   }
 
-  for(int i = 0; i < nr; i++)
+  for (int i = 0; i < nr; i++)
   {
+    cout << "1. creating controller" << endl;
     Evaluate *e = create_controller();
+    cout << "2. creating controller" << endl;
     e->printConfiguration(_printConfiguration);
-    if(i > 0) e->nogui();
+    if (i > 0)
+      e->nogui();
     _evaluators.push_back(e);
   }
 
-  for(int i = 0; i < nr; i++)
+  for (int i = 0; i < nr; i++)
   {
-    boost::thread* p = new boost::thread(&Evaluate::run, _evaluators[i]);
+    boost::thread *p = new boost::thread(&Evaluate::run, _evaluators[i]);
     _threads.push_back(p);
   }
 
@@ -117,7 +119,7 @@ void Evolve::init(string xml, bool read, string log)
 
   chdir(buf);
 
-  for(int i = 0; i < nr; i++)
+  for (int i = 0; i < nr; i++)
   {
     _threads[i]->join();
   }
@@ -127,10 +129,10 @@ void Evolve::init(string xml, bool read, string log)
 
 void Evolve::notify(ObservableMessage *message)
 {
-  switch(message->type())
+  switch (message->type())
   {
-    case __M_NEXT_GENERATION:
-       _reproduction->reproduce();
-      break;
+  case __M_NEXT_GENERATION:
+    _reproduction->reproduce();
+    break;
   }
 }

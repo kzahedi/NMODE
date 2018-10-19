@@ -90,8 +90,7 @@ set(SRC
 )
 
 add_library(NMODEe SHARED ${SRC})
-target_link_libraries(NMODEe ${Boost_LIBRARIES} xerces-c glog YarsClientCom dl)
-# ${PYTHON_LIBRARIES})
+target_link_libraries(NMODEe ${Boost_LIBRARIES} xerces-c glog YarsClientCom dl) #${PYTHON_LIBRARIES})
 
 
 add_executable(nmode main.cpp)
@@ -101,15 +100,15 @@ if(USE_PLPLOT)
   include_directories(/usr/include/plplot)
   link_directories(/usr/lib/x86_64-linux-gnu/)
   if(APPLE)
-    target_link_libraries(NMODEe plplot)
+    # target_link_libraries(NMODEe plplot)
     target_link_libraries(nmode plplot)
   else(APPLE)
-    target_link_libraries(NMODEe plplot)
+    # target_link_libraries(NMODEe plplot)
     target_link_libraries(nmode plplot)
   endif(APPLE)
 endif(USE_PLPLOT)
 
-install(TARGETS NMODEe LIBRARY DESTINATION lib)
+# install(TARGETS NMODEe LIBRARY DESTINATION lib)
 install(TARGETS nmode  RUNTIME DESTINATION bin)
 
 OPTION(NMODE_BUILD_GUI "Build GUI" OFF)
